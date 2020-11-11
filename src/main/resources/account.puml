@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+:student: --> (view a student account)
+:student: --> (register)
+:student: --> (update his/her student account)
+:student: --> (delete his/her student account)
+:admin: --> (register)
+:admin: --> (view a student account)
+:admin: --> (update his account)
+:admin: --> (delete an account)
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+left to right direction
+:student: --> (view a quick help answer)
+:student: --> (post his quick help answer)
+:student: --> (delete his quick help answer)
+:admin: --> (delete a quick help answer)
+:admin: --> (view a quick help answer)
+@enduml

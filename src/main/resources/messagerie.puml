@@ -1,0 +1,8 @@
+@startuml
+left to right direction
+student <|-- sender
+student <|-- receiver
+:sender: ---> (send message)
+:receiver: --> (receive message)
+(receive message) <.. (send message) : << include >>
+@enduml

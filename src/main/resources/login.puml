@@ -1,0 +1,8 @@
+@startuml
+left to right direction
+user <|-- admin
+user <|-- student
+:user: --> (login)
+:user: --> (logout)
+(login) .> (register): <<include>>
+@enduml

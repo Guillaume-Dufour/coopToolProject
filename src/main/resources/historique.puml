@@ -1,0 +1,7 @@
+@startuml
+left to right direction
+:student: --> (view his/her participations in mentoring sessions)
+(view his/her participations in mentoring sessions) <.. (view his/her collaborators) : extends
+:student: --> (view his/her quick help publications)
+:student: --> (view his/her comments in quick help publications)
+@enduml
