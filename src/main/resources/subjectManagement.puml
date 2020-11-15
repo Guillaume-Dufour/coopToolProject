@@ -1,0 +1,5 @@
+@startuml
+left to right direction
+:admin: --> (create subject)
+:admin: --> (delete subject)
+@enduml
