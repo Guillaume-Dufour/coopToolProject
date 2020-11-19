@@ -1,11 +1,13 @@
 @startuml
 left to right direction
 :student: --> (view a quick help post)
-:student: --> (create his quick help post)
-:student: --> (update his quick help post)
-:student: --> (delete his quick help post)
+:student: --> (create a quick help post)
+:student: --> (update a quick help post)
+:student: --> (delete a quick help post)
+:student: --> (answer a quick help post)
 :admin: --> (delete a quick help post)
 :admin: --> (view a quick help post)
 
 (view a quick help post) <.. (search by topic) : << extend >>
+(answer a quick help post) ..> (send a notification) : << include >>
 @enduml

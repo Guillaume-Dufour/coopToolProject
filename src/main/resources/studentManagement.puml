@@ -2,10 +2,9 @@
 left to right direction
 :student: --> (view a student account)
 :student: --> (register)
-:student: --> (update his/her student account)
-:student: --> (delete his/her student account)
-:admin: --> (register)
+:student: --> (update an account)
+:student: --> (delete an account)
 :admin: --> (view a student account)
-:admin: --> (update his account)
+:admin: --> (update an account)
 :admin: --> (delete an account)
 @enduml

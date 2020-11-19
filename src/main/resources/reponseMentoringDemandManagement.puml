@@ -1,0 +1,15 @@
+@startuml
+left to right direction
+
+:student: --> (register a mentoring session)
+:student: --> (realize the mentoring session)
+:student: --> (cancel participation)
+
+(realize the mentoring session) ..> (choose schedules) : << include >>
+(register a mentoring session) ..> (choose schedules) : << include >>
+(realize the mentoring session) <.. (add a schedule) : << extend >>
+(realize the mentoring session) <.. (delete a schedule) : << extend >>
+(add a schedule) ..> (send a notification) : << include >>
+
+(send a notification) <-- :system:
+@enduml

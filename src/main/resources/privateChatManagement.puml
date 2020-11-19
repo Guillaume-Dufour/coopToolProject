@@ -5,4 +5,5 @@ student <|-- receiver
 :sender: ---> (send message)
 :receiver: --> (receive message)
 (receive message) <.. (send message) : << include >>
+:student: --> (view messages)
 @enduml

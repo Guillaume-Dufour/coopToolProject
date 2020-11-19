@@ -1,8 +1,0 @@
-@startuml
-left to right direction
-:admin: --> (create department)
-:admin: --> (delete department)
-:student: --> (find students from a department)
-
-(find students from a department) <.. (send him a message) : << extends >>
-@enduml

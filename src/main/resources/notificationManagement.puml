@@ -1,0 +1,6 @@
+@startuml
+left to right direction
+:system: --> (create a notification)
+:student: --> (delete a notification)
+:student: --> (view notifications)
+@enduml

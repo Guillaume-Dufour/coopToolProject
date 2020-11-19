@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+:student: --> (view a quick help answer)
+:student: --> (post a quick help answer)
+:student: --> (delete a quick help answer)
+:admin: --> (delete a quick help answer)
+:admin: --> (view a quick help answer)
+
+(post a quick help answer) ..> (send a notification) : << include >>
+(send a notification) <-- :system:
+@enduml

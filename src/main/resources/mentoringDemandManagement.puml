@@ -1,13 +1,15 @@
 @startuml
 left to right direction
 :student: --> (create a mentoring demand)
-:student: --> (update his/her mentoring demand)
-(update his/her mentoring demand) <.. (validate the session) : << extends >>
-:student: --> (delete his/her mentoring demand)
+:student: --> (delete a mentoring demand)
+(send notification) <.. :system:
+(delete a mentoring demand) ..> (send notification) : << include >>
+:student: --> (update a mentoring demand)
+(update a mentoring demand) <.. (validate the session) : << extend >>
 :student: --> (view a mentoring demand)
 :student: --> (answer a mentoring demand)
 :admin: --> (view a mentoring demand)
 :admin: --> (delete a mentoring demand)
-
-(view a mentoring demand) <.. (search by topic) : << extends >>
+(update a mentoring demand) ..> (send notification) : << include >>
+(view a mentoring demand) <.. (search by topic) : << extend >>
 @enduml
