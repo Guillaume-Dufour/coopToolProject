@@ -1,0 +1,21 @@
+@startuml
+
+title Quick help publication
+
+state "Creation" as creationQHP
+
+[*] --> creationQHP
+
+creationQHP --> creationQHP : User updates the quick help post
+
+state "Quick help post deleted" as deleteQHP
+state "Quick help post commented" as commentedQHP
+
+creationQHP --> deleteQHP : User deletes the quick help post
+creationQHP --> commentedQHP : User comments the quick help post
+
+commentedQHP --> creationQHP : Everyone deletes his comments
+
+deleteQHP --> [*]
+
+@enduml
