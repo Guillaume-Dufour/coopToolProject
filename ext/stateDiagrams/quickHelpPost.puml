@@ -2,7 +2,7 @@
 
 title Quick help publication
 
-state "Creation" as creationQHP
+state "Quick help post published" as creationQHP
 
 [*] --> creationQHP
 

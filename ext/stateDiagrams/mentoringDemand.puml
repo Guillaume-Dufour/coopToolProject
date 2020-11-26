@@ -8,20 +8,15 @@ state "Mentoring Demand Deleted" as mdd
 state "Mentoring Demand Validated" as mdv
 state "Mentoring Demand Supervised" as mds
 
-state fork_state <<fork>>
-state join_state <<join>>
-
 [*] --> mdc : Create mentoring demand
-mdc --> fork_state
-fork_state --> mda : user registers a participation
+mdc --> mda : user registers a participation
 note on link : it's forbidden to update or delete
-fork_state --> mds : user realizes the mentoring session
-mda --> join_state
-mds --> join_state
+mdc --> mds : user realizes the mentoring session
 mdc --> mdd : user deletes the mentoring demand
 mdc --> mdc : user updates the mentoring demand
-join_state --> mdc : everyone cancel participation
-join_state --> mdv : creator validates mentoring demand
+mds --> mdc : everyone cancel participation
+mda --> mdc : everyone cancel participation
+mda --> mdv : creator validates mentoring demand
 mdv --> [*]
 mdd --> [*]
 
