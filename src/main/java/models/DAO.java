@@ -1,6 +1,6 @@
 package models;
 
-public abstract class Dao<T> {
+public abstract class DAO<T> {
 
     public abstract T find(int id);
 

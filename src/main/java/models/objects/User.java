@@ -1,8 +1,5 @@
 package models.objects;
 
-import models.AbstractDAOFactory;
-import models.FactoryType;
-
 public class User {
 
     /**
@@ -14,6 +11,11 @@ public class User {
      * Mail of the user
      */
     private String mail;
+
+    /**
+     * Password of the user
+     */
+    private String password;
 
     /**
      * Role of the user
@@ -34,9 +36,5 @@ public class User {
 
     public UserRole getRole() {
         return role;
-    }
-
-    public void get() {
-        AbstractDAOFactory abstractDAOFactory = AbstractDAOFactory.getFactory(FactoryType.E).getUserDAO().find(id);
     }
 }
