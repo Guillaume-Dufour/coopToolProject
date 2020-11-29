@@ -21,4 +21,4 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-mainClassName = 'org.MainTest'
+mainClassName = 'CoopToolApplication'
