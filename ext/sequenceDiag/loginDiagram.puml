@@ -2,44 +2,60 @@
 
 actor user
 participant "LoginController" as loginCont
+participant UserFacade
+participant AbstractDAOFactory
+participant MySQLDAOFactory
+participant MySQLUserDAO
+participant User
+participant Session
+participant Exception
+database CoopToolDatabase
 user -> loginCont : login()
 activate loginCont
 create UserFacade
 loginCont -> UserFacade  : new
 UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
-create SQLDAOFactory
-AbstractDAOFactory --> SQLDAOFactory : new
-SQLDAOFactory -> SQLDAOFactory : getUserDAO()
-create SQLUserDAO
-SQLDAOFactory --> SQLUserDAO : new
-SQLUserDAO --> SQLDAOFactory : UserDAO
-SQLDAOFactory --> UserFacade : UserDAO
-
+create MySQLDAOFactory
+AbstractDAOFactory -> MySQLDAOFactory : new
+MySQLDAOFactory -> MySQLDAOFactory : getUserDAO()
+create MySQLUserDAO
+MySQLDAOFactory -> MySQLUserDAO : new
+MySQLUserDAO --> MySQLDAOFactory : UserDAO
+MySQLDAOFactory --> UserFacade : UserDAO
 UserFacade --> loginCont : UserFacade
 loginCont -> loginCont : getText()
 loginCont -> UserFacade : login(mail : String, password : String)
 activate UserFacade
-UserFacade -> SQLUserDAO : findUserByMail(mail : String)
-activate SQLUserDAO
+UserFacade -> MySQLUserDAO : findUserByMail(mail : String)
+activate MySQLUserDAO
+MySQLUserDAO -> CoopToolDatabase : executeQuery(query : String)
+CoopToolDatabase --> MySQLUserDAO : result
+MySQLUserDAO -> CoopToolDatabase : close()
+create User
+MySQLUserDAO -> User : new
 alt FoundUser
-SQLUserDAO -> UserFacade : User
+User --> MySQLUserDAO : User
+MySQLUserDAO -> UserFacade : User
 UserFacade -> User : checkPassword(password : String)
 activate User
 alt GoodPassword
 User -> UserFacade : True
-UserFacade -> loginCont : User
-loginCont -> Session : getInstance()
+UserFacade -> Session : getInstance()
+activate Session
 Session -> Session : setUser(User)
+deactivate Session
 else FalsePassword
 User -> UserFacade : False
-UserFacade -> Exception : fait ses bails
+UserFacade -> Exception : throwException()
 end
 deactivate User
 else !FoundUser
-SQLUserDAO -> UserFacade : Null
-UserFacade -> Exception : fait ses bails
+User --> MySQLUserDAO : Null
+MySQLUserDAO -> UserFacade : Null
+UserFacade -> Exception : throwException()
 end
-
-'a finir : mettre la base de données et sql connection
+deactivate loginCont
+deactivate UserFacade
+deactivate MySQLUserDAO
 
 @enduml
