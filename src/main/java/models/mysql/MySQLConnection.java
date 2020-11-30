@@ -6,7 +6,7 @@ import java.sql.Connection;
  * Singleton
  * Create the connection with the database
  */
-public class SQLConnection {
+public class MySQLConnection {
 
     private static Connection connection = null;
 

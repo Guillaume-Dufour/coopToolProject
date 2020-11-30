@@ -2,12 +2,12 @@ package models.mysql;
 
 import models.AbstractDAOFactory;
 import models.UserDAO;
-import models.mysql.daos.SQLUserDAO;
+import models.mysql.daos.MySQLUserDAO;
 
-public class SQLDAOFactory extends AbstractDAOFactory {
+public class MySQLDAOFactory extends AbstractDAOFactory {
 
     @Override
     public UserDAO getUserDAO() {
-        return new SQLUserDAO();
+        return new MySQLUserDAO();
     }
 }

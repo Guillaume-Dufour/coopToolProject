@@ -37,4 +37,8 @@ public class User {
     public UserRole getRole() {
         return role;
     }
+
+    public boolean checkPassword(String password) {
+        return false;
+    }
 }

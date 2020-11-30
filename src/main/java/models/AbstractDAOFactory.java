@@ -1,11 +1,11 @@
 package models;
 
-import models.mysql.SQLDAOFactory;
+import models.mysql.MySQLDAOFactory;
 
 public abstract class AbstractDAOFactory {
 
     public static AbstractDAOFactory getFactory(FactoryType type) {
-        return new SQLDAOFactory();
+        return new MySQLDAOFactory();
     }
 
     public abstract UserDAO getUserDAO();

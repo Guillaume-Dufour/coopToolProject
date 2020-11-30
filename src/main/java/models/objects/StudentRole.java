@@ -18,8 +18,9 @@ public class StudentRole extends UserRole {
     private String description;
 
     /**
-     *
+     * Department of the student
      */
+    private Department department;
 
     public StudentRole() {
         // TO DO
@@ -39,5 +40,9 @@ public class StudentRole extends UserRole {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Department getDepartment() {
+        return department;
     }
 }

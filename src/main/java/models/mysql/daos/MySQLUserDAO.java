@@ -1,9 +1,9 @@
 package models.mysql.daos;
 
-import models.mysql.UserDAO;
+import models.UserDAO;
 import models.objects.User;
 
-public class SQLUserDAO extends UserDAO {
+public class MySQLUserDAO extends UserDAO {
 
 
     @Override
