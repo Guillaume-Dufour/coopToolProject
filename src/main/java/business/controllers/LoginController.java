@@ -10,10 +10,10 @@ public class LoginController {
     UserFacade userFacade;
 
     @FXML
-    TextField mailField;
+    TextField inputMail;
 
     @FXML
-    TextField passwordField;
+    TextField inputPassword;
 
     public void login(ActionEvent event) {
 
