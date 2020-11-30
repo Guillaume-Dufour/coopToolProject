@@ -1,7 +1,6 @@
 # Project exclude paths
 /.gradle/
 /src/main/java/cooptool.Config.java
-/src/main/java/org.cooptool.Config.java
 /src/main/java/cooptool/Config.java
 
 

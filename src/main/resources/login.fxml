@@ -12,5 +12,6 @@
       <Text layoutX="172.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
       <Text layoutX="170.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
       <Button id="loginButton" layoutX="274.0" layoutY="266.0" mnemonicParsing="false" onAction="#login" text="Button" />
+      <Text id="errorLabel" fill="#f50808" layoutX="289.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
    </children>
 </AnchorPane>

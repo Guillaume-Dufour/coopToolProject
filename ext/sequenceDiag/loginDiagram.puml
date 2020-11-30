@@ -1,19 +1,19 @@
 @startuml
 
 actor user
-participant "LoginController" as loginCont
+participant LoginController
 participant UserFacade
 participant AbstractDAOFactory
 participant MySQLDAOFactory
 participant MySQLUserDAO
 participant User
-participant cooptool.Session
+participant Session
 participant Exception
 database CoopToolDatabase
-user -> loginCont : login()
-activate loginCont
+user -> LoginController : login()
+activate LoginController
 create UserFacade
-loginCont -> UserFacade  : new
+LoginController -> UserFacade  : new
 UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
 create MySQLDAOFactory
 AbstractDAOFactory -> MySQLDAOFactory : new
@@ -22,9 +22,9 @@ create MySQLUserDAO
 MySQLDAOFactory -> MySQLUserDAO : new
 MySQLUserDAO --> MySQLDAOFactory : UserDAO
 MySQLDAOFactory --> UserFacade : UserDAO
-UserFacade --> loginCont : UserFacade
-loginCont -> loginCont : getText()
-loginCont -> UserFacade : login(mail : String, password : String)
+UserFacade --> LoginController : UserFacade
+LoginController -> LoginController : getText()
+LoginController -> UserFacade : login(mail : String, password : String)
 activate UserFacade
 UserFacade -> MySQLUserDAO : findUserByMail(mail : String)
 activate MySQLUserDAO
@@ -40,10 +40,11 @@ UserFacade -> User : checkPassword(password : String)
 activate User
 alt GoodPassword
 User -> UserFacade : True
-UserFacade -> cooptool.Session : getInstance()
-activate cooptool.Session
-cooptool.Session -> cooptool.Session : setUser(User)
-deactivate cooptool.Session
+UserFacade -> LoginController : User
+LoginController -> Session : getInstance()
+activate Session
+Session -> Session : setUser(User)
+deactivate Session
 else FalsePassword
 User -> UserFacade : False
 UserFacade -> Exception : throwException()
@@ -54,7 +55,7 @@ User --> MySQLUserDAO : Null
 MySQLUserDAO -> UserFacade : Null
 UserFacade -> Exception : throwException()
 end
-deactivate loginCont
+deactivate LoginController
 deactivate UserFacade
 deactivate MySQLUserDAO
 
