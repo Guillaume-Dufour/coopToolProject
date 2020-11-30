@@ -5314,7 +5314,7 @@
 											"top": 1679,
 											"width": 191.10888671875,
 											"height": 13,
-											"text": "CoopToolApplication"
+											"text": "cooptool.CoopToolApplication"
 										},
 										{
 											"_type": "LabelView",
@@ -5635,7 +5635,7 @@
 											"top": 1519,
 											"width": 183,
 											"height": 13,
-											"text": "Session"
+											"text": "cooptool.Session"
 										},
 										{
 											"_type": "LabelView",
@@ -5707,7 +5707,7 @@
 											"top": 1542,
 											"width": 183,
 											"height": 13,
-											"text": "-session: Session",
+											"text": "-session: cooptool.Session",
 											"horizontalAlignment": 0
 										}
 									],
@@ -5741,7 +5741,7 @@
 											"top": 1565,
 											"width": 183,
 											"height": 13,
-											"text": "+getInstance(): Session",
+											"text": "+getInstance(): cooptool.Session",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7165,7 +7165,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "CoopToolApplication",
+					"name": "cooptool.CoopToolApplication",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -7218,7 +7218,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Session",
+					"name": "cooptool.Session",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",

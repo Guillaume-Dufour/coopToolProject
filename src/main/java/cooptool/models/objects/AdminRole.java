@@ -1,4 +1,4 @@
-package models.objects;
+package cooptool.models.objects;
 
 public class AdminRole extends UserRole {
 

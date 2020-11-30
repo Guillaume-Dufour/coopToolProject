@@ -7,7 +7,7 @@ participant AbstractDAOFactory
 participant MySQLDAOFactory
 participant MySQLUserDAO
 participant User
-participant Session
+participant cooptool.Session
 participant Exception
 database CoopToolDatabase
 user -> loginCont : login()
@@ -40,10 +40,10 @@ UserFacade -> User : checkPassword(password : String)
 activate User
 alt GoodPassword
 User -> UserFacade : True
-UserFacade -> Session : getInstance()
-activate Session
-Session -> Session : setUser(User)
-deactivate Session
+UserFacade -> cooptool.Session : getInstance()
+activate cooptool.Session
+cooptool.Session -> cooptool.Session : setUser(User)
+deactivate cooptool.Session
 else FalsePassword
 User -> UserFacade : False
 UserFacade -> Exception : throwException()

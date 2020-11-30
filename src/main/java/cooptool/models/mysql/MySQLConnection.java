@@ -1,4 +1,4 @@
-package models.mysql;
+package cooptool.models.mysql;
 
 import java.sql.Connection;
 

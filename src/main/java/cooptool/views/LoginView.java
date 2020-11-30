@@ -1,4 +1,4 @@
-package views;
+package cooptool.views;
 
 public class LoginView {
 

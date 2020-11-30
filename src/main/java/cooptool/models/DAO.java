@@ -1,4 +1,4 @@
-package models;
+package cooptool.models;
 
 public abstract class DAO<T> {
 

@@ -1,6 +1,6 @@
-package models;
+package cooptool.models;
 
-import models.mysql.MySQLDAOFactory;
+import cooptool.models.mysql.MySQLDAOFactory;
 
 public abstract class AbstractDAOFactory {
 

@@ -1,6 +1,6 @@
-package models;
+package cooptool.models;
 
-import models.objects.User;
+import cooptool.models.objects.User;
 
 public abstract class UserDAO extends DAO<User> {
 

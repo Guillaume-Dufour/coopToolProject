@@ -1,4 +1,6 @@
-import models.objects.User;
+package cooptool;
+
+import cooptool.models.objects.User;
 
 /**
  * Singleton
@@ -7,7 +9,7 @@ import models.objects.User;
 public class Session {
 
     /**
-     * Session of the user
+     * cooptool.Session of the user
      */
     private static Session session = null;
 
@@ -17,7 +19,7 @@ public class Session {
     private User user;
 
     private Session() {
-        // TO DO
+
     }
 
     /**
@@ -25,14 +27,15 @@ public class Session {
      * @return Instance of the session
      */
     public static Session getInstance() {
-
-        // TO DO
+        if(session == null) {
+            session = new Session();
+        }
 
         return session;
     }
 
     public User getUser() {
-        return null;
+        return user;
     }
 
     public void setUser(User user) {

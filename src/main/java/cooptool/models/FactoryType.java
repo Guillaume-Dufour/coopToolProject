@@ -1,4 +1,4 @@
-package models;
+package cooptool.models;
 
 /**
  * Types of Factory used
