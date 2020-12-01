@@ -10,7 +10,7 @@ public class StudentRole extends UserRole {
     /**
      * Name of the student
      */
-    private String name;
+    private String lastName;
 
     /**
      * Description of the student
@@ -22,16 +22,19 @@ public class StudentRole extends UserRole {
      */
     private Department department;
 
-    public StudentRole() {
-        // TO DO
+    public StudentRole(String firstName, String lastName, String description, Department department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.description = description;
+        this.department = department;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getDescription() {

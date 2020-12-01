@@ -2,7 +2,7 @@ package cooptool.models.mysql.daos;
 
 import cooptool.models.UserDAO;
 import cooptool.models.mysql.MySQLConnection;
-import cooptool.models.objects.User;
+import cooptool.models.objects.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,30 +12,50 @@ import java.sql.SQLException;
 public class MySQLUserDAO extends UserDAO {
 
     Connection connection = MySQLConnection.getInstance();
+    private static final int ADMIN_ROLE = 0;
+    private static final int STUDENT_ROLE = 1;
 
     @Override
     public User findUserByMail(String mail) {
 
         User user = null;
-
+        String statement =
+                "SELECT * " +
+                "FROM user u " +
+                "JOIN department d ON d.id_department = u.id_department " +
+                "WHERE u.mail_user = ?";
         try {
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(statement);
+            preparedStatement.setString(1, mail);
 
-            String requete = "SELECT * " +
-                    "FROM user u " +
-                    "JOIN department d ON d.id_department = u.id_department " +
-                    "WHERE u.mail_user = ?";
-
-            PreparedStatement statement = connection.prepareStatement(requete);
-            statement.setString(1, mail);
-
-            ResultSet result = statement.executeQuery();
+            ResultSet result = preparedStatement.executeQuery();
 
             if(result.next()) {
                 int id = result.getInt("id_user");
-                //TODO : est-ce qu'on met le type ?
-                String mail_user = result.getString("mail_user");
-                String firstName = result.getString("first_name_user");
-                //user = new User(id,mail_user,firstName);
+                int typeUser = result.getInt("type_user");
+                String password = result.getString("password_user");
+                UserRole userRole = null;
+                if(typeUser == STUDENT_ROLE){
+                    String firstName = result.getString("first_name_user");
+                    String lastName = result.getString("last_name_user");
+                    String description = result.getString("description_user");
+                    int departmentId = result.getInt("id_department");
+                    String nameDepartment = result.getString("name_department");
+                    int year = result.getInt("year_department");
+                    String abbreviation = result.getString("abbreviation_department");
+                    int available = result.getInt("available");
+                    Department department = new Department(
+                          departmentId,nameDepartment,year,abbreviation,available
+                    );
+                    userRole = new StudentRole(
+                            firstName,lastName,description,department
+                    );
+                }
+                else if(typeUser == ADMIN_ROLE){
+                    userRole = new AdminRole();
+                }
+                user = new User(id, mail, password, userRole);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +75,7 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     @Override
-    public void udpate(User user) {
+    public void update(User user) {
 
     }
 

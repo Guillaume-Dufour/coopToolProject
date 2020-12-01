@@ -22,7 +22,13 @@ public class Department {
      */
     private String abbreviation;
 
-    public Department() {
+    private int available;
 
+    public Department(int id,String speciality,int year,String abbreviation,int available) {
+        this.id = id;
+        this.speciality = speciality;
+        this.year = year;
+        this.abbreviation = abbreviation;
+        this.available = available;
     }
 }

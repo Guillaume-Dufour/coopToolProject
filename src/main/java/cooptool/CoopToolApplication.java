@@ -1,5 +1,7 @@
 package cooptool;
 
+import cooptool.views.ViewLoader;
+import cooptool.views.ViewPath;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -14,6 +16,9 @@ public class CoopToolApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        //TODO: ViewLoader
+        ViewLoader viewLoader = new ViewLoader(primaryStage.getScene());
+        viewLoader.load(ViewPath.LOGIN);
+        primaryStage.show();
     }
 }

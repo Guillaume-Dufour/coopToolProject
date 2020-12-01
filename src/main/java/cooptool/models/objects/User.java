@@ -22,8 +22,11 @@ public class User {
      */
     private UserRole role;
 
-    public User() {
-        // TO DO
+    public User(int id, String mail, String password, UserRole role) {
+        this.id = id;
+        this.mail = mail;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {

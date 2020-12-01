@@ -10,8 +10,9 @@ import cooptool.models.objects.User;
 public class UserFacade {
 
     private User currentUser;
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
     private static UserFacade userFacade = null;
+
     private UserFacade() {
         userDAO = AbstractDAOFactory.getFactory(FactoryType.MySQL_Factory).getUserDAO();
     }
@@ -20,7 +21,6 @@ public class UserFacade {
         if(userFacade == null) {
             userFacade = new UserFacade();
         }
-
         return userFacade;
     }
 
@@ -30,23 +30,15 @@ public class UserFacade {
             throw new MailNotFound();
         }
         else if(!user.checkPassword(password)){
-            throw  new UnmatchedPassword();
+            throw new UnmatchedPassword();
         }
         else {
             currentUser = user;
         }
     }
 
-    public UserDAO getUserDAO(){
-        return userDAO;
-    }
-
     public User getCurrentUser() {
         return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
     }
 
 }
