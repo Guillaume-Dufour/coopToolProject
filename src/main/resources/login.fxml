@@ -7,11 +7,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.LoginController">
    <children>
-      <TextField id="inputMail" layoutX="300.0" layoutY="110.0" />
-      <TextField id="inputPassword" layoutX="300.0" layoutY="175.0" />
+      <TextField fx:id="inputMail" layoutX="300.0" layoutY="110.0" />
+      <TextField fx:id="inputPassword" layoutX="300.0" layoutY="175.0" />
       <Text layoutX="172.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
       <Text layoutX="170.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
-      <Button id="loginButton" layoutX="274.0" layoutY="266.0" mnemonicParsing="false" onAction="#login" text="Button" />
-      <Text id="errorLabel" fill="#f50808" layoutX="289.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
+      <Button fx:id="loginButton" layoutX="258.0" layoutY="260.0" mnemonicParsing="false" onAction="#login" text="Se connecter" />
+      <Text fx:id="errorLabel" fill="#f50808" layoutX="289.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
+      <Button fx:id="registerButton" layoutX="269.0" layoutY="325.0" mnemonicParsing="false" onAction="#register" text="S'inscrire" />
    </children>
 </AnchorPane>

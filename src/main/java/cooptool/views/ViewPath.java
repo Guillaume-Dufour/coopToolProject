@@ -1,8 +1,12 @@
 package cooptool.views;
 
 public enum ViewPath {
-    LOGIN("login.fxml");
-    private String path;
+
+    LOGIN("login.fxml"),
+    REGISTER("register.fxml"),
+    HOME("");
+
+    private final String path;
 
     ViewPath(String path){
         this.path = path;

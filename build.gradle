@@ -21,4 +21,4 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = 'CoopToolApplication'
+mainClassName = 'cooptool.CoopToolApplication'

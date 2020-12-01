@@ -25,18 +25,20 @@ public class MySQLUserDAO extends UserDAO {
                 "JOIN department d ON d.id_department = u.id_department " +
                 "WHERE u.mail_user = ?";
         try {
-            PreparedStatement preparedStatement =
-                    connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1, mail);
 
             ResultSet result = preparedStatement.executeQuery();
 
-            if(result.next()) {
+            if (result.next()) {
+
                 int id = result.getInt("id_user");
                 int typeUser = result.getInt("type_user");
                 String password = result.getString("password_user");
                 UserRole userRole = null;
-                if(typeUser == STUDENT_ROLE){
+
+                if (typeUser == STUDENT_ROLE) {
+
                     String firstName = result.getString("first_name_user");
                     String lastName = result.getString("last_name_user");
                     String description = result.getString("description_user");
@@ -45,14 +47,15 @@ public class MySQLUserDAO extends UserDAO {
                     int year = result.getInt("year_department");
                     String abbreviation = result.getString("abbreviation_department");
                     int available = result.getInt("available");
+
                     Department department = new Department(
-                          departmentId,nameDepartment,year,abbreviation,available
+                          departmentId, nameDepartment, year, abbreviation, available
                     );
                     userRole = new StudentRole(
-                            firstName,lastName,description,department
+                            firstName, lastName, description, department
                     );
                 }
-                else if(typeUser == ADMIN_ROLE){
+                else if(typeUser == ADMIN_ROLE) {
                     userRole = new AdminRole();
                 }
                 user = new User(id, mail, password, userRole);

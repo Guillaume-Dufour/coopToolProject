@@ -17,8 +17,9 @@ public class CoopToolApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //TODO: ViewLoader
-        ViewLoader viewLoader = new ViewLoader(primaryStage.getScene());
+
+        ViewLoader viewLoader = ViewLoader.getInstance();
+        viewLoader.setStage(primaryStage);
         viewLoader.load(ViewPath.LOGIN);
-        primaryStage.show();
     }
 }
