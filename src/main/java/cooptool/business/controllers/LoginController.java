@@ -31,8 +31,7 @@ public class LoginController {
         String mail = inputMail.getText();
         String password = inputPassword.getText();
         try {
-            User user = userFacade.login(mail, password);
-            userFacade.setCurrentUser(user);
+            userFacade.login(mail, password);
             //TODO : comment changer de page
         } catch(MailNotFound | UnmatchedPassword e) {
             loginButton.setDisable(false);

@@ -15,14 +15,22 @@ public class MySQLUserDAO extends UserDAO {
 
     @Override
     public User findUserByMail(String mail) {
+
         User user = null;
+
         try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM user WHERE mail_user =?"
-            );
+
+            String requete = "SELECT * " +
+                    "FROM user u " +
+                    "JOIN department d ON d.id_department = u.id_department " +
+                    "WHERE u.mail_user = ?";
+
+            PreparedStatement statement = connection.prepareStatement(requete);
             statement.setString(1, mail);
+
             ResultSet result = statement.executeQuery();
-            if(result.next()){
+
+            if(result.next()) {
                 int id = result.getInt("id_user");
                 //TODO : est-ce qu'on met le type ?
                 String mail_user = result.getString("mail_user");
@@ -32,6 +40,7 @@ public class MySQLUserDAO extends UserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return user;
     }
 

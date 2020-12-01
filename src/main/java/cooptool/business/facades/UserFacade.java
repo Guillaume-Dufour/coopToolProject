@@ -24,7 +24,7 @@ public class UserFacade {
         return userFacade;
     }
 
-    public User login(String mail, String password) throws MailNotFound, UnmatchedPassword {
+    public void login(String mail, String password) throws MailNotFound, UnmatchedPassword {
         User user = userDAO.findUserByMail(mail);
         if(user == null) {
             throw new MailNotFound();
@@ -33,7 +33,7 @@ public class UserFacade {
             throw  new UnmatchedPassword();
         }
         else {
-            return user;
+            currentUser = user;
         }
     }
 
