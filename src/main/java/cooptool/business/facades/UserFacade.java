@@ -9,10 +9,19 @@ import cooptool.models.objects.User;
 
 public class UserFacade {
 
+    private User currentUser;
     private UserDAO userDAO;
-
-    public UserFacade() {
+    private static UserFacade userFacade = null;
+    private UserFacade() {
         userDAO = AbstractDAOFactory.getFactory(FactoryType.MySQL_Factory).getUserDAO();
+    }
+
+    public static UserFacade getInstance() {
+        if(userFacade == null) {
+            userFacade = new UserFacade();
+        }
+
+        return userFacade;
     }
 
     public User login(String mail, String password) throws MailNotFound, UnmatchedPassword {
@@ -26,6 +35,18 @@ public class UserFacade {
         else {
             return user;
         }
+    }
+
+    public UserDAO getUserDAO(){
+        return userDAO;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 
 }

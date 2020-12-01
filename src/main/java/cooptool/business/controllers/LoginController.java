@@ -1,6 +1,5 @@
 package cooptool.business.controllers;
 
-import cooptool.Session;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
@@ -12,8 +11,6 @@ import cooptool.models.objects.User;
 import javafx.scene.text.Text;
 
 public class LoginController {
-
-    UserFacade userFacade;
 
     @FXML
     TextField inputMail;
@@ -27,9 +24,7 @@ public class LoginController {
     @FXML
     Button loginButton;
 
-    public LoginController() {
-        this.userFacade = new UserFacade();
-    }
+    UserFacade userFacade = UserFacade.getInstance();
 
     public void login(ActionEvent event) {
         loginButton.setDisable(true);
@@ -37,7 +32,7 @@ public class LoginController {
         String password = inputPassword.getText();
         try {
             User user = userFacade.login(mail, password);
-            Session.getInstance().setUser(user);
+            userFacade.setCurrentUser(user);
             //TODO : comment changer de page
         } catch(MailNotFound | UnmatchedPassword e) {
             loginButton.setDisable(false);
