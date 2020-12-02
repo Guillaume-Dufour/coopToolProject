@@ -22,7 +22,7 @@ public class MySQLUserDAO extends UserDAO {
         String statement =
                 "SELECT * " +
                 "FROM user u " +
-                "JOIN department d ON d.id_department = u.id_department " +
+                "LEFT JOIN department d ON d.id_department = u.id_department " +
                 "WHERE u.mail_user = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
