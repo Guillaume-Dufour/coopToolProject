@@ -1,7 +1,7 @@
 package cooptool.business.controllers;
 
-import cooptool.views.ViewLoader;
-import cooptool.views.ViewPath;
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;

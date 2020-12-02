@@ -1,7 +1,7 @@
 package cooptool;
 
-import cooptool.views.ViewLoader;
-import cooptool.views.ViewPath;
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

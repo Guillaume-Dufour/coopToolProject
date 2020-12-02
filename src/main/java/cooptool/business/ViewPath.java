@@ -1,12 +1,11 @@
-package cooptool.views;
+package cooptool.business;
 
 public enum ViewPath {
 
-    LOGIN("login.fxml"),
-    REGISTER("register.fxml"),
+    LOGIN("views/login.fxml"),
+    REGISTER("views/register.fxml"),
     STUDENT_HOME("views/student/home_student.fxml"),
-    ADMIN_HOME("views/admin/home_admin.fxml"),
-    HOME("");
+    ADMIN_HOME("views/admin/home_admin.fxml");
 
     private final String path;
 

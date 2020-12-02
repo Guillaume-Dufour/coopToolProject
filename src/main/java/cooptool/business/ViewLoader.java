@@ -1,4 +1,4 @@
-package cooptool.views;
+package cooptool.business;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
