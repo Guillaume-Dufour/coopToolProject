@@ -3,6 +3,7 @@ package cooptool.business.controllers;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
+import cooptool.models.objects.StudentRole;
 import cooptool.views.ViewLoader;
 import cooptool.views.ViewPath;
 import javafx.event.ActionEvent;
@@ -38,7 +39,11 @@ public class LoginController {
         String password = inputPassword.getText();
         try {
             userFacade.login(mail, password);
-            ViewLoader.getInstance().load(ViewPath.HOME);
+            if(userFacade.getCurrentUser().getRole() instanceof StudentRole){
+                ViewLoader.getInstance().load(ViewPath.STUDENT_HOME);
+            } else {
+                ViewLoader.getInstance().load(ViewPath.ADMIN_HOME);
+            }
         } catch(MailNotFound | UnmatchedPassword | IOException e) {
             loginButton.setDisable(false);
             errorLabel.setText(e.getMessage());

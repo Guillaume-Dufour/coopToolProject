@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mathildetribot_coop_tool@mysql-mathildetribot.alwaysdata.net" uuid="0f04d94b-f5b3-47c8-afda-17c9c79b5ea1">
+    <data-source source="LOCAL" name="jdbc:mysql://mysql-mathildetribot.alwaysdata.net/mathildetribot_coop_tool?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC&amp;user=218532_23&amp;password=cooptool" uuid="b440ebb9-7b91-4c61-bc1f-210326b54115">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://mysql-mathildetribot.alwaysdata.net/mathildetribot_coop_tool</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
+      <jdbc-url>jdbc:mysql://mysql-mathildetribot.alwaysdata.net/mathildetribot_coop_tool?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC&amp;user=218532_23&amp;password=cooptool</jdbc-url>
     </data-source>
   </component>
 </project>
