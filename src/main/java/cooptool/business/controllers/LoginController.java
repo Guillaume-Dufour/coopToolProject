@@ -10,6 +10,7 @@ import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -21,7 +22,7 @@ public class LoginController {
     TextField inputMail;
 
     @FXML
-    TextField inputPassword;
+    PasswordField inputPassword;
 
     @FXML
     Text errorLabel;
