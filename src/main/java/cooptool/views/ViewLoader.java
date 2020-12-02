@@ -36,8 +36,6 @@ public class ViewLoader extends Parent {
         Parent root = loader.load();
 
         stage.setScene(new Scene(root));
-
-        stage.show();
     }
 
 }

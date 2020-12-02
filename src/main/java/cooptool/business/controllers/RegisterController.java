@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class RegisterController {
 
-    public void login(ActionEvent event) {
+    public void goToLoginPage(ActionEvent event) {
         try {
             ViewLoader.getInstance().load(ViewPath.LOGIN);
         } catch (IOException e) {

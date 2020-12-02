@@ -21,5 +21,6 @@ public class CoopToolApplication extends Application {
         ViewLoader viewLoader = ViewLoader.getInstance();
         viewLoader.setStage(primaryStage);
         viewLoader.load(ViewPath.LOGIN);
+        primaryStage.show();
     }
 }

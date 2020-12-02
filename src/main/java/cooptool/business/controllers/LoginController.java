@@ -45,12 +45,12 @@ public class LoginController {
         }
     }
 
-    public void register(ActionEvent event) {
+    public void goToRegisterPage(ActionEvent event) {
         registerButton.setDisable(true);
         try {
             ViewLoader.getInstance().load(ViewPath.REGISTER);
         } catch (IOException e) {
-            loginButton.setDisable(false);
+            registerButton.setDisable(false);
             errorLabel.setText(e.getMessage());
         }
     }
