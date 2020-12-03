@@ -7,7 +7,6 @@ participant AbstractDAOFactory
 participant MySQLDAOFactory
 participant MySQLUserDAO
 participant User
-participant Session
 participant Exception
 database CoopToolDatabase
 user -> LoginController : login()
@@ -35,24 +34,23 @@ create User
 MySQLUserDAO -> User : new
 alt FoundUser
 User --> MySQLUserDAO : User
-MySQLUserDAO -> UserFacade : User
+MySQLUserDAO --> UserFacade : User
 UserFacade -> User : checkPassword(password : String)
 activate User
 alt GoodPassword
-User -> UserFacade : True
-UserFacade -> LoginController : User
-LoginController -> Session : getInstance()
-activate Session
-Session -> Session : setUser(User)
-deactivate Session
+User --> UserFacade : True
+UserFacade --> LoginController : User
+LoginController -> UserFacade : getInstance()
+UserFacade --> LoginController : UserFacade
+LoginController -> UserFacade : setUser(user : User)
 else FalsePassword
-User -> UserFacade : False
+User --> UserFacade : False
 UserFacade -> Exception : throwException()
 end
 deactivate User
 else !FoundUser
 User --> MySQLUserDAO : Null
-MySQLUserDAO -> UserFacade : Null
+MySQLUserDAO --> UserFacade : Null
 UserFacade -> Exception : throwException()
 end
 deactivate LoginController
