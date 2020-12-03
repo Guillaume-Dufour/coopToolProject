@@ -7,6 +7,10 @@ import cooptool.models.FactoryType;
 import cooptool.models.UserDAO;
 import cooptool.models.objects.User;
 
+/**
+ * Singleton used to hide the implementation of the database calls to the controller
+ * The UserFacade is in charge of all tasks related to our user management
+ */
 public class UserFacade {
 
     private User currentUser;
@@ -24,6 +28,14 @@ public class UserFacade {
         return userFacade;
     }
 
+    /**
+     * Function used to login an user using his credentials
+     * It asks the database his information and then creates and set the current user
+     * @param mail
+     * @param password
+     * @throws MailNotFound : if there is no match
+     * @throws UnmatchedPassword : if the password does not corresponds to the mail
+     */
     public void login(String mail, String password) throws MailNotFound, UnmatchedPassword {
         User user = userDAO.findUserByMail(mail);
 
@@ -38,6 +50,9 @@ public class UserFacade {
         }
     }
 
+    /**
+     * @return the current User
+     */
     public User getCurrentUser() {
         return currentUser;
     }
