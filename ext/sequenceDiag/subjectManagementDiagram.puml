@@ -1,7 +1,58 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+actor user
+participant CreateSubjectController
+participant SubjectFacade
+participant AbstractDAOFactory
+participant MySQLDAOFactory
+participant MySQLSubjectDAO
+participant Subject
+participant SubjectAlreadyExistException
+database CoopToolDatabase
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+user -> CreateSubjectController : create()
+activate CreateSubjectController
+create SubjectFacade
+CreateSubjectController -> SubjectFacade  : getInstance()
+SubjectFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+activate SubjectFacade
+create MySQLDAOFactory
+AbstractDAOFactory -> MySQLDAOFactory : new
+activate AbstractDAOFactory
+MySQLDAOFactory -> MySQLDAOFactory : getSubjectDAO()
+deactivate AbstractDAOFactory
+create MySQLSubjectDAO
+activate MySQLDAOFactory
+MySQLDAOFactory -> MySQLSubjectDAO : new
+MySQLSubjectDAO --> MySQLDAOFactory : SubjectDAO
+MySQLDAOFactory --> SubjectFacade : SubjectDAO
+deactivate MySQLDAOFactory
+SubjectFacade --> CreateSubjectController : SubjectFacade
+CreateSubjectController -> CreateSubjectController : getText()
+
+CreateSubjectController -> SubjectFacade : create(speciality : String, year : int, abbreviation : String)
+SubjectFacade -> MySQLSubjectDAO : findSubjectByAbbreviation(abbreviation : String)
+activate MySQLSubjectDAO
+MySQLSubjectDAO -> CoopToolDatabase : executeQuery(query : String)
+CoopToolDatabase --> MySQLSubjectDAO : result
+create Subject
+MySQLSubjectDAO -> Subject: new
+
+alt !SubjectFound
+    Subject --> MySQLSubjectDAO : null
+    MySQLSubjectDAO --> SubjectFacade : null
+    SubjectFacade -> Subject : new
+    Subject --> SubjectFacade : Subject
+    SubjectFacade -> MySQLSubjectDAO : create(t : Subject)
+    MySQLSubjectDAO -> CoopToolDatabase : executeQuery(query : String)
+else SubjectFound
+    Subject --> MySQLSubjectDAO : Subject
+    MySQLSubjectDAO --> SubjectFacade : Subject
+    create SubjectAlreadyExistException
+    SubjectFacade --> SubjectAlreadyExistException : throws new SubjectAlreadyExistException()
+end
+
+deactivate CreateSubjectController
+deactivate SubjectFacade
+deactivate MySQLSubjectDAO
+
 @enduml
