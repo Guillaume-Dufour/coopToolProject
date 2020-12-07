@@ -1,58 +1,51 @@
 @startuml
 actor user
-participant CreateDepartmentController
-participant DepartmentFacade
+participant SearchStudentController
+participant UserFacade
 participant AbstractDAOFactory
 participant MySQLDAOFactory
-participant MySQLDepartmentDAO
-participant Department
-participant DepartmentAlreadyExistException
+participant MySQLUserDAO
+participant User
 database CoopToolDatabase
 
-user -> CreateDepartmentController : create()
-activate CreateDepartmentController
-create DepartmentFacade
-CreateDepartmentController -> DepartmentFacade  : getInstance()
-DepartmentFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
-activate DepartmentFacade
+user -> SearchStudentController : search()
+activate SearchStudentController
+create UserFacade
+SearchStudentController -> UserFacade  : getInstance()
+UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+activate UserFacade
 create MySQLDAOFactory
 AbstractDAOFactory -> MySQLDAOFactory : new
 activate AbstractDAOFactory
-MySQLDAOFactory -> MySQLDAOFactory : getDepartmentDAO()
+MySQLDAOFactory -> MySQLDAOFactory : getUserDAO()
 deactivate AbstractDAOFactory
-create MySQLDepartmentDAO
+create MySQLUserDAO
 activate MySQLDAOFactory
-MySQLDAOFactory -> MySQLDepartmentDAO : new
-MySQLDepartmentDAO --> MySQLDAOFactory : DepartmentDAO
-MySQLDAOFactory --> DepartmentFacade : DepartmentDAO
+MySQLDAOFactory -> MySQLUserDAO : new
+MySQLUserDAO --> MySQLDAOFactory : UserDAO
+MySQLDAOFactory --> UserFacade : UserDAO
 deactivate MySQLDAOFactory
-DepartmentFacade --> CreateDepartmentController : DepartmentFacade
-CreateDepartmentController -> CreateDepartmentController : getText()
+UserFacade --> SearchStudentController : UserFacade
+SearchStudentController -> SearchStudentController : getText()
 
-CreateDepartmentController -> DepartmentFacade : create(speciality : String, year : int, abbreviation : String)
-DepartmentFacade -> MySQLDepartmentDAO : findDepartmentByAbbreviation(abbreviation : String)
-activate MySQLDepartmentDAO
-MySQLDepartmentDAO -> CoopToolDatabase : executeQuery(query : String)
-CoopToolDatabase --> MySQLDepartmentDAO : result
-create Department
-MySQLDepartmentDAO -> Department: new
+SearchStudentController -> UserFacade : search(speciality : String, year : int)
+UserFacade -> MySQLUserDAO : findStudentByDepartment(abbreviation : String)
+activate MySQLUserDAO
+MySQLUserDAO -> CoopToolDatabase : executeQuery(query : String)
+CoopToolDatabase --> MySQLUserDAO : result
 
-alt !DepartmentFound
-    Department --> MySQLDepartmentDAO : null
-    MySQLDepartmentDAO --> DepartmentFacade : null
-    DepartmentFacade -> Department : new
-    Department --> DepartmentFacade : Department
-    DepartmentFacade -> MySQLDepartmentDAO : create(t : Department)
-    MySQLDepartmentDAO -> CoopToolDatabase : executeQuery(query : String)
-else DepartmentFound
-    Department --> MySQLDepartmentDAO : Department
-    MySQLDepartmentDAO --> DepartmentFacade : Department
-    create DepartmentAlreadyExistException
-    DepartmentFacade --> DepartmentAlreadyExistException : throws new DepartmentAlreadyExistException()
+create User
+group while result.contains(user)
+    MySQLUserDAO -> User : new
+    User --> MySQLUserDAO : user
+    MySQLUserDAO -> MySQLUserDAO : List.add(user)
 end
+    MySQLUserDAO --> UserFacade : List
+    UserFacade --> SearchStudentController : List
+    SearchStudentController -> SearchStudentController : listStudent.addText(List)
 
-deactivate CreateDepartmentController
-deactivate DepartmentFacade
-deactivate MySQLDepartmentDAO
+deactivate SearchStudentController
+deactivate UserFacade
+deactivate MySQLUserDAO
 
 @enduml
