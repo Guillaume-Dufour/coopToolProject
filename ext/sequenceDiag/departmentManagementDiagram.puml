@@ -1,0 +1,58 @@
+@startuml
+actor user
+participant CreateDepartmentController
+participant DepartmentFacade
+participant AbstractDAOFactory
+participant MySQLDAOFactory
+participant MySQLDepartmentDAO
+participant Department
+participant DepartmentAlreadyExistException
+database CoopToolDatabase
+
+user -> CreateDepartmentController : create()
+activate CreateDepartmentController
+create DepartmentFacade
+CreateDepartmentController -> DepartmentFacade  : getInstance()
+DepartmentFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+activate DepartmentFacade
+create MySQLDAOFactory
+AbstractDAOFactory -> MySQLDAOFactory : new
+activate AbstractDAOFactory
+MySQLDAOFactory -> MySQLDAOFactory : getDepartmentDAO()
+deactivate AbstractDAOFactory
+create MySQLDepartmentDAO
+activate MySQLDAOFactory
+MySQLDAOFactory -> MySQLDepartmentDAO : new
+MySQLDepartmentDAO --> MySQLDAOFactory : DepartmentDAO
+MySQLDAOFactory --> DepartmentFacade : DepartmentDAO
+deactivate MySQLDAOFactory
+DepartmentFacade --> CreateDepartmentController : DepartmentFacade
+CreateDepartmentController -> CreateDepartmentController : getText()
+
+CreateDepartmentController -> DepartmentFacade : create(speciality : String, year : int, abbreviation : String)
+DepartmentFacade -> MySQLDepartmentDAO : findDepartmentByAbbreviation(abbreviation : String)
+activate MySQLDepartmentDAO
+MySQLDepartmentDAO -> CoopToolDatabase : executeQuery(query : String)
+CoopToolDatabase --> MySQLDepartmentDAO : result
+create Department
+MySQLDepartmentDAO -> Department: new
+
+alt !DepartmentFound
+    Department --> MySQLDepartmentDAO : null
+    MySQLDepartmentDAO --> DepartmentFacade : null
+    DepartmentFacade -> Department : new
+    Department --> DepartmentFacade : Department
+    DepartmentFacade -> MySQLDepartmentDAO : create(t : Department)
+    MySQLDepartmentDAO -> CoopToolDatabase : executeQuery(query : String)
+else DepartmentFound
+    Department --> MySQLDepartmentDAO : Department
+    MySQLDepartmentDAO --> DepartmentFacade : Department
+    create DepartmentAlreadyExistException
+    DepartmentFacade --> DepartmentAlreadyExistException : throws new DepartmentAlreadyExistException()
+end
+
+deactivate CreateDepartmentController
+deactivate DepartmentFacade
+deactivate MySQLDepartmentDAO
+
+@enduml

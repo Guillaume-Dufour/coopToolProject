@@ -14,7 +14,8 @@ database CoopToolDatabase
 user -> LoginController : login()
 activate LoginController
 create UserFacade
-LoginController -> UserFacade  : new
+LoginController -> UserFacade  : getInstance()
+UserFacade -> UserFacade : new
 UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
 activate UserFacade
 create MySQLDAOFactory
