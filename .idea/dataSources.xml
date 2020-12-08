@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mathildetribot_coop_tool@mysql-mathildetribot.alwaysdata.net" uuid="1e08c058-5c2a-4f79-b98d-60cfbf20fea8">
+    <data-source source="LOCAL" name="MariaDB - mathildetribot_coop_tool@mysql-mathildetribot.alwaysdata.net" uuid="83ad95b3-1eb6-4d7e-a15a-24fe7da9d193">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
