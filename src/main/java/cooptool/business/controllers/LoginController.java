@@ -48,11 +48,12 @@ public class LoginController {
         String password = inputPassword.getText();
         try {
             userFacade.login(mail, password);
-            if(userFacade.getCurrentUser().getRole() instanceof StudentRole){
+            ViewLoader.getInstance().load(ViewPath.HOME);
+            /*if(userFacade.getCurrentUser().getRole() instanceof StudentRole){
                 ViewLoader.getInstance().load(ViewPath.STUDENT_HOME);
             } else {
                 ViewLoader.getInstance().load(ViewPath.ADMIN_HOME);
-            }
+            }*/
         } catch(MailNotFound | UnmatchedPassword e) {
             loginButton.setDisable(false);
             errorLabel.setText(e.getMessage());

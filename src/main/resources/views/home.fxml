@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HomeController">
+    <children>
+      <Pane fx:id="header_student">
+         <children>
+              <fx:include  source="header_student.fxml" />
+         </children>
+      </Pane>
+      <Pane fx:id="header_admin">
+         <children>
+              <fx:include source="header_admin.fxml" />
+         </children>
+      </Pane>
+        <Separator layoutY="90.0" opacity="0.0" orientation="VERTICAL" prefHeight="309.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" />
+        <Button fx:id="mentoringDemandButton" layoutX="31.0" layoutY="166.0" mnemonicParsing="false" onAction="#displayMentoringDemand" prefHeight="157.0" prefWidth="231.0" style="-fx-background-color: #ff5f5f;" text="Demande de Tutorat " textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Book Antiqua" size="34.0" />
+            </font>
+        </Button>
+        <Button fx:id="quickHelpButton" layoutX="337.0" layoutY="166.0" mnemonicParsing="false" onAction="#displayQuickHelp" prefHeight="157.0" prefWidth="231.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Book Antiqua" size="34.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
