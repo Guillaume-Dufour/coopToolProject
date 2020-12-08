@@ -1,0 +1,51 @@
+@startuml
+actor user
+participant HandleQuickHelpPostController
+participant QuickHelpPostFacade
+participant AbstractDAOFactory
+participant MySQLDAOFactory
+participant MySQLPostDAO
+participant QuickHelpPost
+database CoopToolDatabase
+
+user -> HandleQuickHelpPostController : "fill the form"
+user -> HandleQuickHelpPostController : create()
+activate HandleQuickHelpPostController
+create QuickHelpPostFacade
+HandleQuickHelpPostController -> QuickHelpPostFacade  : getInstance()
+QuickHelpPostFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+activate QuickHelpPostFacade
+activate AbstractDAOFactory
+create MySQLDAOFactory
+AbstractDAOFactory -> MySQLDAOFactory : new
+deactivate AbstractDAOFactory
+MySQLDAOFactory -> MySQLDAOFactory : getPostDAO()
+create MySQLPostDAO
+activate MySQLDAOFactory
+MySQLDAOFactory -> MySQLPostDAO : new
+MySQLPostDAO --> MySQLDAOFactory : PostDAO
+MySQLDAOFactory --> QuickHelpPostFacade : PostDAO
+deactivate MySQLDAOFactory
+QuickHelpPostFacade --> HandleQuickHelpPostController : QuickHelpPostFacade
+HandleQuickHelpPostController -> HandleQuickHelpPostController : getText()
+
+HandleQuickHelpPostController -> QuickHelpPostFacade : create(description : String, subject : Subject)
+create QuickHelpPost
+QuickHelpPostFacade -> QuickHelpPost : new
+QuickHelpPost --> QuickHelpPostFacade : QuickHelpPost
+QuickHelpPostFacade -> MySQLPostDAO : create(quickHelpPost : QuickHelpPost)
+activate MySQLPostDAO
+MySQLPostDAO -> CoopToolDatabase : executeQuery(query : String)
+CoopToolDatabase --> MySQLPostDAO : result
+alt success
+    MySQLPostDAO --> QuickHelpPostFacade : True
+    QuickHelpPostFacade --> HandleQuickHelpPostController : True
+else !success
+    MySQLPostDAO --> QuickHelpPostFacade : False
+    QuickHelpPostFacade --> HandleQuickHelpPostController : False
+end
+deactivate HandleQuickHelpPostController
+deactivate QuickHelpPostFacade
+deactivate MySQLPostDAO
+
+@enduml
