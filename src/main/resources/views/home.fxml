@@ -10,7 +10,7 @@
     <children>
       <Pane fx:id="header_student">
          <children>
-              <fx:include  source="header_student.fxml" />
+              <fx:include source="header_student.fxml" />
          </children>
       </Pane>
       <Pane fx:id="header_admin">
