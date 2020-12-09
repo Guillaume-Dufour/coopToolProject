@@ -6,7 +6,6 @@ import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.StudentRole;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
-import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,6 +42,7 @@ public class LoginController {
      * Else change the text of the errorLabel with an according error message
      */
     public void login(ActionEvent event) {
+        System.out.println(event);
         loginButton.setDisable(true);
         String mail = inputMail.getText();
         String password = inputPassword.getText();
@@ -70,6 +70,7 @@ public class LoginController {
      * Switch the user scene to the register page
      */
     public void goToRegisterPage(ActionEvent event) {
+        System.out.println(event);
         registerButton.setDisable(true);
         try {
             ViewLoader.getInstance().load(ViewPath.REGISTER);
@@ -79,5 +80,4 @@ public class LoginController {
             errorLabel.setText("Internal Error, try again later");
         }
     }
-
 }
