@@ -8538,6 +8538,7 @@
 							"top": 1080,
 							"width": 58.3818359375,
 							"height": 45,
+							"showProperty": false,
 							"nameCompartment": {
 								"$ref": "AAAAAAF2TBhF8aot8NI="
 							},
@@ -8794,6 +8795,7 @@
 							"lineStyle": 1,
 							"points": "3537:1102;3791:1102",
 							"showVisibility": true,
+							"showProperty": false,
 							"nameLabel": {
 								"$ref": "AAAAAAF2TBifpK6Kkhc="
 							},
@@ -11586,14 +11588,6 @@
 									]
 								}
 							]
-						},
-						{
-							"_type": "UMLEnumeration",
-							"_id": "AAAAAAF2EEwfwNUzDEU=",
-							"_parent": {
-								"$ref": "AAAAAAF2EJBnq5RNt0k="
-							},
-							"name": "FactoryType"
 						}
 					]
 				},

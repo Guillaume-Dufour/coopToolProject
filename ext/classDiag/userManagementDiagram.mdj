@@ -3490,7 +3490,7 @@
 											"top": 827,
 											"width": 307.404296875,
 											"height": 13,
-											"text": "+instance: AbstractDAOFactory",
+											"text": "-instance: AbstractDAOFactory",
 											"horizontalAlignment": 0
 										}
 									],
@@ -12572,6 +12572,7 @@
 										"$ref": "AAAAAAF2D8y5EJbXtMc="
 									},
 									"name": "instance",
+									"visibility": "private",
 									"type": {
 										"$ref": "AAAAAAF2D8y5EJbXtMc="
 									}
