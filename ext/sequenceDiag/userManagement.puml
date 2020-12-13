@@ -1,0 +1,39 @@
+@startuml
+actor user
+participant RegisterController
+participant UserFacade
+participant AbstractDAOFactory
+participant UserDAO
+participant User
+participant UnmatchedPassword
+database CoopToolDatabase
+
+user -> RegisterController : register()
+activate RegisterController
+RegisterController -> UserFacade  : getInstance()
+UserFacade -> AbstractDAOFactory : getInstance()
+activate UserFacade
+activate AbstractDAOFactory
+AbstractDAOFactory -> AbstractDAOFactory : getUserDAO()
+AbstractDAOFactory -> UserDAO : getInstance()
+deactivate AbstractDAOFactory
+UserDAO --> AbstractDAOFactory : UserDAO
+AbstractDAOFactory --> UserFacade : UserDAO
+UserFacade --> RegisterController : UserFacade
+RegisterController -> RegisterController : getText()
+
+RegisterController -> UserFacade : register(firstName, lastName, mail, promotion, password, confirmedPassword)
+alt password = confirmedPassword
+    create User
+    UserFacade -> User : new
+    User -> UserFacade : user
+    UserFacade -> UserDAO : create(user)
+    UserDAO -> CoopToolDatabase : saveData
+    CoopToolDatabase -> UserDAO : result
+    UserDAO -> UserFacade : True
+    UserFacade -> RegisterController : user
+else password != confirmedPassword
+    create UnmatchedPassword
+    UserFacade -> UnmatchedPassword : throw new UnmatchedPassword()
+end
+@enduml

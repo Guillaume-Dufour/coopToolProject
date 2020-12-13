@@ -1,7 +1,28 @@
 @startuml
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+actor user
+participant BrowsingHistoryController
+participant PostFacade
+participant AbstractDAOFactory
+participant PostDAO
+database CoopToolDatabase
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+user -> BrowsingHistoryController : deleteAll()
+activate BrowsingHistoryController
+BrowsingHistoryController -> PostFacade  : getInstance()
+PostFacade -> AbstractDAOFactory : getInstance()
+activate PostFacade
+activate AbstractDAOFactory
+AbstractDAOFactory -> AbstractDAOFactory : getPostDAO()
+AbstractDAOFactory -> PostDAO : getInstance()
+PostDAO --> AbstractDAOFactory : PostDAO
+AbstractDAOFactory --> PostFacade : PostDAO
+deactivate AbstractDAOFactory
+PostFacade --> BrowsingHistoryController : PostFacade
+
+BrowsingHistoryController -> PostFacade : deleteAllFromBrowsingHistory(user)
+PostFacade -> PostDAO : deleteAllFromBrowsingHistory(user)
+PostDAO -> CoopToolDatabase : saveData
+deactivate BrowsingHistoryController
+deactivate PostDAO
+
 @enduml
