@@ -4,8 +4,7 @@ actor user
 participant LoginController
 participant UserFacade
 participant AbstractDAOFactory
-participant MySQLDAOFactory
-participant MySQLUserDAO
+participant UserDAO
 participant User
 participant MailNotFound
 participant UnmatchedPassword
@@ -13,45 +12,36 @@ database CoopToolDatabase
 
 user -> LoginController : login()
 activate LoginController
-create UserFacade
 LoginController -> UserFacade  : getInstance()
-UserFacade -> UserFacade : new
-UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+UserFacade -> AbstractDAOFactory : getInstance()
 activate UserFacade
-create MySQLDAOFactory
-AbstractDAOFactory -> MySQLDAOFactory : new
 activate AbstractDAOFactory
-MySQLDAOFactory -> MySQLDAOFactory : getUserDAO()
+AbstractDAOFactory -> AbstractDAOFactory : getUserDAO()
+AbstractDAOFactory -> UserDAO : getInstance()
 deactivate AbstractDAOFactory
-create MySQLUserDAO
-activate MySQLDAOFactory
-MySQLDAOFactory -> MySQLUserDAO : new
-MySQLUserDAO --> MySQLDAOFactory : UserDAO
-deactivate MySQLDAOFactory
-MySQLDAOFactory --> UserFacade : UserDAO
+UserDAO --> AbstractDAOFactory : UserDAO
+AbstractDAOFactory --> UserFacade : UserDAO
 UserFacade --> LoginController : UserFacade
 LoginController -> LoginController : getText()
 
 LoginController -> UserFacade : login(mail : String, password : String)
-UserFacade -> MySQLUserDAO : findUserByMail(mail : String)
-activate MySQLUserDAO
-MySQLUserDAO -> CoopToolDatabase : executeQuery(query : String)
-CoopToolDatabase --> MySQLUserDAO : result
+UserFacade -> UserDAO : findUserByMail(mail : String)
+activate UserDAO
+UserDAO -> CoopToolDatabase : askForData
+CoopToolDatabase --> UserDAO : result
 create User
-MySQLUserDAO -> User : new
+UserDAO -> User : new
 
 alt FoundUser
-    User --> MySQLUserDAO : User
+    User --> UserDAO : User
     activate User
-    MySQLUserDAO --> UserFacade : User
-    deactivate MySQLUserDAO
+    UserDAO --> UserFacade : User
+    deactivate UserDAO
     UserFacade -> User : checkPassword(password : String)
     alt GoodPassword
         User --> UserFacade : True
         deactivate User
         UserFacade --> LoginController : User
-        LoginController -> UserFacade : getInstance()
-        UserFacade --> LoginController : UserFacade
         LoginController -> UserFacade : setUser(user : User)
     else FalsePassword
         UserFacade -[hidden]> User
@@ -62,15 +52,14 @@ alt FoundUser
         UserFacade -> UnmatchedPassword : throw new UnmatchedPassword()
     end
 else !FoundUser
-    MySQLUserDAO -[hidden]> User
+    UserDAO -[hidden]> User
     activate User
-    User -[hidden]> MySQLUserDAO
-    activate MySQLUserDAO
-    User --> MySQLUserDAO : Null
+    User -[hidden]> UserDAO
+    activate UserDAO
+    User --> UserDAO : Null
     deactivate User
-    MySQLUserDAO --> UserFacade : Null
-    deactivate MySQLUserDAO
-    deactivate MySQLDAOFactory
+    UserDAO --> UserFacade : Null
+    deactivate UserDAO
     create MailNotFound
     UserFacade -> MailNotFound : throws new MailNotFound()
 end
