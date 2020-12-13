@@ -3,8 +3,7 @@ actor user
 participant SearchStudentController
 participant UserFacade
 participant AbstractDAOFactory
-participant MySQLDAOFactory
-participant MySQLUserDAO
+participant UserDAO
 participant User
 collections ListUser
 database CoopToolDatabase
@@ -12,44 +11,38 @@ database CoopToolDatabase
 user -> SearchStudentController : select department in list
 user -> SearchStudentController : search()
 activate SearchStudentController
-create UserFacade
 SearchStudentController -> UserFacade  : getInstance()
-UserFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+UserFacade -> AbstractDAOFactory : getInstance()
 activate UserFacade
-create MySQLDAOFactory
-AbstractDAOFactory -> MySQLDAOFactory : new
 activate AbstractDAOFactory
-MySQLDAOFactory -> MySQLDAOFactory : getUserDAO()
+AbstractDAOFactory -> AbstractDAOFactory : getUserDAO()
+AbstractDAOFactory -> UserDAO : getInstance()
+UserDAO --> AbstractDAOFactory : UserDAO
+AbstractDAOFactory --> UserFacade : UserDAO
 deactivate AbstractDAOFactory
-create MySQLUserDAO
-activate MySQLDAOFactory
-MySQLDAOFactory -> MySQLUserDAO : new
-MySQLUserDAO --> MySQLDAOFactory : UserDAO
-MySQLDAOFactory --> UserFacade : UserDAO
-deactivate MySQLDAOFactory
 UserFacade --> SearchStudentController : UserFacade
 SearchStudentController -> SearchStudentController : getDepartment()
 
 SearchStudentController -> UserFacade : search(department : Department)
-UserFacade -> MySQLUserDAO : findStudentByDepartment(department : Department)
-activate MySQLUserDAO
-MySQLUserDAO -> CoopToolDatabase : executeQuery(query : String)
-CoopToolDatabase --> MySQLUserDAO : result
+UserFacade -> UserDAO : findStudentByDepartment(department : Department)
+activate UserDAO
+UserDAO -> CoopToolDatabase : askForData
+CoopToolDatabase --> UserDAO : result
 create ListUser
-MySQLUserDAO -> ListUser : new ArrayList<User>()
+UserDAO -> ListUser : new ArrayList<User>()
 create User
 group while result != null
-    MySQLUserDAO -> User : new
+    UserDAO -> User : new
     User -> ListUser : add()
 end
-ListUser --> MySQLUserDAO : ListUser
-MySQLUserDAO --> UserFacade : ListUser
+ListUser --> UserDAO : ListUser
+UserDAO --> UserFacade : ListUser
 UserFacade --> SearchStudentController : ListUser
 group while ListUser.hasNext()
     SearchStudentController -> SearchStudentController : listStudent.addText(ListUser.next())
 end
 deactivate SearchStudentController
 deactivate UserFacade
-deactivate MySQLUserDAO
+deactivate UserDAO
 
 @enduml
