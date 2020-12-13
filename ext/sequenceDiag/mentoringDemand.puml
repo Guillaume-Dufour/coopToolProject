@@ -1,0 +1,36 @@
+@startuml
+actor user
+participant MentoringDemandDisplayer
+participant MentoringDemandFacade
+participant AbstractDAOFactory
+participant MentoringDemandDAO
+participant MentoringDemand
+database CoopToolDatabase
+
+user -> MentoringDemandDisplayer : goToMentoringDemand()
+activate MentoringDemandDisplayer
+MentoringDemandDisplayer -> MentoringDemandFacade  : getInstance()
+MentoringDemandFacade -> AbstractDAOFactory : getInstance()
+activate MentoringDemandFacade
+activate AbstractDAOFactory
+AbstractDAOFactory -> AbstractDAOFactory : getMentoringDemandDAO()
+AbstractDAOFactory -> MentoringDemandDAO : getInstance()
+deactivate AbstractDAOFactory
+MentoringDemandDAO --> AbstractDAOFactory : MentoringDemandDAO
+AbstractDAOFactory --> MentoringDemandFacade : MentoringDemandDAO
+MentoringDemandFacade --> MentoringDemandDisplayer : MentoringDemandFacade
+
+MentoringDemandDisplayer -> MentoringDemandFacade : getMentoringDemand(id)
+MentoringDemandFacade -> MentoringDemandDAO : getMentoringDemandById(id)
+MentoringDemandDAO -> CoopToolDatabase : askForData
+CoopToolDatabase --> MentoringDemandDAO : result
+create MentoringDemand
+MentoringDemandDAO -> MentoringDemand : new
+MentoringDemand --> MentoringDemandDAO : mentoringDemand
+MentoringDemandDAO --> MentoringDemandFacade : mentoringDemand
+MentoringDemandFacade --> MentoringDemandDisplayer : mentoringDemand
+deactivate MentoringDemandFacade
+MentoringDemandDisplayer -> MentoringDemandDisplayer : displayMentoringDemand(mentoringDemand)
+deactivate MentoringDemandDisplayer
+
+@enduml
