@@ -1,7 +1,7 @@
-package cooptool.models.mysql.daos;
+package cooptool.models.daos;
 
-import cooptool.models.UserDAO;
-import cooptool.models.mysql.MySQLConnection;
+import cooptool.models.daos.MySQLConnection;
+import cooptool.models.daos.UserDAO;
 import cooptool.models.objects.*;
 
 import java.sql.Connection;
@@ -14,6 +14,10 @@ public class MySQLUserDAO extends UserDAO {
     Connection connection = MySQLConnection.getInstance();
     private static final int ADMIN_ROLE = 0;
     private static final int STUDENT_ROLE = 1;
+
+    protected MySQLUserDAO() {
+        super();
+    }
 
     @Override
     public User findUserByMail(String mail) {
@@ -73,17 +77,17 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     @Override
-    public void create(User user) {
-
+    public boolean create(User user) {
+        return false;
     }
 
     @Override
-    public void update(User user) {
-
+    public boolean update(User user) {
+        return false;
     }
 
     @Override
-    public void delete(User user) {
-
+    public boolean delete(User user) {
+        return false;
     }
 }

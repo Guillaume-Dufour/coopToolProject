@@ -1,4 +1,4 @@
-package cooptool.models.mysql;
+package cooptool.models.daos;
 
 import cooptool.Config;
 
