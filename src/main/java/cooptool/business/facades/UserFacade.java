@@ -1,5 +1,6 @@
 package cooptool.business.facades;
 
+import cooptool.BCrypt.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
@@ -79,7 +80,7 @@ public class UserFacade {
         /**
          * hashage password
          */
-        String hashedPassword = password;
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
         /**
          * création nouveau user
