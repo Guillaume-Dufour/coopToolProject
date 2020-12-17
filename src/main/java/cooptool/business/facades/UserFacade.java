@@ -2,9 +2,8 @@ package cooptool.business.facades;
 
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
-import cooptool.models.AbstractDAOFactory;
-import cooptool.models.FactoryType;
-import cooptool.models.UserDAO;
+import cooptool.models.daos.AbstractDAOFactory;
+import cooptool.models.daos.UserDAO;
 import cooptool.models.objects.User;
 
 /**
@@ -18,7 +17,7 @@ public class UserFacade {
     private static UserFacade userFacade = null;
 
     private UserFacade() {
-        userDAO = AbstractDAOFactory.getFactory(FactoryType.MySQL_Factory).getUserDAO();
+        userDAO = AbstractDAOFactory.getInstance().getUserDAO();
     }
 
     public static UserFacade getInstance() {

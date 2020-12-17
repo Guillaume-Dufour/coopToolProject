@@ -46,6 +46,7 @@ public class LoginController {
         loginButton.setDisable(true);
         String mail = inputMail.getText();
         String password = inputPassword.getText();
+
         try {
             userFacade.login(mail, password);
             ViewLoader.getInstance().load(ViewPath.HOME);
