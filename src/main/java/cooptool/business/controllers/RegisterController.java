@@ -4,6 +4,10 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.exceptions.MailAlreadyExists;
+import cooptool.exceptions.MailNotConformed;
+import cooptool.exceptions.PasswordNotConformed;
+import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -62,8 +66,9 @@ public class RegisterController implements Initializable {
         try {
             Department department = departmentFacade.getDepartment();
             userFacade.register(firstName, lastName, mail, department, password, confirmedPassword);
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (MailAlreadyExists | MailNotConformed |PasswordNotConformed | UnmatchedPassword e){
+            buttonRegister.setDisable(false);
+            errorLabel.setText(e.getMessage());
         }
     }
 

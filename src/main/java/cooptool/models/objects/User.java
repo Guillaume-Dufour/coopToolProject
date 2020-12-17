@@ -1,5 +1,7 @@
 package cooptool.models.objects;
 
+import cooptool.BCrypt.BCrypt;
+
 public class User {
 
     /**
@@ -48,7 +50,7 @@ public class User {
     }
 
     public boolean checkPassword(String password) {
-        return this.password.equals(password);
+        return BCrypt.checkpw(password, this.password);
     }
 
     @Override
