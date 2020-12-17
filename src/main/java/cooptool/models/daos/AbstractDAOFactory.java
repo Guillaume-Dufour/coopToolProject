@@ -5,11 +5,11 @@ public abstract class AbstractDAOFactory {
     private static AbstractDAOFactory instance = null;
 
     public static AbstractDAOFactory getInstance() {
-            if (instance == null) {
-                instance = new MySQLDAOFactory();
-            }
+        if (instance == null) {
+            instance = new MySQLDAOFactory();
+        }
 
-            return instance;
+        return instance;
     }
 
     public abstract UserDAO getUserDAO();
@@ -23,7 +23,6 @@ public abstract class AbstractDAOFactory {
     public abstract MentoringDemandDAO getMentoringDemandDAO();
 
     public abstract QuickHelpPostDAO getQuickHelpPostDAO();
-
 
 
 }

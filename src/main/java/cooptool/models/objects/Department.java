@@ -24,7 +24,7 @@ public class Department {
 
     private int available;
 
-    public Department(int id,String speciality,int year,String abbreviation,int available) {
+    public Department(int id, String speciality, int year, String abbreviation, int available) {
         this.id = id;
         this.speciality = speciality;
         this.year = year;
@@ -50,5 +50,16 @@ public class Department {
 
     public int getAvailable() {
         return available;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", speciality='" + speciality + '\'' +
+                ", year=" + year +
+                ", abbreviation='" + abbreviation + '\'' +
+                ", available=" + available +
+                '}';
     }
 }

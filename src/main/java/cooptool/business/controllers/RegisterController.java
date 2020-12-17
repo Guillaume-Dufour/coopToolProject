@@ -5,13 +5,17 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Department;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 
 import javax.naming.Name;
 import java.io.IOException;
@@ -38,6 +42,8 @@ public class RegisterController implements Initializable {
     Button buttonLogin;
     @FXML
     Button buttonRegister;
+    @FXML
+    ComboBox<Department> listDepartments;
 
     UserFacade userFacade = UserFacade.getInstance();
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
@@ -72,8 +78,24 @@ public class RegisterController implements Initializable {
         inputFirstName.setText("mathilde");
         inputLastName.setText("tribot");
         inputMail.setText("math.tribot@etu.umontpellier.fr");
-        inputPromotion.setText("IG3");
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
+
+        ObservableList<Department> departmentObservableList = FXCollections.observableList(departmentFacade.getAllDepartments());
+
+        listDepartments.setItems(departmentObservableList);
+
+        listDepartments.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(Department object) {
+                System.out.println(object);
+                return "Bonjour";
+            }
+
+            @Override
+            public Department fromString(String string) {
+                return null;
+            }
+        });
     }
 }
