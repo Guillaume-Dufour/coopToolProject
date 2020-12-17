@@ -13,6 +13,17 @@ public abstract class AbstractDAOFactory {
     }
 
     public abstract UserDAO getUserDAO();
+
     public abstract DepartmentDAO getDepartmentDAO();
+
+    public abstract SubjectDAO getSubjectDAO();
+
+    public abstract PostDAO getPostDAO();
+
+    public abstract MentoringDemandDAO getMentoringDemandDAO();
+
+    public abstract QuickHelpPostDAO getQuickHelpPostDAO();
+
+
 
 }

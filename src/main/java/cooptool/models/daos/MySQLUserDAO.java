@@ -1,7 +1,5 @@
 package cooptool.models.daos;
 
-import cooptool.models.daos.MySQLConnection;
-import cooptool.models.daos.UserDAO;
 import cooptool.models.objects.*;
 
 import java.sql.Connection;

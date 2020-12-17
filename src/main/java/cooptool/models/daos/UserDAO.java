@@ -4,13 +4,13 @@ import cooptool.models.objects.User;
 
 public abstract class UserDAO {
 
-    private static UserDAO INSTANCE = null;
+    private static final UserDAO INSTANCE;
+
+    static {
+        INSTANCE = AbstractDAOFactory.getInstance().getUserDAO();
+    }
 
     public static UserDAO getInstance() {
-        if(INSTANCE == null) {
-            AbstractDAOFactory f = AbstractDAOFactory.getInstance();
-            INSTANCE = f.getUserDAO();
-        }
         return INSTANCE;
     }
 

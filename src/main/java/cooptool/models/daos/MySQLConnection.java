@@ -14,6 +14,15 @@ public class MySQLConnection {
 
     private static Connection connection = null;
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(Config.JDBC_URL);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private MySQLConnection() {
 
     }
@@ -22,17 +31,6 @@ public class MySQLConnection {
      * @return Connection with the database
      */
     public static Connection getInstance() {
-
-        if (connection == null) {
-
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-                connection = DriverManager.getConnection(Config.JDBC_URL);
-            } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
         return connection;
     }
 }

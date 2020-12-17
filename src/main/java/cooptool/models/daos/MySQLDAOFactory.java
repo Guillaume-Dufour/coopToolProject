@@ -2,7 +2,7 @@ package cooptool.models.daos;
 
 public class MySQLDAOFactory extends AbstractDAOFactory {
 
-    public MySQLDAOFactory() {
+    protected MySQLDAOFactory() {
     }
 
     @Override
@@ -11,5 +11,27 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
     }
 
     @Override
-    public DepartmentDAO getDepartmentDAO() { return new MySQLDepartmentDAO(); }
+    public DepartmentDAO getDepartmentDAO() {
+        return new MySQLDepartmentDAO();
+    }
+
+    @Override
+    public SubjectDAO getSubjectDAO() {
+        return null;
+    }
+
+    @Override
+    public PostDAO getPostDAO() {
+        return null;
+    }
+
+    @Override
+    public MentoringDemandDAO getMentoringDemandDAO() {
+        return new MySQLMentoringDemandDAO();
+    }
+
+    @Override
+    public QuickHelpPostDAO getQuickHelpPostDAO() {
+        return null;
+    }
 }
