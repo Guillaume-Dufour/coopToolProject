@@ -3,49 +3,40 @@ actor user
 participant HandleQuickHelpPostController
 participant QuickHelpPostFacade
 participant AbstractDAOFactory
-participant MySQLDAOFactory
-participant MySQLPostDAO
+participant QuickHelpPostDAO
 participant QuickHelpPost
 database CoopToolDatabase
 
-user -> HandleQuickHelpPostController : "fill the form"
 user -> HandleQuickHelpPostController : create()
 activate HandleQuickHelpPostController
-create QuickHelpPostFacade
 HandleQuickHelpPostController -> QuickHelpPostFacade  : getInstance()
-QuickHelpPostFacade -> AbstractDAOFactory : getFactory(type : FactoryType)
+QuickHelpPostFacade -> AbstractDAOFactory : getInstance()
 activate QuickHelpPostFacade
 activate AbstractDAOFactory
-create MySQLDAOFactory
-AbstractDAOFactory -> MySQLDAOFactory : new
+AbstractDAOFactory -> AbstractDAOFactory : getQuickHelpPostDAO()
+AbstractDAOFactory -> QuickHelpPostDAO : getInstance()
+QuickHelpPostDAO --> AbstractDAOFactory : quickHelpPostDAO
+AbstractDAOFactory --> QuickHelpPostFacade : quickHelpPostDAO
 deactivate AbstractDAOFactory
-MySQLDAOFactory -> MySQLDAOFactory : getPostDAO()
-create MySQLPostDAO
-activate MySQLDAOFactory
-MySQLDAOFactory -> MySQLPostDAO : new
-MySQLPostDAO --> MySQLDAOFactory : PostDAO
-MySQLDAOFactory --> QuickHelpPostFacade : PostDAO
-deactivate MySQLDAOFactory
 QuickHelpPostFacade --> HandleQuickHelpPostController : QuickHelpPostFacade
-HandleQuickHelpPostController -> HandleQuickHelpPostController : getText()
 
 HandleQuickHelpPostController -> QuickHelpPostFacade : create(description : String, subject : Subject)
 create QuickHelpPost
 QuickHelpPostFacade -> QuickHelpPost : new
 QuickHelpPost --> QuickHelpPostFacade : QuickHelpPost
-QuickHelpPostFacade -> MySQLPostDAO : create(quickHelpPost : QuickHelpPost)
-activate MySQLPostDAO
-MySQLPostDAO -> CoopToolDatabase : executeQuery(query : String)
-CoopToolDatabase --> MySQLPostDAO : result
+QuickHelpPostFacade -> QuickHelpPostDAO : create(quickHelpPost : QuickHelpPost)
+activate QuickHelpPostDAO
+QuickHelpPostDAO -> CoopToolDatabase : saveData
+CoopToolDatabase --> QuickHelpPostDAO : result
 alt success
-    MySQLPostDAO --> QuickHelpPostFacade : True
+    QuickHelpPostDAO --> QuickHelpPostFacade : True
     QuickHelpPostFacade --> HandleQuickHelpPostController : True
 else !success
-    MySQLPostDAO --> QuickHelpPostFacade : False
+    QuickHelpPostDAO --> QuickHelpPostFacade : False
     QuickHelpPostFacade --> HandleQuickHelpPostController : False
 end
 deactivate HandleQuickHelpPostController
 deactivate QuickHelpPostFacade
-deactivate MySQLPostDAO
+deactivate QuickHelpPostDAO
 
 @enduml

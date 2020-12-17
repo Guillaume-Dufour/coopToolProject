@@ -1281,7 +1281,7 @@
 											"top": 865,
 											"width": 509.056640625,
 											"height": 13,
-											"text": "+getMentoringDemands(): void",
+											"text": "+getMentoringDemandById(int id): MentoringDemand",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10326,7 +10326,8 @@
 											"_parent": {
 												"$ref": "AAAAAAF2D2OA2Onk/Og="
 											},
-											"name": "mentoringDemand MentoringDemand"
+											"name": "mentoringDemand MentoringDemand",
+											"type": ""
 										}
 									]
 								},
@@ -10760,7 +10761,7 @@
 									"_parent": {
 										"$ref": "AAAAAAF2D6UFLQ6+fho="
 									},
-									"name": "getMentoringDemands",
+									"name": "getMentoringDemandById",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -10768,8 +10769,19 @@
 											"_parent": {
 												"$ref": "AAAAAAF2SNWhEnfDjFk="
 											},
-											"type": "void",
+											"type": {
+												"$ref": "AAAAAAF2SM/mr1KsKaQ="
+											},
 											"direction": "return"
+										},
+										{
+											"_type": "UMLParameter",
+											"_id": "AAAAAAF2XadWzIAwRao=",
+											"_parent": {
+												"$ref": "AAAAAAF2SNWhEnfDjFk="
+											},
+											"name": "int id",
+											"type": ""
 										}
 									]
 								},

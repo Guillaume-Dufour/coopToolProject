@@ -9258,16 +9258,16 @@
 										"$ref": "AAAAAAF2W5/41IE0YBE="
 									},
 									"font": "Arial;13;0",
-									"left": 2211,
-									"top": 386,
+									"left": 2119,
+									"top": 440,
 									"width": 76.95263671875,
 									"height": 13,
-									"alpha": 4.445450274145562,
-									"distance": 34.655446902326915,
+									"alpha": -0.2148732960303139,
+									"distance": 98.84331034521254,
 									"hostEdge": {
 										"$ref": "AAAAAAF2W5/41IE23Yw="
 									},
-									"text": "+subjectDAO"
+									"text": "-subjectDAO"
 								},
 								{
 									"_type": "EdgeLabelView",
@@ -10723,7 +10723,8 @@
 								"name": "subjectDAO",
 								"reference": {
 									"$ref": "AAAAAAF2W56NwXKWfl8="
-								}
+								},
+								"visibility": "private"
 							}
 						}
 					],
