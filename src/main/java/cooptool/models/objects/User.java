@@ -17,17 +17,21 @@ public class User {
      */
     private String password;
 
-    /**
-     * Role of the user
-     */
-    private UserRole role;
-
     public User(int id, String mail, String password, UserRole role) {
         this.id = id;
         this.mail = mail;
         this.password = password;
         this.role = role;
     }
+
+    public User(String mail, String password, UserRole role) {
+        this(0,mail, password, role);
+    }
+
+    /**
+     * Role of the user
+     */
+    private UserRole role;
 
     public int getId() {
         return id;
@@ -37,11 +41,23 @@ public class User {
         return mail;
     }
 
+    public String getPassword(){ return password; }
+
     public UserRole getRole() {
         return role;
     }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

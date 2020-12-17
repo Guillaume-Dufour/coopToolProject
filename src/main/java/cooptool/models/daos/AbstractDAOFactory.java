@@ -13,5 +13,6 @@ public abstract class AbstractDAOFactory {
     }
 
     public abstract UserDAO getUserDAO();
+    public abstract DepartmentDAO getDepartmentDAO();
 
 }

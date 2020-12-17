@@ -48,4 +48,14 @@ public class StudentRole extends UserRole {
     public Department getDepartment() {
         return department;
     }
+
+    @Override
+    public String toString() {
+        return "StudentRole{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", description='" + description + '\'' +
+                ", department=" + department +
+                '}';
+    }
 }

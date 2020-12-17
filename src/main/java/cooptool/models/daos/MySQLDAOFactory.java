@@ -9,4 +9,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
     public UserDAO getUserDAO() {
         return new MySQLUserDAO();
     }
+
+    @Override
+    public DepartmentDAO getDepartmentDAO() { return new MySQLDepartmentDAO(); }
 }

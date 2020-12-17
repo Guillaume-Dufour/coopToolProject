@@ -31,4 +31,24 @@ public class Department {
         this.abbreviation = abbreviation;
         this.available = available;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
 }

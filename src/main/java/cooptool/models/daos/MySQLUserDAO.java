@@ -78,7 +78,34 @@ public class MySQLUserDAO extends UserDAO {
 
     @Override
     public boolean create(User user) {
-        return false;
+        String statement =
+                "INSERT INTO user (last_name_user, first_name_user, mail_user, password_user, type_user, id_department) " +
+                        "VALUES (?,?,?,?,?,?);";
+        PreparedStatement preparedStatement = null;
+        try {
+
+            System.out.println(user);
+            preparedStatement = connection.prepareStatement(statement);
+            System.out.println("connection ok");
+
+            preparedStatement.setString(1,((StudentRole)user.getRole()).getLastName());
+            preparedStatement.setString(2,(((StudentRole) user.getRole()).getFirstName()));
+            preparedStatement.setString(3, user.getMail());
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setInt(5, STUDENT_ROLE);
+            //preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
+            preparedStatement.setInt(6, 1);
+
+            System.out.println(preparedStatement);
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("apres");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override

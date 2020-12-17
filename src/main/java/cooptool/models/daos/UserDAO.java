@@ -6,8 +6,6 @@ public abstract class UserDAO {
 
     private static UserDAO INSTANCE = null;
 
-    protected UserDAO() {}
-
     public static UserDAO getInstance() {
         if(INSTANCE == null) {
             AbstractDAOFactory f = AbstractDAOFactory.getInstance();

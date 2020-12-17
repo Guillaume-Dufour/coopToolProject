@@ -1,10 +1,12 @@
 package cooptool.business.facades;
 
-import cooptool.exceptions.MailNotFound;
-import cooptool.exceptions.UnmatchedPassword;
+import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
+import cooptool.models.objects.Department;
+import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
+import java.util.regex.*;
 
 /**
  * Singleton used to hide the implementation of the database calls to the controller
@@ -15,6 +17,9 @@ public class UserFacade {
     private User currentUser;
     private final UserDAO userDAO;
     private static UserFacade userFacade = null;
+
+    private static Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
+    private static Matcher matcher;
 
     private UserFacade() {
         userDAO = AbstractDAOFactory.getInstance().getUserDAO();
@@ -47,6 +52,42 @@ public class UserFacade {
         else {
             currentUser = user;
         }
+    }
+
+    public void register(String firstName, String lastName, String mail,
+                         Department department, String password, String confirmedPassword)
+    throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword {
+
+        /**
+         * vérification
+         */
+        if (!password.equals(confirmedPassword)){
+            throw new UnmatchedPassword();
+        }
+        matcher = pattern.matcher(mail);
+        if (!matcher.find()){
+            throw new MailNotConformed();
+        }
+        if (password.length() < 8){
+            throw new PasswordNotConformed();
+        }
+        User user = userDAO.findUserByMail(mail);
+        if (user != null){
+            throw new MailAlreadyExists();
+        }
+
+        /**
+         * hashage password
+         */
+        String hashedPassword = password;
+
+        /**
+         * création nouveau user
+         */
+        user = new User(mail, hashedPassword,
+                new StudentRole(firstName, lastName, "", department));
+        boolean res = userDAO.create(user);
+
     }
 
     /**
