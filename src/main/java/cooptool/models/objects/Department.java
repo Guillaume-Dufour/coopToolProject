@@ -51,4 +51,14 @@ public class Department {
     public int getAvailable() {
         return available;
     }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", speciality='" + speciality + '\'' +
+                ", year=" + year +
+                ", abbreviation='" + abbreviation + '\'' +
+                '}';
+    }
 }

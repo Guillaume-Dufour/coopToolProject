@@ -92,7 +92,7 @@ public class MySQLUserDAO extends UserDAO {
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setInt(5, STUDENT_ROLE);
             //preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
-            preparedStatement.setInt(6, 1);
+            preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
 
             System.out.println(preparedStatement);
 

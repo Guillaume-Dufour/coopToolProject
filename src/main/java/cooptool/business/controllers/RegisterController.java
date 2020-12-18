@@ -64,15 +64,18 @@ public class RegisterController implements Initializable {
         String firstName = inputFirstName.getText();
         String lastName = inputLastName.getText();
         String mail = inputMail.getText();
-        String promotion = inputPromotion.getText();
+        Department department = listDepartments.getValue();
+        System.out.println(department);
         String password = inputPassword.getText();
         String confirmedPassword = inputConfirmedPassword.getText();
         try {
-            Department department = departmentFacade.getDepartment();
             userFacade.register(firstName, lastName, mail, department, password, confirmedPassword);
+            ViewLoader.getInstance().load(ViewPath.LOGIN);
         } catch (MailAlreadyExists | MailNotConformed |PasswordNotConformed | UnmatchedPassword e){
             buttonRegister.setDisable(false);
             errorLabel.setText(e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -89,7 +92,6 @@ public class RegisterController implements Initializable {
         listDepartments.setConverter(new StringConverter<>() {
             @Override
             public String toString(Department object) {
-                String placeholder = "Choisir un département";
                 return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
             }
 
@@ -99,4 +101,5 @@ public class RegisterController implements Initializable {
             }
         });
     }
+
 }
