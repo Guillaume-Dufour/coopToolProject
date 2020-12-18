@@ -33,6 +33,8 @@ public class ViewLoader extends Parent {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPath()));
 
+        loader.setController(loader.getController());
+
         Parent root = loader.load();
 
         stage.setScene(new Scene(root));

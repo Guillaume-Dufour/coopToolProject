@@ -26,7 +26,7 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
 
             ResultSet result = statement.executeQuery(requete);
 
-            if (result.next()) {
+            while (result.next()) {
 
                 Department department = new Department(
                         result.getInt("id_department"),

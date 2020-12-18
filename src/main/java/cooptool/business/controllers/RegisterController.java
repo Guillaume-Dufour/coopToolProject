@@ -14,16 +14,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-
-import javax.naming.Name;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -86,15 +84,13 @@ public class RegisterController implements Initializable {
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
 
-        ObservableList<Department> departmentObservableList = FXCollections.observableList(departmentFacade.getAllDepartments());
-
-        listDepartments.setItems(departmentObservableList);
+        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAllDepartments()));
 
         listDepartments.setConverter(new StringConverter<>() {
             @Override
             public String toString(Department object) {
-                System.out.println(object);
-                return "Bonjour";
+                String placeholder = "Choisir un département";
+                return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
             }
 
             @Override
