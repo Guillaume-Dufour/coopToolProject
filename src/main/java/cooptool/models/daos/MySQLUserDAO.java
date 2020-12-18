@@ -82,9 +82,7 @@ public class MySQLUserDAO extends UserDAO {
         PreparedStatement preparedStatement = null;
         try {
 
-            System.out.println(user);
             preparedStatement = connection.prepareStatement(statement);
-            System.out.println("connection ok");
 
             preparedStatement.setString(1,((StudentRole)user.getRole()).getLastName());
             preparedStatement.setString(2,(((StudentRole) user.getRole()).getFirstName()));
@@ -94,11 +92,8 @@ public class MySQLUserDAO extends UserDAO {
             //preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
             preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
 
-            System.out.println(preparedStatement);
-
             preparedStatement.executeUpdate();
 
-            System.out.println("apres");
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -113,6 +108,18 @@ public class MySQLUserDAO extends UserDAO {
 
     @Override
     public boolean delete(User user) {
-        return false;
+        String statement =
+                "DELETE FROM `user` WHERE `user`.`id_user` = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

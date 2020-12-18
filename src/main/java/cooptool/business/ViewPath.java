@@ -4,9 +4,11 @@ public enum ViewPath {
 
     LOGIN("views/login.fxml"),
     REGISTER("views/register.fxml"),
-    STUDENT_HOME("views/student/home_student.fxml"),
-    ADMIN_HOME("views/admin/home_admin.fxml"),
-    HOME("views/home.fxml");
+    HOME("views/home.fxml"),
+    PROFIL("views/student/profil.fxml"),
+    DELETE_ACCOUNT("views/student/delete_profil.fxml"),
+    UPDATE_ACCOUNT("views/student/update_profil.fxml");
+
 
     private final String path;
 

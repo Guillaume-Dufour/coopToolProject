@@ -91,11 +91,14 @@ public class UserFacade {
 
     }
 
+    public void deleteAccount(){
+        userDAO.delete(this.getCurrentUser());
+        currentUser = null;
+    }
     /**
      * @return the current User
      */
     public User getCurrentUser() {
         return currentUser;
     }
-
 }
