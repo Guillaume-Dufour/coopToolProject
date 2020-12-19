@@ -45,7 +45,13 @@ public class HeaderController {
     }
 
     public void disconnect() {
-
+        userFacade.disconnect();
+        try {
+            ViewLoader.getInstance().load(ViewPath.LOGIN);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(userFacade.getCurrentUser());
     }
 
     public void privateMessage(MouseEvent mouseEvent) {

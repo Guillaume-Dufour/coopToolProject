@@ -124,10 +124,16 @@ public class UserFacade {
             throw new UnmatchedPassword();
         }
     }
+
+    public void disconnect() {
+        currentUser = null;
+    }
+
     /**
      * @return the current User
      */
     public User getCurrentUser() {
         return currentUser;
     }
+
 }
