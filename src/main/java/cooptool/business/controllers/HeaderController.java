@@ -54,6 +54,6 @@ public class HeaderController {
         System.out.println(userFacade.getCurrentUser());
     }
 
-    public void privateMessage(MouseEvent mouseEvent) {
+    public void privateMessage() {
     }
 }

@@ -4,6 +4,7 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.exceptions.PasswordNotConformed;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
@@ -12,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
@@ -34,6 +36,8 @@ public class UpdateAccountController implements Initializable {
     PasswordField inputNewPassword;
     @FXML
     PasswordField inputNewConfirmedPassword;
+    @FXML
+    Text errorLabel;
     @FXML
     Button updateButton;
     @FXML
@@ -68,8 +72,12 @@ public class UpdateAccountController implements Initializable {
         if (!oldPassword.equals("")){
             try {
                 userFacade.updatePassword(oldPassword, newPassword, newConfirmedPassword);
-            } catch (UnmatchedPassword unmatchedPassword) {
-                unmatchedPassword.printStackTrace();
+            } catch (UnmatchedPassword | PasswordNotConformed e) {
+                System.out.println("je suis dans le catch");
+                System.out.println(e);
+                errorLabel.setText(e.getMessage());
+                updateButton.setDisable(false);
+                return;
             }
         }
         try {

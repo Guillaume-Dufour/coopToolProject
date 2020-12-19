@@ -108,18 +108,18 @@ public class UserFacade {
         System.out.println(user);
         userDAO.update(user);
         currentUser = user;
-        try {
-            ViewLoader.getInstance().load(ViewPath.HOME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword {
-        if (newPassword.equals(newConfirmedPassword) || !currentUser.checkPassword(oldPassword)){
-            String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-            User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole());
-            userDAO.updatePassword(user);
+    public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword, PasswordNotConformed {
+        if (newPassword.equals(newConfirmedPassword) && currentUser.checkPassword(oldPassword)){
+            if (newPassword.length() >= 8){
+                String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole());
+                userDAO.updatePassword(user);
+                currentUser = user;
+            } else {
+                throw new PasswordNotConformed();
+            }
         } else {
             throw new UnmatchedPassword();
         }
