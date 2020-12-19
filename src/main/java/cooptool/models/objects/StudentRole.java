@@ -41,6 +41,18 @@ public class StudentRole extends UserRole {
         return description;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

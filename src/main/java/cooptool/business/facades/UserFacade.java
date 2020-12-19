@@ -1,12 +1,16 @@
 package cooptool.business.facades;
 
 import cooptool.BCrypt.BCrypt;
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
+
+import java.io.IOException;
 import java.util.regex.*;
 
 /**
@@ -94,6 +98,33 @@ public class UserFacade {
     public void deleteAccount(){
         userDAO.delete(this.getCurrentUser());
         currentUser = null;
+    }
+
+    public void updateAccount(String firstName, String lastName, Department department, String description){
+        User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
+                firstName, lastName, description, ((StudentRole)currentUser.getRole()).getDepartment()
+        ));
+        System.out.println("je suis dans la facade");
+        System.out.println(user);
+        userDAO.update(user);
+        currentUser = user;
+        try {
+            ViewLoader.getInstance().load(ViewPath.HOME);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAccount(String firstName, String lastName, Department department, String description,
+                              String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword {
+        if (newPassword.equals(newConfirmedPassword) || !currentUser.checkPassword(oldPassword)){
+            String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole());
+            userDAO.updatePassword(user);
+        } else {
+            throw new UnmatchedPassword();
+        }
+        this.updateAccount(firstName, lastName, department, description);
     }
     /**
      * @return the current User

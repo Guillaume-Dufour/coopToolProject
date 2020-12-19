@@ -103,7 +103,47 @@ public class MySQLUserDAO extends UserDAO {
 
     @Override
     public boolean update(User user) {
-        return false;
+        String statement =
+                "UPDATE `user` " +
+                        "SET `last_name_user`=?,`first_name_user`=?,`description_user`=?,`id_department`=? " +
+                        "WHERE id_user=?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1, ((StudentRole)user.getRole()).getLastName());
+            preparedStatement.setString(2, ((StudentRole) user.getRole()).getFirstName());
+            preparedStatement.setString(3, ((StudentRole) user.getRole()).getDescription());
+            //preparedStatement.setInt(4, ((StudentRole) user.getRole()).getDepartment().getId());
+            preparedStatement.setInt(4, 1);
+            preparedStatement.setInt(5,user.getId());
+
+            System.out.println(preparedStatement);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updatePassword(User user) {
+        String statement =
+                "UPDATE `user` "+
+                        "SET password_user = ?"+
+                        "WHERE id_user = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1, user.getPassword());
+            preparedStatement.setInt(2, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override

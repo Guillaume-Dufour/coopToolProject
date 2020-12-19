@@ -33,8 +33,6 @@ public class RegisterController implements Initializable {
     @FXML
     TextField inputMail;
     @FXML
-    TextField inputPromotion;
-    @FXML
     PasswordField inputPassword;
     @FXML
     PasswordField inputConfirmedPassword;

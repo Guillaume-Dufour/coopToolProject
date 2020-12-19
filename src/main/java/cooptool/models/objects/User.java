@@ -62,4 +62,20 @@ public class User {
                 ", role=" + role +
                 '}';
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
 }

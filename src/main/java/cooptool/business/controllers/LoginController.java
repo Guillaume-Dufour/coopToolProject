@@ -8,27 +8,26 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable{
 
     @FXML
     TextField inputMail;
-
     @FXML
     PasswordField inputPassword;
-
     @FXML
     Text errorLabel;
-
     @FXML
     Button loginButton;
-
     @FXML
     Button registerButton;
 
@@ -75,5 +74,11 @@ public class LoginController {
             registerButton.setDisable(false);
             errorLabel.setText("Internal Error, try again later");
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        inputMail.setText("student.student@etu.umontpellier.fr");
+        inputPassword.setText("guillaume");
     }
 }
