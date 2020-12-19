@@ -1,4 +1,4 @@
-package cooptool.business.controllers;
+package cooptool.business.controllers.userManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
@@ -53,20 +53,21 @@ public class UpdateAccountController implements Initializable {
 
     public void updateAccount(ActionEvent event) {
         updateButton.setDisable(true);
-        String firstName = inputFirstName.getText();
-        String lastName = inputLastName.getText();
-        Department department = listDepartments.getValue();
-        System.out.println("je suis dans le controller");
-        System.out.println(department);
-        String description = inputDescription.getText();
+        if(userFacade.getCurrentUser().getRole() instanceof StudentRole){
+            String firstName = inputFirstName.getText();
+            String lastName = inputLastName.getText();
+            Department department = listDepartments.getValue();
+            System.out.println("je suis dans le controller");
+            System.out.println(department);
+            String description = inputDescription.getText();
+            userFacade.updateAccount(firstName, lastName, department, description);
+        }
         String oldPassword = inputOldPassword.getText();
         String newPassword = inputNewPassword.getText();
         String newConfirmedPassword = inputNewConfirmedPassword.getText();
-        if (oldPassword.equals("")){
-            userFacade.updateAccount(firstName, lastName, department, description);
-        } else {
+        if (!oldPassword.equals("")){
             try {
-                userFacade.updateAccount(firstName, lastName, department, description, oldPassword, newPassword, newConfirmedPassword);
+                userFacade.updatePassword(oldPassword, newPassword, newConfirmedPassword);
             } catch (UnmatchedPassword unmatchedPassword) {
                 unmatchedPassword.printStackTrace();
             }
@@ -80,22 +81,24 @@ public class UpdateAccountController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        inputFirstName.setText(((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName());
-        inputLastName.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getLastName());
-        inputDescription.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getDescription());
-        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAllDepartments()));
-        listDepartments.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Department object) {
-                return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
-            }
+        if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
+            inputFirstName.setText(((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName());
+            inputLastName.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getLastName());
+            inputDescription.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getDescription());
+            listDepartments.setItems(FXCollections.observableList(departmentFacade.getAllDepartments()));
+            listDepartments.setConverter(new StringConverter<>() {
+                @Override
+                public String toString(Department object) {
+                    return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
+                }
 
-            @Override
-            public Department fromString(String string) {
-                return null;
-            }
-        });
-        listDepartments.getSelectionModel().select(((StudentRole) userFacade.getCurrentUser().getRole()).getDepartment());
+                @Override
+                public Department fromString(String string) {
+                    return null;
+                }
+            });
+            listDepartments.getSelectionModel().select(((StudentRole) userFacade.getCurrentUser().getRole()).getDepartment());
+        }
     }
 
 }

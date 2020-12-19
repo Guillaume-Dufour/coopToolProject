@@ -1,4 +1,4 @@
-package cooptool.business.controllers;
+package cooptool.business.controllers.userManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
@@ -36,7 +36,7 @@ public class MyAccountController implements Initializable {
 
     public void goToUpdatePage(ActionEvent event) {
         try {
-            ViewLoader.getInstance().load(ViewPath.UPDATE_ACCOUNT);
+            ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT);
         } catch (IOException e) {
             e.printStackTrace();
         }

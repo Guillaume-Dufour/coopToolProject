@@ -3,11 +3,12 @@ package cooptool.business;
 public enum ViewPath {
 
     LOGIN("views/login.fxml"),
-    REGISTER("views/register.fxml"),
+    REGISTER("views/userManagement/register.fxml"),
     HOME("views/home.fxml"),
-    PROFIL("views/student/profil.fxml"),
-    DELETE_ACCOUNT("views/student/delete_profil.fxml"),
-    UPDATE_ACCOUNT("views/student/update_profil.fxml");
+    STUDENT_PROFIL("views/userManagement/profil_student.fxml"),
+    DELETE_ACCOUNT("views/userManagement/delete_profil.fxml"),
+    UPDATE_STUDENT_ACCOUNT("views/userManagement/update_profil_student.fxml"),
+    UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml");
 
 
     private final String path;

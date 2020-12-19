@@ -2,10 +2,15 @@ package cooptool.business.controllers;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.facades.UserFacade;
+import cooptool.models.objects.StudentRole;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
 public class HeaderController {
+
+    UserFacade userFacade = UserFacade.getInstance();
 
     public void goToHome() {
         try {
@@ -24,10 +29,18 @@ public class HeaderController {
     }
 
     public void goToProfil() {
-        try {
-            ViewLoader.getInstance().load(ViewPath.PROFIL);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
+            try {
+                ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                ViewLoader.getInstance().load(ViewPath.UPDATE_ADMIN_ACCOUNT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -35,4 +48,6 @@ public class HeaderController {
 
     }
 
+    public void privateMessage(MouseEvent mouseEvent) {
+    }
 }

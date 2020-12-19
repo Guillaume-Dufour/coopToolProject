@@ -31,7 +31,7 @@
                     <Image url="@../images/loupe.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="messageButton" fitHeight="55.0" fitWidth="84.0" onMouseClicked="#manageDepartment" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 26;" GridPane.columnIndex="1">
+            <ImageView fx:id="messageButton" fitHeight="55.0" fitWidth="84.0" onMouseClicked="#privateMessage" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 26;" GridPane.columnIndex="1">
                 <image>
                     <Image url="@../images/message.JPG" />
                 </image>

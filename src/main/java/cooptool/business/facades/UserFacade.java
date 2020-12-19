@@ -115,8 +115,7 @@ public class UserFacade {
         }
     }
 
-    public void updateAccount(String firstName, String lastName, Department department, String description,
-                              String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword {
+    public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword {
         if (newPassword.equals(newConfirmedPassword) || !currentUser.checkPassword(oldPassword)){
             String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole());
@@ -124,7 +123,6 @@ public class UserFacade {
         } else {
             throw new UnmatchedPassword();
         }
-        this.updateAccount(firstName, lastName, department, description);
     }
     /**
      * @return the current User
