@@ -102,7 +102,7 @@ public class UserFacade {
 
     public void updateAccount(String firstName, String lastName, Department department, String description){
         User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
-                firstName, lastName, description, ((StudentRole)currentUser.getRole()).getDepartment()
+                firstName, lastName, description, department
         ));
         System.out.println("je suis dans la facade");
         System.out.println(user);

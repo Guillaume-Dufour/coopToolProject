@@ -54,6 +54,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return abbreviation + " " + year;
+        return abbreviation + year;
     }
 }
