@@ -122,6 +122,21 @@ public class UserFacade {
         }
     }
 
+    public void forgotPassword(String mail) throws MailNotFound {
+        User user = userDAO.findUserByMail(mail);
+        if(user == null) {
+            throw new MailNotFound();
+        }
+        Random r = new Random();
+        String password = "" + r.nextInt(99999999);
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        user.setPassword(hashedPassword);
+        userDAO.updatePassword(user);
+        Mail.sendMail("nouveau mot de passe CoopTool",
+                "voici votre nouveau mot de passe " + password,
+                user.getMail());
+    }
+
     public void updateValidation() {
         userDAO.updateValidation(currentUser.getId());
         userDAO.deleteCodeByUser(currentUser.getId());
@@ -137,4 +152,6 @@ public class UserFacade {
     public User getCurrentUser() {
         return currentUser;
     }
+
+
 }

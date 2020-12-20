@@ -30,6 +30,8 @@ public class LoginController implements Initializable{
     Button loginButton;
     @FXML
     Button registerButton;
+    @FXML
+    Button newPasswordButton;
 
     UserFacade userFacade = UserFacade.getInstance();
 
@@ -83,5 +85,13 @@ public class LoginController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
+    }
+
+    public void handleNewPassword(ActionEvent event) {
+        try {
+            ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
