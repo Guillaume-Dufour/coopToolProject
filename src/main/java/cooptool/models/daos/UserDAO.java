@@ -25,6 +25,9 @@ public abstract class UserDAO {
     public abstract User find(int id);
     public abstract boolean update(User user);
     public abstract boolean updatePassword(User user);
+    public abstract void updateValidation(int id);
     public abstract boolean delete(User user);
     public abstract boolean create(User user);
+    public abstract void createValidationCode(int userId, int validationCode);
+    public abstract int getCodeByUser(int id);
 }

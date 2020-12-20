@@ -45,10 +45,13 @@ public class LoginController implements Initializable{
         loginButton.setDisable(true);
         String mail = inputMail.getText();
         String password = inputPassword.getText();
-
         try {
             userFacade.login(mail, password);
-            ViewLoader.getInstance().load(ViewPath.HOME);
+            if (userFacade.getCurrentUser().getValidate() == 0){
+                ViewLoader.getInstance().load(ViewPath.VALIDATE);
+            } else {
+                ViewLoader.getInstance().load(ViewPath.HOME);
+            }
         } catch(MailNotFound | UnmatchedPassword e) {
             loginButton.setDisable(false);
             errorLabel.setText(e.getMessage());
@@ -78,7 +81,7 @@ public class LoginController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        inputMail.setText("student.student@etu.umontpellier.fr");
+        inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
     }
 }

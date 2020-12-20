@@ -1,6 +1,6 @@
 package cooptool.models.objects;
 
-import cooptool.BCrypt.BCrypt;
+import cooptool.utils.BCrypt;
 
 public class User {
 
@@ -19,21 +19,27 @@ public class User {
      */
     private String password;
 
-    public User(int id, String mail, String password, UserRole role) {
-        this.id = id;
-        this.mail = mail;
-        this.password = password;
-        this.role = role;
-    }
-
-    public User(String mail, String password, UserRole role) {
-        this(0,mail, password, role);
-    }
-
     /**
      * Role of the user
      */
     private UserRole role;
+
+    /**
+     * Validate of the user
+     */
+    private int validate;
+
+    public User(int id, String mail, String password, UserRole role, int validate) {
+        this.id = id;
+        this.mail = mail;
+        this.password = password;
+        this.role = role;
+        this.validate = validate;
+    }
+
+    public User(String mail, String password, UserRole role, int validate) {
+        this(0,mail, password, role, validate);
+    }
 
     public int getId() {
         return id;
@@ -47,6 +53,10 @@ public class User {
 
     public UserRole getRole() {
         return role;
+    }
+
+    public int getValidate() {
+        return validate;
     }
 
     public boolean checkPassword(String password) {

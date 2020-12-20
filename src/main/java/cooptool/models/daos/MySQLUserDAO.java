@@ -1,11 +1,13 @@
 package cooptool.models.daos;
 
 import cooptool.models.objects.*;
+import cooptool.utils.Mail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class MySQLUserDAO extends UserDAO {
 
@@ -23,9 +25,9 @@ public class MySQLUserDAO extends UserDAO {
         User user = null;
         String statement =
                 "SELECT * " +
-                "FROM user u " +
-                "LEFT JOIN department d ON d.id_department = u.id_department " +
-                "WHERE u.mail_user = ?";
+                        "FROM user u " +
+                        "LEFT JOIN department d ON d.id_department = u.id_department " +
+                        "WHERE u.mail_user = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1, mail);
@@ -37,6 +39,7 @@ public class MySQLUserDAO extends UserDAO {
                 int id = result.getInt("id_user");
                 int typeUser = result.getInt("type_user");
                 String password = result.getString("password_user");
+                int validate = result.getInt("validate");
                 UserRole userRole = null;
 
                 if (typeUser == STUDENT_ROLE) {
@@ -51,16 +54,15 @@ public class MySQLUserDAO extends UserDAO {
                     int available = result.getInt("available");
 
                     Department department = new Department(
-                          departmentId, nameDepartment, year, abbreviation, available
+                            departmentId, nameDepartment, year, abbreviation, available
                     );
                     userRole = new StudentRole(
                             firstName, lastName, description, department
                     );
-                }
-                else if(typeUser == ADMIN_ROLE) {
+                } else if (typeUser == ADMIN_ROLE) {
                     userRole = new AdminRole();
                 }
-                user = new User(id, mail, password, userRole);
+                user = new User(id, mail, password, userRole, validate);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,12 +86,11 @@ public class MySQLUserDAO extends UserDAO {
 
             preparedStatement = connection.prepareStatement(statement);
 
-            preparedStatement.setString(1,((StudentRole)user.getRole()).getLastName());
-            preparedStatement.setString(2,(((StudentRole) user.getRole()).getFirstName()));
+            preparedStatement.setString(1, ((StudentRole) user.getRole()).getLastName());
+            preparedStatement.setString(2, (((StudentRole) user.getRole()).getFirstName()));
             preparedStatement.setString(3, user.getMail());
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setInt(5, STUDENT_ROLE);
-            //preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
             preparedStatement.setInt(6, ((StudentRole) user.getRole()).getDepartment().getId());
 
             preparedStatement.executeUpdate();
@@ -110,11 +111,11 @@ public class MySQLUserDAO extends UserDAO {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setString(1, ((StudentRole)user.getRole()).getLastName());
+            preparedStatement.setString(1, ((StudentRole) user.getRole()).getLastName());
             preparedStatement.setString(2, ((StudentRole) user.getRole()).getFirstName());
             preparedStatement.setString(3, ((StudentRole) user.getRole()).getDescription());
             preparedStatement.setInt(4, ((StudentRole) user.getRole()).getDepartment().getId());
-            preparedStatement.setInt(5,user.getId());
+            preparedStatement.setInt(5, user.getId());
 
             System.out.println(preparedStatement);
 
@@ -129,8 +130,8 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updatePassword(User user) {
         String statement =
-                "UPDATE `user` "+
-                        "SET password_user = ?"+
+                "UPDATE `user` " +
+                        "SET password_user = ?" +
                         "WHERE id_user = ?";
         PreparedStatement preparedStatement = null;
         try {
@@ -143,6 +144,22 @@ public class MySQLUserDAO extends UserDAO {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public  void updateValidation(int id){
+        String statement =
+                "UPDATE `user` " +
+                        "SET validate = 1 " +
+                        "WHERE id_user = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -161,4 +178,44 @@ public class MySQLUserDAO extends UserDAO {
         }
         return true;
     }
+
+    @Override
+    public void createValidationCode(int userId, int validationCode) {
+        String statement =
+                "INSERT INTO validation_user (id_user, code_validation) " +
+                        "VALUES (?,?);";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1,userId);
+            preparedStatement.setInt(2, validationCode);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getCodeByUser(int id){
+        int res = -1;
+        String statement =
+                "SELECT code_validation " +
+                        "FROM validation_user v, user u " +
+                        "WHERE v.id_user = u.id_user " +
+                        "AND v.id_user = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                res = result.getInt("code_validation");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return res;
+    }
+
 }

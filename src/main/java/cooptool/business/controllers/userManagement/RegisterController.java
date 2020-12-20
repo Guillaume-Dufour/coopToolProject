@@ -68,6 +68,7 @@ public class RegisterController implements Initializable {
         String confirmedPassword = inputConfirmedPassword.getText();
         try {
             userFacade.register(firstName, lastName, mail, department, password, confirmedPassword);
+            userFacade.sendValidationCode(mail);
             ViewLoader.getInstance().load(ViewPath.LOGIN);
         } catch (MailAlreadyExists | MailNotConformed |PasswordNotConformed | UnmatchedPassword e){
             buttonRegister.setDisable(false);
@@ -81,7 +82,7 @@ public class RegisterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         inputFirstName.setText("mathilde");
         inputLastName.setText("tribot");
-        inputMail.setText("math.tribot@etu.umontpellier.fr");
+        inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
 

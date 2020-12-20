@@ -3,6 +3,7 @@ package cooptool.business;
 public enum ViewPath {
 
     LOGIN("views/login.fxml"),
+    VALIDATE("views/userManagement/validate_student.fxml"),
     REGISTER("views/userManagement/register.fxml"),
     HOME("views/home.fxml"),
     STUDENT_PROFIL("views/userManagement/profil_student.fxml"),

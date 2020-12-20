@@ -1,16 +1,15 @@
 package cooptool.business.facades;
 
-import cooptool.BCrypt.BCrypt;
-import cooptool.business.ViewLoader;
-import cooptool.business.ViewPath;
+import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
+import cooptool.utils.Mail;
 
-import java.io.IOException;
+import java.util.Random;
 import java.util.regex.*;
 
 /**
@@ -47,52 +46,50 @@ public class UserFacade {
      */
     public void login(String mail, String password) throws MailNotFound, UnmatchedPassword {
         User user = userDAO.findUserByMail(mail);
-
         if(user == null) {
             throw new MailNotFound();
         }
-        else if(!user.checkPassword(password)){
+        if(!user.checkPassword(password)){
             throw new UnmatchedPassword();
         }
-        else {
-            currentUser = user;
-        }
+        currentUser = user;
     }
 
     public void register(String firstName, String lastName, String mail,
                          Department department, String password, String confirmedPassword)
     throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword {
 
-        /**
-         * vérification
-         */
-        if (!password.equals(confirmedPassword)){
-            throw new UnmatchedPassword();
-        }
+        if (!password.equals(confirmedPassword)){ throw new UnmatchedPassword(); }
         matcher = pattern.matcher(mail);
-        if (!matcher.find()){
-            throw new MailNotConformed();
-        }
-        if (password.length() < 8){
-            throw new PasswordNotConformed();
-        }
+        if (!matcher.find()){ throw new MailNotConformed(); }
+        if (password.length() < 8){ throw new PasswordNotConformed(); }
         User user = userDAO.findUserByMail(mail);
-        if (user != null){
-            throw new MailAlreadyExists();
-        }
+        if (user != null){ throw new MailAlreadyExists(); }
 
-        /**
-         * hashage password
-         */
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        /**
-         * création nouveau user
-         */
         user = new User(mail, hashedPassword,
-                new StudentRole(firstName, lastName, "", department));
+                new StudentRole(firstName, lastName, "", department), 0);
         boolean res = userDAO.create(user);
 
+    }
+
+    public void sendValidationCode(String mail) {
+        User user = userDAO.findUserByMail(mail);
+        Random r = new Random();
+        int validationCode = r.nextInt(9999);
+        Mail.sendMail("code de validation COOPTOOL",
+                "voici votre code de validation pour votre compte CoopTool :" +
+                        validationCode,
+                user.getMail());
+        userDAO.createValidationCode(user.getId(), validationCode);
+    }
+
+    public boolean checkValidationCode(int testedCode){
+        System.out.println("je suis dans userFacade, tested code = " + testedCode);
+        int code = userDAO.getCodeByUser(currentUser.getId());
+        System.out.println("je suis dans userFacade, code = " + code);
+        return code == testedCode;
     }
 
     public void deleteAccount(){
@@ -103,7 +100,7 @@ public class UserFacade {
     public void updateAccount(String firstName, String lastName, Department department, String description){
         User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
                 firstName, lastName, description, department
-        ));
+        ), 1);
         System.out.println("je suis dans la facade");
         System.out.println(user);
         userDAO.update(user);
@@ -114,7 +111,7 @@ public class UserFacade {
         if (newPassword.equals(newConfirmedPassword) && currentUser.checkPassword(oldPassword)){
             if (newPassword.length() >= 8){
                 String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole());
+                User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole(), 1);
                 userDAO.updatePassword(user);
                 currentUser = user;
             } else {
@@ -123,6 +120,10 @@ public class UserFacade {
         } else {
             throw new UnmatchedPassword();
         }
+    }
+
+    public void updateValidation() {
+        userDAO.updateValidation(currentUser.getId());
     }
 
     public void disconnect() {
@@ -135,5 +136,4 @@ public class UserFacade {
     public User getCurrentUser() {
         return currentUser;
     }
-
 }
