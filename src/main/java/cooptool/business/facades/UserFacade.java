@@ -124,6 +124,7 @@ public class UserFacade {
 
     public void updateValidation() {
         userDAO.updateValidation(currentUser.getId());
+        userDAO.deleteCodeByUser(currentUser.getId());
     }
 
     public void disconnect() {

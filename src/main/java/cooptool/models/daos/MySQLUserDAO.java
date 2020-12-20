@@ -1,13 +1,11 @@
 package cooptool.models.daos;
 
 import cooptool.models.objects.*;
-import cooptool.utils.Mail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Random;
 
 public class MySQLUserDAO extends UserDAO {
 
@@ -147,7 +145,7 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     @Override
-    public  void updateValidation(int id){
+    public boolean updateValidation(int id){
         String statement =
                 "UPDATE `user` " +
                         "SET validate = 1 " +
@@ -159,7 +157,9 @@ public class MySQLUserDAO extends UserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -180,7 +180,7 @@ public class MySQLUserDAO extends UserDAO {
     }
 
     @Override
-    public void createValidationCode(int userId, int validationCode) {
+    public boolean createValidationCode(int userId, int validationCode) {
         String statement =
                 "INSERT INTO validation_user (id_user, code_validation) " +
                         "VALUES (?,?);";
@@ -192,7 +192,9 @@ public class MySQLUserDAO extends UserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -216,6 +218,22 @@ public class MySQLUserDAO extends UserDAO {
             throwables.printStackTrace();
         }
         return res;
+    }
+
+    @Override
+    public boolean deleteCodeByUser(int id){
+        String statement =
+                "DELETE FROM `validation_user` WHERE id_user = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }
