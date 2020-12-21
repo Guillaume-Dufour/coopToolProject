@@ -3,14 +3,13 @@ package cooptool.business.facades;
 import cooptool.models.daos.DepartmentDAO;
 import cooptool.models.objects.Department;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DepartmentFacade {
 
     private static DepartmentFacade departmentFacade = null;
     private final DepartmentDAO departmentDAO = DepartmentDAO.getInstance();
-    private final List<Department> departments = departmentDAO.getAllDepartments();
+    private final List<Department> availablesDepartments = departmentDAO.getAvailableDepartments();
 
     public static DepartmentFacade getInstance(){
         if(departmentFacade == null){
@@ -23,7 +22,7 @@ public class DepartmentFacade {
         return null;
     }
 
-    public List<Department> getAllDepartments() {
-        return departments;
+    public List<Department> getAvailableDepartments() {
+        return availablesDepartments;
     }
 }

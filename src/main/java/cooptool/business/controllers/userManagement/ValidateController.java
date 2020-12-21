@@ -35,12 +35,8 @@ public class ValidateController {
             return;
         }
         if (userFacade.checkValidationCode(testedCode)){
-            try {
-                userFacade.updateValidation();
-                ViewLoader.getInstance().load(ViewPath.HOME);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            userFacade.updateValidation();
+            ViewLoader.getInstance().load(ViewPath.HOME);
         } else {
             errorLabel.setText("mauvais code");
             validateButton.setDisable(false);
@@ -49,11 +45,6 @@ public class ValidateController {
 
     public void cancelVerification(ActionEvent event) {
         userFacade.disconnect();
-        try {
-            ViewLoader.getInstance().load(ViewPath.LOGIN);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(userFacade.getCurrentUser());
+        ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 }

@@ -5,6 +5,7 @@ import cooptool.models.objects.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MySQLDepartmentDAO extends DepartmentDAO {
 
@@ -19,7 +20,7 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
 
         List<Department> departments = new ArrayList<>();
 
-        String requete = "SELECT * FROM department WHERE available = 1";
+        String requete = "SELECT * FROM department ORDER BY abbreviation_department, year_department";
 
         try {
             Statement statement = connection.createStatement();
@@ -43,5 +44,10 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
         }
 
         return departments;
+    }
+
+    @Override
+    public List<Department> getAvailableDepartments() {
+        return getAllDepartments().stream().filter(department -> department.getAvailable() == 1).collect(Collectors.toList());
     }
 }

@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public class newPasswordController {
+public class NewPasswordController {
 
     @FXML
     TextField inputMail;
@@ -41,10 +41,6 @@ public class newPasswordController {
     }
 
     public void goToLogin(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.LOGIN);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 }

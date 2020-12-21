@@ -35,19 +35,11 @@ public class MyAccountController implements Initializable {
     UserFacade userFacade = UserFacade.getInstance();
 
     public void goToUpdatePage(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT);
     }
 
     public void goToDeletePage(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT);
     }
 
     @Override

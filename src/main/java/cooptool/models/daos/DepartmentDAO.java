@@ -17,4 +17,6 @@ public abstract class DepartmentDAO {
     }
 
     public abstract List<Department> getAllDepartments();
+
+    public abstract List<Department> getAvailableDepartments();
 }

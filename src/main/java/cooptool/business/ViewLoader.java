@@ -29,15 +29,22 @@ public class ViewLoader extends Parent {
         this.stage = stage;
     }
 
-    public void load(ViewPath view) throws IOException {
+    public void load(ViewPath view) {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPath()));
 
         loader.setController(loader.getController());
 
-        Parent root = loader.load();
+        Parent root;
 
-        stage.setScene(new Scene(root));
+        try {
+            root = loader.load();
+            stage.setScene(new Scene(root));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -48,11 +48,7 @@ public class UpdateAccountController implements Initializable {
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     public void cancelUpdate(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.HOME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
     public void updateAccount(ActionEvent event) {
@@ -80,11 +76,7 @@ public class UpdateAccountController implements Initializable {
                 return;
             }
         }
-        try {
-            ViewLoader.getInstance().load(ViewPath.HOME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
     @Override
@@ -93,7 +85,7 @@ public class UpdateAccountController implements Initializable {
             inputFirstName.setText(((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName());
             inputLastName.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getLastName());
             inputDescription.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getDescription());
-            listDepartments.setItems(FXCollections.observableList(departmentFacade.getAllDepartments()));
+            listDepartments.setItems(FXCollections.observableList(departmentFacade.getAvailableDepartments()));
             listDepartments.setConverter(new StringConverter<>() {
                 @Override
                 public String toString(Department object) {

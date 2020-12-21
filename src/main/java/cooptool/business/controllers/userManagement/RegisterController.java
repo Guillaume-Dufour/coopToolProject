@@ -10,7 +10,6 @@ import cooptool.exceptions.PasswordNotConformed;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,9 +18,6 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -48,12 +44,8 @@ public class RegisterController implements Initializable {
     UserFacade userFacade = UserFacade.getInstance();
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
-    public void goToLoginPage(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.LOGIN);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void goToLoginPage() {
+        ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 
     public void register(ActionEvent event) {
@@ -73,8 +65,6 @@ public class RegisterController implements Initializable {
         } catch (MailAlreadyExists | MailNotConformed |PasswordNotConformed | UnmatchedPassword e){
             buttonRegister.setDisable(false);
             errorLabel.setText(e.getMessage());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -86,7 +76,7 @@ public class RegisterController implements Initializable {
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
 
-        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAllDepartments()));
+        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAvailableDepartments()));
 
         listDepartments.setConverter(new StringConverter<>() {
             @Override

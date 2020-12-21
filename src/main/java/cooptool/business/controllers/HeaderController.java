@@ -13,11 +13,7 @@ public class HeaderController {
     UserFacade userFacade = UserFacade.getInstance();
 
     public void goToHome() {
-        try {
-            ViewLoader.getInstance().load(ViewPath.HOME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
     public void searchStudent() {
@@ -25,32 +21,20 @@ public class HeaderController {
     }
 
     public void manageDepartment() {
-
+        ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
     }
 
     public void goToProfil() {
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
-            try {
-                ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL);
         } else {
-            try {
-                ViewLoader.getInstance().load(ViewPath.UPDATE_ADMIN_ACCOUNT);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ViewLoader.getInstance().load(ViewPath.UPDATE_ADMIN_ACCOUNT);
         }
     }
 
     public void disconnect() {
         userFacade.disconnect();
-        try {
-            ViewLoader.getInstance().load(ViewPath.LOGIN);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.LOGIN);
         System.out.println(userFacade.getCurrentUser());
     }
 

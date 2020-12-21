@@ -21,20 +21,10 @@ public class DeleteAccountController {
     public void deleteAccount(ActionEvent event) {
         deleteButton.setDisable(true);
         userFacade.deleteAccount();
-        System.out.println("account deleted");
-        try {
-            ViewLoader.getInstance().load(ViewPath.LOGIN);
-            System.out.println(userFacade.getCurrentUser());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 
     public void cancelDelete(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.HOME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.HOME);
     }
 }

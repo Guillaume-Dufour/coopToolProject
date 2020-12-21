@@ -58,11 +58,6 @@ public class LoginController implements Initializable{
             loginButton.setDisable(false);
             errorLabel.setText(e.getMessage());
         }
-        catch(IOException e){
-            e.printStackTrace();
-            loginButton.setDisable(false);
-            errorLabel.setText("Internal Error, try again later");
-        }
     }
 
     /**
@@ -72,13 +67,7 @@ public class LoginController implements Initializable{
     public void goToRegisterPage(ActionEvent event) {
         System.out.println(event);
         registerButton.setDisable(true);
-        try {
-            ViewLoader.getInstance().load(ViewPath.REGISTER);
-        }catch(IOException e){
-            e.printStackTrace();
-            registerButton.setDisable(false);
-            errorLabel.setText("Internal Error, try again later");
-        }
+        ViewLoader.getInstance().load(ViewPath.REGISTER);
     }
 
     @Override
@@ -88,10 +77,6 @@ public class LoginController implements Initializable{
     }
 
     public void handleNewPassword(ActionEvent event) {
-        try {
-            ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
     }
 }

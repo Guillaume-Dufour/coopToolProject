@@ -10,7 +10,11 @@ public enum ViewPath {
     DELETE_ACCOUNT("views/userManagement/delete_profil.fxml"),
     UPDATE_STUDENT_ACCOUNT("views/userManagement/update_profil_student.fxml"),
     UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml"),
-    FORGOT_PASSWORD("views/userManagement/new_password.fxml");
+    FORGOT_PASSWORD("views/userManagement/new_password.fxml"),
+    CREATE_DEPARTMENT("views/departmentManagement/create.fxml"),
+    UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
+    DELETE_DEPARTMENT("views/departmentManagement/create.fxml"),
+    HANDLE_DEPARTMENTS("views/handle_departments.fxml");
 
 
     private final String path;
