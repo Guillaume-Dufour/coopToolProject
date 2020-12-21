@@ -19,6 +19,10 @@ public class SubjectFacade {
 
     }
 
+    public static SubjectFacade getInstance() {
+        return INSTANCE;
+    }
+
     public List<Subject> getSubjectsByDepartment(Department department) {
         return subjectDAO.getSubjectsByDepartment(department);
     }

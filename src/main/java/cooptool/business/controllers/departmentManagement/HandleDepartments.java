@@ -4,7 +4,9 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.controllers.userManagement.RegisterController;
 import cooptool.business.facades.DepartmentFacade;
+import cooptool.business.facades.SubjectFacade;
 import cooptool.models.objects.Department;
+import cooptool.models.objects.Subject;
 import cooptool.utils.Components;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HandleDepartments implements Initializable {
@@ -36,9 +39,10 @@ public class HandleDepartments implements Initializable {
     Button deleteButton;
 
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
     Department department;
-
+    List<Subject> listSubjects;
 
     public void updateDepartment() {
         ViewLoader.getInstance().load(ViewPath.UPDATE_DEPARTMENT, department);
@@ -57,6 +61,7 @@ public class HandleDepartments implements Initializable {
         else {
             errorLabel.setText("");
             departmentInfos.setText(department.getSpeciality() + " " + department.getYear());
+            listSubjects.addAll(subjectFacade.getSubjectsByDepartment(department));
             updateButton.setVisible(true);
             deleteButton.setVisible(true);
         }
