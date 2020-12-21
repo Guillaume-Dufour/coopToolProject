@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpdateDepartment implements Initializable {
+public class UpdateDepartmentController implements Initializable {
 
 
     @FXML

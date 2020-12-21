@@ -2,26 +2,24 @@ package cooptool.business.controllers.departmentManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
-import cooptool.business.controllers.userManagement.RegisterController;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.SubjectFacade;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 import cooptool.utils.Components;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class HandleDepartments implements Initializable {
+public class HandleDepartmentsController implements Initializable {
 
     @FXML
     ComboBox<Department> listDepartments;
@@ -38,11 +36,14 @@ public class HandleDepartments implements Initializable {
     @FXML
     Button deleteButton;
 
+    @FXML
+    GridPane listSubjects;
+
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
     SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
     Department department;
-    List<Subject> listSubjects;
+    List<Subject> subjects = new ArrayList<>();
 
     public void updateDepartment() {
         ViewLoader.getInstance().load(ViewPath.UPDATE_DEPARTMENT, department);
@@ -61,9 +62,13 @@ public class HandleDepartments implements Initializable {
         else {
             errorLabel.setText("");
             departmentInfos.setText(department.getSpeciality() + " " + department.getYear());
-            listSubjects.addAll(subjectFacade.getSubjectsByDepartment(department));
+            subjects.addAll(subjectFacade.getSubjectsByDepartment(department));
             updateButton.setVisible(true);
             deleteButton.setVisible(true);
+
+            for (Subject s: subjects) {
+
+            }
         }
 
     }
@@ -74,6 +79,5 @@ public class HandleDepartments implements Initializable {
 
         updateButton.setVisible(false);
         deleteButton.setVisible(false);
-
     }
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.departmentManagement.UpdateDepartment">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.departmentManagement.UpdateDepartmentController">
 
     <Pane fx:id="header_admin">
         <children>
@@ -39,10 +39,5 @@
       </children>
    </GridPane>
    <Button fx:id="updateButton" layoutX="270.0" layoutY="347.0" mnemonicParsing="false" onAction="#updateDepartment" text="Modifier" />
-   <VBox layoutX="14.0" layoutY="118.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="24.0" prefWidth="187.0">
-      <children>
-         <ComboBox fx:id="listDepartments" prefHeight="21.0" prefWidth="604.0" />
-      </children>
-   </VBox>
 
 </AnchorPane>
