@@ -2,8 +2,10 @@ package cooptool.business.controllers.departmentManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.controllers.userManagement.RegisterController;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.models.objects.Department;
+import cooptool.utils.Components;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,19 +65,7 @@ public class HandleDepartments implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAvailableDepartments()));
-
-        listDepartments.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Department object) {
-                return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
-            }
-
-            @Override
-            public Department fromString(String string) {
-                return null;
-            }
-        });
+        Components.createDepartmentComboBox(listDepartments, departmentFacade.getAllDepartments());
 
         updateButton.setVisible(false);
         deleteButton.setVisible(false);

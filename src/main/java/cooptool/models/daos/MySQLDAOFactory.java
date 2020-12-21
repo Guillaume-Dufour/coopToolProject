@@ -17,7 +17,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 
     @Override
     public SubjectDAO getSubjectDAO() {
-        return null;
+        return new MySQLSubjectDAO();
     }
 
     @Override

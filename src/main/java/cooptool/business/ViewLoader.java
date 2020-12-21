@@ -36,7 +36,7 @@ public class ViewLoader extends Parent {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPath()));
 
-        loader.setController(loader.getController());
+        //loader.setController(loader.getController());
         loader.setResources(new MapResourceBundle(objects));
 
         Parent root;

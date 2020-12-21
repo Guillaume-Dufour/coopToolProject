@@ -19,10 +19,9 @@ public class CoopToolApplication extends Application {
     /**
      * The start method set the primary stage and load the primary scene
      * @param primaryStage
-     * @throws IOException
      */
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) {
         ViewLoader viewLoader = ViewLoader.getInstance();
         viewLoader.setStage(primaryStage);
         viewLoader.load(ViewPath.LOGIN);

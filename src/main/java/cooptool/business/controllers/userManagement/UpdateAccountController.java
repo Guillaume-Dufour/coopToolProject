@@ -8,6 +8,7 @@ import cooptool.exceptions.PasswordNotConformed;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
+import cooptool.utils.Components;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -85,18 +86,7 @@ public class UpdateAccountController implements Initializable {
             inputFirstName.setText(((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName());
             inputLastName.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getLastName());
             inputDescription.setText(((StudentRole) userFacade.getCurrentUser().getRole()).getDescription());
-            listDepartments.setItems(FXCollections.observableList(departmentFacade.getAvailableDepartments()));
-            listDepartments.setConverter(new StringConverter<>() {
-                @Override
-                public String toString(Department object) {
-                    return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
-                }
-
-                @Override
-                public Department fromString(String string) {
-                    return null;
-                }
-            });
+            Components.createDepartmentComboBox(listDepartments, departmentFacade.getAvailableDepartments());
             listDepartments.getSelectionModel().select(((StudentRole) userFacade.getCurrentUser().getRole()).getDepartment());
         }
     }

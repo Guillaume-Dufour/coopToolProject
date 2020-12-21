@@ -9,6 +9,7 @@ import cooptool.exceptions.MailNotConformed;
 import cooptool.exceptions.PasswordNotConformed;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
+import cooptool.utils.Components;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -76,19 +76,7 @@ public class RegisterController implements Initializable {
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
 
-        listDepartments.setItems(FXCollections.observableList(departmentFacade.getAvailableDepartments()));
-
-        listDepartments.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(Department object) {
-                return object != null ? object.getAbbreviation() + object.getYear() : "Choisir un departement";
-            }
-
-            @Override
-            public Department fromString(String string) {
-                return null;
-            }
-        });
+        Components.createDepartmentComboBox(listDepartments, departmentFacade.getAvailableDepartments());
     }
 
 }

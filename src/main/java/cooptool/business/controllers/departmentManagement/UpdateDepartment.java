@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 public class UpdateDepartment implements Initializable {
 
+
     @FXML
     TextField inputName;
 

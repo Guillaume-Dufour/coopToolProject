@@ -74,17 +74,17 @@ public class LoginController implements Initializable{
         inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
 
-        inputMail.setOnKeyPressed(this::onEnter);
-        inputPassword.setOnKeyPressed(this::onEnter);
+        inputMail.setOnKeyPressed(event -> onEnter(event, this::login));
+        inputPassword.setOnKeyPressed(event -> onEnter(event, this::login));
     }
 
     public void handleNewPassword() {
         ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
     }
 
-    private void onEnter(KeyEvent event) {
+    private void onEnter(KeyEvent event, Runnable function) {
         if (event.getCode().equals(KeyCode.ENTER)) {
-            login();
+            function.run();
         }
     }
 }

@@ -7,15 +7,18 @@ import java.util.List;
 
 public class DepartmentFacade {
 
-    private static DepartmentFacade departmentFacade = null;
+    private static final DepartmentFacade INSTANCE;
     private final DepartmentDAO departmentDAO = DepartmentDAO.getInstance();
     private final List<Department> availablesDepartments = departmentDAO.getAvailableDepartments();
 
-    public static DepartmentFacade getInstance(){
-        if(departmentFacade == null){
-            departmentFacade = new DepartmentFacade();
-        }
-        return departmentFacade;
+    static {
+        INSTANCE = new DepartmentFacade();
+    }
+
+    private DepartmentFacade() {}
+
+    public static DepartmentFacade getInstance() {
+        return INSTANCE;
     }
 
     public Department getDepartment(){
@@ -24,5 +27,9 @@ public class DepartmentFacade {
 
     public List<Department> getAvailableDepartments() {
         return availablesDepartments;
+    }
+
+    public List<Department> getAllDepartments() {
+        return departmentDAO.getAllDepartments();
     }
 }
