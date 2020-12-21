@@ -1,10 +1,13 @@
 package cooptool.business;
+import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.ResourceBundle;
 
 public class ViewLoader extends Parent {
 
@@ -29,11 +32,12 @@ public class ViewLoader extends Parent {
         this.stage = stage;
     }
 
-    public void load(ViewPath view) {
+    public void load(ViewPath view, Object... objects) {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPath()));
 
         loader.setController(loader.getController());
+        loader.setResources(new MapResourceBundle(objects));
 
         Parent root;
 

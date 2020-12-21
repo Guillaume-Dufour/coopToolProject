@@ -1,4 +1,4 @@
-package cooptool.business.controllers;
+package cooptool.business.controllers.departmentManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
@@ -16,7 +16,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HandleDepartment implements Initializable {
+public class HandleDepartments implements Initializable {
 
     @FXML
     ComboBox<Department> listDepartments;
@@ -35,18 +35,19 @@ public class HandleDepartment implements Initializable {
 
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
+    Department department;
+
 
     public void updateDepartment() {
-        ViewLoader.getInstance().load(ViewPath.UPDATE_DEPARTMENT);
+        ViewLoader.getInstance().load(ViewPath.UPDATE_DEPARTMENT, department);
     }
 
     public void deleteDepartment() {
-        ViewLoader.getInstance().load(ViewPath.DELETE_DEPARTMENT);
     }
 
     public void searchDepartment() {
 
-        Department department = listDepartments.getValue();
+        department = listDepartments.getValue();
 
         if (department == null) {
             errorLabel.setText("Veuillez sélectionner un département");

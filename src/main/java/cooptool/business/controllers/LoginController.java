@@ -3,7 +3,6 @@ package cooptool.business.controllers;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
-import cooptool.models.objects.StudentRole;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import javafx.event.ActionEvent;
@@ -12,9 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,8 +42,7 @@ public class LoginController implements Initializable{
      * If the system recognizes a student ->  redirects him to admin home page
      * Else change the text of the errorLabel with an according error message
      */
-    public void login(ActionEvent event) {
-        System.out.println(event);
+    public void login() {
         loginButton.setDisable(true);
         String mail = inputMail.getText();
         String password = inputPassword.getText();
@@ -74,9 +73,18 @@ public class LoginController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
+
+        inputMail.setOnKeyPressed(this::onEnter);
+        inputPassword.setOnKeyPressed(this::onEnter);
     }
 
-    public void handleNewPassword(ActionEvent event) {
+    public void handleNewPassword() {
         ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
+    }
+
+    private void onEnter(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            login();
+        }
     }
 }
