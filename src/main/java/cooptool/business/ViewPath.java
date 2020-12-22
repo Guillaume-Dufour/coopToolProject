@@ -11,9 +11,10 @@ public enum ViewPath {
     UPDATE_STUDENT_ACCOUNT("views/userManagement/update_profil_student.fxml"),
     UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml"),
     FORGOT_PASSWORD("views/userManagement/new_password.fxml"),
-    CREATE_DEPARTMENT("views/departmentManagement/create.fxml"),
-    UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
+    CREATE_MODIFY_DEPARTMENT("views/departmentManagement/create_modify_department.fxml"),
     HANDLE_DEPARTMENTS("views/handle_departments.fxml"),
+    UPDATE_SUBJECT("views/subjectManagement/update.fxml"),
+    UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
     SEARCH_STUDENT("views/userManagement/searchOtherStudent/search_student_by_department.fxml"),
     STUDENT_ACCOUNT("views/userManagement/searchOtherStudent/other_profil.fxml");
 

@@ -4,6 +4,7 @@ import cooptool.models.daos.SubjectDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SubjectFacade {
@@ -25,5 +26,9 @@ public class SubjectFacade {
 
     public List<Subject> getSubjectsByDepartment(Department department) {
         return subjectDAO.getSubjectsByDepartment(department);
+    }
+
+    public void update(Subject subject) {
+        subjectDAO.update(subject);
     }
 }

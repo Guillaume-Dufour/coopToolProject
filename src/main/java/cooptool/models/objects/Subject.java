@@ -1,5 +1,7 @@
 package cooptool.models.objects;
 
+import java.util.Objects;
+
 public class Subject {
 
     /**
@@ -40,5 +42,43 @@ public class Subject {
 
     public Department getDepartment() {
         return department;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
+
+    public int changeAvailability() {
+        if (available == 0) {
+            available = 1;
+        }
+        else {
+            available = 0;
+        }
+
+        return available;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", available=" + available +
+                ", department=" + department +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return name.equals(subject.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

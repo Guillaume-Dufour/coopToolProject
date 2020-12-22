@@ -17,6 +17,10 @@ public abstract class SubjectDAO {
         return INSTANCE;
     }
 
+    public abstract boolean create(Subject subject);
+
+    public abstract boolean update(Subject subject);
+
     public abstract List<Subject> getSubjectsByDepartment(Department department);
 
     public abstract List<Subject> getAvailableSubjectsByDepartment(Department department);

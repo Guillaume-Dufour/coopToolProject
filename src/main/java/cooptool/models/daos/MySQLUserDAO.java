@@ -28,6 +28,7 @@ public class MySQLUserDAO extends UserDAO {
                         "FROM user u " +
                         "LEFT JOIN department d ON d.id_department = u.id_department " +
                         "WHERE u.mail_user = ?";
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1, mail);
@@ -56,12 +57,14 @@ public class MySQLUserDAO extends UserDAO {
                     Department department = new Department(
                             departmentId, nameDepartment, year, abbreviation, available
                     );
+
                     userRole = new StudentRole(
                             firstName, lastName, description, department
                     );
                 } else if (typeUser == ADMIN_ROLE) {
                     userRole = new AdminRole();
                 }
+
                 user = new User(id, mail, password, userRole, validate);
             }
         } catch (SQLException e) {

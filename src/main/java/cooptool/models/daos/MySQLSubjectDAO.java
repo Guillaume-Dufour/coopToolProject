@@ -16,13 +16,43 @@ public class MySQLSubjectDAO extends SubjectDAO {
         super();
     }
 
+    @Override
+    public boolean create(Subject subject) {
+        return false;
+    }
+
+    @Override
+    public boolean update(Subject subject) {
+
+        String requete = "UPDATE subject " +
+                "SET name_subject = ?, " +
+                "available = ? ," +
+                "id_department = ? " +
+                "WHERE id_subject = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+
+            preparedStatement.setString(1, subject.getName());
+            preparedStatement.setInt(2, subject.getAvailable());
+            preparedStatement.setInt(3, subject.getDepartment().getId());
+            preparedStatement.setInt(4, subject.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 
     @Override
     public List<Subject> getSubjectsByDepartment(Department department) {
 
         List<Subject> subjects = new ArrayList<>();
 
-        String requete = "SELECT * FROM subject WHERE id_department = ?";
+        String requete = "SELECT * FROM subject WHERE id_department = ? ORDER BY name_subject";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
@@ -30,7 +60,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
             ResultSet result = preparedStatement.executeQuery();
 
-            if (result.next()) {
+            while (result.next()) {
 
                 Subject subject = new Subject(
                         result.getInt("id_subject"),
