@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -24,19 +25,25 @@
     <GridPane layoutX="30.0" layoutY="200.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="350.0" />
-       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
      </columnConstraints>
      <rowConstraints>
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
          <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateDepartment" text="Modifier" GridPane.columnIndex="1" />
-         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteDepartment" text="Supprimer" GridPane.columnIndex="2" />
+         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteDepartment" GridPane.columnIndex="2" />
           <Text fx:id="departmentInfos" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
       </children>
    </GridPane>
    <Button fx:id="validateButton" layoutX="234.0" layoutY="136.0" mnemonicParsing="false" onAction="#searchDepartment" text="Valider" />
-   <TableView fx:id="listSubjects" layoutX="58.0" layoutY="237.0" prefHeight="145.0" prefWidth="495.0" />
+   <TableView fx:id="listSubjects" layoutX="58.0" layoutY="237.0" prefHeight="145.0" prefWidth="495.0" stylesheets="@../css/handle_departments.css">
+      <columns>
+         <TableColumn fx:id="nameSubjectCol" prefWidth="402.0" text="Nom" />
+         <TableColumn fx:id="availableSubjectCol" prefWidth="92.0" style="-fx-alignment: CENTER;" text="Disponibilité" />
+      </columns></TableView>
+   <Button fx:id="createDepartmentButton" layoutX="318.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToCreateDepartmentPage" text="Créer un département" />
+   <Button fx:id="createSubjectButton" layoutX="469.0" layoutY="136.0" mnemonicParsing="false" onAction="#goToCreateSubjectPage" text="Créer une matière" />
 
 </AnchorPane>

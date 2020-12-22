@@ -24,6 +24,12 @@ import java.util.ResourceBundle;
 public class HandleDepartmentsController implements Initializable {
 
     @FXML
+    Button createDepartmentButton;
+
+    @FXML
+    Button createSubjectButton;
+
+    @FXML
     ComboBox<Department> listDepartments;
 
     @FXML
@@ -41,6 +47,12 @@ public class HandleDepartmentsController implements Initializable {
     @FXML
     TableView<Subject> listSubjects;
 
+    @FXML
+    TableColumn<Subject, String> nameSubjectCol;
+
+    @FXML
+    TableColumn<Subject, Integer> availableSubjectCol;
+
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
     SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
@@ -48,7 +60,7 @@ public class HandleDepartmentsController implements Initializable {
     List<Subject> subjects = new ArrayList<>();
 
     public void updateDepartment() {
-        ViewLoader.getInstance().load(ViewPath.UPDATE_DEPARTMENT, department);
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT, department);
     }
 
     public void deleteDepartment() {
@@ -82,11 +94,6 @@ public class HandleDepartmentsController implements Initializable {
         updateButton.setVisible(false);
         deleteButton.setVisible(false);
         listSubjects.setVisible(false);
-
-        listSubjects.getColumns().clear();
-
-        TableColumn<Subject, String> nameSubjectCol = new TableColumn<>("Nom");
-        TableColumn<Subject, Integer> availableSubjectCol = new TableColumn<>("Disponibilité");
 
         nameSubjectCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameSubjectCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -125,8 +132,9 @@ public class HandleDepartmentsController implements Initializable {
             }
         });
 
-        listSubjects.getColumns().add(nameSubjectCol);
-        listSubjects.getColumns().add(availableSubjectCol);
+        listSubjects.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            ViewLoader.getInstance().load(ViewPath.UPDATE_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
+        });
     }
 
     public void updateAvailabilityDepartment(ActionEvent event, Department department) {
@@ -135,5 +143,23 @@ public class HandleDepartmentsController implements Initializable {
 
     public void updateAvailabilitySubject(ActionEvent event, Subject subject) {
 
+        int available = subject.changeAvailability();
+        subjectFacade.update(subject);
+
+        if (available == 1) {
+            ((Button)event.getSource()).setText("Disponible");
+            ((Button)event.getSource()).setStyle("-fx-background-color: #51e056");
+        }
+        else {
+            ((Button)event.getSource()).setText("Indisponible");
+            ((Button)event.getSource()).setStyle("-fx-background-color: #f0524d");
+        }
+    }
+
+    public void goToCreateDepartmentPage(ActionEvent event) {
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT);
+    }
+
+    public void goToCreateSubjectPage(ActionEvent event) {
     }
 }

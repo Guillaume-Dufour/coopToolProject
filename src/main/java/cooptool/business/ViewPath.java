@@ -12,9 +12,9 @@ public enum ViewPath {
     UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml"),
     FORGOT_PASSWORD("views/userManagement/new_password.fxml"),
     CREATE_DEPARTMENT("views/departmentManagement/create.fxml"),
-    UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
-    HANDLE_DEPARTMENTS("views/handle_departments.fxml");
-
+    CREATE_MODIFY_DEPARTMENT("views/departmentManagement/create_modify_department.fxml"),
+    HANDLE_DEPARTMENTS("views/handle_departments.fxml"),
+    UPDATE_SUBJECT("views/subjectManagement/update.fxml");
 
     private final String path;
 

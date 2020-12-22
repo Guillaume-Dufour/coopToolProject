@@ -27,4 +27,8 @@ public class SubjectFacade {
     public List<Subject> getSubjectsByDepartment(Department department) {
         return subjectDAO.getSubjectsByDepartment(department);
     }
+
+    public void update(Subject subject) {
+        subjectDAO.update(subject);
+    }
 }
