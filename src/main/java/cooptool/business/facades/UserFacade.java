@@ -9,6 +9,7 @@ import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
 import cooptool.utils.Mail;
 
+import java.util.List;
 import java.util.Random;
 import java.util.regex.*;
 
@@ -74,6 +75,10 @@ public class UserFacade {
 
     }
 
+    public List<User> findStudentByDepartment(Department department){
+        return userDAO.findUserByDepartment(department);
+    }
+
     public void sendValidationCode(String mail) {
         User user = userDAO.findUserByMail(mail);
         Random r = new Random();
@@ -92,8 +97,12 @@ public class UserFacade {
         return code == testedCode;
     }
 
+    public void deleteAccount(User user){
+        userDAO.delete(user);
+    }
+
     public void deleteAccount(){
-        userDAO.delete(this.getCurrentUser());
+        this.deleteAccount(getCurrentUser());
         currentUser = null;
     }
 

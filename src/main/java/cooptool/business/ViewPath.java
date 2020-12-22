@@ -13,7 +13,9 @@ public enum ViewPath {
     FORGOT_PASSWORD("views/userManagement/new_password.fxml"),
     CREATE_DEPARTMENT("views/departmentManagement/create.fxml"),
     UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
-    HANDLE_DEPARTMENTS("views/handle_departments.fxml");
+    HANDLE_DEPARTMENTS("views/handle_departments.fxml"),
+    SEARCH_STUDENT("views/userManagement/searchOtherStudent/search_student_by_department.fxml"),
+    STUDENT_ACCOUNT("views/userManagement/searchOtherStudent/other_profil.fxml");
 
 
     private final String path;
