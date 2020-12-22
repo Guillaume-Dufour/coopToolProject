@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.departmentManagement.HandleDepartmentsController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.departmentManagement.HandleDepartmentsController">
 
     <Pane fx:id="header_admin">
         <children>
@@ -20,7 +20,7 @@
    <Text layoutX="46.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choisir un départment" />
     <Text fx:id="errorLabel" fill="#f50808" layoutX="300.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
 
-    <GridPane layoutX="30.0" layoutY="200.0">
+    <GridPane layoutX="30.0" layoutY="200.0" prefWidth="700.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="350.0" />
        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -36,7 +36,7 @@
       </children>
    </GridPane>
    <Button fx:id="validateButton" layoutX="234.0" layoutY="136.0" mnemonicParsing="false" onAction="#searchDepartment" text="Valider" />
-   <GridPane fx:id="listSubjects" layoutX="50.0" layoutY="245.0">
+   <GridPane fx:id="listSubjects" layoutX="50.0" layoutY="245.0" prefWidth="700.0">
      <columnConstraints>
        <ColumnConstraints hgrow="SOMETIMES" maxWidth="414.0" minWidth="10.0" prefWidth="389.0" />
        <ColumnConstraints hgrow="SOMETIMES" maxWidth="118.0" minWidth="10.0" prefWidth="79.0" />

@@ -6,16 +6,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.ValidateController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.ValidateController">
    <children>
-      <Text layoutX="139.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="code reçu par mail : ">
+      <Text layoutX="247.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="code reçu par mail : ">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <TextField fx:id="inputCode" layoutX="300.0" layoutY="188.0" />
-      <Button fx:id="validateButton" layoutX="273.0" layoutY="272.0" mnemonicParsing="false" onAction="#handleValidationCode" text="Valider" />
+      <TextField fx:id="inputCode" layoutX="426.0" layoutY="199.0" />
+      <Button fx:id="validateButton" layoutX="472.0" layoutY="247.0" mnemonicParsing="false" onAction="#handleValidationCode" text="Valider" />
       <Text fx:id="errorLabel" layoutX="299.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="0.0" />
-      <Button fx:id="cancelVerification" layoutX="274.0" layoutY="322.0" mnemonicParsing="false" onAction="#cancelVerification" text="Retour" />
+      <Button fx:id="cancelVerification" layoutX="478.0" layoutY="303.0" mnemonicParsing="false" onAction="#cancelVerification" text="Retour" />
    </children>
 </AnchorPane>
