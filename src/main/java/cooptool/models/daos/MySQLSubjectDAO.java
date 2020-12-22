@@ -22,7 +22,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
         List<Subject> subjects = new ArrayList<>();
 
-        String requete = "SELECT * FROM subject WHERE id_department = ?";
+        String requete = "SELECT * FROM subject WHERE id_department = ? ORDER BY name_subject";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
@@ -30,7 +30,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
             ResultSet result = preparedStatement.executeQuery();
 
-            if (result.next()) {
+            while (result.next()) {
 
                 Subject subject = new Subject(
                         result.getInt("id_subject"),

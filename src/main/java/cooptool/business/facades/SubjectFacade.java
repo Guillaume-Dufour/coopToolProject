@@ -4,6 +4,7 @@ import cooptool.models.daos.SubjectDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class SubjectFacade {

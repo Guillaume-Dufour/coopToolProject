@@ -41,4 +41,14 @@ public class Subject {
     public Department getDepartment() {
         return department;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", available=" + available +
+                ", department=" + department +
+                '}';
+    }
 }
