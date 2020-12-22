@@ -16,9 +16,7 @@ public class HeaderController {
         ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
-    public void searchStudent() {
-
-    }
+    public void searchStudent() {ViewLoader.getInstance().load(ViewPath.SEARCH_STUDENT);}
 
     public void manageDepartment() {
         ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);

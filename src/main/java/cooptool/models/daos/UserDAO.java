@@ -1,6 +1,9 @@
 package cooptool.models.daos;
 
+import cooptool.models.objects.Department;
 import cooptool.models.objects.User;
+
+import java.util.List;
 
 public abstract class UserDAO {
 
@@ -23,7 +26,7 @@ public abstract class UserDAO {
      * @return null if there is no match for that mail
      */
     public abstract User findUserByMail(String mail);
-
+    public abstract List<User> findUserByDepartment(Department department);
     public abstract User find(int id);
     public abstract boolean update(User user);
     public abstract boolean updatePassword(User user);
@@ -33,4 +36,5 @@ public abstract class UserDAO {
     public abstract boolean createValidationCode(int userId, int validationCode);
     public abstract int getCodeByUser(int id);
     public abstract boolean deleteCodeByUser(int id);
+
 }
