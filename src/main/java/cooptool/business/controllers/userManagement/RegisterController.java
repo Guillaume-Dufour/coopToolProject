@@ -23,21 +23,13 @@ import java.util.ResourceBundle;
 public class RegisterController implements Initializable {
 
     @FXML
-    TextField inputFirstName;
+    TextField inputFirstName, inputLastName, inputMail;
     @FXML
-    TextField inputLastName;
-    @FXML
-    TextField inputMail;
-    @FXML
-    PasswordField inputPassword;
-    @FXML
-    PasswordField inputConfirmedPassword;
+    PasswordField inputPassword, inputConfirmedPassword;
     @FXML
     Text errorLabel;
     @FXML
-    Button buttonLogin;
-    @FXML
-    Button buttonRegister;
+    Button buttonLogin, buttonRegister;
     @FXML
     ComboBox<Department> listDepartments;
 

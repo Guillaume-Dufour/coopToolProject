@@ -45,7 +45,8 @@
                 <Text fx:id="labelDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
         </GridPane>
-      <Button fx:id="deleteAccountButton" layoutX="569.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" />
-      <Button fx:id="Retour" layoutX="57.0" layoutY="132.0" mnemonicParsing="false" onAction="#goBack" text="Retour" />
+      <Button fx:id="deleteButton" layoutX="569.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" />
+      <Button fx:id="retourButton" layoutX="57.0" layoutY="132.0" mnemonicParsing="false" onAction="#goBack" text="Retour" />
+      <Button fx:id="updateButton" layoutX="433.0" layoutY="499.0" mnemonicParsing="false" onAction="#goToUpdatePage" text="Modifier le compte" />
     </children>
 </AnchorPane>

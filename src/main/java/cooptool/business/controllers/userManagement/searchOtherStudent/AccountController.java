@@ -20,7 +20,7 @@ public class AccountController implements Initializable {
     @FXML
     Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
     @FXML
-    Button deleteAccountButton;
+    Button deleteButton, updateButton, retourButton;
     @FXML
     Pane header_student, header_admin;
 
@@ -29,13 +29,18 @@ public class AccountController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        user = (User)resources.getObject("1");
         if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
             header_admin.setVisible(false);
-            deleteAccountButton.setVisible(false);
         } else {
             header_student.setVisible(false);
         }
-        user = (User)resources.getObject("1");
+        if (!user.equals(userFacade.getCurrentUser())){
+            updateButton.setVisible(false);
+            if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
+                deleteButton.setVisible(false);
+            }
+        }
         labelFirstName.setText(((StudentRole) user.getRole()).getFirstName());
         labelLastName.setText(((StudentRole) user.getRole()).getLastName());
         labelMail.setText(user.getMail());
@@ -48,13 +53,14 @@ public class AccountController implements Initializable {
     }
 
     public void deleteAccount(ActionEvent event) {
-        deleteAccountButton.setDisable(true);
-        userFacade.deleteAccount(user);
-        ViewLoader.getInstance().load(ViewPath.SEARCH_STUDENT, ((StudentRole)user.getRole()).getDepartment());
+        ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT, user);
     }
 
+    public void goToUpdatePage(ActionEvent event) {
+        ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT, user);
+    }
 
     public void goBack(ActionEvent event) {
-        ViewLoader.getInstance().load(ViewPath.SEARCH_STUDENT, ((StudentRole)user.getRole()).getDepartment());
+        ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
     }
 }

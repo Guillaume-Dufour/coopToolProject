@@ -6,7 +6,6 @@ public enum ViewPath {
     VALIDATE("views/userManagement/validate_student.fxml"),
     REGISTER("views/userManagement/register.fxml"),
     HOME("views/home.fxml"),
-    STUDENT_PROFIL("views/userManagement/profil_student.fxml"),
     DELETE_ACCOUNT("views/userManagement/delete_profil.fxml"),
     UPDATE_STUDENT_ACCOUNT("views/userManagement/update_profil_student.fxml"),
     UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml"),
@@ -16,7 +15,7 @@ public enum ViewPath {
     UPDATE_SUBJECT("views/subjectManagement/update.fxml"),
     UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
     SEARCH_STUDENT("views/userManagement/searchOtherStudent/search_student_by_department.fxml"),
-    STUDENT_ACCOUNT("views/userManagement/searchOtherStudent/other_profil.fxml");
+    STUDENT_PROFIL("views/userManagement/searchOtherStudent/student_profil.fxml");
 
 
     private final String path;
