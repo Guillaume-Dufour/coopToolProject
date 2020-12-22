@@ -14,8 +14,8 @@ public enum ViewPath {
     HANDLE_DEPARTMENTS("views/handle_departments.fxml"),
     UPDATE_SUBJECT("views/subjectManagement/update.fxml"),
     UPDATE_DEPARTMENT("views/departmentManagement/update.fxml"),
-    SEARCH_STUDENT("views/userManagement/searchOtherStudent/search_student_by_department.fxml"),
-    STUDENT_PROFIL("views/userManagement/searchOtherStudent/student_profil.fxml");
+    SEARCH_STUDENT("views/userManagement/search_student_by_department.fxml"),
+    STUDENT_PROFIL("views/userManagement/student_profil.fxml");
 
 
     private final String path;

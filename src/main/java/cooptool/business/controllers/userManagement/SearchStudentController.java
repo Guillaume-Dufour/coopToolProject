@@ -1,4 +1,4 @@
-package cooptool.business.controllers.userManagement.searchOtherStudent;
+package cooptool.business.controllers.userManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
