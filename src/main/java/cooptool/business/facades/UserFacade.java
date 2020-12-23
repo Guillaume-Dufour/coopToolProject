@@ -25,6 +25,7 @@ public class UserFacade {
 
     private static Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
     private static Matcher matcher;
+    private String patternMdp = "abcdefghijklmnopqrstuvwxyz1234567890";
 
     private UserFacade() {
         userDAO = AbstractDAOFactory.getInstance().getUserDAO();
@@ -99,11 +100,9 @@ public class UserFacade {
 
     public void deleteAccount(User user){
         userDAO.delete(user);
-    }
-
-    public void deleteAccount(){
-        this.deleteAccount(getCurrentUser());
-        currentUser = null;
+        if (user.equals(currentUser)){
+            currentUser= null;
+        }
     }
 
     public void updateAccount(String firstName, String lastName, Department department, String description){
@@ -137,8 +136,12 @@ public class UserFacade {
             throw new MailNotFound();
         }
         Random r = new Random();
-        String password = "" + r.nextInt(99999999);
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        StringBuilder password = new StringBuilder();
+        while (!(password.length() > 8)){
+            int random = r.nextInt(37);
+            password.append(patternMdp.charAt(random));
+        }
+        String hashedPassword = BCrypt.hashpw(password.toString(), BCrypt.gensalt());
         user.setPassword(hashedPassword);
         userDAO.updatePassword(user);
         Mail.sendMail("nouveau mot de passe CoopTool",

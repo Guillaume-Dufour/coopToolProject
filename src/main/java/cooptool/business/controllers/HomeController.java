@@ -1,5 +1,7 @@
 package cooptool.business.controllers;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.StudentRole;
 import javafx.fxml.FXML;
@@ -22,7 +24,7 @@ public class HomeController implements Initializable{
     }
 
     public void displayMentoringDemand() {
-
+        ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
     }
 
     public void displayQuickHelp() {

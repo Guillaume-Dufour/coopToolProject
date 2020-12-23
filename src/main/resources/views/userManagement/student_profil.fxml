@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.searchOtherStudent.AccountController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.AccountController">
     <children>
         <Pane fx:id="header_student">
             <children>
-                <fx:include source="../../header_student.fxml" />
+                <fx:include source="../header_student.fxml" />
             </children>
         </Pane>
         <Pane fx:id="header_admin">
             <children>
-                <fx:include source="../../header_admin.fxml" />
+                <fx:include source="../header_admin.fxml" />
             </children>
         </Pane>
         <GridPane layoutX="150.0" layoutY="210.0" prefHeight="180.0" prefWidth="500.0">
@@ -45,7 +45,8 @@
                 <Text fx:id="labelDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
         </GridPane>
-      <Button fx:id="deleteAccountButton" layoutX="569.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" />
-      <Button fx:id="Retour" layoutX="57.0" layoutY="132.0" mnemonicParsing="false" onAction="#goBack" text="Retour" />
+      <Button fx:id="deleteButton" layoutX="569.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" />
+      <Button fx:id="retourButton" layoutX="57.0" layoutY="132.0" mnemonicParsing="false" onAction="#goBack" text="Retour" />
+      <Button fx:id="updateButton" layoutX="433.0" layoutY="499.0" mnemonicParsing="false" onAction="#goToUpdatePage" text="Modifier le compte" />
     </children>
 </AnchorPane>

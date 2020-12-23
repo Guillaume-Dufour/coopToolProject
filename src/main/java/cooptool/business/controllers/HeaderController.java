@@ -4,9 +4,6 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.StudentRole;
-import javafx.scene.input.MouseEvent;
-
-import java.io.IOException;
 
 public class HeaderController {
 
@@ -24,7 +21,7 @@ public class HeaderController {
 
     public void goToProfil() {
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
-            ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL);
+            ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL, userFacade.getCurrentUser());
         } else {
             ViewLoader.getInstance().load(ViewPath.UPDATE_ADMIN_ACCOUNT);
         }

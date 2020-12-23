@@ -6,7 +6,6 @@ public enum ViewPath {
     VALIDATE("views/userManagement/validate_student.fxml"),
     REGISTER("views/userManagement/register.fxml"),
     HOME("views/home.fxml"),
-    STUDENT_PROFIL("views/userManagement/profil_student.fxml"),
     DELETE_ACCOUNT("views/userManagement/delete_profil.fxml"),
     UPDATE_STUDENT_ACCOUNT("views/userManagement/update_profil_student.fxml"),
     UPDATE_ADMIN_ACCOUNT("views/userManagement/update_profil_admin.fxml"),
@@ -14,10 +13,10 @@ public enum ViewPath {
     CREATE_MODIFY_DEPARTMENT("views/departmentManagement/create_modify_department.fxml"),
     CREATE_MODIFY_SUBJECT("views/subjectManagement/create_modify_subject.fxml"),
     HANDLE_DEPARTMENTS("views/handle_departments.fxml"),
-    UPDATE_SUBJECT("views/subjectManagement/create_modify_subject.fxml"),
-    UPDATE_DEPARTMENT("views/departmentManagement/create_modify_subject.fxml"),
-    SEARCH_STUDENT("views/userManagement/searchOtherStudent/search_student_by_department.fxml"),
-    STUDENT_ACCOUNT("views/userManagement/searchOtherStudent/other_profil.fxml");
+    SEARCH_STUDENT("views/userManagement/search_student_by_department.fxml"),
+    STUDENT_PROFIL("views/userManagement/student_profil.fxml"),
+    MENTORING_DEMAND_HOME_PAGE("views/mentoringDemands/home_page.fxml"),
+    CREATE_MENTORING_DEMAND("views/mentoringDemands/creation.fxml");
 
 
     private final String path;

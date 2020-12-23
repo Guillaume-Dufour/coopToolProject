@@ -2,6 +2,8 @@ package cooptool.models.objects;
 
 import cooptool.utils.BCrypt;
 
+import java.util.Objects;
+
 public class User {
 
     /**
@@ -87,5 +89,18 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

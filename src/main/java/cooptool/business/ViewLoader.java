@@ -6,14 +6,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ViewLoader extends Parent {
 
     private static ViewLoader viewLoader = null;
 
     private Stage stage;
+
+    private LinkedList<ViewPath> previousView = new LinkedList<ViewPath>();
 
     private ViewLoader() {
 
@@ -41,6 +42,8 @@ public class ViewLoader extends Parent {
 
         Parent root;
 
+        previousView.add(view);
+
         try {
             root = loader.load();
             stage.setScene(new Scene(root));
@@ -49,6 +52,11 @@ public class ViewLoader extends Parent {
             e.printStackTrace();
         }
 
+    }
+
+    public ViewPath getPreviousPath (){
+        this.previousView.removeLast();
+        return this.previousView.getLast();
     }
 
 }

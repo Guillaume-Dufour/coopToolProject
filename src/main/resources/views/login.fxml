@@ -8,13 +8,13 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.LoginController">
    <children>
-      <TextField fx:id="inputMail" layoutX="526.0" layoutY="214.0" />
-      <PasswordField fx:id="inputPassword" layoutX="526.0" layoutY="259.0" />
-      <Text layoutX="353.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
-      <Text layoutX="349.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
-      <Button fx:id="loginButton" layoutX="487.0" layoutY="365.0" mnemonicParsing="false" onAction="#login" text="Se connecter" />
+      <TextField fx:id="inputMail" layoutX="369.0" layoutY="201.0" />
+      <PasswordField fx:id="inputPassword" layoutX="369.0" layoutY="242.0" />
+      <Text layoutX="270.0" layoutY="217.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse mail" />
+      <Text layoutX="252.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
+      <Button fx:id="loginButton" layoutX="360.0" layoutY="369.0" mnemonicParsing="false" onAction="#login" text="Se connecter" />
       <Text fx:id="errorLabel" fill="#f50808" layoutX="289.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
-      <Button fx:id="registerButton" layoutX="499.0" layoutY="423.0" mnemonicParsing="false" onAction="#goToRegisterPage" text="S'inscrire" />
-      <Button fx:id="newPasswordButton" layoutX="526.0" layoutY="286.0" mnemonicParsing="false" onAction="#handleNewPassword" text="Mot de passe oublié" />
+      <Button fx:id="registerButton" layoutX="372.0" layoutY="425.0" mnemonicParsing="false" onAction="#goToRegisterPage" text="S'inscrire" />
+      <Button fx:id="newPasswordButton" layoutX="369.0" layoutY="287.0" mnemonicParsing="false" onAction="#handleNewPassword" text="Mot de passe oublié" />
    </children>
 </AnchorPane>
