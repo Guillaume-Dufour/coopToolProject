@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.mentoringDemandManagement.MentoringDemandDisplayer">
+   <Pane fx:id="header_student">
+      <children>
+         <fx:include source="../header_student.fxml" />
+      </children>
+   </Pane>
+   <Pane fx:id="header_admin">
+      <children>
+         <fx:include source="../header_admin.fxml" />
+      </children>
+   </Pane>
+   <Label layoutX="300.0" layoutY="124.0" text="MentoringDemands" />
+   <children>
+      <Button fx:id="creationButton" layoutX="106.0" layoutY="94.0" mnemonicParsing="false" onAction="#goToCreationPage" text="New Demand" />
+   </children>
+</Pane>
