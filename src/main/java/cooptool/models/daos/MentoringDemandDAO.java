@@ -5,7 +5,7 @@ import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.Subject;
 import cooptool.models.objects.User;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class MentoringDemandDAO {
 
@@ -30,11 +30,13 @@ public abstract class MentoringDemandDAO {
 
     public abstract MentoringDemand getMentoringDemand(int id);
 
-    public abstract ArrayList<MentoringDemand> getMentoringDemands(User user);
+    public abstract List<MentoringDemand> getPartialMentoringDemands();
 
-    public abstract ArrayList<MentoringDemand> getMentoringDemands(Department department);
+    public abstract List<MentoringDemand> getPartialMentoringDemands(User user);
 
-    public abstract ArrayList<MentoringDemand> getMentoringDemands(Department department, Subject subject, int numberOfDemands);
+    public abstract List<MentoringDemand> getPartialMentoringDemands(Department department);
+
+    public abstract List<MentoringDemand> getPartialMentoringDemands(Subject subject);
 
 
 }

@@ -10,13 +10,18 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.util.StringConverter;
 
-import javax.swing.text.View;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 public class MentoringDemandHandler implements Initializable {
     User user = UserFacade.getInstance().getCurrentUser();
@@ -71,9 +76,10 @@ public class MentoringDemandHandler implements Initializable {
             schedules.add(new Schedule(selectedDate,user));
             MentoringDemand demand =
                     new MentoringDemand(
-                            student.getDepartment(),
+                            -1,
                             subject.getValue(),
                             description.getText(),
+                            LocalDate.now(),
                             schedules,
                             user
                     );

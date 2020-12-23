@@ -16,7 +16,8 @@ public enum ViewPath {
     SEARCH_STUDENT("views/userManagement/search_student_by_department.fxml"),
     STUDENT_PROFIL("views/userManagement/student_profil.fxml"),
     MENTORING_DEMAND_HOME_PAGE("views/mentoringDemands/home_page.fxml"),
-    CREATE_MENTORING_DEMAND("views/mentoringDemands/creation.fxml");
+    CREATE_MENTORING_DEMAND("views/mentoringDemands/creation.fxml"),
+    GET_MENTORING_DEMAND("views/mentoringDemands/get_demand.fxml");
 
 
     private final String path;

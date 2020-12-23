@@ -5,6 +5,7 @@ import cooptool.models.objects.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
@@ -25,9 +26,9 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         String statement3 =
                 "INSERT INTO schedule (id_post,date_post_session,creator_id) " +
                     "VALUES (?,?,?)";
-        PreparedStatement insertPostStatement = null;
-        PreparedStatement insertParticipationStatement = null;
-        PreparedStatement insertScheduleStatement = null;
+        PreparedStatement insertPostStatement;
+        PreparedStatement insertParticipationStatement;
+        PreparedStatement insertScheduleStatement;
         try{
             connection.setAutoCommit(false);
             insertPostStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
@@ -83,17 +84,138 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     }
 
     @Override
-    public ArrayList<MentoringDemand> getMentoringDemands(User user) {
+    public List<MentoringDemand> getPartialMentoringDemands() {
         return null;
     }
 
     @Override
-    public ArrayList<MentoringDemand> getMentoringDemands(Department department) {
+    public List<MentoringDemand> getPartialMentoringDemands(User user) {
         return null;
     }
 
     @Override
-    public ArrayList<MentoringDemand> getMentoringDemands(Department department, Subject subject, int numberOfDemands) {
+    public List<MentoringDemand> getPartialMentoringDemands(Department department) {
+        String statement =
+                        "SELECT id_post,description_post,date_post,name_subject,abbreviation_department,year_department,id_user,first_name_user,last_name_user,date_post_session " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "NATURAL JOIN schedule " +
+                        "JOIN user u1 ON post.id_user_creator = u1.id_user " +
+                        "JOIN department ON u1.id_department = department.id_department "+
+                        "WHERE department.abbreviation_department = ? AND type_post = 0 ORDER BY date_post";
+        List<MentoringDemand> result = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1,department.getAbbreviation());
+
+            ResultSet res = preparedStatement.executeQuery();
+
+            ArrayList<Schedule> schedules = new ArrayList<>();
+            String description = null;
+            LocalDate creationDate = null;
+            String subjectName = null;
+            String abbreviationDepartment = null;
+            int yearDepartment = -1;
+            int idUser = -1;
+            String firstNameUser = null;
+            String lastNameUser = null;
+            LocalDate scheduleDate;
+            int previousIdPost = -1;
+            int idPost = -1;
+            while(res.next()){
+                idPost = res.getInt(1);
+                if(idPost != previousIdPost){
+                    if(previousIdPost != -1){
+                        result.add(
+                                new MentoringDemand(
+                                   idPost,
+                                   new Subject(
+                                           -1,
+                                           subjectName,
+                                           -1,
+                                           null
+                                   ),
+                                   description,
+                                   creationDate,
+                                   schedules,
+                                   new User(
+                                           idUser,
+                                           null,
+                                           null,
+                                           new StudentRole(
+                                                   firstNameUser,
+                                                   lastNameUser,
+                                                   null,
+                                                   new Department(
+                                                           -1,
+                                                           null,
+                                                           yearDepartment,
+                                                           abbreviationDepartment,
+                                                           -1
+                                                   )
+                                           ),
+                                           -1
+                                   )
+                                )
+                        );
+                        schedules = new ArrayList<>();
+                    }
+                    previousIdPost = idPost;
+                    description = res.getString(2);
+                    creationDate = res.getDate(3).toLocalDate();
+                    subjectName = res.getString(4);
+                    abbreviationDepartment = res.getString(5);
+                    yearDepartment = res.getInt(6);
+                    idUser = res.getInt(7);
+                    firstNameUser = res.getString(8);
+                    lastNameUser = res.getString(9);
+                }
+                scheduleDate = res.getDate(10).toLocalDate();
+                schedules.add(new Schedule(scheduleDate,null));
+            }
+            result.add(
+                    new MentoringDemand(
+                            idPost,
+                            new Subject(
+                                    -1,
+                                    subjectName,
+                                    -1,
+                                    null
+                            ),
+                            description,
+                            creationDate,
+                            schedules,
+                            new User(
+                                    idUser,
+                                    null,
+                                    null,
+                                    new StudentRole(
+                                            firstNameUser,
+                                            lastNameUser,
+                                            null,
+                                            new Department(
+                                                    -1,
+                                                    null,
+                                                    yearDepartment,
+                                                    abbreviationDepartment,
+                                                    -1
+                                            )
+                                    ),
+                                    -1
+                            )
+                    )
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+
+    @Override
+    public List<MentoringDemand> getPartialMentoringDemands(Subject subject) {
         return null;
     }
 }

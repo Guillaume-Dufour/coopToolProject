@@ -1,9 +1,12 @@
 package cooptool.business.facades;
 
 import cooptool.models.daos.MentoringDemandDAO;
+import cooptool.models.objects.AdminRole;
 import cooptool.models.objects.MentoringDemand;
+import cooptool.models.objects.StudentRole;
+import cooptool.models.objects.UserRole;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MentoringDemandFacade {
 
@@ -32,7 +35,13 @@ public class MentoringDemandFacade {
 
     }
 
-    public ArrayList<MentoringDemand> getMentoringDemands(){
-        return null;
+    public List<MentoringDemand> getMentoringDemands(){
+        UserRole userRole = UserFacade.getInstance().getCurrentUser().getRole();
+        if(userRole instanceof StudentRole){
+            return MentoringDemandDAO.getInstance().getPartialMentoringDemands(((StudentRole) userRole).getDepartment());
+        }
+        else{
+            return MentoringDemandDAO.getInstance().getPartialMentoringDemands();
+        }
     }
 }
