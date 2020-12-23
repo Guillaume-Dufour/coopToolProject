@@ -127,7 +127,7 @@ public class HandleDepartmentsController implements Initializable {
 
         listSubjects.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                ViewLoader.getInstance().load(ViewPath.UPDATE_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
+                ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
             }
         });
     }

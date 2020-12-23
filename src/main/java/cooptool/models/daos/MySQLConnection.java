@@ -1,6 +1,6 @@
 package cooptool.models.daos;
 
-import cooptool.Config;
+import cooptool.utils.PropertiesResource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +17,7 @@ public class MySQLConnection {
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(Config.JDBC_URL);
+            connection = DriverManager.getConnection(PropertiesResource.getDatabaseProperties().getProperty("JDBC_URL"));
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

@@ -152,3 +152,5 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 ### Gradle Patch ###
+/src/main/resources/config/mail.properties
+/src/main/resources/config/database.properties
