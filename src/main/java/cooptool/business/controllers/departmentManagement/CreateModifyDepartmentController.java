@@ -1,5 +1,9 @@
 package cooptool.business.controllers.departmentManagement;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
+import cooptool.business.facades.DepartmentFacade;
+import cooptool.exceptions.DepartmentNotConformed;
 import cooptool.models.objects.Department;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,19 +33,28 @@ public class CreateModifyDepartmentController implements Initializable {
     @FXML
     Button validateButton;
 
+    @FXML
+    Text errorLabel;
+
+    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+
+    Department department;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            Department department = (Department) resources.getObject("1");
+            department = (Department) resources.getObject("1");
 
+            title.setText("Modification de départment");
             inputName.setText(department.getSpeciality());
             inputAbbreviation.setText(department.getAbbreviation());
             inputYear.setText(String.valueOf(department.getYear()));
-
             validateButton.setText("Modifier");
             validateButton.setOnAction(this::updateDepartment);
+
         } catch (MissingResourceException e) {
+
             title.setText("Création de département");
             validateButton.setText("Valider");
             validateButton.setOnAction(this::createDepartment);
@@ -49,11 +62,34 @@ public class CreateModifyDepartmentController implements Initializable {
     }
 
     public void createDepartment(ActionEvent event) {
-        System.out.println("create");
 
+        try {
+
+            String name = inputName.getText();
+            String abbreviation = inputAbbreviation.getText();
+            int year = Integer.parseInt(inputYear.getText());
+            departmentFacade.create(name, abbreviation, year);
+
+            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
+
+        } catch (NumberFormatException | DepartmentNotConformed e) {
+            errorLabel.setText(e.getMessage());
+        }
     }
 
     public void updateDepartment(ActionEvent event) {
-        System.out.println("update");
+
+        try {
+
+            String name = inputName.getText();
+            String abbreviation = inputAbbreviation.getText();
+            int year = Integer.parseInt(inputYear.getText());
+            departmentFacade.update(department, name, abbreviation, year);
+
+            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
+
+        } catch (NumberFormatException | DepartmentNotConformed e) {
+            errorLabel.setText("Champ(s) non conforme(s)");
+        }
     }
 }

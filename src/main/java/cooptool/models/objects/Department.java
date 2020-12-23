@@ -32,6 +32,10 @@ public class Department {
         this.available = available;
     }
 
+    public Department(String speciality, int year, String abbreviation) {
+        this(0, speciality, year, abbreviation, 1);
+    }
+
     public int getId() {
         return id;
     }
@@ -50,6 +54,29 @@ public class Department {
 
     public int getAvailable() {
         return available;
+    }
+
+    public int changeAvailability() {
+        if (available == 0) {
+            available = 1;
+        }
+        else {
+            available = 0;
+        }
+
+        return available;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     @Override

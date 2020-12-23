@@ -16,6 +16,10 @@ public abstract class DepartmentDAO {
         return INSTANCE;
     }
 
+    public abstract boolean create(Department department);
+
+    public abstract boolean update(Department department);
+
     public abstract List<Department> getAllDepartments();
 
     public abstract List<Department> getAvailableDepartments();

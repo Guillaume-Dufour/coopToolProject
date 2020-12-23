@@ -1,5 +1,6 @@
 package cooptool.business.facades;
 
+import cooptool.exceptions.DepartmentNotConformed;
 import cooptool.models.daos.DepartmentDAO;
 import cooptool.models.objects.Department;
 
@@ -19,6 +20,35 @@ public class DepartmentFacade {
 
     public static DepartmentFacade getInstance() {
         return INSTANCE;
+    }
+
+    public void create(String name, String abbreviation, int year) throws DepartmentNotConformed {
+
+        if (name.length() <= 100 && abbreviation.length() <= 10 && (year >= 1 && year <= 5)) {
+            departmentDAO.create(new Department(name, year, abbreviation));
+        }
+        else {
+            throw new DepartmentNotConformed();
+        }
+    }
+
+    public void update(Department department, String name, String abbreviation, int year) throws DepartmentNotConformed {
+
+        if (name.length() <= 100 && abbreviation.length() <= 10 && (year >= 1 && year <= 5)) {
+
+            department.setSpeciality(name);
+            department.setAbbreviation(abbreviation);
+            department.setYear(year);
+
+            departmentDAO.update(department);
+        }
+        else {
+            throw new DepartmentNotConformed();
+        }
+    }
+
+    public void updateAvailability(Department department) {
+        departmentDAO.update(department);
     }
 
     public Department getDepartment(){

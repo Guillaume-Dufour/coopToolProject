@@ -50,4 +50,56 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
     public List<Department> getAvailableDepartments() {
         return getAllDepartments().stream().filter(department -> department.getAvailable() == 1).collect(Collectors.toList());
     }
+
+    @Override
+    public boolean create(Department department) {
+
+        String requete = "INSERT INTO department (name_department, abbreviation_department, year_department) " +
+                "VALUES (?, ?, ?);";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+
+            preparedStatement.setString(1, department.getSpeciality());
+            preparedStatement.setString(2, department.getAbbreviation());
+            preparedStatement.setInt(3, department.getYear());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean update(Department department) {
+
+        String requete = "UPDATE department " +
+                "SET name_department = ?, " +
+                "abbreviation_department = ?, " +
+                "year_department = ?, " +
+                "available = ? " +
+                "WHERE id_department = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+
+            preparedStatement.setString(1, department.getSpeciality());
+            preparedStatement.setString(2, department.getAbbreviation());
+            preparedStatement.setInt(3, department.getYear());
+            preparedStatement.setInt(4, department.getAvailable());
+            preparedStatement.setInt(5, department.getId());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

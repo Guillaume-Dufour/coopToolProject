@@ -37,5 +37,7 @@
       </children>
    </GridPane>
    <Button fx:id="validateButton" alignment="CENTER" contentDisplay="CENTER" layoutX="392.0" layoutY="471.0" mnemonicParsing="false" />
+    <Text fx:id="errorLabel" layoutX="389.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+
 
 </AnchorPane>

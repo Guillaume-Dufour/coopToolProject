@@ -18,7 +18,24 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
     @Override
     public boolean create(Subject subject) {
-        return false;
+
+        String requete = "INSERT INTO subject (name_subject, id_department) " +
+                "VALUES (?, ?);";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+
+            preparedStatement.setString(1, subject.getName());
+            preparedStatement.setInt(2, subject.getDepartment().getId());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

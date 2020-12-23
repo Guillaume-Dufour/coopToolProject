@@ -9,8 +9,6 @@ public abstract class UserDAO {
 
     private static final UserDAO INSTANCE;
 
-
-
     static {
         INSTANCE = AbstractDAOFactory.getInstance().getUserDAO();
     }

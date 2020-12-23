@@ -2,6 +2,7 @@ package cooptool.utils;
 
 import cooptool.models.objects.Department;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
 
@@ -23,5 +24,17 @@ public class Components {
                 return null;
             }
         });
+    }
+
+    public static void createAvailabilityButton(Button button, int available) {
+
+        if (available == 1) {
+            button.setText("Disponible");
+            button.setStyle("-fx-background-color: #51e056");
+        }
+        else {
+            button.setText("Indisponible");
+            button.setStyle("-fx-background-color: #f0524d");
+        }
     }
 }

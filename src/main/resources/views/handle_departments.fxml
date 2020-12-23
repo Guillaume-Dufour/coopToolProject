@@ -33,7 +33,7 @@
      </rowConstraints>
       <children>
          <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateDepartment" text="Modifier" GridPane.columnIndex="1" />
-         <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteDepartment" GridPane.columnIndex="2" />
+         <Button fx:id="availableDepartmentButton" mnemonicParsing="false" onAction="#deleteDepartment" GridPane.columnIndex="2" />
           <Text fx:id="departmentInfos" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" />
       </children>
    </GridPane>

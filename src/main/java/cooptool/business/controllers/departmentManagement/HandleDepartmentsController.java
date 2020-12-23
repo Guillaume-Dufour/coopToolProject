@@ -42,7 +42,7 @@ public class HandleDepartmentsController implements Initializable {
     Button updateButton;
 
     @FXML
-    Button deleteButton;
+    Button availableDepartmentButton;
 
     @FXML
     TableView<Subject> listSubjects;
@@ -79,7 +79,9 @@ public class HandleDepartmentsController implements Initializable {
             subjects.clear();
             subjects.addAll(subjectFacade.getSubjectsByDepartment(department));
             updateButton.setVisible(true);
-            deleteButton.setVisible(true);
+            Components.createAvailabilityButton(availableDepartmentButton, department.getAvailable());
+            availableDepartmentButton.setOnAction(event -> updateAvailabilityDepartment(event, department));
+            availableDepartmentButton.setVisible(true);
 
             listSubjects.setItems(FXCollections.observableList(subjects));
             listSubjects.setVisible(true);
@@ -92,7 +94,7 @@ public class HandleDepartmentsController implements Initializable {
         Components.createDepartmentComboBox(listDepartments, departmentFacade.getAllDepartments());
 
         updateButton.setVisible(false);
-        deleteButton.setVisible(false);
+        availableDepartmentButton.setVisible(false);
         listSubjects.setVisible(false);
 
         nameSubjectCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -105,9 +107,7 @@ public class HandleDepartmentsController implements Initializable {
             private final Button availableButton = new Button();
 
             {
-                availableButton.setOnAction(event -> {
-                    updateAvailabilitySubject(event, param.getTableView().getItems().get(getIndex()));
-                });
+                availableButton.setOnAction(event -> updateAvailabilitySubject(event, param.getTableView().getItems().get(getIndex())));
             }
 
             @Override
@@ -118,48 +118,41 @@ public class HandleDepartmentsController implements Initializable {
                     setGraphic(null);
                 }
                 else {
-                    if (item == 1) {
-                        availableButton.setText("Disponible");
-                        availableButton.setStyle("-fx-background-color: #51e056");
-                    }
-                    else {
-                        availableButton.setText("Indisponible");
-                        availableButton.setStyle("-fx-background-color: #f0524d");
-                    }
+                    Components.createAvailabilityButton(availableButton, item);
 
                     setGraphic(availableButton);
                 }
             }
         });
 
-        listSubjects.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            ViewLoader.getInstance().load(ViewPath.UPDATE_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
+        listSubjects.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                ViewLoader.getInstance().load(ViewPath.UPDATE_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
+            }
         });
     }
 
     public void updateAvailabilityDepartment(ActionEvent event, Department department) {
 
+        int available = department.changeAvailability();
+        departmentFacade.updateAvailability(department);
+
+        Components.createAvailabilityButton(((Button)event.getSource()), available);
     }
 
     public void updateAvailabilitySubject(ActionEvent event, Subject subject) {
 
         int available = subject.changeAvailability();
-        subjectFacade.update(subject);
+        subjectFacade.updateAvailability(subject);
 
-        if (available == 1) {
-            ((Button)event.getSource()).setText("Disponible");
-            ((Button)event.getSource()).setStyle("-fx-background-color: #51e056");
-        }
-        else {
-            ((Button)event.getSource()).setText("Indisponible");
-            ((Button)event.getSource()).setStyle("-fx-background-color: #f0524d");
-        }
+        Components.createAvailabilityButton(((Button)event.getSource()), available);
     }
 
-    public void goToCreateDepartmentPage(ActionEvent event) {
+    public void goToCreateDepartmentPage() {
         ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT);
     }
 
-    public void goToCreateSubjectPage(ActionEvent event) {
+    public void goToCreateSubjectPage() {
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_SUBJECT);
     }
 }

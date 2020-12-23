@@ -1,10 +1,10 @@
 package cooptool.business.facades;
 
+import cooptool.exceptions.SubjectNotConformed;
 import cooptool.models.daos.SubjectDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class SubjectFacade {
@@ -16,9 +16,7 @@ public class SubjectFacade {
         INSTANCE = new SubjectFacade();
     }
 
-    private SubjectFacade() {
-
-    }
+    private SubjectFacade() {}
 
     public static SubjectFacade getInstance() {
         return INSTANCE;
@@ -28,7 +26,33 @@ public class SubjectFacade {
         return subjectDAO.getSubjectsByDepartment(department);
     }
 
-    public void update(Subject subject) {
+    public void create(String name, Department department) throws SubjectNotConformed {
+
+        if (name.length() <= 50 && department != null) {
+            Subject subject = new Subject(name, department);
+
+            subjectDAO.create(subject);
+        }
+        else {
+            throw new SubjectNotConformed();
+        }
+
+    }
+
+    public void update(Subject subject, String name, Department department) throws SubjectNotConformed {
+
+        if (name.length() <= 50 && department != null) {
+            subject.setName(name);
+            subject.setDepartment(department);
+
+            subjectDAO.update(subject);
+        }
+        else {
+            throw new SubjectNotConformed();
+        }
+    }
+
+    public void updateAvailability(Subject subject) {
         subjectDAO.update(subject);
     }
 }

@@ -28,6 +28,10 @@ public class Subject {
         this.department = department;
     }
 
+    public Subject(String name, Department department) {
+        this(0, name, 1, department);
+    }
+
     public int getId() {
         return id;
     }
@@ -44,8 +48,12 @@ public class Subject {
         return department;
     }
 
-    public void setAvailable(int available) {
-        this.available = available;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     public int changeAvailability() {
