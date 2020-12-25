@@ -54,11 +54,12 @@ public class MentoringDemandsDisplay implements Initializable {
                     studentRole.getDepartment().getYear()
                     );
             String centerText = String.format(
-                    "Description : %s\nSchedules : %s",
+                    "Description : %s\nSubject : %s\nSchedules : %s",
                     cur.getDescription(),
+                    cur.getSubject().getName(),
                     cur.schedulesToString());
             Button bottomButton = new Button("Go To");
-            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId());
+            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId()-1);
             bottomButton.setOnAction(event);
 
             borderPane.setTop(new Label(topText));
@@ -73,6 +74,6 @@ public class MentoringDemandsDisplay implements Initializable {
     }
 
     public void goToMentoringDemand(int id){
-        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND);
+        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,id);
     }
 }

@@ -35,6 +35,10 @@ public class MentoringDemandFacade {
 
     }
 
+    public MentoringDemand getMentoringDemand(int id){
+        return MentoringDemandDAO.getInstance().getMentoringDemand(id);
+    }
+
     public List<MentoringDemand> getMentoringDemands(){
         UserRole userRole = UserFacade.getInstance().getCurrentUser().getRole();
         if(userRole instanceof StudentRole){

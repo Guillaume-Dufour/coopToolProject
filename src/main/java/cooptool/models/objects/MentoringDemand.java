@@ -5,12 +5,16 @@ import java.util.ArrayList;
 
 public class MentoringDemand {
 
+    public static final int STUDENT = 0;
+    public static final int TUTOR = 1;
+
     private int id;
     private Subject subject;
     private String description;
     private LocalDate creationDate;
     private ArrayList<Schedule> schedules;
     private User creator;
+    private ArrayList<Participation> participationArray = new ArrayList<Participation>();
 
     public int getId(){
         return id;
@@ -58,5 +62,13 @@ public class MentoringDemand {
 
     public void removeSchedule(Schedule schedule){
 
+    }
+
+    public void addParticipation(Participation newParticipation){
+        participationArray.add(newParticipation);
+    }
+
+    public ArrayList<Participation> getParticipationArray(){
+        return participationArray;
     }
 }

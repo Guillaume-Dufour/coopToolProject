@@ -1,16 +1,11 @@
 package cooptool.models.daos;
 
-import cooptool.models.objects.Department;
-import cooptool.models.objects.MentoringDemand;
-import cooptool.models.objects.Subject;
-import cooptool.models.objects.User;
+import cooptool.models.objects.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MentoringDemandDAO {
-
-    public static final int STUDENT = 0;
-    public static final int TUTOR = 1;
 
     private static final MentoringDemandDAO INSTANCE;
 
@@ -29,6 +24,8 @@ public abstract class MentoringDemandDAO {
     public abstract void delete(MentoringDemand mentoringDemand);
 
     public abstract MentoringDemand getMentoringDemand(int id);
+
+    public abstract void participate(MentoringDemand mentoringDemand, ArrayList<Schedule> schedules);
 
     public abstract List<MentoringDemand> getPartialMentoringDemands();
 
