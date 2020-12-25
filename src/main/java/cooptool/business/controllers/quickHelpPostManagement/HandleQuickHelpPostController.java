@@ -53,7 +53,7 @@ public class HandleQuickHelpPostController implements Initializable {
                         LocalDate.now(),
                         user
             );
-            QuickHelpPostFacade.getInstance().create(qhp);
+            //QuickHelpPostFacade.getInstance().create(qhp);
             ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
         }
     }

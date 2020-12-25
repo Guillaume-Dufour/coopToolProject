@@ -6,7 +6,7 @@ import cooptool.models.objects.QuickHelpPost;
 
 public class QuickHelpPostFacade {
     private static final QuickHelpPostFacade INSTANCE;
-    private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+    //private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
 
     static{
         INSTANCE = new QuickHelpPostFacade();
@@ -18,9 +18,9 @@ public class QuickHelpPostFacade {
         return INSTANCE;
     }
 
-    public void create(QuickHelpPost quickHelpPost){
-        QuickHelpPostDAO.getInstance().create(quickHelpPost);
-    }
+    //public void create(QuickHelpPost quickHelpPost){
+    //    QuickHelpPostDAO.getInstance().create(quickHelpPost);
+    //}
 
     public void delete(QuickHelpPost quickHelpPost){
 
