@@ -25,7 +25,9 @@ public abstract class MentoringDemandDAO {
 
     public abstract MentoringDemand getMentoringDemand(int id);
 
-    public abstract void participate(MentoringDemand mentoringDemand, ArrayList<Schedule> schedules);
+    public abstract void participate(MentoringDemand mentoringDemand, Participation participation);
+
+    public abstract void suppressParticipation(MentoringDemand demand, User user);
 
     public abstract List<MentoringDemand> getPartialMentoringDemands();
 

@@ -1,10 +1,7 @@
 package cooptool.business.facades;
 
 import cooptool.models.daos.MentoringDemandDAO;
-import cooptool.models.objects.AdminRole;
-import cooptool.models.objects.MentoringDemand;
-import cooptool.models.objects.StudentRole;
-import cooptool.models.objects.UserRole;
+import cooptool.models.objects.*;
 
 import java.util.List;
 
@@ -47,5 +44,19 @@ public class MentoringDemandFacade {
         else{
             return MentoringDemandDAO.getInstance().getPartialMentoringDemands();
         }
+    }
+
+    public int getCurrentUserParticipationType(MentoringDemand demand){
+        int idUser = UserFacade.getInstance().getCurrentUser().getId();
+        for(Participation participation : demand.getParticipationArray()){
+            if(idUser == participation.getParticipant().getId()){
+                return participation.getParticipationType();
+            }
+        }
+        return -1;
+    }
+
+    public void suppressCurrentUserParticipation(MentoringDemand demand){
+        MentoringDemandDAO.getInstance().suppressParticipation(demand,UserFacade.getInstance().getCurrentUser());
     }
 }

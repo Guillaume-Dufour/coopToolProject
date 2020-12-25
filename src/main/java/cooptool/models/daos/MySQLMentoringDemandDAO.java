@@ -221,22 +221,39 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 participationDate = res.getDate(4).toLocalDate();
                 selectedSchedules.add(new Schedule(participationDate,null));
             }
-            StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
-            demand.addParticipation(
-                    new Participation(
-                            new User(userId,null,null,role,-1),
-                            participationType,
-                            selectedSchedules
-                    )
-            );
+            if(previousUserId != -1){
+                StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
+                demand.addParticipation(
+                        new Participation(
+                                new User(userId,null,null,role,-1),
+                                participationType,
+                                selectedSchedules
+                        )
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void participate(MentoringDemand mentoringDemand, ArrayList<Schedule> schedules) {
+    public void participate(MentoringDemand mentoringDemand, Participation participation) {
 
+    }
+
+    @Override
+    public void suppressParticipation(MentoringDemand demand, User user) {
+        String statement =
+                "DELETE FROM participation " +
+                "WHERE id_post = ? AND id_user = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(statement);
+            deletionStatement.setInt(1,demand.getId());
+            deletionStatement.setInt(2,user.getId());
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -330,38 +347,40 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 scheduleDate = res.getDate(10).toLocalDate();
                 schedules.add(new Schedule(scheduleDate,null));
             }
-            result.add(
-                    new MentoringDemand(
-                            idPost,
-                            new Subject(
-                                    -1,
-                                    subjectName,
-                                    -1,
-                                    null
-                            ),
-                            description,
-                            creationDate,
-                            schedules,
-                            new User(
-                                    idUser,
-                                    null,
-                                    null,
-                                    new StudentRole(
-                                            firstNameUser,
-                                            lastNameUser,
-                                            null,
-                                            new Department(
-                                                    -1,
-                                                    null,
-                                                    yearDepartment,
-                                                    abbreviationDepartment,
-                                                    -1
-                                            )
-                                    ),
-                                    -1
-                            )
-                    )
-            );
+            if(previousIdPost != -1){
+                result.add(
+                        new MentoringDemand(
+                                idPost,
+                                new Subject(
+                                        -1,
+                                        subjectName,
+                                        -1,
+                                        null
+                                ),
+                                description,
+                                creationDate,
+                                schedules,
+                                new User(
+                                        idUser,
+                                        null,
+                                        null,
+                                        new StudentRole(
+                                                firstNameUser,
+                                                lastNameUser,
+                                                null,
+                                                new Department(
+                                                        -1,
+                                                        null,
+                                                        yearDepartment,
+                                                        abbreviationDepartment,
+                                                        -1
+                                                )
+                                        ),
+                                        -1
+                                )
+                        )
+                );
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

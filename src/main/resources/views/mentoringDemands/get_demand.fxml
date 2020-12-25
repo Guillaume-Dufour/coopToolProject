@@ -28,5 +28,6 @@
          <Label fx:id="infoLabel" layoutX="51.0" layoutY="488.0" text="Label" />
       <Text fx:id="descriptionArea" layoutX="54.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <VBox fx:id="schedulesVBox" layoutX="446.0" layoutY="173.0" prefHeight="200.0" prefWidth="331.0" />
+      <Button fx:id="suppressParticipationButton" layoutX="470.0" layoutY="521.0" mnemonicParsing="false" onAction="#suppressParticipation" text="Suppress Participation" textFill="RED" />
    </children>
 </AnchorPane>

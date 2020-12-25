@@ -1,5 +1,7 @@
 package cooptool.business.controllers.mentoringDemandManagement;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.*;
@@ -27,9 +29,11 @@ public class MentoringDemandController implements Initializable {
     @FXML
     Label creatorLabel,subjectLabel,participationLabel,infoLabel;
     @FXML
-    Button learnButton,teachButton;
+    Button learnButton,teachButton,suppressParticipationButton;
     @FXML
     VBox schedulesVBox;
+
+    private MentoringDemand demand;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +45,17 @@ public class MentoringDemandController implements Initializable {
 
         try {
             int idDemand = (int) resources.getObject("1");
-            MentoringDemand demand = MentoringDemandFacade.getInstance().getMentoringDemand(idDemand);
+            demand = MentoringDemandFacade.getInstance().getMentoringDemand(idDemand);
+
+            int userParticipationType = MentoringDemandFacade.getInstance().getCurrentUserParticipationType(demand);
+            if(userParticipationType != -1){
+                learnButton.setVisible(false);
+                teachButton.setVisible(false);
+            }
+            else{
+                suppressParticipationButton.setVisible(false);
+            }
+
             descriptionArea.setText(String.format("Description :\n%s",demand.getDescription()));
             StudentRole creatorStudentRole = (StudentRole) demand.getCreator().getRole();
             Subject demandSubject = demand.getSubject();
@@ -106,5 +120,10 @@ public class MentoringDemandController implements Initializable {
     }
 
     public void teach(ActionEvent actionEvent) {
+    }
+
+    public void suppressParticipation(ActionEvent actionEvent) {
+        MentoringDemandFacade.getInstance().suppressCurrentUserParticipation(demand);
+        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
     }
 }
