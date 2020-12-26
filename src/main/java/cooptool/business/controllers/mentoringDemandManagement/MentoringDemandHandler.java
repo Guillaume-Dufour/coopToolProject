@@ -17,11 +17,9 @@ import javafx.scene.control.TextArea;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 public class MentoringDemandHandler implements Initializable {
     User user = UserFacade.getInstance().getCurrentUser();
@@ -29,13 +27,15 @@ public class MentoringDemandHandler implements Initializable {
     @FXML
     ComboBox<Subject> subject;
     @FXML
+    ComboBox<Integer> hourBox,minBox;
+    @FXML
     TextArea description;
     @FXML
     DatePicker date;
     @FXML
     Label infoLabel,errorLabel;
 
-    private List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
+    private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,8 +53,20 @@ public class MentoringDemandHandler implements Initializable {
             }
 
         });
+        ArrayList<Integer> hours = new ArrayList<>();
+        ArrayList<Integer> minutes = new ArrayList<>();
+
+        for(int i=0;i<60;i++){
+            if(i<24){
+                hours.add(i);
+            }
+            minutes.add(i);
+        }
+
+        hourBox.setItems(FXCollections.observableList(hours));
+        minBox.setItems(FXCollections.observableList(minutes));
         try {
-            MentoringDemand demand = (MentoringDemand) resources.getObject("1");
+            int demand = (int) resources.getObject("1");
             infoLabel.setText("Edit");
         } catch (MissingResourceException e) {
             infoLabel.setText("Create");
@@ -67,19 +79,19 @@ public class MentoringDemandHandler implements Initializable {
         if(subject.getValue() == null){
             errorLabel.setText("Please pick a subject");
         }
-        else if(date.getValue() == null){
-            errorLabel.setText("Please pick a date");
+        else if(date.getValue() == null || minBox.getValue() == null || hourBox.getValue() == null){
+            errorLabel.setText("Please pick a date and a time");
         }
         else{
             ArrayList<Schedule> schedules = new ArrayList<>();
-            LocalDate selectedDate = date.getValue();
-            schedules.add(new Schedule(selectedDate,user));
+            LocalDateTime dateTime = LocalDateTime.of(date.getValue(),LocalTime.of(hourBox.getValue(), minBox.getValue()));
+            schedules.add(new Schedule(dateTime,user));
             MentoringDemand demand =
                     new MentoringDemand(
                             -1,
                             subject.getValue(),
                             description.getText(),
-                            LocalDate.now(),
+                            LocalDateTime.now(),
                             schedules,
                             user
                     );

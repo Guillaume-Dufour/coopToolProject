@@ -3,6 +3,7 @@ package cooptool.business.facades;
 import cooptool.models.daos.MentoringDemandDAO;
 import cooptool.models.objects.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MentoringDemandFacade {
@@ -46,17 +47,24 @@ public class MentoringDemandFacade {
         }
     }
 
-    public int getCurrentUserParticipationType(MentoringDemand demand){
+    public Participation getCurrentUserParticipation(MentoringDemand demand){
         int idUser = UserFacade.getInstance().getCurrentUser().getId();
         for(Participation participation : demand.getParticipationArray()){
             if(idUser == participation.getParticipant().getId()){
-                return participation.getParticipationType();
+                return participation;
             }
         }
-        return -1;
+        return null;
     }
 
     public void suppressCurrentUserParticipation(MentoringDemand demand){
         MentoringDemandDAO.getInstance().suppressParticipation(demand,UserFacade.getInstance().getCurrentUser());
+    }
+
+    public void participate(MentoringDemand demand,int participationType,ArrayList<Schedule> schedules){
+        MentoringDemandDAO.getInstance().participate(
+                demand,
+                new Participation(UserFacade.getInstance().getCurrentUser(),participationType,schedules)
+        );
     }
 }

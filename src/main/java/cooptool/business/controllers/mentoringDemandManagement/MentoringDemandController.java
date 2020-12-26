@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -27,7 +28,7 @@ public class MentoringDemandController implements Initializable {
     @FXML
     Text descriptionArea;
     @FXML
-    Label creatorLabel,subjectLabel,participationLabel,infoLabel;
+    Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
     @FXML
     Button learnButton,teachButton,suppressParticipationButton;
     @FXML
@@ -47,15 +48,6 @@ public class MentoringDemandController implements Initializable {
             int idDemand = (int) resources.getObject("1");
             demand = MentoringDemandFacade.getInstance().getMentoringDemand(idDemand);
 
-            int userParticipationType = MentoringDemandFacade.getInstance().getCurrentUserParticipationType(demand);
-            if(userParticipationType != -1){
-                learnButton.setVisible(false);
-                teachButton.setVisible(false);
-            }
-            else{
-                suppressParticipationButton.setVisible(false);
-            }
-
             descriptionArea.setText(String.format("Description :\n%s",demand.getDescription()));
             StudentRole creatorStudentRole = (StudentRole) demand.getCreator().getRole();
             Subject demandSubject = demand.getSubject();
@@ -70,33 +62,20 @@ public class MentoringDemandController implements Initializable {
                     "Subject : %s",
                     demandSubject.getName()
             );
-            ArrayList<Schedule> schedules = demand.getSchedules();
-
-            for(Schedule schedule: schedules){
-                StudentRole scheduleCreatorRole = (StudentRole) schedule.getCreator().getRole();
-                String schedulesString = String.format(
-                    "%s, Creator : %s %s\n",
-                    schedule.getDate().toString(),
-                    scheduleCreatorRole.getFirstName(),
-                    scheduleCreatorRole.getLastName()
-                );
-                CheckBox checkBox = new CheckBox(schedulesString);
-                schedulesVBox.getChildren().add(checkBox);
-            }
 
             ArrayList<Participation> participationArray = demand.getParticipationArray();
-            String participants = "Participants :\n";
+            StringBuilder participants = new StringBuilder("Participants :\n");
             int studentsNumber = 0;
             int tutorsNumber = 0;
             for(Participation participation : participationArray){
                 String participationType = participation.getParticipationType() == MentoringDemand.STUDENT ? "Student" : "Tutor";
                 StudentRole participantRole = (StudentRole) participation.getParticipant().getRole();
-                participants += String.format(
+                participants.append(String.format(
                         "%s %s %s\n",
                         participantRole.getFirstName(),
                         participantRole.getLastName(),
                         participationType
-                );
+                ));
                 if(participation.getParticipationType() == MentoringDemand.STUDENT){
                     studentsNumber += 1;
                 }
@@ -106,24 +85,68 @@ public class MentoringDemandController implements Initializable {
             }
             creatorLabel.setText(creatorString);
             subjectLabel.setText(subjectString);
-            participationLabel.setText(participants);
+            participationLabel.setText(participants.toString());
             infoLabel.setText(String.format("Students : %d, Tutors : %d",studentsNumber,tutorsNumber));
-        } catch (MissingResourceException e) {
+
+            ArrayList<Schedule> schedules = demand.getSchedules();
+            Participation currentUserParticipation = MentoringDemandFacade.getInstance().getCurrentUserParticipation(demand);
+            if(currentUserParticipation != null){
+                learnButton.setVisible(false);
+                teachButton.setVisible(false);
+                for(Schedule schedule:schedules){
+                    boolean selectedSchedule = false;
+                    for(Schedule participationSchedule : currentUserParticipation.getParticipationSchedules()){
+                        if (participationSchedule.getDate().equals(schedule.getDate())) {
+                            selectedSchedule = true;
+                            break;
+                        }
+                    }
+                    String scheduleString = selectedSchedule ? schedule.getDate() + " Selected" : schedule.getDate() + " Not Selected";
+                    schedulesVBox.getChildren().add(
+                                new Label(scheduleString)
+                    );
+                }
+            }
+            else{
+                suppressParticipationButton.setVisible(false);
+                for(Schedule schedule: schedules){
+                    CheckBox checkBox = new CheckBox(schedule.getDate().toString());
+                    schedulesVBox.getChildren().add(checkBox);
+                }
+            }
+        } catch (MissingResourceException ignored) {
         }
-    }
-
-    public void learn(ActionEvent actionEvent) {
-
-        for(Node node:schedulesVBox.getChildren()) {
-            CheckBox checkBox = (CheckBox) node;
-        }
-    }
-
-    public void teach(ActionEvent actionEvent) {
     }
 
     public void suppressParticipation(ActionEvent actionEvent) {
         MentoringDemandFacade.getInstance().suppressCurrentUserParticipation(demand);
         ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+    }
+
+    public void participate(ActionEvent actionEvent) {
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        for(Node node:schedulesVBox.getChildren()) {
+            CheckBox checkBox = (CheckBox) node;
+            if(checkBox.isSelected()){
+                LocalDateTime checkBoxDate = LocalDateTime.parse(checkBox.getText());
+                schedules.add(new Schedule(checkBoxDate,null));
+            }
+        }
+        Button sourceButton = (Button) actionEvent.getSource();
+        int participationType = sourceButton == learnButton ? MentoringDemand.STUDENT : MentoringDemand.TUTOR;
+        if(schedules.size() == 0){
+            if(participationType == MentoringDemand.STUDENT){
+                errorLabel.setText("You must select a schedule before participating");
+            }
+            else{
+                //use that atm but we want our tutor to be able to create schedule upon entering
+                errorLabel.setText("You must select a schedule before participating");
+                //create schedule
+            }
+        }
+        else{
+            MentoringDemandFacade.getInstance().participate(demand,participationType,schedules);
+            ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+        }
     }
 }

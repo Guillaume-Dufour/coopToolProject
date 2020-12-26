@@ -19,8 +19,8 @@
             <fx:include source="../header_admin.fxml" />
          </children>
       </Pane>
-         <Button fx:id="learnButton" layoutX="473.0" layoutY="496.0" mnemonicParsing="false" onAction="#learn" text="Learn" />
-         <Button fx:id="teachButton" layoutX="471.0" layoutY="544.0" mnemonicParsing="false" onAction="#teach" text="Teach" />
+         <Button fx:id="learnButton" layoutX="473.0" layoutY="496.0" mnemonicParsing="false" onAction="#participate" text="Learn" />
+         <Button fx:id="teachButton" layoutX="471.0" layoutY="544.0" mnemonicParsing="false" onAction="#participate" text="Teach" />
          <Label fx:id="creatorLabel" layoutX="51.0" layoutY="131.0" text="Label" />
          <Label fx:id="subjectLabel" layoutX="51.0" layoutY="164.0" text="Label" />
          <Label layoutX="452.0" layoutY="131.0" text="Schedules" />
@@ -29,5 +29,6 @@
       <Text fx:id="descriptionArea" layoutX="54.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
       <VBox fx:id="schedulesVBox" layoutX="446.0" layoutY="173.0" prefHeight="200.0" prefWidth="331.0" />
       <Button fx:id="suppressParticipationButton" layoutX="470.0" layoutY="521.0" mnemonicParsing="false" onAction="#suppressParticipation" text="Suppress Participation" textFill="RED" />
+      <Label fx:id="errorLabel" layoutX="418.0" layoutY="461.0" prefHeight="17.0" prefWidth="68.0" textFill="RED" />
    </children>
 </AnchorPane>

@@ -3,7 +3,7 @@ package cooptool.models.daos;
 import cooptool.models.objects.*;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             connection.setAutoCommit(false);
             insertPostStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             insertPostStatement.setString(1,mentoringDemand.getDescription());
-            insertPostStatement.setDate(2,Date.valueOf(LocalDate.now()));
+            insertPostStatement.setTimestamp(2,Timestamp.valueOf(LocalDateTime.now()));
             insertPostStatement.setInt(3,PostDAO.MENTORING_DEMAND);
             insertPostStatement.setInt(4,mentoringDemand.getCreator().getId());
             insertPostStatement.setInt(5,mentoringDemand.getSubject().getId());
@@ -49,14 +49,14 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             insertParticipationStatement = connection.prepareStatement(statement2);
             insertParticipationStatement.setInt(1,mentoringDemand.getCreator().getId());
             insertParticipationStatement.setInt(2,postId);
-            insertParticipationStatement.setDate(3,Date.valueOf(LocalDate.now()));
+            insertParticipationStatement.setTimestamp(3,Timestamp.valueOf(LocalDateTime.now()));
             insertParticipationStatement.setInt(4,MentoringDemand.STUDENT);
 
             insertParticipationStatement.executeUpdate();
 
             insertScheduleStatement = connection.prepareStatement(statement3);
             insertScheduleStatement.setInt(1,postId);
-            insertScheduleStatement.setDate(2,Date.valueOf(initialSchedule.getDate()));
+            insertScheduleStatement.setTimestamp(2,Timestamp.valueOf(initialSchedule.getDate()));
             insertScheduleStatement.setInt(3,initialSchedule.getCreator().getId());
 
             insertScheduleStatement.executeUpdate();
@@ -104,14 +104,14 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             ArrayList<Schedule> schedules = new ArrayList<>();
             int idPost = -1;
             String description = null;
-            LocalDate creationDate = null;
+            LocalDateTime creationDate = null;
             String subjectName = null;
             String abbreviationDepartment = null;
             int yearDepartment = -1;
             int creatorId = -1;
             String creatorFirstName = null;
             String creatorLastName = null;
-            LocalDate scheduleDate = null;
+            LocalDateTime scheduleDate = null;
             int scheduleCreatorId = -1;
             String scheduleCreatorFirstName = null;
             String scheduleCreatorLastName = null;
@@ -120,7 +120,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 if(i==0) {
                     idPost = res.getInt(1);
                     description = res.getString(2);
-                    creationDate = res.getDate(3).toLocalDate();
+                    creationDate = res.getTimestamp(3).toLocalDateTime();
                     subjectName = res.getString(4);
                     creatorId = res.getInt(5);
                     creatorFirstName = res.getString(6);
@@ -129,7 +129,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     yearDepartment = res.getInt(9);
                     i++;
                 }
-                scheduleDate = res.getDate(10).toLocalDate();
+                scheduleDate = res.getTimestamp(10).toLocalDateTime();
                 scheduleCreatorId = res.getInt(11);
                 scheduleCreatorFirstName = res.getString(12);
                 scheduleCreatorLastName = res.getString(13);
@@ -196,7 +196,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             int userId = -1;
             String firstNameUser = null;
             String lastNameUser = null;
-            LocalDate participationDate = null;
+            LocalDateTime participationDate = null;
             int participationType = -1;
             int previousUserId = -1;
             ArrayList<Schedule> selectedSchedules = new ArrayList<>();
@@ -218,7 +218,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     lastNameUser = res.getString(3);
                     participationType = res.getInt(5);
                 }
-                participationDate = res.getDate(4).toLocalDate();
+                participationDate = res.getTimestamp(4).toLocalDateTime();
                 selectedSchedules.add(new Schedule(participationDate,null));
             }
             if(previousUserId != -1){
@@ -238,7 +238,23 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
     @Override
     public void participate(MentoringDemand mentoringDemand, Participation participation) {
+        String statement = "INSERT INTO participation (id_user,id_post,date_post_session,role_user) VALUES (?,?,?,?)";
+        try {
+            connection.setAutoCommit(false);
+            for(Schedule schedule : participation.getParticipationSchedules()){
+                PreparedStatement insertStatement = null;
+                insertStatement = connection.prepareStatement(statement);
+                insertStatement.setInt(1,participation.getParticipant().getId());
+                insertStatement.setInt(2,mentoringDemand.getId());
+                insertStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDate()));
+                insertStatement.setInt(4,participation.getParticipationType());
+                insertStatement.executeUpdate();
+            }
+            connection.commit();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -286,14 +302,14 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
             ArrayList<Schedule> schedules = new ArrayList<>();
             String description = null;
-            LocalDate creationDate = null;
+            LocalDateTime creationDate = null;
             String subjectName = null;
             String abbreviationDepartment = null;
             int yearDepartment = -1;
             int idUser = -1;
             String firstNameUser = null;
             String lastNameUser = null;
-            LocalDate scheduleDate;
+            LocalDateTime scheduleDate;
             int previousIdPost = -1;
             int idPost = -1;
             while(res.next()){
@@ -336,7 +352,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     }
                     previousIdPost = idPost;
                     description = res.getString(2);
-                    creationDate = res.getDate(3).toLocalDate();
+                    creationDate = res.getTimestamp(3).toLocalDateTime();
                     subjectName = res.getString(4);
                     abbreviationDepartment = res.getString(5);
                     yearDepartment = res.getInt(6);
@@ -344,7 +360,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     firstNameUser = res.getString(8);
                     lastNameUser = res.getString(9);
                 }
-                scheduleDate = res.getDate(10).toLocalDate();
+                scheduleDate = res.getTimestamp(10).toLocalDateTime();
                 schedules.add(new Schedule(scheduleDate,null));
             }
             if(previousIdPost != -1){

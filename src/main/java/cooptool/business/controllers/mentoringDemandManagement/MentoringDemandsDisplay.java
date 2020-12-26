@@ -4,7 +4,6 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.UserFacade;
-import cooptool.models.objects.Department;
 import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;

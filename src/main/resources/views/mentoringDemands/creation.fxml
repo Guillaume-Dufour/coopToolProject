@@ -24,5 +24,10 @@
          <Label fx:id="errorLabel" layoutX="517.0" layoutY="197.0" prefHeight="17.0" prefWidth="115.0" text="" textFill="RED" />
          <Label layoutX="57.0" layoutY="237.0" text="Description" />
          <Label layoutX="63.0" layoutY="390.0" text="Schedule" />
+      <Label layoutX="296.0" layoutY="390.0" text="Time" />
+      <Label layoutX="345.0" layoutY="425.0" text="h" />
+      <Label layoutX="423.0" layoutY="425.0" text="min" />
+      <ComboBox fx:id="hourBox" layoutX="291.0" layoutY="421.0" prefHeight="25.0" prefWidth="40.0" />
+      <ComboBox fx:id="minBox" layoutX="359.0" layoutY="421.0" prefHeight="25.0" prefWidth="61.0" />
    </children>
 </AnchorPane>

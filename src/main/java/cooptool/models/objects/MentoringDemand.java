@@ -1,6 +1,6 @@
 package cooptool.models.objects;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MentoringDemand {
@@ -11,7 +11,7 @@ public class MentoringDemand {
     private int id;
     private Subject subject;
     private String description;
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
     private ArrayList<Schedule> schedules;
     private User creator;
     private ArrayList<Participation> participationArray = new ArrayList<Participation>();
@@ -28,7 +28,7 @@ public class MentoringDemand {
         return description;
     }
 
-    public LocalDate getCreationDate(){
+    public LocalDateTime getCreationDate(){
         return creationDate;
     }
 
@@ -48,7 +48,7 @@ public class MentoringDemand {
         return creator;
     }
 
-    public MentoringDemand(int id, Subject subject, String description, LocalDate creationDate, ArrayList<Schedule> schedules, User creator){
+    public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator){
         this.id = id;
         this.subject = subject;
         this.description = description;

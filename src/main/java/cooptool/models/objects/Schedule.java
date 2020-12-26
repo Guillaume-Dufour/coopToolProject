@@ -1,13 +1,13 @@
 package cooptool.models.objects;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Schedule {
 
-    private LocalDate date;
+    private LocalDateTime date;
     private User creator;
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
@@ -15,7 +15,7 @@ public class Schedule {
         return creator;
     }
 
-    public Schedule(LocalDate date, User creator){
+    public Schedule(LocalDateTime date, User creator){
         this.date = date;
         this.creator = creator;
     }
