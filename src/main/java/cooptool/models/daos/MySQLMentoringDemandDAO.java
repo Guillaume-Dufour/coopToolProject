@@ -56,7 +56,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
             insertScheduleStatement = connection.prepareStatement(statement3);
             insertScheduleStatement.setInt(1,postId);
-            insertScheduleStatement.setTimestamp(2,Timestamp.valueOf(initialSchedule.getDate()));
+            insertScheduleStatement.setTimestamp(2,Timestamp.valueOf(initialSchedule.getDateTime()));
             insertScheduleStatement.setInt(3,initialSchedule.getCreator().getId());
 
             insertScheduleStatement.executeUpdate();
@@ -247,7 +247,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 insertStatement = connection.prepareStatement(statement);
                 insertStatement.setInt(1,participation.getParticipant().getId());
                 insertStatement.setInt(2,mentoringDemand.getId());
-                insertStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDate()));
+                insertStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
                 insertStatement.setInt(4,participation.getParticipationType());
                 insertStatement.executeUpdate();
             }
@@ -282,7 +282,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             PreparedStatement deletionStatement = connection.prepareStatement(statement);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,user.getId());
-            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDate()));
+            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -297,7 +297,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         try {
             PreparedStatement insertStatement = connection.prepareStatement(statement);
             insertStatement.setInt(1,demand.getId());
-            insertStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDate()));
+            insertStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDateTime()));
             insertStatement.setInt(3,schedule.getCreator().getId());
             insertStatement.executeUpdate();
         } catch (SQLException e) {
@@ -313,7 +313,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             PreparedStatement deletionStatement = connection.prepareStatement(statement);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,schedule.getCreator().getId());
-            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDate()));
+            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -339,7 +339,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                         "NATURAL JOIN schedule " +
                         "JOIN user u1 ON post.id_user_creator = u1.id_user " +
                         "JOIN department ON u1.id_department = department.id_department "+
-                        "WHERE department.abbreviation_department = ? AND type_post = 0 ORDER BY date_post";
+                        "WHERE department.abbreviation_department = ? AND type_post = 0 ORDER BY date_post,id_post";
         List<MentoringDemand> result = new ArrayList<>();
         PreparedStatement preparedStatement;
         try{
@@ -347,39 +347,27 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             preparedStatement.setString(1,department.getAbbreviation());
 
             ResultSet res = preparedStatement.executeQuery();
-
-            ArrayList<Schedule> schedules = new ArrayList<>();
-            String description = null;
-            LocalDateTime creationDate = null;
-            String subjectName = null;
-            String abbreviationDepartment = null;
-            int yearDepartment = -1;
-            int idUser = -1;
-            String firstNameUser = null;
-            String lastNameUser = null;
-            LocalDateTime scheduleDate;
             int previousIdPost = -1;
-            int idPost = -1;
             while(res.next()){
-                idPost = res.getInt(1);
+                int idPost = res.getInt(1);
                 if(idPost != previousIdPost){
-                    if(previousIdPost != -1){
-                        result.add(
-                                new MentoringDemand(
-                                   previousIdPost,
-                                   new Subject(
-                                           -1,
-                                           subjectName,
-                                           -1,
-                                           null
-                                   ),
+                    String description = res.getString(2);
+                    LocalDateTime creationDate = res.getTimestamp(3).toLocalDateTime();
+                    String subjectName = res.getString(4);
+                    String abbreviationDepartment = res.getString(5);
+                    int yearDepartment = res.getInt(6);
+                    int idUser = res.getInt(7);
+                    String firstNameUser = res.getString(8);
+                    String lastNameUser = res.getString(9);
+                    ArrayList<Schedule> schedules = new ArrayList<>();
+                    result.add(
+                            new MentoringDemand(
+                                    idPost,
+                                   new Subject(-1, subjectName, -1, null),
                                    description,
                                    creationDate,
                                    schedules,
-                                   new User(
-                                           idUser,
-                                           null,
-                                           null,
+                                   new User(idUser, null, null,
                                            new StudentRole(
                                                    firstNameUser,
                                                    lastNameUser,
@@ -396,54 +384,10 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                                    )
                                 )
                         );
-                        schedules = new ArrayList<>();
-                    }
                     previousIdPost = idPost;
-                    description = res.getString(2);
-                    creationDate = res.getTimestamp(3).toLocalDateTime();
-                    subjectName = res.getString(4);
-                    abbreviationDepartment = res.getString(5);
-                    yearDepartment = res.getInt(6);
-                    idUser = res.getInt(7);
-                    firstNameUser = res.getString(8);
-                    lastNameUser = res.getString(9);
                 }
-                scheduleDate = res.getTimestamp(10).toLocalDateTime();
-                schedules.add(new Schedule(scheduleDate,null));
-            }
-            if(previousIdPost != -1){
-                result.add(
-                        new MentoringDemand(
-                                idPost,
-                                new Subject(
-                                        -1,
-                                        subjectName,
-                                        -1,
-                                        null
-                                ),
-                                description,
-                                creationDate,
-                                schedules,
-                                new User(
-                                        idUser,
-                                        null,
-                                        null,
-                                        new StudentRole(
-                                                firstNameUser,
-                                                lastNameUser,
-                                                null,
-                                                new Department(
-                                                        -1,
-                                                        null,
-                                                        yearDepartment,
-                                                        abbreviationDepartment,
-                                                        -1
-                                                )
-                                        ),
-                                        -1
-                                )
-                        )
-                );
+                LocalDateTime scheduleDate = res.getTimestamp(10).toLocalDateTime();
+                result.get(result.size()-1).addSchedule(new Schedule(scheduleDate,null));
             }
         } catch (SQLException e) {
             e.printStackTrace();
