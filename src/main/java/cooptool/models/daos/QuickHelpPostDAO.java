@@ -11,4 +11,5 @@ public abstract class QuickHelpPostDAO {
     public static QuickHelpPostDAO getInstance() {
         return INSTANCE;
     }
+
 }
