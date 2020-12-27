@@ -19,7 +19,8 @@ public enum ViewPath {
     CREATE_MENTORING_DEMAND("views/mentoringDemands/creation.fxml"),
     GET_MENTORING_DEMAND("views/mentoringDemands/get_demand.fxml"),
     QUICK_HELP_POST_HOME_PAGE("views/quickHelpPosts/home_page.fxml"),
-    CREATE_QUICK_HELP_POST("views/quickHelpPosts/creation.fxml");
+    CREATE_QUICK_HELP_POST("views/quickHelpPosts/creation.fxml"),
+    HISTORY_DISPLAY("views/browsingHistory/display_history.fxml");
 
 
     private final String path;
