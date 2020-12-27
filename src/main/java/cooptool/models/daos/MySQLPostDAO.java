@@ -25,7 +25,7 @@ public class MySQLPostDAO extends PostDAO {
         String statement = "SELECT * " +
                 "FROM browsing_history b, post p, subject s " +
                 "WHERE b.id_post = p.id_post " +
-                "AND s.id_subject = p.id_subject" +
+                "AND s.id_subject = p.id_subject " +
                 "AND p.id_user = ?; ";
         List<Post> result = new ArrayList<>();
         PreparedStatement preparedStatement;
