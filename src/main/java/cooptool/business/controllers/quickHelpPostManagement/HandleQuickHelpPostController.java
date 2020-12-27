@@ -47,7 +47,6 @@ public class HandleQuickHelpPostController implements Initializable {
             QuickHelpPost qhp =
                     new QuickHelpPost(
                         -1,
-                        department.getValue(),
                         subject.getValue(),
                         description.getText(),
                         LocalDate.now(),

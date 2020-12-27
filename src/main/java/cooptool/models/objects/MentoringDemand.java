@@ -3,7 +3,7 @@ package cooptool.models.objects;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class MentoringDemand {
+public class MentoringDemand extends Post{
 
     public static final int STUDENT = 0;
     public static final int TUTOR = 1;
