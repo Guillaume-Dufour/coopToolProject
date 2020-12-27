@@ -115,7 +115,7 @@ public class MentoringDemandController implements Initializable {
                     );
                     Button button;
                     if(!selectedSchedule){
-                        button = new Button("I'm available");
+                        button = new Button("Not available");
                         button.setOnAction(event -> {
                             MentoringDemandFacade.getInstance().participateToSchedule(
                                     demand,currentUserParticipation.getParticipationType(),schedule
@@ -124,7 +124,7 @@ public class MentoringDemandController implements Initializable {
                         });
                     }
                     else{
-                        button = new Button("Not available");
+                        button = new Button("I'm available");
                         button.setOnAction(event -> {
                             MentoringDemandFacade.getInstance().quitSchedule(
                                     demand,schedule
@@ -133,6 +133,7 @@ public class MentoringDemandController implements Initializable {
                         });
                     }
                     schedulesPane.add(button,1,counter);
+                    addScheduleDeletionButtonIfCreator(schedule,counter);
                     counter++;
                 }
             }
@@ -141,9 +142,12 @@ public class MentoringDemandController implements Initializable {
                 for(Schedule schedule: schedules){
                     CheckBox checkBox = new CheckBox(schedule.getDate().toString());
                     schedulesPane.add(checkBox,0,counter);
+                    addScheduleDeletionButtonIfCreator(schedule,counter);
                     counter++;
                 }
             }
+
+
         } catch (MissingResourceException ignored) {
         }
     }
@@ -171,6 +175,7 @@ public class MentoringDemandController implements Initializable {
                 errorLabel.setText("You must select a schedule before participating");
             }
             else{
+                errorLabel.setText("You must select a schedule before participating");
                 addSchedule();
             }
         }
@@ -254,5 +259,16 @@ public class MentoringDemandController implements Initializable {
             MentoringDemandFacade.getInstance().addSchedule(demand,localDateTime);
             refresh();
         });
+    }
+
+    private void addScheduleDeletionButtonIfCreator(Schedule schedule,int counter){
+        if(MentoringDemandFacade.getInstance().isCurrentUserCreatorOfSchedule(schedule)){
+            Button deleteSchedule = new Button("Delete schedule");
+            deleteSchedule.setOnAction(event -> {
+                MentoringDemandFacade.getInstance().deleteSchedule(demand,schedule);
+                refresh();
+            });
+            schedulesPane.add(deleteSchedule,2,counter);
+        }
     }
 }

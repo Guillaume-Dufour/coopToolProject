@@ -85,4 +85,12 @@ public class MentoringDemandFacade {
                 demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
         );
     }
+
+    public boolean isCurrentUserCreatorOfSchedule(Schedule schedule){
+        return UserFacade.getInstance().getCurrentUser().getId() == schedule.getCreator().getId();
+    }
+
+    public void deleteSchedule(MentoringDemand demand,Schedule schedule){
+        MentoringDemandDAO.getInstance().removeSchedule(demand,schedule);
+    }
 }

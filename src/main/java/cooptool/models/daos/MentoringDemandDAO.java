@@ -33,6 +33,8 @@ public abstract class MentoringDemandDAO {
 
     public abstract void addSchedule(MentoringDemand demand, Schedule schedule);
 
+    public abstract void removeSchedule(MentoringDemand demand, Schedule schedule);
+
     public abstract List<MentoringDemand> getPartialMentoringDemands();
 
     public abstract List<MentoringDemand> getPartialMentoringDemands(User user);
