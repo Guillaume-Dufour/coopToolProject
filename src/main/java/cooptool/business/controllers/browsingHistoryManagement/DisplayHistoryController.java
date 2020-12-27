@@ -1,26 +1,25 @@
 package cooptool.business.controllers.browsingHistoryManagement;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.PostFacade;
 import cooptool.models.objects.MentoringDemand;
-import cooptool.models.objects.Post;
 import cooptool.models.objects.User;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Button;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DisplayHistoryController implements Initializable {
@@ -39,10 +38,11 @@ public class DisplayHistoryController implements Initializable {
     User user;
 
     public void deleteAll(ActionEvent event) {
+        postFacade.deleteAllBrowsingHistory(user);
     }
 
     public void deletePostFromHistory(ActionEvent event, MentoringDemand mentoringDemand) {
-        System.out.println(mentoringDemand.getId());
+        postFacade.deleteOneFromBrowsingHistory(user, mentoringDemand);
     }
 
     @Override
@@ -53,7 +53,11 @@ public class DisplayHistoryController implements Initializable {
         titlePostCol.setCellValueFactory(param -> {
             String description = param.getValue().getDescription();
             String nameSubject = param.getValue().getSubject().getName();
-            String date = param.getValue().getCreationDate().toString();
+
+            //String date = param.getValue().getCreationDate().getDayOfWeek().toString();
+
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.FRENCH);
+            String date = param.getValue().getCreationDate().format(dateTimeFormatter);
 
             String res = nameSubject + "\n" + description + "\n" + date;
 
@@ -63,6 +67,7 @@ public class DisplayHistoryController implements Initializable {
         titlePostCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         deletePostCol.setCellFactory(param -> new TableCell<>() {
+
             private final Button deleteButton = new Button();
 
             {
@@ -82,6 +87,12 @@ public class DisplayHistoryController implements Initializable {
 
                     setGraphic(deleteButton);
                 }
+            }
+        });
+
+        historyTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND, historyTableView.getSelectionModel().getSelectedItem().getId());
             }
         });
 

@@ -46,6 +46,7 @@ public class MySQLPostDAO extends PostDAO {
             throwables.printStackTrace();
             return false;
         }
+
         return true;
     }
 
@@ -53,6 +54,7 @@ public class MySQLPostDAO extends PostDAO {
     public boolean deleteAllFromBrowsingHistory(User user) {
         String statement =
                 "DELETE FROM browsing_history WHERE id_user = ?;";
+
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(statement);

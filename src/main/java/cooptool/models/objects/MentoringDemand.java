@@ -56,4 +56,6 @@ public class MentoringDemand extends Post{
     public ArrayList<Participation> getParticipationArray(){
         return participationArray;
     }
+
+
 }

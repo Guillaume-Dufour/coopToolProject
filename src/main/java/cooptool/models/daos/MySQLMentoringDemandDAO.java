@@ -365,7 +365,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     if(previousIdPost != -1){
                         result.add(
                                 new MentoringDemand(
-                                   idPost,
+                                   previousIdPost,
                                    new Subject(
                                            -1,
                                            subjectName,

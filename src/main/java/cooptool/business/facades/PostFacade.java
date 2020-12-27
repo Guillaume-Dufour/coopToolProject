@@ -24,7 +24,11 @@ public class PostFacade {
         return new ArrayList<>();
     }
 
-    public boolean deleteOneFromBrowsingHistory(User user) {
-        return false;
+    public boolean deleteOneFromBrowsingHistory(User user, Post post) {
+        return postDAO.deleteOneFromBrowsingHistory(user, post);
+    }
+
+    public boolean deleteAllBrowsingHistory(User user) {
+        return postDAO.deleteAllFromBrowsingHistory(user);
     }
 }
