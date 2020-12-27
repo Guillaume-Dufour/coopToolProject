@@ -8,29 +8,8 @@ public class MentoringDemand extends Post{
     public static final int STUDENT = 0;
     public static final int TUTOR = 1;
 
-    private int id;
-    private Subject subject;
-    private String description;
-    private LocalDateTime creationDate;
     private ArrayList<Schedule> schedules;
-    private User creator;
     private ArrayList<Participation> participationArray = new ArrayList<Participation>();
-
-    public int getId(){
-        return id;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDateTime getCreationDate(){
-        return creationDate;
-    }
 
     public ArrayList<Schedule> getSchedules() {
         return schedules;
@@ -44,16 +23,17 @@ public class MentoringDemand extends Post{
         return res;
     }
 
-    public User getCreator() {
-        return creator;
-    }
-
-    public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator){
+    /*public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator){
         this.id = id;
         this.subject = subject;
         this.description = description;
         this.schedules = schedules;
         this.creator = creator;
+    }*/
+
+    public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator) {
+        super(id, subject, description, creator, creationDate);
+        this.schedules = schedules;
     }
 
     public void addSchedule(Schedule schedule){

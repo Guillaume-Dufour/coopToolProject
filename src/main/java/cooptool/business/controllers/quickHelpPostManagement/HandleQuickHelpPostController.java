@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class HandleQuickHelpPostController implements Initializable {
@@ -45,13 +46,13 @@ public class HandleQuickHelpPostController implements Initializable {
         }
         else {
             QuickHelpPost qhp =
-                    new QuickHelpPost(
-                        -1,
-                        subject.getValue(),
-                        description.getText(),
-                        LocalDate.now(),
-                        user
-            );
+                new QuickHelpPost(
+                    -1,
+                    subject.getValue(),
+                    description.getText(),
+                    user,
+                    LocalDateTime.now()
+                );
             //QuickHelpPostFacade.getInstance().create(qhp);
             ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
         }
