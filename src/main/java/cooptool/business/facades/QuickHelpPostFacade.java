@@ -25,4 +25,10 @@ public class QuickHelpPostFacade {
     public void delete(QuickHelpPost quickHelpPost){
 
     }
+
+    public QuickHelpPost create(/* mettre les argument */) {
+        //TODO : mettre tous les arguments en à utiliser pour créer le quick help post
+        // utiliser le constructeur sans id et date
+        return null;
+    }
 }

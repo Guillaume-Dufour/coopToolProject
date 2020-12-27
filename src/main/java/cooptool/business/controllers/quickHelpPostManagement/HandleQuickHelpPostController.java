@@ -3,6 +3,7 @@ package cooptool.business.controllers.quickHelpPostManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
+import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.QuickHelpPostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.daos.QuickHelpPostDAO;
@@ -22,7 +23,8 @@ import java.util.ResourceBundle;
 public class HandleQuickHelpPostController implements Initializable {
 
     User user = UserFacade.getInstance().getCurrentUser();
-    StudentRole student = (StudentRole) user.getRole();
+    QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+
     @FXML
     ComboBox<Department> department;
     @FXML
@@ -45,6 +47,8 @@ public class HandleQuickHelpPostController implements Initializable {
             errorLabel.setText("Please pick a subject");
         }
         else {
+            // TODO : on ne créer par la quick help post dans le controller mais dans la facade
+            // qhpFacade.create( avec les bons arguments );
             QuickHelpPost qhp =
                 new QuickHelpPost(
                     -1,
@@ -53,7 +57,6 @@ public class HandleQuickHelpPostController implements Initializable {
                     user,
                     LocalDateTime.now()
                 );
-            //QuickHelpPostFacade.getInstance().create(qhp);
             ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
         }
     }

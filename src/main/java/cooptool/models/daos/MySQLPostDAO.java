@@ -1,14 +1,11 @@
 package cooptool.models.daos;
 
-import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.Post;
 import cooptool.models.objects.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLPostDAO extends PostDAO {
@@ -20,30 +17,52 @@ public class MySQLPostDAO extends PostDAO {
     }
 
     @Override
-    public List<Post> getAllPostsByUser(User user) {
+    public List<Post> findPostByUser(User user) {
+        return null;
+    }
 
-        List<Post> posts = new ArrayList<>();
+    @Override
+    public Post findPostById(int id) {
+        return null;
+    }
 
-        String requete = "SELECT * " +
-                "FROM post p " +
-                "JOIN subject s on p.id_subject = s.id_subject " +
-                "WHERE id_user_creator = ?;";
+    @Override
+    public boolean update(Post post) {
+        return false;
+    }
 
+    @Override
+    public boolean deleteOneFromBrowsingHistory(User user, Post post) {
+        String statement =
+                "DELETE FROM browsing_history WHERE id_user = ? AND id_post = ?;";
+        PreparedStatement preparedStatement = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(requete);
-
+            preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, user.getId());
-            ResultSet rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-            }
-
-
+            preparedStatement.setInt(2, post.getId());
+            preparedStatement.executeUpdate();
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
+        return true;
+    }
 
-        return posts;
+    @Override
+    public boolean deleteAllFromBrowsingHistory(User user) {
+        String statement =
+                "DELETE FROM browsing_history WHERE id_user = ?;";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

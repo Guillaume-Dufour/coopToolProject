@@ -10,5 +10,7 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
         super();
     }
 
+
+
     
 }
