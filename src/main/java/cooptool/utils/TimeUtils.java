@@ -26,4 +26,8 @@ public class TimeUtils {
         }
         return minutes;
     }
+
+    public static String format(int value){
+        return value < 10 ? "0"+ value : String.valueOf(value);
+    }
 }

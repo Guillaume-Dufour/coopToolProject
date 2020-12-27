@@ -18,11 +18,11 @@ public abstract class Post {
     }
 
     public Post(Subject subject, String description, User creator) {
-        this(1, subject, description, creator, LocalDateTime.now());
+        this(0, subject, description, creator, LocalDateTime.now());
     }
 
-    public Post(int id, Subject subject, String description, LocalDateTime time) {
-        this(id, subject, description, null, time);
+    public Post(int id, Subject subject, String description, LocalDateTime dateTime) {
+        this(id, subject, description, null, dateTime);
     }
 
     public int getId() {
@@ -43,5 +43,13 @@ public abstract class Post {
 
     public LocalDateTime getCreationDate() {
         return creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

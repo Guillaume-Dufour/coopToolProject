@@ -6,11 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MySQLPostDAO extends PostDAO {
 
@@ -26,7 +23,7 @@ public class MySQLPostDAO extends PostDAO {
                 "FROM browsing_history b, post p, subject s " +
                 "WHERE b.id_post = p.id_post " +
                 "AND s.id_subject = p.id_subject " +
-                "AND p.id_user = ?; ";
+                "AND b.id_user = ?;";
         List<Post> result = new ArrayList<>();
         PreparedStatement preparedStatement;
         try {
@@ -46,13 +43,13 @@ public class MySQLPostDAO extends PostDAO {
                     post = new MentoringDemand(
                             resultSet.getInt("id_post"),
                             subject,
-                            resultSet.getString("description"),
+                            resultSet.getString("description_post"),
                             resultSet.getTimestamp("date_post").toLocalDateTime());
                 } else {
                     post = new QuickHelpPost(
                             resultSet.getInt("id_post"),
                             subject,
-                            resultSet.getString("description"),
+                            resultSet.getString("description_post"),
                             resultSet.getTimestamp("date_post").toLocalDateTime()
                     );
                 }
@@ -61,6 +58,7 @@ public class MySQLPostDAO extends PostDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return result;
     }
 
@@ -89,6 +87,7 @@ public class MySQLPostDAO extends PostDAO {
             throwables.printStackTrace();
             return false;
         }
+
         return true;
     }
 
@@ -96,9 +95,9 @@ public class MySQLPostDAO extends PostDAO {
     public boolean deleteAllFromBrowsingHistory(User user) {
         String statement =
                 "DELETE FROM browsing_history WHERE id_user = ?;";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
 

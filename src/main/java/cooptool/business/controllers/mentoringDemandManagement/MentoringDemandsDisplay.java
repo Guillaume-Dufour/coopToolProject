@@ -58,7 +58,7 @@ public class MentoringDemandsDisplay implements Initializable {
                     cur.getSubject().getName(),
                     cur.schedulesToString());
             Button bottomButton = new Button("Go To");
-            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId()-1);
+            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId());
             bottomButton.setOnAction(event);
 
             borderPane.setTop(new Label(topText));

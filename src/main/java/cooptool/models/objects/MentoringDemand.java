@@ -18,18 +18,11 @@ public class MentoringDemand extends Post{
     public String schedulesToString(){
         String res = "";
         for(Schedule schedule : schedules){
-            res += schedule.getDate().toString() + "\n";
+            res += schedule.toString() + "\n";
         }
         return res;
     }
 
-    /*public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator){
-        this.id = id;
-        this.subject = subject;
-        this.description = description;
-        this.schedules = schedules;
-        this.creator = creator;
-    }*/
 
     public MentoringDemand(int id, Subject subject, String description, LocalDateTime creationDate, ArrayList<Schedule> schedules, User creator) {
         super(id, subject, description, creator, creationDate);
@@ -47,7 +40,7 @@ public class MentoringDemand extends Post{
     }
 
     public void addSchedule(Schedule schedule){
-
+        schedules.add(schedule);
     }
 
     public void removeSchedule(Schedule schedule){
@@ -61,4 +54,6 @@ public class MentoringDemand extends Post{
     public ArrayList<Participation> getParticipationArray(){
         return participationArray;
     }
+
+
 }

@@ -102,12 +102,12 @@ public class MentoringDemandController implements Initializable {
                 for(Schedule schedule:schedules){
                     boolean selectedSchedule = false;
                     for(Schedule participationSchedule : currentUserParticipation.getParticipationSchedules()){
-                        if (participationSchedule.getDate().equals(schedule.getDate())) {
+                        if (participationSchedule.getDateTime().equals(schedule.getDateTime())) {
                             selectedSchedule = true;
                             break;
                         }
                     }
-                    Text scheduleText = new Text(schedule.getDate().toString());
+                    Text scheduleText = new Text(schedule.toString());
                     Color color = selectedSchedule ? Color.GREEN : Color.RED;
                     scheduleText.setFill(color);
                     schedulesPane.add(
@@ -140,7 +140,7 @@ public class MentoringDemandController implements Initializable {
             else{
                 suppressParticipationButton.setVisible(false);
                 for(Schedule schedule: schedules){
-                    CheckBox checkBox = new CheckBox(schedule.getDate().toString());
+                    CheckBox checkBox = new CheckBox(schedule.toString());
                     schedulesPane.add(checkBox,0,counter);
                     addScheduleDeletionButtonIfCreator(schedule,counter);
                     counter++;
