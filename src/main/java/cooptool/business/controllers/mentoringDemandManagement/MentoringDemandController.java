@@ -5,21 +5,26 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.*;
+import cooptool.utils.TimeUtils;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MentoringDemandController implements Initializable {
@@ -30,9 +35,9 @@ public class MentoringDemandController implements Initializable {
     @FXML
     Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
     @FXML
-    Button learnButton,teachButton,suppressParticipationButton;
+    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton;
     @FXML
-    VBox schedulesVBox;
+    GridPane schedulesPane;
 
     private MentoringDemand demand;
 
@@ -90,6 +95,7 @@ public class MentoringDemandController implements Initializable {
 
             ArrayList<Schedule> schedules = demand.getSchedules();
             Participation currentUserParticipation = MentoringDemandFacade.getInstance().getCurrentUserParticipation(demand);
+            int counter = 0;
             if(currentUserParticipation != null){
                 learnButton.setVisible(false);
                 teachButton.setVisible(false);
@@ -101,35 +107,61 @@ public class MentoringDemandController implements Initializable {
                             break;
                         }
                     }
-                    String scheduleString = selectedSchedule ? schedule.getDate() + " Selected" : schedule.getDate() + " Not Selected";
-                    schedulesVBox.getChildren().add(
-                                new Label(scheduleString)
+                    Text scheduleText = new Text(schedule.getDate().toString());
+                    Color color = selectedSchedule ? Color.GREEN : Color.RED;
+                    scheduleText.setFill(color);
+                    schedulesPane.add(
+                                scheduleText,0,counter
                     );
+                    Button button;
+                    if(!selectedSchedule){
+                        button = new Button("I'm available");
+                        button.setOnAction(event -> {
+                            MentoringDemandFacade.getInstance().participateToSchedule(
+                                    demand,currentUserParticipation.getParticipationType(),schedule
+                            );
+                            refresh();
+                        });
+                    }
+                    else{
+                        button = new Button("Not available");
+                        button.setOnAction(event -> {
+                            MentoringDemandFacade.getInstance().quitSchedule(
+                                    demand,schedule
+                            );
+                            refresh();
+                        });
+                    }
+                    schedulesPane.add(button,1,counter);
+                    counter++;
                 }
             }
             else{
                 suppressParticipationButton.setVisible(false);
                 for(Schedule schedule: schedules){
                     CheckBox checkBox = new CheckBox(schedule.getDate().toString());
-                    schedulesVBox.getChildren().add(checkBox);
+                    schedulesPane.add(checkBox,0,counter);
+                    counter++;
                 }
             }
         } catch (MissingResourceException ignored) {
         }
     }
 
-    public void suppressParticipation(ActionEvent actionEvent) {
+    public void suppressParticipation() {
         MentoringDemandFacade.getInstance().suppressCurrentUserParticipation(demand);
-        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+        refresh();
     }
 
     public void participate(ActionEvent actionEvent) {
         ArrayList<Schedule> schedules = new ArrayList<>();
-        for(Node node:schedulesVBox.getChildren()) {
-            CheckBox checkBox = (CheckBox) node;
-            if(checkBox.isSelected()){
-                LocalDateTime checkBoxDate = LocalDateTime.parse(checkBox.getText());
-                schedules.add(new Schedule(checkBoxDate,null));
+        for(Node node:schedulesPane.getChildren()) {
+            if(GridPane.getColumnIndex(node) == 0){
+                CheckBox checkBox = (CheckBox) node;
+                if(checkBox.isSelected()){
+                    LocalDateTime checkBoxDate = LocalDateTime.parse(checkBox.getText());
+                    schedules.add(new Schedule(checkBoxDate,null));
+                }
             }
         }
         Button sourceButton = (Button) actionEvent.getSource();
@@ -139,14 +171,88 @@ public class MentoringDemandController implements Initializable {
                 errorLabel.setText("You must select a schedule before participating");
             }
             else{
-                //use that atm but we want our tutor to be able to create schedule upon entering
-                errorLabel.setText("You must select a schedule before participating");
-                //create schedule
+                addSchedule();
             }
         }
         else{
             MentoringDemandFacade.getInstance().participate(demand,participationType,schedules);
-            ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+            refresh();
         }
+    }
+
+    public void refresh(){
+        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+    }
+
+    public void addSchedule(){
+        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
+        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
+
+        // Create the custom dialog.
+        Dialog<LocalDateTime> dialog = new Dialog<>();
+        dialog.setTitle("Add new schedule");
+        dialog.setHeaderText("Insert fields and submit to create new schedule.");
+
+
+        // Set the button types.
+        ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+
+        // Create the inside
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        ComboBox<Integer> hourBox = new ComboBox<>(FXCollections.observableList(hours));
+        ComboBox<Integer> minBox = new ComboBox<>(FXCollections.observableList(minutes));
+        DatePicker datePicker = new DatePicker();
+
+        grid.add(new Label("Date:"),0,0);
+        grid.add(datePicker,1,0);
+        grid.add(new Label("Hour:"), 0, 1);
+        grid.add(hourBox, 1, 1);
+        grid.add(new Label("Minutes:"), 0, 2);
+        grid.add(minBox, 1, 2);
+
+
+        Node submitButton = dialog.getDialogPane().lookupButton(submitButtonType);
+        submitButton.setDisable(true);
+
+        hourBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && minBox.getValue() != null && datePicker.getValue() != null){
+                submitButton.setDisable(false);
+            }
+        });
+
+        minBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && hourBox.getValue() != null && datePicker.getValue() != null){
+                submitButton.setDisable(false);
+            }
+        });
+
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null && hourBox.getValue() != null && minBox.getValue() != null){
+                submitButton.setDisable(false);
+            }
+        });
+
+        dialog.getDialogPane().setContent(grid);
+
+        Platform.runLater(hourBox::requestFocus);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == submitButtonType) {
+                return LocalDateTime.of(datePicker.getValue(), LocalTime.of(hourBox.getValue(), minBox.getValue()));
+            }
+            return null;
+        });
+
+        Optional<LocalDateTime> result = dialog.showAndWait();
+
+        result.ifPresent(localDateTime -> {
+            MentoringDemandFacade.getInstance().addSchedule(demand,localDateTime);
+            refresh();
+        });
     }
 }

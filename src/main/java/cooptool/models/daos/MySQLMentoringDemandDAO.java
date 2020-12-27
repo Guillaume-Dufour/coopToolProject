@@ -273,6 +273,38 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     }
 
     @Override
+    public void quitSchedule(MentoringDemand demand, User user, Schedule schedule) {
+        String statement =
+                "DELETE FROM participation " +
+                "WHERE id_post = ? AND id_user = ? AND date_post_session = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(statement);
+            deletionStatement.setInt(1,demand.getId());
+            deletionStatement.setInt(2,user.getId());
+            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDate()));
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addSchedule(MentoringDemand demand, Schedule schedule) {
+        String statement =
+                "INSERT INTO schedule (id_post,date_post_session,creator_id) " +
+                "VALUES (?,?,?)";
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement(statement);
+            insertStatement.setInt(1,demand.getId());
+            insertStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDate()));
+            insertStatement.setInt(3,schedule.getCreator().getId());
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<MentoringDemand> getPartialMentoringDemands() {
         return null;
     }

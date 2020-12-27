@@ -3,13 +3,13 @@ package cooptool.business.facades;
 import cooptool.models.daos.MentoringDemandDAO;
 import cooptool.models.objects.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MentoringDemandFacade {
 
     private static final MentoringDemandFacade INSTANCE;
-    private final MentoringDemandDAO mentoringDemandDAO = MentoringDemandDAO.getInstance();
 
     static{
         INSTANCE = new MentoringDemandFacade();
@@ -65,6 +65,24 @@ public class MentoringDemandFacade {
         MentoringDemandDAO.getInstance().participate(
                 demand,
                 new Participation(UserFacade.getInstance().getCurrentUser(),participationType,schedules)
+        );
+    }
+    
+    public void participateToSchedule(MentoringDemand demand, int participationType, Schedule schedule){
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        schedules.add(schedule);
+        participate(demand,participationType,schedules);
+    }
+    
+    public void quitSchedule(MentoringDemand demand, Schedule schedule){
+        MentoringDemandDAO.getInstance().quitSchedule(
+                demand,UserFacade.getInstance().getCurrentUser(),schedule
+        );
+    }
+
+    public void addSchedule(MentoringDemand demand, LocalDateTime date){
+        MentoringDemandDAO.getInstance().addSchedule(
+                demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
         );
     }
 }

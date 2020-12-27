@@ -6,6 +6,7 @@ import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.*;
+import cooptool.utils.TimeUtils;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,15 +54,8 @@ public class MentoringDemandHandler implements Initializable {
             }
 
         });
-        ArrayList<Integer> hours = new ArrayList<>();
-        ArrayList<Integer> minutes = new ArrayList<>();
-
-        for(int i=0;i<60;i++){
-            if(i<24){
-                hours.add(i);
-            }
-            minutes.add(i);
-        }
+        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
+        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
 
         hourBox.setItems(FXCollections.observableList(hours));
         minBox.setItems(FXCollections.observableList(minutes));
@@ -75,7 +69,7 @@ public class MentoringDemandHandler implements Initializable {
 
     }
 
-    public void create(ActionEvent actionEvent) {
+    public void create() {
         if(subject.getValue() == null){
             errorLabel.setText("Please pick a subject");
         }

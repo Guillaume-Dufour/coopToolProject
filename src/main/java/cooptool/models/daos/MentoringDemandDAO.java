@@ -29,6 +29,10 @@ public abstract class MentoringDemandDAO {
 
     public abstract void suppressParticipation(MentoringDemand demand, User user);
 
+    public abstract void quitSchedule(MentoringDemand demand, User user, Schedule schedule);
+
+    public abstract void addSchedule(MentoringDemand demand, Schedule schedule);
+
     public abstract List<MentoringDemand> getPartialMentoringDemands();
 
     public abstract List<MentoringDemand> getPartialMentoringDemands(User user);
