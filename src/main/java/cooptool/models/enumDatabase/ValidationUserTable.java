@@ -1,9 +1,14 @@
 package cooptool.models.enumDatabase;
 
-public enum ValidationUserTable {
+public enum ValidationUserTable implements PapaInterface{
 
     ID_USER("id_user"),
     CODE_VALIDATION("code_validation");
+
+    @Override
+    public String toString() {
+        return path;
+    }
 
     private final String path;
 

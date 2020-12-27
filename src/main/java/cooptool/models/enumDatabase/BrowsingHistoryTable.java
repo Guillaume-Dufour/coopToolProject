@@ -1,13 +1,13 @@
 package cooptool.models.enumDatabase;
 
-public enum BrowsingHistoryTable {
+public enum BrowsingHistoryTable implements PapaInterface {
 
     ID_USER("id_user"),
     ID_POST("id_post");
 
     @Override
     public String toString() {
-        return this.getPath();
+        return path;
     }
 
     private final String path;

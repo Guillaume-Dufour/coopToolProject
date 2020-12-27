@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum UserTable {
+public enum UserTable implements PapaInterface{
 
     ID_USER("id_user"),
     LAST_NAME_USER("last_name_user"),
@@ -11,6 +11,11 @@ public enum UserTable {
     TYPE_USER("type_user"),
     ID_DEPARTMENT("id_department"),
     VALIDATE("validate");
+
+    @Override
+    public String toString() {
+        return path;
+    }
 
     private final String path;
 

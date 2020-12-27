@@ -1,12 +1,17 @@
 package cooptool.models.enumDatabase;
 
-public enum DepartmentTable {
+public enum DepartmentTable implements PapaInterface{
 
     ID_DEPARTMENT("id_department"),
     NAME_DEPARTMENT("name_department"),
     ABBREVIATION_DEPARTMENT("abbreviation_department"),
     YEAR_DEPARTMENT("year_department"),
     AVAILABLE("available");
+
+    @Override
+    public String toString() {
+        return path;
+    }
 
     private final String path;
 
