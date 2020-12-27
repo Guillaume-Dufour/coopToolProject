@@ -21,6 +21,10 @@ public abstract class Post {
         this(1, subject, description, creator, LocalDateTime.now());
     }
 
+    public Post(int id, Subject subject, String description, LocalDateTime time) {
+        this(id, subject, description, null, time);
+    }
+
     public int getId() {
         return id;
     }

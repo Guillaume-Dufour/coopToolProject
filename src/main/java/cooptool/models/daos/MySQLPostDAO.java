@@ -1,12 +1,16 @@
 package cooptool.models.daos;
 
-import cooptool.models.objects.Post;
-import cooptool.models.objects.User;
+import cooptool.models.objects.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MySQLPostDAO extends PostDAO {
 
@@ -18,10 +22,49 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public List<Post> findPostByUser(User user) {
-        return null;
+        String statement = "SELECT * " +
+                "FROM browsing_history b, post p, subject s " +
+                "WHERE b.id_post = p.id_post " +
+                "AND s.id_subject = p.id_subject" +
+                "AND p.id_user = ?; ";
+        List<Post> result = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int typePost = resultSet.getInt("type_post");
+                Post post;
+                Subject subject = new Subject(
+                        resultSet.getInt("id_subject"),
+                        resultSet.getString("name_subject"),
+                        resultSet.getInt("available"),
+                        null
+                );
+                if (typePost == MENTORING_DEMAND) {
+                    post = new MentoringDemand(
+                            resultSet.getInt("id_post"),
+                            subject,
+                            resultSet.getString("description"),
+                            resultSet.getTimestamp("date_post").toLocalDateTime());
+                } else {
+                    post = new QuickHelpPost(
+                            resultSet.getInt("id_post"),
+                            subject,
+                            resultSet.getString("description"),
+                            resultSet.getTimestamp("date_post").toLocalDateTime()
+                    );
+                }
+                result.add(post);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return result;
     }
 
-    @Override
+        @Override
     public Post findPostById(int id) {
         return null;
     }

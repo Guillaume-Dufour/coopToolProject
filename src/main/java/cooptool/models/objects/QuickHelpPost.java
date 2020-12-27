@@ -13,4 +13,8 @@ public class QuickHelpPost extends Post{
     public QuickHelpPost(Subject subject, String description, User creator) {
         this(1, subject, description, creator, LocalDateTime.now());
     }
+
+    public QuickHelpPost(int id, Subject subject, String description, LocalDateTime time) {
+        super(id, subject, description, null, time);
+    }
 }
