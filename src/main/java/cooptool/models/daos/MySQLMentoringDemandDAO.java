@@ -175,6 +175,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                             -1
                     )
             );
+
             addParticipationToMentoringDemand(result);
         } catch (SQLException e) {
             e.printStackTrace();
