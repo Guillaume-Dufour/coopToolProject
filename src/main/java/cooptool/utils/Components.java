@@ -37,4 +37,5 @@ public class Components {
             button.setStyle("-fx-background-color: #f0524d");
         }
     }
+
 }

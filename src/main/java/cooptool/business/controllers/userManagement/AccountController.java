@@ -63,4 +63,8 @@ public class AccountController implements Initializable {
     public void goBack(ActionEvent event) {
         ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
     }
+
+    public void displayHistory(ActionEvent event) {
+        ViewLoader.getInstance().load(ViewPath.HISTORY_DISPLAY, user);
+    }
 }
