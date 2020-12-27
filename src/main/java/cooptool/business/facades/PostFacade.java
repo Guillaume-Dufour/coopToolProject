@@ -20,8 +20,8 @@ public class PostFacade {
         return INSTANCE;
     }
 
-    public List<Post> getBrowsingHistory (User user){
-        return new ArrayList<>();
+    public List<Post> getBrowsingHistory(User user){
+        return postDAO.findPostByUser(user);
     }
 
     public boolean deleteOneFromBrowsingHistory(User user, Post post) {

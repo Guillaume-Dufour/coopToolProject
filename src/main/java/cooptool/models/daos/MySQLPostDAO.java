@@ -25,8 +25,8 @@ public class MySQLPostDAO extends PostDAO {
         String statement = "SELECT * " +
                 "FROM browsing_history b, post p, subject s " +
                 "WHERE b.id_post = p.id_post " +
-                "AND s.id_subject = p.id_subject" +
-                "AND p.id_user = ?; ";
+                "AND s.id_subject = p.id_subject " +
+                "AND b.id_user = ?;";
         List<Post> result = new ArrayList<>();
         PreparedStatement preparedStatement;
         try {
@@ -46,13 +46,13 @@ public class MySQLPostDAO extends PostDAO {
                     post = new MentoringDemand(
                             resultSet.getInt("id_post"),
                             subject,
-                            resultSet.getString("description"),
+                            resultSet.getString("description_post"),
                             resultSet.getTimestamp("date_post").toLocalDateTime());
                 } else {
                     post = new QuickHelpPost(
                             resultSet.getInt("id_post"),
                             subject,
-                            resultSet.getString("description"),
+                            resultSet.getString("description_post"),
                             resultSet.getTimestamp("date_post").toLocalDateTime()
                     );
                 }
@@ -61,6 +61,7 @@ public class MySQLPostDAO extends PostDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         return result;
     }
 
