@@ -1,10 +1,15 @@
 package cooptool.models.enumDatabase;
 
-public enum ScheduleTable {
+public enum ScheduleTable implements PapaInterface {
 
     ID_POST("id_post"),
     DATE_POST_SESSION("date_post_session"),
     CREATOR_ID("creator_id");
+
+    @Override
+    public String toString() {
+        return path;
+    }
 
     private final String path;
 
