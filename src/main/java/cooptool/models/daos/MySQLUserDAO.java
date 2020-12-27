@@ -76,7 +76,7 @@ public class MySQLUserDAO extends UserDAO {
 
     @Override
     public List<User> findUserByDepartment(Department department){
-        ArrayList<User> listUser = new ArrayList<User>();
+        ArrayList<User> listUser = new ArrayList<>();
         User user = null;
         String statement =
                 "SELECT * " +
