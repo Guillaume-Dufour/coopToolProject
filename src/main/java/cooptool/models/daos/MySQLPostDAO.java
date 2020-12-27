@@ -6,11 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MySQLPostDAO extends PostDAO {
 
@@ -99,9 +96,8 @@ public class MySQLPostDAO extends PostDAO {
         String statement =
                 "DELETE FROM browsing_history WHERE id_user = ?;";
 
-        PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
 
