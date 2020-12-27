@@ -20,7 +20,7 @@ public class TimeUtils {
     public static ArrayList<Integer> getMinutesArrayList(){
         if(minutes == null){
             minutes = new ArrayList<>();
-            for(int i=0;i<24;i++){
+            for(int i=0;i<60;i++){
                 minutes.add(i);
             }
         }
