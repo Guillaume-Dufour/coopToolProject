@@ -41,6 +41,11 @@ public class MentoringDemand extends Post{
         this.schedules = schedules;
     }
 
+    public MentoringDemand(int id, Subject subject, String description, LocalDateTime time) {
+        super(id, subject, description, null, time);
+        this.schedules = null;
+    }
+
     public void addSchedule(Schedule schedule){
 
     }
