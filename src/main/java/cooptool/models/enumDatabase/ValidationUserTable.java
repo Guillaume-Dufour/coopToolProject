@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum ValidationUserTable implements PapaInterface{
+public enum ValidationUserTable implements TableInterface {
 
     ID_USER("id_user"),
     CODE_VALIDATION("code_validation");

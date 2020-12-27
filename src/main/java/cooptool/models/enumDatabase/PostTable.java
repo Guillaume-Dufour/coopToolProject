@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum PostTable implements PapaInterface {
+public enum PostTable implements TableInterface {
 
     ID_POST("id_post"),
     DESCRIPTION_POST("description_post"),

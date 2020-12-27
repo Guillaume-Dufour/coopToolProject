@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum DepartmentTable implements PapaInterface{
+public enum DepartmentTable implements TableInterface {
 
     ID_DEPARTMENT("id_department"),
     NAME_DEPARTMENT("name_department"),

@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum MessageTable implements PapaInterface{
+public enum MessageTable implements TableInterface {
 
     ID_USER_SENDER("id_user_sender"),
     ID_USER_RECEIVER("id_user_receiver"),

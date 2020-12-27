@@ -9,7 +9,7 @@ public class MentoringDemand extends Post{
     public static final int TUTOR = 1;
 
     private ArrayList<Schedule> schedules;
-    private ArrayList<Participation> participationArray = new ArrayList<Participation>();
+    private ArrayList<Participation> participationArray = new ArrayList<>();
 
     public ArrayList<Schedule> getSchedules() {
         return schedules;

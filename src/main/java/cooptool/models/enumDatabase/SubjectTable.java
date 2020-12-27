@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum SubjectTable implements PapaInterface {
+public enum SubjectTable implements TableInterface {
 
     ID_SUBJECT("id_subject"),
     NAME_SUBJECT("name_subject"),

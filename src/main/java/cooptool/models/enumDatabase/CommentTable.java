@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum CommentTable implements PapaInterface {
+public enum CommentTable implements TableInterface {
 
     ID_COMMENT("id_comment"),
     CONTENT_COMMENT("content_comment"),

@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum UserTable implements PapaInterface{
+public enum UserTable implements TableInterface {
 
     ID_USER("id_user"),
     LAST_NAME_USER("last_name_user"),

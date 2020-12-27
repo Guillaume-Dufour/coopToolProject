@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum ParticipationTable implements PapaInterface {
+public enum ParticipationTable implements TableInterface {
 
     ID_USER("id_user"),
     ID_POST("id_post"),

@@ -1,6 +1,6 @@
 package cooptool.models.enumDatabase;
 
-public enum BrowsingHistoryTable implements PapaInterface {
+public enum BrowsingHistoryTable implements TableInterface {
 
     ID_USER("id_user"),
     ID_POST("id_post");
