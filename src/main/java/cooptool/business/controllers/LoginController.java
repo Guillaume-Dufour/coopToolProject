@@ -71,8 +71,8 @@ public class LoginController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        inputMail.setText("lilian.misser@etu.umontpellier.fr");
-        inputPassword.setText("lilian12");
+        inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
+        inputPassword.setText("guillaume");
 
         inputMail.setOnKeyPressed(this::onEnter);
         inputPassword.setOnKeyPressed(this::onEnter);

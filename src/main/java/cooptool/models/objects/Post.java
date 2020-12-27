@@ -2,7 +2,7 @@ package cooptool.models.objects;
 
 import java.time.LocalDateTime;
 
-public class Post {
+public abstract class Post {
     private int id;
     private Subject subject;
     private String description;

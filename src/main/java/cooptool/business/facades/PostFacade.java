@@ -1,5 +1,6 @@
 package cooptool.business.facades;
 
+import cooptool.models.daos.PostDAO;
 import cooptool.models.objects.Post;
 import cooptool.models.objects.User;
 
@@ -7,16 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostFacade {
-    private static PostFacade postFacade = null;
+
+    private static final PostFacade INSTANCE;
+    private final PostDAO postDAO = PostDAO.getInstance();
+
+    static {
+        INSTANCE = new PostFacade();
+    }
 
     public static PostFacade getInstance() {
-        if(postFacade == null) {
-            postFacade = new PostFacade();
-        }
-        return postFacade;
+        return INSTANCE;
     }
 
     public List<Post> getBrowsingHistory (User user){
-        return new ArrayList<Post>();
+        return new ArrayList<>();
+    }
+
+    public boolean deleteOneFromBrowsingHistory(User user) {
+        return false;
     }
 }

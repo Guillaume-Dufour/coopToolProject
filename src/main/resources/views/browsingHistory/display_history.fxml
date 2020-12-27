@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.browsingHistoryManagement.displayHistoryController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.browsingHistoryManagement.DisplayHistoryController">
    <children>
        <Pane fx:id="header_student">
           <children>
@@ -15,8 +15,8 @@
        </Pane>
       <TableView fx:id="historyTableView" layoutX="50.0" layoutY="200.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: WHITE;">
         <columns>
-          <TableColumn maxWidth="700.0" prefWidth="600.0" text="Historique" />
-          <TableColumn maxWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text=" " />
+          <TableColumn fx:id="titlePostCol" maxWidth="700.0" prefWidth="600.0" text="Historique" />
+          <TableColumn fx:id="deletePostCol" maxWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Supprimer" />
         </columns>
       </TableView>
       <Button fx:id="deleteAllButton" layoutX="596.0" layoutY="138.0" mnemonicParsing="false" onAction="#deleteAll" text="Supprimer l'historique" />

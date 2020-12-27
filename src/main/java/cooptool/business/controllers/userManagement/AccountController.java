@@ -20,7 +20,7 @@ public class AccountController implements Initializable {
     @FXML
     Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
     @FXML
-    Button deleteButton, updateButton, retourButton;
+    Button deleteButton, updateButton, retourButton, historyButton;
     @FXML
     Pane header_student, header_admin;
 
