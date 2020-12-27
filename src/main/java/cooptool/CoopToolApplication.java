@@ -3,6 +3,7 @@ package cooptool;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class CoopToolApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         ViewLoader viewLoader = ViewLoader.getInstance();
+        primaryStage.getIcons().add(new Image("images/logo.JPG"));
         viewLoader.setStage(primaryStage);
         viewLoader.load(ViewPath.LOGIN);
         primaryStage.show();
