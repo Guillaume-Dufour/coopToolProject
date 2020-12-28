@@ -8,7 +8,6 @@ import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.*;
 import cooptool.utils.TimeUtils;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -22,7 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
-public class MentoringDemandHandler implements Initializable {
+public class MentoringDemandCreator implements Initializable {
     User user = UserFacade.getInstance().getCurrentUser();
     StudentRole student = (StudentRole) user.getRole();
     @FXML

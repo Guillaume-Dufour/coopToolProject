@@ -52,4 +52,8 @@ public abstract class Post {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public void setDescription(String newDesc){
+        this.description = newDesc;
+    }
 }

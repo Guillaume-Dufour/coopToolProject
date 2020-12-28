@@ -19,7 +19,7 @@ public abstract class MentoringDemandDAO {
 
     public abstract void create(MentoringDemand mentoringDemand);
 
-    public abstract void update(MentoringDemand mentoringDemand);
+    public abstract void updateDescription(MentoringDemand mentoringDemand);
 
     public abstract void delete(MentoringDemand mentoringDemand);
 

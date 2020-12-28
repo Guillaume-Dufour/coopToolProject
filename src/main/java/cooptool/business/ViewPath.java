@@ -22,6 +22,7 @@ public enum ViewPath {
     CREATE_QUICK_HELP_POST("views/quickHelpPosts/creation.fxml"),
     HISTORY_DISPLAY("views/browsingHistory/display_history.fxml");
 
+
     private final String path;
 
     ViewPath(String path){
