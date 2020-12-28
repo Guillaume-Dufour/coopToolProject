@@ -1,6 +1,7 @@
 package cooptool.models.daos;
 
 import cooptool.models.objects.Department;
+import cooptool.models.objects.MySQLFactoryObject;
 import cooptool.models.objects.Subject;
 
 import java.sql.*;
@@ -69,7 +70,10 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
         List<Subject> subjects = new ArrayList<>();
 
-        String requete = "SELECT * FROM subject WHERE id_department = ? ORDER BY name_subject";
+        String requete = "SELECT * " +
+                "FROM subject s " +
+                "JOIN department d ON d.id_department = s.id_department AND d.id_department = ? " +
+                "ORDER BY s.name_subject";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
@@ -79,12 +83,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
             while (result.next()) {
 
-                Subject subject = new Subject(
-                        result.getInt("id_subject"),
-                        result.getString("name_subject"),
-                        result.getInt("available"),
-                        department
-                );
+                Subject subject = MySQLFactoryObject.createSubject(result);
 
                 subjects.add(subject);
             }

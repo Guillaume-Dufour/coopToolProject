@@ -29,13 +29,7 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
 
             while (result.next()) {
 
-                Department department = new Department(
-                        result.getInt("id_department"),
-                        result.getString("name_department"),
-                        result.getInt("year_department"),
-                        result.getString("abbreviation_department"),
-                        result.getInt("available")
-                );
+                Department department = MySQLFactoryObject.createDepartment(result);
 
                 departments.add(department);
             }

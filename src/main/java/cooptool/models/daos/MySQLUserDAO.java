@@ -36,36 +36,7 @@ public class MySQLUserDAO extends UserDAO {
             ResultSet result = preparedStatement.executeQuery();
 
             if (result.next()) {
-
-                int id = result.getInt("id_user");
-                int typeUser = result.getInt("type_user");
-                String password = result.getString("password_user");
-                int validate = result.getInt("validate");
-                UserRole userRole = null;
-
-                if (typeUser == STUDENT_ROLE) {
-
-                    String firstName = result.getString("first_name_user");
-                    String lastName = result.getString("last_name_user");
-                    String description = result.getString("description_user");
-                    int departmentId = result.getInt("id_department");
-                    String nameDepartment = result.getString("name_department");
-                    int year = result.getInt("year_department");
-                    String abbreviation = result.getString("abbreviation_department");
-                    int available = result.getInt("available");
-
-                    Department department = new Department(
-                            departmentId, nameDepartment, year, abbreviation, available
-                    );
-
-                    userRole = new StudentRole(
-                            firstName, lastName, description, department
-                    );
-                } else if (typeUser == ADMIN_ROLE) {
-                    userRole = new AdminRole();
-                }
-
-                user = new User(id, mail, password, userRole, validate);
+                user = MySQLFactoryObject.createUser(result);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,27 +61,7 @@ public class MySQLUserDAO extends UserDAO {
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-
-                int id = result.getInt("id_user");
-                int typeUser = result.getInt("type_user");
-                String mail = result.getString("mail_user");
-                String password = result.getString("password_user");
-                int validate = result.getInt("validate");
-                UserRole userRole = null;
-
-                if (typeUser == STUDENT_ROLE) {
-
-                    String firstName = result.getString("first_name_user");
-                    String lastName = result.getString("last_name_user");
-                    String description = result.getString("description_user");
-
-                    userRole = new StudentRole(
-                            firstName, lastName, description, department
-                    );
-                } else if (typeUser == ADMIN_ROLE) {
-                    userRole = new AdminRole();
-                }
-                user = new User(id, mail, password, userRole, validate);
+                user = MySQLFactoryObject.createUser(result);
                 listUser.add(user);
             }
         } catch (SQLException e) {
