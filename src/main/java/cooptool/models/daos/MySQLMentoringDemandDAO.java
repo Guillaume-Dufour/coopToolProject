@@ -345,7 +345,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public List<MentoringDemand> getPartialMentoringDemands(Department department) {
         String statement =
-                        "SELECT id_post,description_post,date_post,name_subject,abbreviation_department,year_department,id_user,first_name_user,last_name_user,date_post_session " +
+                        "SELECT * " +
                         "FROM post " +
                         "NATURAL JOIN subject " +
                         "NATURAL JOIN schedule " +
@@ -360,42 +360,11 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
             ResultSet res = preparedStatement.executeQuery();
             int previousIdPost = -1;
+
             while(res.next()){
                 int idPost = res.getInt(1);
                 if(idPost != previousIdPost){
-                    String description = res.getString(2);
-                    LocalDateTime creationDate = res.getTimestamp(3).toLocalDateTime();
-                    String subjectName = res.getString(4);
-                    String abbreviationDepartment = res.getString(5);
-                    int yearDepartment = res.getInt(6);
-                    int idUser = res.getInt(7);
-                    String firstNameUser = res.getString(8);
-                    String lastNameUser = res.getString(9);
-                    ArrayList<Schedule> schedules = new ArrayList<>();
-                    result.add(
-                            new MentoringDemand(
-                                    idPost,
-                                   new Subject(-1, subjectName, -1, null),
-                                   description,
-                                   creationDate,
-                                   schedules,
-                                   new User(idUser, null, null,
-                                           new StudentRole(
-                                                   firstNameUser,
-                                                   lastNameUser,
-                                                   null,
-                                                   new Department(
-                                                           -1,
-                                                           null,
-                                                           yearDepartment,
-                                                           abbreviationDepartment,
-                                                           -1
-                                                   )
-                                           ),
-                                           -1
-                                   )
-                                )
-                        );
+                    result.add(MySQLFactoryObject.createMentoringDemand(res));
                     previousIdPost = idPost;
                 }
                 LocalDateTime scheduleDate = res.getTimestamp(10).toLocalDateTime();

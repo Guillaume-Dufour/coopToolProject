@@ -4,7 +4,7 @@ public enum ScheduleTable implements TableInterface {
 
     ID_POST("id_post"),
     DATE_POST_SESSION("date_post_session"),
-    CREATOR_ID("creator_id");
+    ID_CREATOR("creator_id");
 
     @Override
     public String toString() {
