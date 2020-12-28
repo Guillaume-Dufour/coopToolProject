@@ -99,4 +99,5 @@ public class MentoringDemandFacade {
         demand.setDescription(updatedDesc);
         MentoringDemandDAO.getInstance().updateDescription(demand);
     }
+
 }
