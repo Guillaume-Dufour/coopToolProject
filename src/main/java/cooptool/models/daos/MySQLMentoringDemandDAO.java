@@ -167,6 +167,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     firstLine = false;
                 }
                 Timestamp scheduleTs = res.getTimestamp(10);
+                //Case where the post has no schedules
                 if(scheduleTs != null){
                     LocalDateTime scheduleDate = scheduleTs.toLocalDateTime();
                     int scheduleCreatorId = res.getInt(11);
@@ -185,6 +186,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     result.addSchedule(schedule);
                 }
             }
+            assert result != null;
             addParticipationsToMentoringDemand(result);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -235,7 +237,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         try {
             connection.setAutoCommit(false);
             for(Schedule schedule : participation.getParticipationSchedules()){
-                PreparedStatement insertStatement = null;
+                PreparedStatement insertStatement;
                 insertStatement = connection.prepareStatement(statement);
                 insertStatement.setInt(1,participation.getParticipant().getId());
                 insertStatement.setInt(2,mentoringDemand.getId());
@@ -259,6 +261,21 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             PreparedStatement deletionStatement = connection.prepareStatement(statement);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,user.getId());
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void removeParticipation(MentoringDemand demand, Schedule schedule) {
+        String statement =
+                        "DELETE FROM participation " +
+                        "WHERE id_post = ? AND date_post_session = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(statement);
+            deletionStatement.setInt(1,demand.getId());
+            deletionStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -310,6 +327,26 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public int getNumberOfSchedules(MentoringDemand demand) {
+        String statement =
+                        "SELECT * " +
+                        "FROM schedule " +
+                        "WHERE id_post = ?";
+        int result = 0;
+        try {
+            PreparedStatement selectStatement = connection.prepareStatement(statement);
+            selectStatement.setInt(1,demand.getId());
+            ResultSet res = selectStatement.executeQuery();
+            while (res.next()){
+                result += 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 

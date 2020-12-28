@@ -1,6 +1,7 @@
 package cooptool.models.objects;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Post {
@@ -9,6 +10,7 @@ public abstract class Post {
     private String description;
     private User creator;
     private LocalDateTime creationDate;
+    private List<Comment> comments;
 
     public Post(int id, Subject subject, String description, User creator, LocalDateTime creationDate) {
         this.id = id;
@@ -16,6 +18,7 @@ public abstract class Post {
         this.description = description;
         this.creator = creator;
         this.creationDate = creationDate;
+        this.comments = new ArrayList<>();
     }
 
     public Post(Subject subject, String description, User creator) {
@@ -56,5 +59,9 @@ public abstract class Post {
 
     public void setDescription(String newDesc){
         this.description = newDesc;
+    }
+
+    public void addComment(Comment newComment){
+        comments.add(newComment);
     }
 }
