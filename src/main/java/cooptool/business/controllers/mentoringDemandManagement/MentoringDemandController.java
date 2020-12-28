@@ -244,8 +244,17 @@ public class MentoringDemandController implements Initializable {
     }
 
     public void delete() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete mentoring demand");
+        alert.setHeaderText("Are you sure want to delete this demand?");
 
+        // option != null.
+        Optional<ButtonType> option = alert.showAndWait();
 
+        if(option.get() == ButtonType.OK){
+            MentoringDemandFacade.getInstance().delete(demand);
+            ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
+        }
     }
 
     private void setDescription(){

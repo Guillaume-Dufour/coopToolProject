@@ -26,7 +26,7 @@ public class MentoringDemandFacade {
     }
 
     public void delete(MentoringDemand mentoringDemand){
-
+        MentoringDemandDAO.getInstance().delete(mentoringDemand);
     }
 
 
