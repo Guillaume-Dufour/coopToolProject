@@ -57,8 +57,6 @@ public class UserFacade {
             throw new UnmatchedPassword();
         }
         currentUser = user;
-
-        //searchNotifications();
     }
 
     public void register(String firstName, String lastName, String mail,
@@ -168,38 +166,4 @@ public class UserFacade {
     public User getCurrentUser() {
         return currentUser;
     }
-
-    /*public void searchNotifications() {
-
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                String requete = "SELECT * " +
-                        "FROM notification n " +
-                        "JOIN user u ON u.id_user = n.id_user AND u.id_user = " + getCurrentUser().getId();
-                try {
-                    Statement statement = MySQLConnection.getInstance().createStatement();
-
-                    ResultSet rs = statement.executeQuery(requete);
-
-                    List<Notification> notifications = new ArrayList<>();
-
-                    while (rs.next()) {
-                        notifications.add(new Notification(
-                                MySQLFactoryObject.createUser(rs),
-                                rs.getString("content_notification")
-                        ));
-                    }
-
-                    System.out.println(notifications);
-
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            }
-        };
-
-        timer.schedule(timerTask,0,  15 * 1000);
-    }*/
 }
