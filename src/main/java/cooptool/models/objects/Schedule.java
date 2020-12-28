@@ -24,7 +24,7 @@ public class Schedule {
 
     public String toString(){
         return String.format(
-                "%s/%s/%d %sh%s",
+                "%s/%s/%d %s:%s",
                 TimeUtils.format(dateTime.getDayOfMonth()),
                 TimeUtils.format(dateTime.getMonthValue()),
                 dateTime.getYear(),

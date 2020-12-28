@@ -1,5 +1,7 @@
 package cooptool.utils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TimeUtils {
@@ -29,5 +31,10 @@ public class TimeUtils {
 
     public static String format(int value){
         return value < 10 ? "0"+ value : String.valueOf(value);
+    }
+
+
+    public static LocalDateTime parse(String formattedDate){
+        return LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 }
