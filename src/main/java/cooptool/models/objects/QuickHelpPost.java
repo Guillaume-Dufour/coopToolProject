@@ -12,11 +12,12 @@ public class QuickHelpPost {
     private LocalDate creationDate;
     private User creator;
 
-    public QuickHelpPost(int i, Department department, Subject subject, String description, LocalDate now, User user) {
+    public QuickHelpPost(int i, Department department, Subject subject, String description, LocalDate now, User creator) {
         this.id = id;
         this.department = department;
         this.subject = subject;
         this.description = description;
+        this.creationDate = now;
         this.creator = creator;
     }
 
