@@ -7,14 +7,12 @@ import java.util.List;
 
 public abstract class MentoringDemandDAO {
 
-    private static final MentoringDemandDAO INSTANCE;
-
-    static {
-        INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
+    private static class LazyHolder {
+        static final MentoringDemandDAO INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
     }
 
     public static MentoringDemandDAO getInstance() {
-        return INSTANCE;
+        return LazyHolder.INSTANCE;
     }
 
     public abstract void create(MentoringDemand mentoringDemand);

@@ -72,12 +72,24 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    public static Notification createNotification(ResultSet rs) {
+        return new Notification(
+                getValue(rs, NotificationTable.ID_NOTIFICATION),
+                createUser(rs),
+                getValue(rs, NotificationTable.CONTENT_NOTIFICATION, String.class)
+        );
+    }
+
     public static QuickHelpPost createQuickHelpPost(ResultSet rs) {
         return null;
     }
 
     public static Participation createParticipation(ResultSet rs) {
-        return null;
+        return new Participation(
+                createUser(rs),
+                getValue(rs, ParticipationTable.ROLE_USER),
+                new ArrayList<>()
+        );
     }
 
     public static Schedule createSchedule(ResultSet rs) {
@@ -97,9 +109,11 @@ public abstract class MySQLFactoryObject {
 
     private static int getValue(ResultSet rs, TableInterface attribut) {
         try {
-            return rs.getInt(attribut.toString());
+            int value = rs.getInt(attribut.toString());
+
+            return rs.wasNull() ? -1 : value;
         } catch (SQLException e) {
-            return 0;
+            return -1;
         }
     }
 }

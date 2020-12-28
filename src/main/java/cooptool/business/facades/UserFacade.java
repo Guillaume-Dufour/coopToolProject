@@ -1,16 +1,18 @@
 package cooptool.business.facades;
 
+import cooptool.models.daos.MySQLConnection;
+import cooptool.models.objects.*;
 import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
-import cooptool.models.objects.Department;
-import cooptool.models.objects.StudentRole;
-import cooptool.models.objects.User;
 import cooptool.utils.Mail;
+import cooptool.utils.NotificationTask;
 
-import java.util.List;
-import java.util.Random;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
 import java.util.regex.*;
 
 /**
@@ -55,6 +57,8 @@ public class UserFacade {
             throw new UnmatchedPassword();
         }
         currentUser = user;
+
+        //searchNotifications();
     }
 
     public void register(String firstName, String lastName, String mail,
@@ -165,5 +169,37 @@ public class UserFacade {
         return currentUser;
     }
 
+    /*public void searchNotifications() {
 
+        Timer timer = new Timer();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                String requete = "SELECT * " +
+                        "FROM notification n " +
+                        "JOIN user u ON u.id_user = n.id_user AND u.id_user = " + getCurrentUser().getId();
+                try {
+                    Statement statement = MySQLConnection.getInstance().createStatement();
+
+                    ResultSet rs = statement.executeQuery(requete);
+
+                    List<Notification> notifications = new ArrayList<>();
+
+                    while (rs.next()) {
+                        notifications.add(new Notification(
+                                MySQLFactoryObject.createUser(rs),
+                                rs.getString("content_notification")
+                        ));
+                    }
+
+                    System.out.println(notifications);
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        };
+
+        timer.schedule(timerTask,0,  15 * 1000);
+    }*/
 }
