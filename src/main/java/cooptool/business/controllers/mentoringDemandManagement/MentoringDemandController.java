@@ -4,6 +4,7 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.exceptions.TooMuchSchedules;
 import cooptool.models.objects.*;
 import cooptool.utils.TimeUtils;
 import javafx.application.Platform;
@@ -40,6 +41,8 @@ public class MentoringDemandController implements Initializable {
     GridPane schedulesPane;
 
     private MentoringDemand demand;
+    
+    private MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +54,7 @@ public class MentoringDemandController implements Initializable {
 
         try {
             int idDemand = (int) resources.getObject("1");
-            demand = MentoringDemandFacade.getInstance().getMentoringDemand(idDemand);
+            demand = mentoringDemandFacade.getMentoringDemand(idDemand);
 
             setDescription();
             setCreatorInfos();
@@ -59,12 +62,12 @@ public class MentoringDemandController implements Initializable {
             setParticipantsInfos();
 
             //Disabling edition and deletion is the current user is not the creator of the demand
-            if(!MentoringDemandFacade.getInstance().isCurrentUserCreatorOfDemand(demand)) {
+            if(!mentoringDemandFacade.isCurrentUserCreatorOfDemand(demand)) {
                 editDescriptionButton.setVisible(false);
                 deleteButton.setVisible(false);
             }
 
-            Participation currentUserParticipation = MentoringDemandFacade.getInstance().getCurrentUserParticipation(demand);
+            Participation currentUserParticipation = mentoringDemandFacade.getCurrentUserParticipation(demand);
             //User participates to the mentoring demand
             if(currentUserParticipation != null){
                 learnButton.setVisible(false);
@@ -83,7 +86,7 @@ public class MentoringDemandController implements Initializable {
     }
 
     public void suppressParticipation() {
-        MentoringDemandFacade.getInstance().suppressCurrentUserParticipation(demand);
+        mentoringDemandFacade.suppressCurrentUserParticipation(demand);
         refresh();
     }
 
@@ -110,7 +113,7 @@ public class MentoringDemandController implements Initializable {
             }
         }
         else{
-            MentoringDemandFacade.getInstance().participate(demand,participationType,schedules);
+            mentoringDemandFacade.participate(demand,participationType,schedules);
             refresh();
         }
     }
@@ -186,16 +189,20 @@ public class MentoringDemandController implements Initializable {
         Optional<LocalDateTime> result = dialog.showAndWait();
 
         result.ifPresent(localDateTime -> {
-            MentoringDemandFacade.getInstance().addSchedule(demand,localDateTime);
-            refresh();
+            try {
+                mentoringDemandFacade.addSchedule(demand,localDateTime);
+                refresh();
+            } catch (TooMuchSchedules exception) {
+                errorLabel.setText(exception.getMessage());
+            }
         });
     }
 
     private void addScheduleDeletionButtonIfCreator(Schedule schedule,int counter){
-        if(MentoringDemandFacade.getInstance().isCurrentUserCreatorOfSchedule(schedule)){
+        if(mentoringDemandFacade.isCurrentUserCreatorOfSchedule(schedule)){
             Button deleteSchedule = new Button("Delete schedule");
             deleteSchedule.setOnAction(event -> {
-                MentoringDemandFacade.getInstance().deleteSchedule(demand,schedule);
+                mentoringDemandFacade.deleteSchedule(demand,schedule);
                 refresh();
             });
             schedulesPane.add(deleteSchedule,2,counter);
@@ -238,7 +245,7 @@ public class MentoringDemandController implements Initializable {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(updatedDesc -> {
-            MentoringDemandFacade.getInstance().updateDescription(demand,updatedDesc);
+            mentoringDemandFacade.updateDescription(demand,updatedDesc);
             refresh();
         });
     }
@@ -252,7 +259,7 @@ public class MentoringDemandController implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
 
         if(option.get() == ButtonType.OK){
-            MentoringDemandFacade.getInstance().delete(demand);
+            mentoringDemandFacade.delete(demand);
             ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
         }
     }
@@ -328,7 +335,7 @@ public class MentoringDemandController implements Initializable {
             if(!selectedSchedule){
                 button = new Button("Not available");
                 button.setOnAction(event -> {
-                    MentoringDemandFacade.getInstance().participateToSchedule(
+                    mentoringDemandFacade.participateToSchedule(
                             demand,currentUserParticipation.getParticipationType(),schedule
                     );
                     refresh();
@@ -337,7 +344,7 @@ public class MentoringDemandController implements Initializable {
             else{
                 button = new Button("I'm available");
                 button.setOnAction(event -> {
-                    MentoringDemandFacade.getInstance().quitSchedule(
+                    mentoringDemandFacade.quitSchedule(
                             demand,schedule
                     );
                     refresh();

@@ -1,5 +1,6 @@
 package cooptool.business.facades;
 
+import cooptool.exceptions.TooMuchSchedules;
 import cooptool.models.daos.MentoringDemandDAO;
 import cooptool.models.objects.*;
 
@@ -14,7 +15,9 @@ public class MentoringDemandFacade {
     static{
         INSTANCE = new MentoringDemandFacade();
     }
-
+    
+    private MentoringDemandDAO mentoringDemandDAO = MentoringDemandDAO.getInstance();
+    
     private MentoringDemandFacade(){}
 
     public static MentoringDemandFacade getInstance(){
@@ -22,25 +25,25 @@ public class MentoringDemandFacade {
     }
 
     public void create(MentoringDemand mentoringDemand){
-        MentoringDemandDAO.getInstance().create(mentoringDemand);
+        mentoringDemandDAO.create(mentoringDemand);
     }
 
     public void delete(MentoringDemand mentoringDemand){
-        MentoringDemandDAO.getInstance().delete(mentoringDemand);
+        mentoringDemandDAO.delete(mentoringDemand);
     }
 
 
     public MentoringDemand getMentoringDemand(int id){
-        return MentoringDemandDAO.getInstance().getMentoringDemand(id);
+        return mentoringDemandDAO.getMentoringDemand(id);
     }
 
     public List<MentoringDemand> getMentoringDemands(){
         UserRole userRole = UserFacade.getInstance().getCurrentUser().getRole();
         if(userRole instanceof StudentRole){
-            return MentoringDemandDAO.getInstance().getPartialMentoringDemands(((StudentRole) userRole).getDepartment());
+            return mentoringDemandDAO.getPartialMentoringDemands(((StudentRole) userRole).getDepartment());
         }
         else{
-            return MentoringDemandDAO.getInstance().getPartialMentoringDemands();
+            return mentoringDemandDAO.getPartialMentoringDemands();
         }
     }
 
@@ -55,11 +58,11 @@ public class MentoringDemandFacade {
     }
 
     public void suppressCurrentUserParticipation(MentoringDemand demand){
-        MentoringDemandDAO.getInstance().suppressParticipation(demand,UserFacade.getInstance().getCurrentUser());
+        mentoringDemandDAO.suppressParticipation(demand,UserFacade.getInstance().getCurrentUser());
     }
 
     public void participate(MentoringDemand demand,int participationType,ArrayList<Schedule> schedules){
-        MentoringDemandDAO.getInstance().participate(
+        mentoringDemandDAO.participate(
                 demand,
                 new Participation(UserFacade.getInstance().getCurrentUser(),participationType,schedules)
         );
@@ -72,15 +75,21 @@ public class MentoringDemandFacade {
     }
     
     public void quitSchedule(MentoringDemand demand, Schedule schedule){
-        MentoringDemandDAO.getInstance().quitSchedule(
+        mentoringDemandDAO.quitSchedule(
                 demand,UserFacade.getInstance().getCurrentUser(),schedule
         );
     }
 
-    public void addSchedule(MentoringDemand demand, LocalDateTime date){
-        MentoringDemandDAO.getInstance().addSchedule(
-                demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
-        );
+    public void addSchedule(MentoringDemand demand, LocalDateTime date) throws TooMuchSchedules{
+        System.out.println(mentoringDemandDAO.getNumberOfSchedules(demand));
+        if(mentoringDemandDAO.getNumberOfSchedules(demand) < 10){
+            mentoringDemandDAO.addSchedule(
+                    demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
+            );
+        }
+        else{
+            throw new TooMuchSchedules();
+        }
     }
 
     public boolean isCurrentUserCreatorOfSchedule(Schedule schedule){
@@ -88,7 +97,8 @@ public class MentoringDemandFacade {
     }
 
     public void deleteSchedule(MentoringDemand demand,Schedule schedule){
-        MentoringDemandDAO.getInstance().removeSchedule(demand,schedule);
+        mentoringDemandDAO.removeSchedule(demand,schedule);
+        mentoringDemandDAO.removeParticipation(demand,schedule);
     }
 
     public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){
@@ -97,7 +107,7 @@ public class MentoringDemandFacade {
 
     public void updateDescription(MentoringDemand demand,String updatedDesc){
         demand.setDescription(updatedDesc);
-        MentoringDemandDAO.getInstance().updateDescription(demand);
+        mentoringDemandDAO.updateDescription(demand);
     }
 
 }
