@@ -29,9 +29,6 @@ public class MentoringDemandFacade {
 
     }
 
-    public void update(MentoringDemand mentoringDemand){
-
-    }
 
     public MentoringDemand getMentoringDemand(int id){
         return MentoringDemandDAO.getInstance().getMentoringDemand(id);
@@ -92,5 +89,14 @@ public class MentoringDemandFacade {
 
     public void deleteSchedule(MentoringDemand demand,Schedule schedule){
         MentoringDemandDAO.getInstance().removeSchedule(demand,schedule);
+    }
+
+    public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){
+        return UserFacade.getInstance().getCurrentUser().getId() == demand.getCreator().getId();
+    }
+
+    public void updateDescription(MentoringDemand demand,String updatedDesc){
+        demand.setDescription(updatedDesc);
+        MentoringDemandDAO.getInstance().updateDescription(demand);
     }
 }

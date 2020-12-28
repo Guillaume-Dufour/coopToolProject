@@ -35,7 +35,7 @@ public class MentoringDemandController implements Initializable {
     @FXML
     Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
     @FXML
-    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton;
+    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton,editDescriptionButton,deleteButton;
     @FXML
     GridPane schedulesPane;
 
@@ -53,98 +53,28 @@ public class MentoringDemandController implements Initializable {
             int idDemand = (int) resources.getObject("1");
             demand = MentoringDemandFacade.getInstance().getMentoringDemand(idDemand);
 
-            descriptionArea.setText(String.format("Description :\n%s",demand.getDescription()));
-            StudentRole creatorStudentRole = (StudentRole) demand.getCreator().getRole();
-            Subject demandSubject = demand.getSubject();
-            String creatorString = String.format(
-                    "Creator : %s %s, Department : %s%d",
-                    creatorStudentRole.getFirstName(),
-                    creatorStudentRole.getLastName(),
-                    creatorStudentRole.getDepartment().getAbbreviation(),
-                    creatorStudentRole.getDepartment().getYear()
-            );
-            String subjectString = String.format(
-                    "Subject : %s",
-                    demandSubject.getName()
-            );
+            setDescription();
+            setCreatorInfos();
+            setSubjectInfos();
+            setParticipantsInfos();
 
-            ArrayList<Participation> participationArray = demand.getParticipationArray();
-            StringBuilder participants = new StringBuilder("Participants :\n");
-            int studentsNumber = 0;
-            int tutorsNumber = 0;
-            for(Participation participation : participationArray){
-                String participationType = participation.getParticipationType() == MentoringDemand.STUDENT ? "Student" : "Tutor";
-                StudentRole participantRole = (StudentRole) participation.getParticipant().getRole();
-                participants.append(String.format(
-                        "%s %s %s\n",
-                        participantRole.getFirstName(),
-                        participantRole.getLastName(),
-                        participationType
-                ));
-                if(participation.getParticipationType() == MentoringDemand.STUDENT){
-                    studentsNumber += 1;
-                }
-                else{
-                    tutorsNumber += 1;
-                }
+            //Disabling edition and deletion is the current user is not the creator of the demand
+            if(!MentoringDemandFacade.getInstance().isCurrentUserCreatorOfDemand(demand)) {
+                editDescriptionButton.setVisible(false);
+                deleteButton.setVisible(false);
             }
-            creatorLabel.setText(creatorString);
-            subjectLabel.setText(subjectString);
-            participationLabel.setText(participants.toString());
-            infoLabel.setText(String.format("Students : %d, Tutors : %d",studentsNumber,tutorsNumber));
 
-            ArrayList<Schedule> schedules = demand.getSchedules();
             Participation currentUserParticipation = MentoringDemandFacade.getInstance().getCurrentUserParticipation(demand);
-            int counter = 0;
+            //User participates to the mentoring demand
             if(currentUserParticipation != null){
                 learnButton.setVisible(false);
                 teachButton.setVisible(false);
-                for(Schedule schedule:schedules){
-                    boolean selectedSchedule = false;
-                    for(Schedule participationSchedule : currentUserParticipation.getParticipationSchedules()){
-                        if (participationSchedule.getDateTime().equals(schedule.getDateTime())) {
-                            selectedSchedule = true;
-                            break;
-                        }
-                    }
-                    Text scheduleText = new Text(schedule.toString());
-                    Color color = selectedSchedule ? Color.GREEN : Color.RED;
-                    scheduleText.setFill(color);
-                    schedulesPane.add(
-                                scheduleText,0,counter
-                    );
-                    Button button;
-                    if(!selectedSchedule){
-                        button = new Button("Not available");
-                        button.setOnAction(event -> {
-                            MentoringDemandFacade.getInstance().participateToSchedule(
-                                    demand,currentUserParticipation.getParticipationType(),schedule
-                            );
-                            refresh();
-                        });
-                    }
-                    else{
-                        button = new Button("I'm available");
-                        button.setOnAction(event -> {
-                            MentoringDemandFacade.getInstance().quitSchedule(
-                                    demand,schedule
-                            );
-                            refresh();
-                        });
-                    }
-                    schedulesPane.add(button,1,counter);
-                    addScheduleDeletionButtonIfCreator(schedule,counter);
-                    counter++;
-                }
+                loadSchedulesPaneParticipant(currentUserParticipation);
             }
+            //User doesn't participate to the mentoring demand
             else{
                 suppressParticipationButton.setVisible(false);
-                for(Schedule schedule: schedules){
-                    CheckBox checkBox = new CheckBox(schedule.toString());
-                    schedulesPane.add(checkBox,0,counter);
-                    addScheduleDeletionButtonIfCreator(schedule,counter);
-                    counter++;
-                }
+                loadDefaultSchedulesPane();
             }
 
 
@@ -185,7 +115,7 @@ public class MentoringDemandController implements Initializable {
         }
     }
 
-    public void refresh(){
+    private void refresh(){
         ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
     }
 
@@ -269,6 +199,155 @@ public class MentoringDemandController implements Initializable {
                 refresh();
             });
             schedulesPane.add(deleteSchedule,2,counter);
+        }
+    }
+
+    public void editDescription() {
+        // Create the custom dialog.
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Update description");
+        dialog.setHeaderText("Insert new description and submit it to update.");
+
+
+        // Set the button types.
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+        // Create the inside
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextArea description = new TextArea();
+
+        grid.add(new Label("Description:"),0,0);
+        grid.add(description,1,0);
+
+        dialog.getDialogPane().setContent(grid);
+
+        Platform.runLater(description::requestFocus);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == updateButtonType) {
+                return description.getText();
+            }
+            return null;
+        });
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(updatedDesc -> {
+            MentoringDemandFacade.getInstance().updateDescription(demand,updatedDesc);
+            refresh();
+        });
+    }
+
+    public void delete() {
+
+
+    }
+
+    private void setDescription(){
+        descriptionArea.setText(String.format("Description :\n%s",demand.getDescription()));
+    }
+
+    private void setCreatorInfos(){
+        StudentRole creatorStudentRole = (StudentRole) demand.getCreator().getRole();
+        String creatorString = String.format(
+                "Creator : %s %s, Department : %s%d",
+                creatorStudentRole.getFirstName(),
+                creatorStudentRole.getLastName(),
+                creatorStudentRole.getDepartment().getAbbreviation(),
+                creatorStudentRole.getDepartment().getYear()
+        );
+        creatorLabel.setText(creatorString);
+    }
+
+    private void setSubjectInfos(){
+        Subject demandSubject = demand.getSubject();
+        String subjectString = String.format(
+                "Subject : %s",
+                demandSubject.getName()
+        );
+        subjectLabel.setText(subjectString);
+    }
+
+    private void setParticipantsInfos(){
+        ArrayList<Participation> participationArray = demand.getParticipationArray();
+        StringBuilder participants = new StringBuilder("Participants :\n");
+        int studentsNumber = 0;
+        int tutorsNumber = 0;
+        for(Participation participation : participationArray){
+            String participationType = participation.getParticipationType() == MentoringDemand.STUDENT ? "Student" : "Tutor";
+            StudentRole participantRole = (StudentRole) participation.getParticipant().getRole();
+            participants.append(String.format(
+                    "%s %s %s\n",
+                    participantRole.getFirstName(),
+                    participantRole.getLastName(),
+                    participationType
+            ));
+            if(participation.getParticipationType() == MentoringDemand.STUDENT){
+                studentsNumber += 1;
+            }
+            else{
+                tutorsNumber += 1;
+            }
+        }
+        participationLabel.setText(participants.toString());
+        infoLabel.setText(String.format("Students : %d, Tutors : %d",studentsNumber,tutorsNumber));
+    }
+
+    private void loadSchedulesPaneParticipant(Participation currentUserParticipation){
+        int counter = 0;
+        ArrayList<Schedule> schedules = demand.getSchedules();
+        for(Schedule schedule:schedules){
+            boolean selectedSchedule = false;
+            for(Schedule participationSchedule : currentUserParticipation.getParticipationSchedules()){
+                if (participationSchedule.getDateTime().equals(schedule.getDateTime())) {
+                    selectedSchedule = true;
+                    break;
+                }
+            }
+            Text scheduleText = new Text(schedule.toString());
+            Color color = selectedSchedule ? Color.GREEN : Color.RED;
+            scheduleText.setFill(color);
+            schedulesPane.add(
+                    scheduleText,0,counter
+            );
+            Button button;
+            if(!selectedSchedule){
+                button = new Button("Not available");
+                button.setOnAction(event -> {
+                    MentoringDemandFacade.getInstance().participateToSchedule(
+                            demand,currentUserParticipation.getParticipationType(),schedule
+                    );
+                    refresh();
+                });
+            }
+            else{
+                button = new Button("I'm available");
+                button.setOnAction(event -> {
+                    MentoringDemandFacade.getInstance().quitSchedule(
+                            demand,schedule
+                    );
+                    refresh();
+                });
+            }
+            schedulesPane.add(button,1,counter);
+            addScheduleDeletionButtonIfCreator(schedule,counter);
+            counter++;
+        }
+    }
+
+    private void loadDefaultSchedulesPane(){
+        ArrayList<Schedule> schedules = demand.getSchedules();
+        int counter =0;
+        for(Schedule schedule: schedules){
+            CheckBox checkBox = new CheckBox(schedule.toString());
+            schedulesPane.add(checkBox,0,counter);
+            addScheduleDeletionButtonIfCreator(schedule,counter);
+            counter++;
         }
     }
 }

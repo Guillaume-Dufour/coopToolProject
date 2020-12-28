@@ -69,8 +69,19 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     }
 
     @Override
-    public void update(MentoringDemand mentoringDemand) {
-
+    public void updateDescription(MentoringDemand mentoringDemand) {
+        String statement =
+                "UPDATE post " +
+                        "SET description_post = ? " +
+                        "WHERE id_post = ?";
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement(statement);
+            updateStatement.setString(1, mentoringDemand.getDescription());
+            updateStatement.setInt(2, mentoringDemand.getId());
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -183,6 +194,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         return result;
     }
 
+    //TODO: change it like the other one
     private void addParticipationToMentoringDemand(MentoringDemand demand){
         String statement =
                 "SELECT id_user,first_name_user,last_name_user,date_post_session,role_user " +
