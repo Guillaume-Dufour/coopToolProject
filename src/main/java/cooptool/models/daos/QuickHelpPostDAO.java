@@ -1,5 +1,7 @@
 package cooptool.models.daos;
 
+import cooptool.models.objects.QuickHelpPost;
+
 public abstract class QuickHelpPostDAO {
 
     private static class LazyHolder {
@@ -9,5 +11,11 @@ public abstract class QuickHelpPostDAO {
     public static QuickHelpPostDAO getInstance() {
         return LazyHolder.INSTANCE;
     }
+
+    public abstract boolean create(QuickHelpPost quickHelpPost);
+
+    public abstract void delete(QuickHelpPost quickHelpPost);
+
+    public abstract QuickHelpPost getQuickHelpPost(int id);
 
 }

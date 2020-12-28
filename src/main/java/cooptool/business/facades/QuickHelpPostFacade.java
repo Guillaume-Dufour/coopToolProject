@@ -1,12 +1,17 @@
 package cooptool.business.facades;
 
-import cooptool.models.daos.MentoringDemandDAO;
-import cooptool.models.objects.MentoringDemand;
+import cooptool.models.daos.QuickHelpPostDAO;
 import cooptool.models.objects.QuickHelpPost;
+import cooptool.models.objects.Subject;
+import cooptool.models.objects.User;
+
+import java.time.LocalDateTime;
+
 
 public class QuickHelpPostFacade {
+
     private static final QuickHelpPostFacade INSTANCE;
-    //private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+    private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
 
     static{
         INSTANCE = new QuickHelpPostFacade();
@@ -18,17 +23,20 @@ public class QuickHelpPostFacade {
         return INSTANCE;
     }
 
-    //public void create(QuickHelpPost quickHelpPost){
-    //    QuickHelpPostDAO.getInstance().create(quickHelpPost);
-    //}
+    public boolean create(String description, Subject subject, User user){
+        QuickHelpPost quickHelpPost =
+                new QuickHelpPost(
+                        -1,
+                        subject,
+                        description,
+                        user,
+                        LocalDateTime.now()
+                );
+        quickHelpPostDAO.create(quickHelpPost);
+        return true;
+    }
 
     public void delete(QuickHelpPost quickHelpPost){
 
-    }
-
-    public QuickHelpPost create(/* mettre les argument */) {
-        //TODO : mettre tous les arguments en à utiliser pour créer le quick help post
-        // utiliser le constructeur sans id et date
-        return null;
     }
 }
