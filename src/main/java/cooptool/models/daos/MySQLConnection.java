@@ -12,14 +12,16 @@ import java.sql.SQLException;
  */
 public class MySQLConnection {
 
-    private static Connection connection = null;
+    private static class LazyHolder {
+        static Connection INSTANCE = null;
 
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(PropertiesResource.getDatabaseProperties().getProperty("JDBC_URL"));
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+        static {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                INSTANCE = DriverManager.getConnection(PropertiesResource.getDatabaseProperties().getProperty("JDBC_URL"));
+            } catch (ClassNotFoundException | SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -31,6 +33,6 @@ public class MySQLConnection {
      * @return Connection with the database
      */
     public static Connection getInstance() {
-        return connection;
+        return LazyHolder.INSTANCE;
     }
 }

@@ -3,13 +3,13 @@ package cooptool.business.facades;
 import cooptool.models.daos.MentoringDemandDAO;
 import cooptool.models.objects.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MentoringDemandFacade {
 
     private static final MentoringDemandFacade INSTANCE;
-    private final MentoringDemandDAO mentoringDemandDAO = MentoringDemandDAO.getInstance();
 
     static{
         INSTANCE = new MentoringDemandFacade();
@@ -26,12 +26,9 @@ public class MentoringDemandFacade {
     }
 
     public void delete(MentoringDemand mentoringDemand){
-
+        MentoringDemandDAO.getInstance().delete(mentoringDemand);
     }
 
-    public void update(MentoringDemand mentoringDemand){
-
-    }
 
     public MentoringDemand getMentoringDemand(int id){
         return MentoringDemandDAO.getInstance().getMentoringDemand(id);
@@ -67,4 +64,40 @@ public class MentoringDemandFacade {
                 new Participation(UserFacade.getInstance().getCurrentUser(),participationType,schedules)
         );
     }
+    
+    public void participateToSchedule(MentoringDemand demand, int participationType, Schedule schedule){
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        schedules.add(schedule);
+        participate(demand,participationType,schedules);
+    }
+    
+    public void quitSchedule(MentoringDemand demand, Schedule schedule){
+        MentoringDemandDAO.getInstance().quitSchedule(
+                demand,UserFacade.getInstance().getCurrentUser(),schedule
+        );
+    }
+
+    public void addSchedule(MentoringDemand demand, LocalDateTime date){
+        MentoringDemandDAO.getInstance().addSchedule(
+                demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
+        );
+    }
+
+    public boolean isCurrentUserCreatorOfSchedule(Schedule schedule){
+        return UserFacade.getInstance().getCurrentUser().getId() == schedule.getCreator().getId();
+    }
+
+    public void deleteSchedule(MentoringDemand demand,Schedule schedule){
+        MentoringDemandDAO.getInstance().removeSchedule(demand,schedule);
+    }
+
+    public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){
+        return UserFacade.getInstance().getCurrentUser().getId() == demand.getCreator().getId();
+    }
+
+    public void updateDescription(MentoringDemand demand,String updatedDesc){
+        demand.setDescription(updatedDesc);
+        MentoringDemandDAO.getInstance().updateDescription(demand);
+    }
+
 }

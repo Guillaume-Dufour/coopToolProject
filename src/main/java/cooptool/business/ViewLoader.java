@@ -1,12 +1,14 @@
 package cooptool.business;
+
 import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.LinkedList;
 
 public class ViewLoader extends Parent {
 
@@ -14,7 +16,7 @@ public class ViewLoader extends Parent {
 
     private Stage stage;
 
-    private LinkedList<ViewPath> previousView = new LinkedList<ViewPath>();
+    private final LinkedList<ViewPath> previousView = new LinkedList<ViewPath>();
 
     private ViewLoader() {
 
@@ -33,11 +35,14 @@ public class ViewLoader extends Parent {
         this.stage = stage;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void load(ViewPath view, Object... objects) {
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(view.getPath()));
 
-        //loader.setController(loader.getController());
         loader.setResources(new MapResourceBundle(objects));
 
         Parent root;
@@ -46,7 +51,10 @@ public class ViewLoader extends Parent {
 
         try {
             root = loader.load();
-            stage.setScene(new Scene(root));
+            ScrollPane scrollPane = new ScrollPane(root);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            stage.setScene(new Scene(scrollPane, 800, 600));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -54,7 +62,7 @@ public class ViewLoader extends Parent {
 
     }
 
-    public ViewPath getPreviousPath (){
+    public ViewPath getPreviousPath() {
         this.previousView.removeLast();
         return this.previousView.getLast();
     }

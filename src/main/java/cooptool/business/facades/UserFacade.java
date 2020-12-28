@@ -1,16 +1,18 @@
 package cooptool.business.facades;
 
+import cooptool.models.daos.MySQLConnection;
+import cooptool.models.objects.*;
 import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
-import cooptool.models.objects.Department;
-import cooptool.models.objects.StudentRole;
-import cooptool.models.objects.User;
 import cooptool.utils.Mail;
+import cooptool.utils.NotificationTask;
 
-import java.util.List;
-import java.util.Random;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
 import java.util.regex.*;
 
 /**
@@ -164,6 +166,4 @@ public class UserFacade {
     public User getCurrentUser() {
         return currentUser;
     }
-
-
 }

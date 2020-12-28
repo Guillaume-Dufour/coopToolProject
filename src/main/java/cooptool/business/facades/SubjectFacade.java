@@ -36,7 +36,6 @@ public class SubjectFacade {
         else {
             throw new SubjectNotConformed();
         }
-
     }
 
     public void update(Subject subject, String name, Department department) throws SubjectNotConformed {

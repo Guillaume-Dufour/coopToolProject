@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -27,7 +28,11 @@ public class MentoringDemandsDisplay implements Initializable {
     Button creationButton;
     @FXML
     GridPane grid;
+    @FXML
+    HBox pageHbox;
     List<MentoringDemand> partialMentoringDemands;
+    Button focusButton;
+    boolean isInitialized = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +43,30 @@ public class MentoringDemandsDisplay implements Initializable {
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
-        for(int i=0;i<6;i++){
+        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
+        for(int j=1;j<=numberOfButtons;j++){
+            Button button = new Button(String.valueOf(j));
+            button.setOnAction(event -> {
+                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
+                focusButton.setDisable(false);
+                button.setDisable(true);
+                focusButton = button;
+            });
+            if(j==1){
+                focusButton = button;
+                focusButton.setDisable(true);
+            }
+            pageHbox.getChildren().add(button);
+        }
+        showMentoringDemands(0);
+        isInitialized = true;
+    }
+
+    public void showMentoringDemands(int offset){
+        if(isInitialized){
+            clearGrid();
+        }
+        for(int i=offset;i<6+offset;i++){
             if(i==partialMentoringDemands.size()){
                 break;
             }
@@ -51,21 +79,25 @@ public class MentoringDemandsDisplay implements Initializable {
                     studentRole.getLastName(),
                     studentRole.getDepartment().getAbbreviation(),
                     studentRole.getDepartment().getYear()
-                    );
+            );
             String centerText = String.format(
                     "Description : %s\nSubject : %s\nSchedules : %s",
                     cur.getDescription(),
                     cur.getSubject().getName(),
                     cur.schedulesToString());
             Button bottomButton = new Button("Go To");
-            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId()-1);
+            EventHandler<ActionEvent> event = event1 -> goToMentoringDemand(cur.getId());
             bottomButton.setOnAction(event);
 
             borderPane.setTop(new Label(topText));
             borderPane.setCenter(new Label(centerText));
             borderPane.setBottom(bottomButton);
-            grid.add(borderPane,i%2,i/2);
+            grid.add(borderPane,i%2,(i-offset)/2);
         }
+    }
+
+    public void clearGrid(){
+        grid.getChildren().retainAll(grid.getChildren().get(0));
     }
 
     public void goToCreationPage(){

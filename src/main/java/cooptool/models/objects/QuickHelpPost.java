@@ -1,45 +1,20 @@
 package cooptool.models.objects;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class QuickHelpPost {
+public class QuickHelpPost extends Post{
 
-    private int id;
-    private Department department;
-    private Subject subject;
-    private String description;
-    private LocalDate creationDate;
-    private User creator;
-
-    public QuickHelpPost(int i, Department department, Subject subject, String description, LocalDate now, User creator) {
-        this.id = id;
-        this.department = department;
-        this.subject = subject;
-        this.description = description;
-        this.creationDate = now;
-        this.creator = creator;
+    public QuickHelpPost(int id, Subject subject, String description, User creator, LocalDateTime creationDate) {
+        super(id, subject, description, creator, creationDate);
     }
 
-    public int getId(){
-        return id;
+    public QuickHelpPost(Subject subject, String description, User creator) {
+        this(1, subject, description, creator, LocalDateTime.now());
     }
 
-    public Department getDepartment() { return department;}
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getCreationDate(){
-        return creationDate;
-    }
-
-    public User getCreator() {
-        return creator;
+    public QuickHelpPost(int id, Subject subject, String description, LocalDateTime time) {
+        super(id, subject, description, null, time);
     }
 }

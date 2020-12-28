@@ -8,14 +8,14 @@ import cooptool.business.ViewPath;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable{
@@ -71,8 +71,8 @@ public class LoginController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        inputMail.setText("lilian.misser@etu.umontpellier.fr");
-        inputPassword.setText("lilian12");
+        inputMail.setText("mathilde.tribot@etu.umontpellier.fr");
+        inputPassword.setText("guillaume");
 
         inputMail.setOnKeyPressed(this::onEnter);
         inputPassword.setOnKeyPressed(this::onEnter);

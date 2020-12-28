@@ -7,14 +7,12 @@ import java.util.List;
 
 public abstract class SubjectDAO {
 
-    private static final SubjectDAO INSTANCE;
-
-    static {
-        INSTANCE = AbstractDAOFactory.getInstance().getSubjectDAO();
+    private static class LazyHolder {
+        static final SubjectDAO INSTANCE = AbstractDAOFactory.getInstance().getSubjectDAO();
     }
 
     public static SubjectDAO getInstance() {
-        return INSTANCE;
+        return LazyHolder.INSTANCE;
     }
 
     public abstract boolean create(Subject subject);

@@ -7,19 +7,17 @@ import java.util.List;
 
 public abstract class MentoringDemandDAO {
 
-    private static final MentoringDemandDAO INSTANCE;
-
-    static {
-        INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
+    private static class LazyHolder {
+        static final MentoringDemandDAO INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
     }
 
     public static MentoringDemandDAO getInstance() {
-        return INSTANCE;
+        return LazyHolder.INSTANCE;
     }
 
     public abstract void create(MentoringDemand mentoringDemand);
 
-    public abstract void update(MentoringDemand mentoringDemand);
+    public abstract void updateDescription(MentoringDemand mentoringDemand);
 
     public abstract void delete(MentoringDemand mentoringDemand);
 
@@ -28,6 +26,12 @@ public abstract class MentoringDemandDAO {
     public abstract void participate(MentoringDemand mentoringDemand, Participation participation);
 
     public abstract void suppressParticipation(MentoringDemand demand, User user);
+
+    public abstract void quitSchedule(MentoringDemand demand, User user, Schedule schedule);
+
+    public abstract void addSchedule(MentoringDemand demand, Schedule schedule);
+
+    public abstract void removeSchedule(MentoringDemand demand, Schedule schedule);
 
     public abstract List<MentoringDemand> getPartialMentoringDemands();
 

@@ -2,14 +2,12 @@ package cooptool.models.daos;
 
 public abstract class AbstractDAOFactory {
 
-    private static AbstractDAOFactory instance = null;
+    private static class LazyHolder {
+        static final AbstractDAOFactory INSTANCE = new MySQLDAOFactory();
+    }
 
     public static AbstractDAOFactory getInstance() {
-        if (instance == null) {
-            instance = new MySQLDAOFactory();
-        }
-
-        return instance;
+        return LazyHolder.INSTANCE;
     }
 
     public abstract UserDAO getUserDAO();
@@ -23,6 +21,8 @@ public abstract class AbstractDAOFactory {
     public abstract MentoringDemandDAO getMentoringDemandDAO();
 
     public abstract QuickHelpPostDAO getQuickHelpPostDAO();
+
+    public abstract NotificationDAO getNotificationDAO();
 
 
 }

@@ -7,14 +7,12 @@ import java.util.List;
 
 public abstract class UserDAO {
 
-    private static final UserDAO INSTANCE;
-
-    static {
-        INSTANCE = AbstractDAOFactory.getInstance().getUserDAO();
+    private static class LazyHolder {
+        static final UserDAO INSTANCE = AbstractDAOFactory.getInstance().getUserDAO();
     }
 
     public static UserDAO getInstance() {
-        return INSTANCE;
+        return LazyHolder.INSTANCE;
     }
 
     /**

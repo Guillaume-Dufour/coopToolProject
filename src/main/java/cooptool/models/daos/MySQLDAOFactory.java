@@ -22,7 +22,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 
     @Override
     public PostDAO getPostDAO() {
-        return null;
+        return new MySQLPostDAO();
     }
 
     @Override
@@ -33,5 +33,10 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
     @Override
     public QuickHelpPostDAO getQuickHelpPostDAO() {
         return null;
+    }
+
+    @Override
+    public NotificationDAO getNotificationDAO() {
+        return new MySQLNotificationDAO();
     }
 }

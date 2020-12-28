@@ -20,7 +20,7 @@ public class AccountController implements Initializable {
     @FXML
     Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
     @FXML
-    Button deleteButton, updateButton, retourButton;
+    Button deleteButton, updateButton, retourButton, historyButton;
     @FXML
     Pane header_student, header_admin;
 
@@ -62,5 +62,9 @@ public class AccountController implements Initializable {
 
     public void goBack(ActionEvent event) {
         ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
+    }
+
+    public void displayHistory(ActionEvent event) {
+        ViewLoader.getInstance().load(ViewPath.HISTORY_DISPLAY, user);
     }
 }
