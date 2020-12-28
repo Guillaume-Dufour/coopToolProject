@@ -219,7 +219,7 @@ public class MentoringDemandController implements Initializable {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextArea description = new TextArea();
+        TextArea description = new TextArea(demand.getDescription());
 
         grid.add(new Label("Description:"),0,0);
         grid.add(description,1,0);
