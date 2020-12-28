@@ -93,7 +93,7 @@ public class MentoringDemandController implements Initializable {
             if(GridPane.getColumnIndex(node) == 0){
                 CheckBox checkBox = (CheckBox) node;
                 if(checkBox.isSelected()){
-                    LocalDateTime checkBoxDate = LocalDateTime.parse(checkBox.getText());
+                    LocalDateTime checkBoxDate = TimeUtils.parse(checkBox.getText());
                     schedules.add(new Schedule(checkBoxDate,null));
                 }
             }

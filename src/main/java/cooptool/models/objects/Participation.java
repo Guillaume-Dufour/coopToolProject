@@ -24,4 +24,8 @@ public class Participation {
         this.participationType = participationType;
         this.participationSchedules = participationSchedules;
     }
+
+    public void addSchedule(Schedule schedule){
+        participationSchedules.add(schedule);
+    }
 }

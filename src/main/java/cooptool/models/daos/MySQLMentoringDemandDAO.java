@@ -196,15 +196,14 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     )
             );
 
-            addParticipationToMentoringDemand(result);
+            addParticipationsToMentoringDemand(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return result;
     }
 
-    //TODO: change it like the other one
-    private void addParticipationToMentoringDemand(MentoringDemand demand){
+    private void addParticipationsToMentoringDemand(MentoringDemand demand){
         String statement =
                 "SELECT id_user,first_name_user,last_name_user,date_post_session,role_user " +
                         "FROM participation NATURAL JOIN user " +
@@ -215,43 +214,26 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             getParticipationStatement = connection.prepareStatement(statement);
             getParticipationStatement.setInt(1,demand.getId());
             ResultSet res = getParticipationStatement.executeQuery();
-            int userId = -1;
-            String firstNameUser = null;
-            String lastNameUser = null;
-            LocalDateTime participationDate = null;
-            int participationType = -1;
             int previousUserId = -1;
-            ArrayList<Schedule> selectedSchedules = new ArrayList<>();
             while(res.next()){
-                userId = res.getInt(1);
+                int userId = res.getInt(1);
                 if(userId != previousUserId){
-                    if(previousUserId != -1){
-                        StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
-                        demand.addParticipation(
+                    String firstNameUser = res.getString(2);
+                    String lastNameUser = res.getString(3);
+                    int participationType = res.getInt(5);
+                    ArrayList<Schedule> selectedSchedules = new ArrayList<>();
+                    StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
+                    demand.addParticipation(
                                 new Participation(
                                         new User(userId,null,null,role,-1),
                                         participationType,
                                         selectedSchedules
                                 )
                         );
-                    }
                     previousUserId = userId;
-                    firstNameUser = res.getString(2);
-                    lastNameUser = res.getString(3);
-                    participationType = res.getInt(5);
                 }
-                participationDate = res.getTimestamp(4).toLocalDateTime();
-                selectedSchedules.add(new Schedule(participationDate,null));
-            }
-            if(previousUserId != -1){
-                StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
-                demand.addParticipation(
-                        new Participation(
-                                new User(userId,null,null,role,-1),
-                                participationType,
-                                selectedSchedules
-                        )
-                );
+                LocalDateTime participationDate = res.getTimestamp(4).toLocalDateTime();
+                demand.getParticipationArray().get(demand.getParticipationArray().size()-1).addSchedule(new Schedule(participationDate,null));
             }
         } catch (SQLException e) {
             e.printStackTrace();
