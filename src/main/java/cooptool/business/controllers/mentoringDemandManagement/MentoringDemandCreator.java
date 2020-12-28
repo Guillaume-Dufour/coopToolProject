@@ -40,33 +40,8 @@ public class MentoringDemandHandler implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        subject.setItems(FXCollections.observableList(subjects));
-        subject.setConverter(new StringConverter<>() {
-
-            @Override
-            public String toString(Subject object) {
-                return object != null ? object.getName() : "select a subject...";
-            }
-
-            @Override
-            public Subject fromString(String string) {
-                return null;
-            }
-
-        });
-        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
-        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
-
-        hourBox.setItems(FXCollections.observableList(hours));
-        minBox.setItems(FXCollections.observableList(minutes));
-        try {
-            int demand = (int) resources.getObject("1");
-            infoLabel.setText("Edit");
-        } catch (MissingResourceException e) {
-            infoLabel.setText("Create");
-        }
-
-
+        initializeSubjectBox();
+        initializeHourAndMinutesBoxes();
     }
 
     public void create() {
@@ -93,4 +68,30 @@ public class MentoringDemandHandler implements Initializable {
             ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
         }
     }
+
+    private void initializeSubjectBox(){
+        subject.setItems(FXCollections.observableList(subjects));
+        subject.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(Subject object) {
+                return object != null ? object.getName() : "select a subject...";
+            }
+
+            @Override
+            public Subject fromString(String string) {
+                return null;
+            }
+
+        });
+    }
+
+    private void initializeHourAndMinutesBoxes(){
+        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
+        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
+
+        hourBox.setItems(FXCollections.observableList(hours));
+        minBox.setItems(FXCollections.observableList(minutes));
+    }
+
 }
