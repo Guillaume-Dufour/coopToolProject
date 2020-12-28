@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class QuickHelpPost extends Post{
+public class QuickHelpPost extends Post {
 
     public QuickHelpPost(int id, Subject subject, String description, User creator, LocalDateTime creationDate) {
         super(id, subject, description, creator, creationDate);

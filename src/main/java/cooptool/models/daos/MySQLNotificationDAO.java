@@ -66,6 +66,31 @@ public class MySQLNotificationDAO extends NotificationDAO {
     }
 
     @Override
+    public int getNbNotificationsByUser(User user) {
+
+        String requete = "SELECT COUNT(*) as nb " +
+                "FROM notification " +
+                "WHERE id_user = ?;";
+
+        int nbNotifications = 0;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.setInt(1, user.getId());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                nbNotifications = rs.getInt("nb");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return nbNotifications;
+    }
+
+    @Override
     public boolean delete(Notification notification) {
 
         String requete = "DELETE FROM notification WHERE id_notification = ?;";

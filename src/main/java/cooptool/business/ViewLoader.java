@@ -1,5 +1,7 @@
 package cooptool.business;
 
+import cooptool.business.facades.NotificationFacade;
+import cooptool.models.objects.Notification;
 import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,6 +57,7 @@ public class ViewLoader extends Parent {
             scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             stage.setScene(new Scene(scrollPane, 800, 600));
+
 
         } catch (IOException e) {
             e.printStackTrace();

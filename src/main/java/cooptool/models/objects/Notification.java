@@ -5,6 +5,7 @@ public class Notification {
     private int id;
     private User user;
     private String content;
+    private NotificationType typeNotification;
 
     public Notification(int id, User user, String content) {
         this.id = id;

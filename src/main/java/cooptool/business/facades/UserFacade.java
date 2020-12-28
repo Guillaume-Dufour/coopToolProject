@@ -1,17 +1,12 @@
 package cooptool.business.facades;
 
-import cooptool.models.daos.MySQLConnection;
 import cooptool.models.objects.*;
 import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
 import cooptool.utils.Mail;
-import cooptool.utils.NotificationTask;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 import java.util.regex.*;
 

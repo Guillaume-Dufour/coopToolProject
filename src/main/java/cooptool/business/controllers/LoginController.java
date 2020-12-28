@@ -1,5 +1,6 @@
 package cooptool.business.controllers;
 
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
@@ -34,6 +35,7 @@ public class LoginController implements Initializable{
     Button newPasswordButton;
 
     UserFacade userFacade = UserFacade.getInstance();
+    NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
      * Method called by the loginButton
@@ -51,6 +53,7 @@ public class LoginController implements Initializable{
             if (userFacade.getCurrentUser().getValidate() == 0){
                 ViewLoader.getInstance().load(ViewPath.VALIDATE);
             } else {
+                notificationFacade.searchNotifications(userFacade.getCurrentUser());
                 ViewLoader.getInstance().load(ViewPath.HOME);
             }
         } catch(MailNotFound | UnmatchedPassword e) {

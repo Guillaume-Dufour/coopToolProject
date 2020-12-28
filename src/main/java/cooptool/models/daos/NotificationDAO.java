@@ -11,7 +11,7 @@ public abstract class NotificationDAO {
         static final NotificationDAO INSTANCE = AbstractDAOFactory.getInstance().getNotificationDAO();
     }
 
-    public NotificationDAO getInstance() {
+    public static NotificationDAO getInstance() {
         return LazyHolder.INSTANCE;
     }
 
@@ -20,4 +20,6 @@ public abstract class NotificationDAO {
     public abstract boolean create(Notification notification);
 
     public abstract boolean delete(Notification notification);
+
+    public abstract int getNbNotificationsByUser(User user);
 }

@@ -2,11 +2,10 @@ package cooptool;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.facades.NotificationFacade;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * Main of Coop'Tool Application
@@ -25,6 +24,7 @@ public class CoopToolApplication extends Application {
     public void start(Stage primaryStage) {
         ViewLoader viewLoader = ViewLoader.getInstance();
         primaryStage.setTitle("Coop'Tool");
+        primaryStage.setOnCloseRequest(event -> NotificationFacade.getInstance().stopTimer());
         primaryStage.getIcons().add(new Image("images/logo.JPG"));
         viewLoader.setStage(primaryStage);
         viewLoader.load(ViewPath.LOGIN);
