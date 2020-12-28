@@ -51,6 +51,7 @@ public class MentoringDemandController implements Initializable {
     private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
     private final PostFacade postFacade = PostFacade.getInstance();
     private final UserFacade userFacade = UserFacade.getInstance();
+    private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -130,7 +131,7 @@ public class MentoringDemandController implements Initializable {
     }
 
     private void refresh(){
-        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
+        viewLoader.load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
     }
 
     public void addSchedule(){
@@ -269,9 +270,11 @@ public class MentoringDemandController implements Initializable {
         // option != null.
         Optional<ButtonType> option = alert.showAndWait();
 
-        if(option.get() == ButtonType.OK){
-            mentoringDemandFacade.delete(demand);
-            ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
+        if(option.isPresent()) {
+            if (option.get() == ButtonType.OK) {
+                mentoringDemandFacade.delete(demand);
+                viewLoader.load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
+            }
         }
     }
 

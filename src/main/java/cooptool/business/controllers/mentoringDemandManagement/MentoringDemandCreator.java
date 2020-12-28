@@ -22,8 +22,6 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class MentoringDemandCreator implements Initializable {
-    User currentUser = UserFacade.getInstance().getCurrentUser();
-    StudentRole student = (StudentRole) currentUser.getRole();
     MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
     @FXML
     ComboBox<Subject> subject;
@@ -36,7 +34,11 @@ public class MentoringDemandCreator implements Initializable {
     @FXML
     Label infoLabel,errorLabel;
 
+    User currentUser = UserFacade.getInstance().getCurrentUser();
+    StudentRole student = (StudentRole) currentUser.getRole();
     private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
+    
+    private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,7 +56,7 @@ public class MentoringDemandCreator implements Initializable {
         else{
             LocalDateTime dateTime = LocalDateTime.of(date.getValue(),LocalTime.of(hourBox.getValue(), minBox.getValue()));
             mentoringDemandFacade.create(subject.getValue(),description.getText(),dateTime);
-            ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
+            viewLoader.load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
         }
     }
 

@@ -33,17 +33,20 @@ public class MentoringDemandsDisplay implements Initializable {
     List<MentoringDemand> partialMentoringDemands;
     Button focusButton;
     boolean isInitialized = false;
+    
+    private final UserFacade userFacade = UserFacade.getInstance();
+    private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
+        if (userFacade.isCurrentUserAdmin()){
             header_admin.setVisible(false);
         } else {
             header_student.setVisible(false);
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
-        generatePages();
+        createNavigationButtons();
         showMentoringDemands(0);
         isInitialized = true;
     }
@@ -80,7 +83,7 @@ public class MentoringDemandsDisplay implements Initializable {
         grid.getChildren().retainAll(grid.getChildren().get(0));
     }
 
-    private void generatePages(){
+    private void createNavigationButtons(){
         int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
         for(int j=1;j<=numberOfButtons;j++){
             Button button = new Button(String.valueOf(j));
@@ -99,10 +102,10 @@ public class MentoringDemandsDisplay implements Initializable {
     }
 
     public void goToCreationPage(){
-        ViewLoader.getInstance().load(ViewPath.CREATE_MENTORING_DEMAND);
+        viewLoader.load(ViewPath.CREATE_MENTORING_DEMAND);
     }
 
     public void goToMentoringDemand(int id){
-        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,id);
+        viewLoader.load(ViewPath.GET_MENTORING_DEMAND,id);
     }
 }
