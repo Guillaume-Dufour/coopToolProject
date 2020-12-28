@@ -10,7 +10,7 @@ public abstract class Post {
     private String description;
     private User creator;
     private LocalDateTime creationDate;
-    private List<Comment> comments;
+    private ArrayList<Comment> comments;
 
     public Post(int id, Subject subject, String description, User creator, LocalDateTime creationDate) {
         this.id = id;
@@ -63,5 +63,9 @@ public abstract class Post {
 
     public void addComment(Comment newComment){
         comments.add(newComment);
+    }
+
+    public ArrayList<Comment> getComments(){
+        return comments;
     }
 }

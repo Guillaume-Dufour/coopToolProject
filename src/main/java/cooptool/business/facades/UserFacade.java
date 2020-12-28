@@ -165,4 +165,8 @@ public class UserFacade {
     public User getCurrentUser() {
         return currentUser;
     }
+
+    public boolean isCurrentUserAdmin(){
+        return currentUser.getRole() instanceof StudentRole;
+    }
 }

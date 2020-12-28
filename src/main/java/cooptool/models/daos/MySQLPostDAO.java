@@ -2,10 +2,8 @@ package cooptool.models.daos;
 
 import cooptool.models.objects.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,10 +99,63 @@ public class MySQLPostDAO extends PostDAO {
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void comment(Comment comment, Post post) {
+        String statement =
+                "INSERT INTO comment (content_comment,date_comment,id_user_creator,id_post) " +
+                "VALUES (?,?,?,?)";
+        try {
+            PreparedStatement insertStatement = connection.prepareStatement(statement);
+            insertStatement.setString(1, comment.getContent());
+            insertStatement.setTimestamp(2, Timestamp.valueOf(comment.getCreationDate()));
+            insertStatement.setInt(3,comment.getCreator().getId());
+            insertStatement.setInt(4,post.getId());
+            insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getComments(Post post) {
+        String statement =
+                "SELECT comment.id_comment,comment.content_comment,comment.date_comment," +
+                        "user.id_user,user.first_name_user,user.last_name_user," +
+                        "department.abbreviation_department,year_department " +
+                        "FROM comment " +
+                        "JOIN user ON comment.id_user_creator = user.id_user " +
+                        "JOIN department ON user.id_department = department.id_department " +
+                        "WHERE comment.id_post = ?";
+        try {
+            PreparedStatement selectStatement = connection.prepareStatement(statement);
+            selectStatement.setInt(1,post.getId());
+            ResultSet res = selectStatement.executeQuery();
+            while(res.next()){
+                int idComment = res.getInt(1);
+                String content = res.getString(2);
+                LocalDateTime creationDate = res.getTimestamp(3).toLocalDateTime();
+                int idCreator = res.getInt(4);
+                String firstNameCreator = res.getString(5);
+                String lastNameCreator = res.getString(6);
+                String abbreviationDptCreator = res.getString(7);
+                int yearDptCreator = res.getInt(8);
+                Department departmentCreator =
+                        new Department(-1,null,yearDptCreator,abbreviationDptCreator,-1);
+                StudentRole roleCreator =
+                        new StudentRole(firstNameCreator,lastNameCreator,null,departmentCreator);
+                User creator =
+                        new User(idCreator,null,null, roleCreator,-1);
+                post.addComment(new Comment(idComment,content,creationDate,creator));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

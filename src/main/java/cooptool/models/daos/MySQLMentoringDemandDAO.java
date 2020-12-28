@@ -231,6 +231,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         }
     }
 
+
     @Override
     public void participate(MentoringDemand mentoringDemand, Participation participation) {
         String statement = "INSERT INTO participation (id_user,id_post,date_post_session,role_user) VALUES (?,?,?,?)";

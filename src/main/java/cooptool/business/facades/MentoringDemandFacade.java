@@ -17,6 +17,10 @@ public class MentoringDemandFacade {
     }
     
     private MentoringDemandDAO mentoringDemandDAO = MentoringDemandDAO.getInstance();
+
+    private PostFacade postFacade = PostFacade.getInstance();
+
+    private User currentUser = UserFacade.getInstance().getCurrentUser();
     
     private MentoringDemandFacade(){}
 
@@ -24,8 +28,12 @@ public class MentoringDemandFacade {
         return INSTANCE;
     }
 
-    public void create(MentoringDemand mentoringDemand){
-        mentoringDemandDAO.create(mentoringDemand);
+    public void create(Subject subject,String description,LocalDateTime dateTime){
+        ArrayList<Schedule> schedules = new ArrayList<>();
+        schedules.add(new Schedule(dateTime, currentUser));
+        MentoringDemand demand =
+                new MentoringDemand(-1,subject,description,LocalDateTime.now(),schedules,currentUser);
+        mentoringDemandDAO.create(demand);
     }
 
     public void delete(MentoringDemand mentoringDemand){
@@ -34,11 +42,13 @@ public class MentoringDemandFacade {
 
 
     public MentoringDemand getMentoringDemand(int id){
-        return mentoringDemandDAO.getMentoringDemand(id);
+        MentoringDemand demand = mentoringDemandDAO.getMentoringDemand(id);
+        postFacade.getComments(demand);
+        return demand;
     }
 
     public List<MentoringDemand> getMentoringDemands(){
-        UserRole userRole = UserFacade.getInstance().getCurrentUser().getRole();
+        UserRole userRole = currentUser.getRole();
         if(userRole instanceof StudentRole){
             return mentoringDemandDAO.getPartialMentoringDemands(((StudentRole) userRole).getDepartment());
         }
@@ -48,7 +58,7 @@ public class MentoringDemandFacade {
     }
 
     public Participation getCurrentUserParticipation(MentoringDemand demand){
-        int idUser = UserFacade.getInstance().getCurrentUser().getId();
+        int idUser = currentUser.getId();
         for(Participation participation : demand.getParticipationArray()){
             if(idUser == participation.getParticipant().getId()){
                 return participation;
@@ -58,13 +68,13 @@ public class MentoringDemandFacade {
     }
 
     public void suppressCurrentUserParticipation(MentoringDemand demand){
-        mentoringDemandDAO.suppressParticipation(demand,UserFacade.getInstance().getCurrentUser());
+        mentoringDemandDAO.suppressParticipation(demand,currentUser);
     }
 
     public void participate(MentoringDemand demand,int participationType,ArrayList<Schedule> schedules){
         mentoringDemandDAO.participate(
                 demand,
-                new Participation(UserFacade.getInstance().getCurrentUser(),participationType,schedules)
+                new Participation(currentUser,participationType,schedules)
         );
     }
     
@@ -76,7 +86,7 @@ public class MentoringDemandFacade {
     
     public void quitSchedule(MentoringDemand demand, Schedule schedule){
         mentoringDemandDAO.quitSchedule(
-                demand,UserFacade.getInstance().getCurrentUser(),schedule
+                demand,currentUser,schedule
         );
     }
 
@@ -84,7 +94,7 @@ public class MentoringDemandFacade {
         System.out.println(mentoringDemandDAO.getNumberOfSchedules(demand));
         if(mentoringDemandDAO.getNumberOfSchedules(demand) < 10){
             mentoringDemandDAO.addSchedule(
-                    demand,new Schedule(date,UserFacade.getInstance().getCurrentUser())
+                    demand,new Schedule(date,currentUser)
             );
         }
         else{
@@ -93,7 +103,7 @@ public class MentoringDemandFacade {
     }
 
     public boolean isCurrentUserCreatorOfSchedule(Schedule schedule){
-        return UserFacade.getInstance().getCurrentUser().getId() == schedule.getCreator().getId();
+        return currentUser.getId() == schedule.getCreator().getId();
     }
 
     public void deleteSchedule(MentoringDemand demand,Schedule schedule){
@@ -102,7 +112,7 @@ public class MentoringDemandFacade {
     }
 
     public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){
-        return UserFacade.getInstance().getCurrentUser().getId() == demand.getCreator().getId();
+        return currentUser.getId() == demand.getCreator().getId();
     }
 
     public void updateDescription(MentoringDemand demand,String updatedDesc){

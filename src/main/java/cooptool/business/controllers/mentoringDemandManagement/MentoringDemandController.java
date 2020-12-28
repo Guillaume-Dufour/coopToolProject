@@ -3,7 +3,9 @@ package cooptool.business.controllers.mentoringDemandManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
+import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.exceptions.CommentFormatException;
 import cooptool.exceptions.TooMuchSchedules;
 import cooptool.models.objects.*;
 import cooptool.utils.TimeUtils;
@@ -36,20 +38,28 @@ public class MentoringDemandController implements Initializable {
     @FXML
     Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
     @FXML
-    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton,editDescriptionButton,deleteButton;
+    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton,editDescriptionButton,deleteButton,commentButton;
     @FXML
     GridPane schedulesPane;
+    @FXML
+    ScrollPane commentsPane;
+    @FXML
+    TextArea commentArea;
 
     private MentoringDemand demand;
     
-    private MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+    private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
+        if (userFacade.isCurrentUserAdmin()){
             header_admin.setVisible(false);
+
         } else {
             header_student.setVisible(false);
+            disableStudentRights();
         }
 
         try {
@@ -60,6 +70,7 @@ public class MentoringDemandController implements Initializable {
             setCreatorInfos();
             setSubjectInfos();
             setParticipantsInfos();
+            setComments();
 
             //Disabling edition and deletion is the current user is not the creator of the demand
             if(!mentoringDemandFacade.isCurrentUserCreatorOfDemand(demand)) {
@@ -270,14 +281,7 @@ public class MentoringDemandController implements Initializable {
 
     private void setCreatorInfos(){
         StudentRole creatorStudentRole = (StudentRole) demand.getCreator().getRole();
-        String creatorString = String.format(
-                "Creator : %s %s, Department : %s%d",
-                creatorStudentRole.getFirstName(),
-                creatorStudentRole.getLastName(),
-                creatorStudentRole.getDepartment().getAbbreviation(),
-                creatorStudentRole.getDepartment().getYear()
-        );
-        creatorLabel.setText(creatorString);
+        creatorLabel.setText(creatorStudentRole.getStudentRepresentation());
     }
 
     private void setSubjectInfos(){
@@ -365,5 +369,35 @@ public class MentoringDemandController implements Initializable {
             addScheduleDeletionButtonIfCreator(schedule,counter);
             counter++;
         }
+    }
+
+    private void setComments(){
+        ArrayList<Comment> comments = demand.getComments();
+        GridPane gridPane = new GridPane();
+        commentsPane.setContent(gridPane);
+        int counter = 0;
+        for(Comment comment : comments){
+            StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
+            gridPane.add(new Text(comment.getContent()),0,counter);
+            gridPane.add(new Label(studentRole.getStudentRepresentation()),1,counter);
+            counter++;
+        }
+    }
+
+    public void comment() {
+        try {
+            postFacade.comment(commentArea.getText(),demand);
+            refresh();
+        } catch (CommentFormatException e) {
+            errorLabel.setText(e.getMessage());
+        }
+    }
+
+    private void disableStudentRights(){
+        commentButton.setVisible(false);
+        learnButton.setVisible(false);
+        teachButton.setVisible(false);
+        addScheduleButton.setVisible(false);
+        commentArea.setVisible(false);
     }
 }

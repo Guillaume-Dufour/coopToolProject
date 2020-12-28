@@ -43,21 +43,7 @@ public class MentoringDemandsDisplay implements Initializable {
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
-        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
-        for(int j=1;j<=numberOfButtons;j++){
-            Button button = new Button(String.valueOf(j));
-            button.setOnAction(event -> {
-                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
-                focusButton.setDisable(false);
-                button.setDisable(true);
-                focusButton = button;
-            });
-            if(j==1){
-                focusButton = button;
-                focusButton.setDisable(true);
-            }
-            pageHbox.getChildren().add(button);
-        }
+        generatePages();
         showMentoringDemands(0);
         isInitialized = true;
     }
@@ -73,15 +59,9 @@ public class MentoringDemandsDisplay implements Initializable {
             MentoringDemand cur = partialMentoringDemands.get(i);
             StudentRole studentRole = (StudentRole) cur.getCreator().getRole();
             BorderPane borderPane = new BorderPane();
-            String topText = String.format(
-                    "Creator : %s %s, Department : %s%d",
-                    studentRole.getFirstName(),
-                    studentRole.getLastName(),
-                    studentRole.getDepartment().getAbbreviation(),
-                    studentRole.getDepartment().getYear()
-            );
+            String topText = studentRole.getStudentRepresentation();
             String centerText = String.format(
-                    "Description : %s\nSubject : %s\nSchedules : %s",
+                    "Description : %s\nSubject : %s\nSchedules :\n%s",
                     cur.getDescription(),
                     cur.getSubject().getName(),
                     cur.schedulesToString());
@@ -98,6 +78,24 @@ public class MentoringDemandsDisplay implements Initializable {
 
     public void clearGrid(){
         grid.getChildren().retainAll(grid.getChildren().get(0));
+    }
+
+    private void generatePages(){
+        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
+        for(int j=1;j<=numberOfButtons;j++){
+            Button button = new Button(String.valueOf(j));
+            button.setOnAction(event -> {
+                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
+                focusButton.setDisable(false);
+                button.setDisable(true);
+                focusButton = button;
+            });
+            if(j==1){
+                focusButton = button;
+                focusButton.setDisable(true);
+            }
+            pageHbox.getChildren().add(button);
+        }
     }
 
     public void goToCreationPage(){
