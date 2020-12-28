@@ -86,7 +86,16 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
     @Override
     public void delete(MentoringDemand mentoringDemand) {
-
+        String statement =
+                "DELETE FROM post " +
+                "WHERE id_post = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(statement);
+            deletionStatement.setInt(1,mentoringDemand.getId());
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
