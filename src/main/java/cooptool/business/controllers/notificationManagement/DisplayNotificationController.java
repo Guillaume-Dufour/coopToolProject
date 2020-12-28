@@ -1,6 +1,7 @@
-package cooptool.business.controllers;
+package cooptool.business.controllers.notificationManagement;
 
 import cooptool.business.facades.NotificationFacade;
+import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -16,11 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class DisplayNotificationController implements Initializable {
 
@@ -33,6 +30,9 @@ public class DisplayNotificationController implements Initializable {
     @FXML
     TableColumn<Notification, Void> deleteCol;
 
+    @FXML
+    Button deleteAllButton;
+
     NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     public void deleteNotification(ActionEvent event, Notification notification) {
@@ -40,6 +40,15 @@ public class DisplayNotificationController implements Initializable {
 
         if (res) {
             notificationTableView.getItems().remove(notification);
+            notificationTableView.refresh();
+        }
+    }
+
+    public void deleteAllNotifications(ActionEvent event) {
+        boolean res = notificationFacade.deleteAllNotifications(UserFacade.getInstance().getCurrentUser());
+
+        if (res) {
+            notificationTableView.getItems().clear();
             notificationTableView.refresh();
         }
     }
@@ -90,9 +99,8 @@ public class DisplayNotificationController implements Initializable {
         notificationTableView.setItems(notifications);
 
         notificationFacade.getNotifications().addListener((ListChangeListener<Notification>) c -> {
-            notificationTableView.setItems(
-                    FXCollections.observableArrayList(new ArrayList<Notification>(c.getList()))
-            );
+            notifications.setAll(c.getList());
+            notificationTableView.refresh();
         });
     }
 }

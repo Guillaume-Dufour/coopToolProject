@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.DisplayNotificationController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.notificationManagement.DisplayNotificationController">
 
     <children>
         <Pane fx:id="header_student">
@@ -25,7 +25,7 @@
             <TableColumn fx:id="deleteCol" prefWidth="97.0" text="#" />
          </columns>
       </TableView>
-      <Button layoutX="584.0" layoutY="119.0" mnemonicParsing="false" text="Supprimer toutes les notifications" />
+      <Button fx:id="deleteAllButton" layoutX="584.0" layoutY="119.0" onAction="#deleteAllNotifications" mnemonicParsing="false" text="Supprimer toutes les notifications" />
     </children>
 
 

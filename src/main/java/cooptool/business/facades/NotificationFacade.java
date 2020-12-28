@@ -97,4 +97,8 @@ public class NotificationFacade {
     public boolean delete(Notification notification) {
         return notificationDAO.delete(notification);
     }
+
+    public boolean deleteAllNotifications(User user) {
+        return notificationDAO.deleteAllNotificationsByUser(user);
+    }
 }

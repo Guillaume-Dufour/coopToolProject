@@ -107,4 +107,22 @@ public class MySQLNotificationDAO extends NotificationDAO {
 
         return true;
     }
+
+    @Override
+    public boolean deleteAllNotificationsByUser(User user) {
+
+        String requete = "DELETE FROM notification WHERE id_user = ?;";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }
