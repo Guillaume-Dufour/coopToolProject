@@ -1,7 +1,5 @@
 package cooptool.business.facades;
 
-import cooptool.models.objects.*;
-import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
@@ -11,8 +9,6 @@ import cooptool.models.objects.User;
 import cooptool.utils.BCrypt;
 import cooptool.utils.Mail;
 
-import java.util.*;
-import java.util.regex.*;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -24,9 +20,12 @@ import java.util.regex.Pattern;
  */
 public class UserFacade {
 
+    private static class LazyHolder {
+        static final UserFacade INSTANCE = new UserFacade();
+    }
+
     private User currentUser;
     private final UserDAO userDAO;
-    private static UserFacade userFacade = null;
 
     private static Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
     private static Matcher matcher;
@@ -37,10 +36,7 @@ public class UserFacade {
     }
 
     public static UserFacade getInstance() {
-        if(userFacade == null) {
-            userFacade = new UserFacade();
-        }
-        return userFacade;
+        return LazyHolder.INSTANCE;
     }
 
     /**
