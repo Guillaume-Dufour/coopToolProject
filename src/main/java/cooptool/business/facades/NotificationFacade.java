@@ -1,16 +1,13 @@
 package cooptool.business.facades;
 
-import cooptool.models.daos.NotificationDAO;
+import cooptool.models.daos.persistent.NotificationDAO;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.NotificationType;
 import cooptool.models.objects.User;
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,14 +56,14 @@ public class NotificationFacade {
             public void run() {
                 Platform.runLater(() -> {
                     notifications.setAll(notificationDAO.getNotificationsByUser(user));
-                    System.out.println("all notifications");
+                    System.out.println("Get notifications");
                 });
             }
         };
     }
 
     public void searchNotifications(User user) {
-        timer.schedule(getNotificationsByUser(user), 0, 10 * 1000);
+        timer.schedule(getNotificationsByUser(user), 0, 30 * 1000);
     }
 
     /*public IntegerProperty getNbNotifications() {

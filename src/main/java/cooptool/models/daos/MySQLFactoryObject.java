@@ -1,6 +1,7 @@
-package cooptool.models.objects;
+package cooptool.models.daos;
 
 import cooptool.models.enumDatabase.*;
+import cooptool.models.objects.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

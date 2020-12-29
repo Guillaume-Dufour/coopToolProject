@@ -1,7 +1,7 @@
 package cooptool.business.facades;
 
 import cooptool.exceptions.DepartmentNotConformed;
-import cooptool.models.daos.DepartmentDAO;
+import cooptool.models.daos.persistent.DepartmentDAO;
 import cooptool.models.objects.Department;
 
 import java.util.List;

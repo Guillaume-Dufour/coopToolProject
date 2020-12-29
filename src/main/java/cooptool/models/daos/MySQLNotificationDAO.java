@@ -1,6 +1,6 @@
 package cooptool.models.daos;
 
-import cooptool.models.objects.MySQLFactoryObject;
+import cooptool.models.daos.persistent.NotificationDAO;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.User;
 

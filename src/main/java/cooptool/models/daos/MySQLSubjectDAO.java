@@ -1,7 +1,7 @@
 package cooptool.models.daos;
 
+import cooptool.models.daos.persistent.SubjectDAO;
 import cooptool.models.objects.Department;
-import cooptool.models.objects.MySQLFactoryObject;
 import cooptool.models.objects.Subject;
 
 import java.sql.*;

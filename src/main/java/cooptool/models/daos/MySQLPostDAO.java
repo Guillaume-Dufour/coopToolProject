@@ -1,5 +1,6 @@
 package cooptool.models.daos;
 
+import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.objects.*;
 
 import java.sql.*;

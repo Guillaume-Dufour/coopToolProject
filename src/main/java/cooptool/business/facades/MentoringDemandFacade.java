@@ -1,7 +1,7 @@
 package cooptool.business.facades;
 
 import cooptool.exceptions.TooMuchSchedules;
-import cooptool.models.daos.MentoringDemandDAO;
+import cooptool.models.daos.persistent.MentoringDemandDAO;
 import cooptool.models.objects.*;
 
 import java.time.LocalDateTime;

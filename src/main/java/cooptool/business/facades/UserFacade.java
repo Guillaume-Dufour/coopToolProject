@@ -2,7 +2,7 @@ package cooptool.business.facades;
 
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
-import cooptool.models.daos.UserDAO;
+import cooptool.models.daos.persistent.UserDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;

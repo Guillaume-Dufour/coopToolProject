@@ -1,7 +1,7 @@
 package cooptool.business.facades;
 
 import cooptool.exceptions.SubjectNotConformed;
-import cooptool.models.daos.SubjectDAO;
+import cooptool.models.daos.persistent.SubjectDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 

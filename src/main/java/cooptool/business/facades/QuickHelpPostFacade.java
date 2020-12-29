@@ -1,6 +1,6 @@
 package cooptool.business.facades;
 
-import cooptool.models.daos.QuickHelpPostDAO;
+import cooptool.models.daos.persistent.QuickHelpPostDAO;
 import cooptool.models.objects.QuickHelpPost;
 import cooptool.models.objects.Subject;
 import cooptool.models.objects.User;

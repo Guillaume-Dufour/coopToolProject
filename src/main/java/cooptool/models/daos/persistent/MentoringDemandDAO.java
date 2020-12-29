@@ -1,8 +1,8 @@
-package cooptool.models.daos;
+package cooptool.models.daos.persistent;
 
+import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.objects.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MentoringDemandDAO {

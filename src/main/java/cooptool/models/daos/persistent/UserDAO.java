@@ -1,5 +1,6 @@
-package cooptool.models.daos;
+package cooptool.models.daos.persistent;
 
+import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.User;
 

@@ -1,13 +1,12 @@
 package cooptool.business.facades;
 
 import cooptool.exceptions.CommentFormatException;
-import cooptool.models.daos.PostDAO;
+import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.objects.Comment;
 import cooptool.models.objects.Post;
 import cooptool.models.objects.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostFacade {

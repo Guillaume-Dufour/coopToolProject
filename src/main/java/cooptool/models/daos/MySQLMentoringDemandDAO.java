@@ -1,5 +1,7 @@
 package cooptool.models.daos;
 
+import cooptool.models.daos.persistent.MentoringDemandDAO;
+import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.enumDatabase.ScheduleTable;
 import cooptool.models.objects.*;
 
@@ -35,7 +37,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             insertPostStatement = connection.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             insertPostStatement.setString(1,mentoringDemand.getDescription());
             insertPostStatement.setTimestamp(2,Timestamp.valueOf(LocalDateTime.now()));
-            insertPostStatement.setInt(3,PostDAO.MENTORING_DEMAND);
+            insertPostStatement.setInt(3, PostDAO.MENTORING_DEMAND);
             insertPostStatement.setInt(4,mentoringDemand.getCreator().getId());
             insertPostStatement.setInt(5,mentoringDemand.getSubject().getId());
             insertPostStatement.executeUpdate();

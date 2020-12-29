@@ -1,5 +1,7 @@
 package cooptool.models.daos;
 
+import cooptool.models.daos.persistent.*;
+
 public abstract class AbstractDAOFactory {
 
     private static class LazyHolder {
