@@ -2,6 +2,7 @@ package cooptool.business.controllers;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.StudentRole;
 
@@ -29,8 +30,8 @@ public class HeaderController {
 
     public void disconnect() {
         userFacade.disconnect();
+        NotificationFacade.getInstance().stopTimer();
         ViewLoader.getInstance().load(ViewPath.LOGIN);
-        System.out.println(userFacade.getCurrentUser());
     }
 
     public void privateMessage() {

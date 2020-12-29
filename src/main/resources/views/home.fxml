@@ -6,6 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HomeController">
@@ -30,15 +31,19 @@
                 <Font name="Book Antiqua" size="34.0" />
             </font>
         </Button>
-      <Button fx:id="notificationButton" layoutX="701.0" layoutY="119.0" mnemonicParsing="false" />
-      <ImageView fx:id="notificationImage" fitHeight="64.0" fitWidth="98.0" layoutX="369.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/cloche.jpg" />
-         </image>
-      </ImageView>
-      <Label fx:id="notificationNumber" layoutX="405.0" layoutY="543.0" textAlignment="CENTER" textFill="RED">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
+      <StackPane layoutX="668.0" layoutY="107.0" prefHeight="75.0" prefWidth="103.0">
+         <children>
+            <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/cloche.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="notificationNumber" alignment="CENTER" prefHeight="20.0" prefWidth="23.0" textFill="RED">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </StackPane>
     </children>
 </AnchorPane>

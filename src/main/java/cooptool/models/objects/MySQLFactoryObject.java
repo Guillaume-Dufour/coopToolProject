@@ -76,7 +76,9 @@ public abstract class MySQLFactoryObject {
         return new Notification(
                 getValue(rs, NotificationTable.ID_NOTIFICATION),
                 createUser(rs),
-                getValue(rs, NotificationTable.CONTENT_NOTIFICATION, String.class)
+                getValue(rs, NotificationTable.CONTENT_NOTIFICATION, String.class),
+                getValue(rs, NotificationTable.DATE_CREATION_NOTIFICATION, LocalDateTime.class),
+                NotificationType.getType(getValue(rs, NotificationTable.TYPE_NOTIFICATION))
         );
     }
 

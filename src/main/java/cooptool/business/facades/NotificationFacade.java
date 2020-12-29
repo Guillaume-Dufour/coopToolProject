@@ -2,6 +2,7 @@ package cooptool.business.facades;
 
 import cooptool.models.daos.NotificationDAO;
 import cooptool.models.objects.Notification;
+import cooptool.models.objects.NotificationType;
 import cooptool.models.objects.User;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -90,8 +91,8 @@ public class NotificationFacade {
         timer.cancel();
     }
 
-    public boolean create() {
-        return notificationDAO.create(new Notification(0, null, null));
+    public boolean create(User user, String content, NotificationType typeNotification) {
+        return notificationDAO.create(new Notification(user, content, typeNotification));
     }
 
     public boolean delete(Notification notification) {

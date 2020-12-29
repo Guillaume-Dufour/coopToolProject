@@ -6,17 +6,14 @@ import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.StudentRole;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -27,9 +24,6 @@ public class HomeController implements Initializable {
 
     @FXML
     Label notificationNumber;
-
-    @FXML
-    Button notificationButton;
 
     private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
     private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
@@ -43,7 +37,8 @@ public class HomeController implements Initializable {
         }
 
         notifications.addListener((ListChangeListener<Notification>) c -> {
-            notificationNumber.setText(String.valueOf(c.getList().size()));
+            int nbNotifications = c.getList().size();
+            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
         });
 
         /*notificationFacade.getNbNotifications().addListener(new ChangeListener<Number>() {
@@ -52,8 +47,6 @@ public class HomeController implements Initializable {
                 notificationNumber.setText(newValue.toString());
             }
         });*/
-
-        notificationButton.setOnAction(this::goToNotificationPage);
     }
 
     public void displayMentoringDemand() {
@@ -64,7 +57,7 @@ public class HomeController implements Initializable {
 
     }
 
-    public void goToNotificationPage(ActionEvent event) {
+    public void goToNotificationPage(MouseEvent mouseEvent) {
 
         Object[] tabNotifications = notifications.toArray();
 
