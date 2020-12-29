@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class QuickHelpPostFacade {
 
     private static final QuickHelpPostFacade INSTANCE;
-    private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+    private QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
 
     static{
         INSTANCE = new QuickHelpPostFacade();
@@ -23,7 +23,7 @@ public class QuickHelpPostFacade {
         return INSTANCE;
     }
 
-    public boolean create(String description, Subject subject, User user){
+    public void create(String description, Subject subject, User user){
         QuickHelpPost quickHelpPost =
                 new QuickHelpPost(
                         -1,
@@ -33,7 +33,6 @@ public class QuickHelpPostFacade {
                         LocalDateTime.now()
                 );
         quickHelpPostDAO.create(quickHelpPost);
-        return true;
     }
 
     public void delete(QuickHelpPost quickHelpPost){

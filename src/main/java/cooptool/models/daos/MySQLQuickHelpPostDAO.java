@@ -6,6 +6,7 @@ import cooptool.models.objects.QuickHelpPost;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
@@ -16,7 +17,7 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
     }
 
     @Override
-    public boolean create(QuickHelpPost quickHelpPost) {
+    public void create(QuickHelpPost quickHelpPost) {
         String statement =
                 "INSERT INTO post (description_post,date_post,type_post,id_user_creator,id_subject) " +
                         "VALUES (?,?,?,?,?)";
@@ -28,12 +29,12 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             insertPostStatement.setInt(3, PostDAO.QUICK_HELP_POST);
             insertPostStatement.setInt(4, quickHelpPost.getCreator().getId());
             insertPostStatement.setInt(5, quickHelpPost.getSubject().getId());
-            insertPostStatement.executeUpdate(statement,Statement.RETURN_GENERATED_KEYS);
+            insertPostStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            //return false;
         }
-        return true;
+        //return true;
     }
 
     @Override

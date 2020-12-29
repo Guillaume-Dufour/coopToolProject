@@ -13,7 +13,7 @@ public abstract class QuickHelpPostDAO {
         return LazyHolder.INSTANCE;
     }
 
-    public abstract boolean create(QuickHelpPost quickHelpPost);
+    public abstract void create(QuickHelpPost quickHelpPost);
 
     public abstract void delete(QuickHelpPost quickHelpPost);
 
