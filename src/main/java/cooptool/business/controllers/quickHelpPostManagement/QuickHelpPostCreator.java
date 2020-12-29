@@ -69,4 +69,7 @@ public class QuickHelpPostCreator implements Initializable {
         });
     }
 
+    public void cancelCreation(ActionEvent actionEvent) {
+        ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
+    }
 }

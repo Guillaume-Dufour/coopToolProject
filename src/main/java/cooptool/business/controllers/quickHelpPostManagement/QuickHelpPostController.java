@@ -16,8 +16,6 @@ public class QuickHelpPostController implements Initializable {
 
     @FXML
     Pane header_admin,header_student;
-    @FXML
-    Button displayButton, creationButton, displayMineButton;
 
     private final UserFacade userFacade = UserFacade.getInstance();
 
@@ -28,7 +26,6 @@ public class QuickHelpPostController implements Initializable {
 
         } else {
             header_student.setVisible(false);
-            disableStudentRights();
         }
         /*try {
 
@@ -38,19 +35,5 @@ public class QuickHelpPostController implements Initializable {
         // displayQHP
     }
 
-    public void chooseMenu(ActionEvent event) {
-        Button sourceButton = (Button) event.getSource();
-        if(sourceButton == displayButton) {
 
-        }
-        else if(sourceButton == creationButton) {
-            ViewLoader.getInstance().load(ViewPath.CREATE_QUICK_HELP_POST);
-        }
-    }
-
-    private void disableStudentRights(){
-        displayButton.setVisible(false);
-        creationButton.setVisible(false);
-        displayMineButton.setVisible(false);
-    }
 }

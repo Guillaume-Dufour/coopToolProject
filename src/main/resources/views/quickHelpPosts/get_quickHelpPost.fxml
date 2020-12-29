@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.quickHelpPostManagement.QuickHelpPostController">
+    <children>
+        <Pane fx:id="header_student">
+            <children>
+                <fx:include source="../header_student.fxml" />
+            </children>
+        </Pane>
+        <Pane fx:id="header_admin">
+            <children>
+                <fx:include source="../header_admin.fxml" />
+            </children>
+        </Pane>
+        <Label fx:id="creatorLabel" layoutX="51.0" layoutY="131.0" text="Auteur" />
+        <Label fx:id="subjectLabel" layoutX="51.0" layoutY="164.0" text="Matière" />
+        <Text fx:id="description" layoutX="54.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+    </children>
+</AnchorPane>

@@ -1,17 +1,17 @@
 package cooptool.business.facades;
 
 import cooptool.models.daos.persistent.QuickHelpPostDAO;
-import cooptool.models.objects.QuickHelpPost;
-import cooptool.models.objects.Subject;
-import cooptool.models.objects.User;
+import cooptool.models.objects.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class QuickHelpPostFacade {
 
     private static final QuickHelpPostFacade INSTANCE;
     private QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+    private User currentUser = UserFacade.getInstance().getCurrentUser();
 
     static{
         INSTANCE = new QuickHelpPostFacade();
@@ -37,5 +37,15 @@ public class QuickHelpPostFacade {
 
     public void delete(QuickHelpPost quickHelpPost){
 
+    }
+
+    public List<QuickHelpPost> getQuickHelpPosts(){
+        UserRole userRole = currentUser.getRole();
+        if(userRole instanceof StudentRole){
+            return quickHelpPostDAO.getPartialQHP(((StudentRole) userRole).getDepartment());
+        }
+        else{
+            return quickHelpPostDAO.getPartialQHP();
+        }
     }
 }

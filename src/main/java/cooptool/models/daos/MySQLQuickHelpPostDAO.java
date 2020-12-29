@@ -2,11 +2,12 @@ package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.daos.persistent.QuickHelpPostDAO;
+import cooptool.models.objects.Department;
 import cooptool.models.objects.QuickHelpPost;
 
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.util.List;
 
 public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
@@ -17,7 +18,7 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
     }
 
     @Override
-    public void create(QuickHelpPost quickHelpPost) {
+    public boolean create(QuickHelpPost quickHelpPost) {
         String statement =
                 "INSERT INTO post (description_post,date_post,type_post,id_user_creator,id_subject) " +
                         "VALUES (?,?,?,?,?)";
@@ -32,9 +33,9 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             insertPostStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            //return false;
+            return false;
         }
-        //return true;
+        return true;
     }
 
     @Override
@@ -44,6 +45,16 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
     @Override
     public QuickHelpPost getQuickHelpPost(int id) {
+        return null;
+    }
+
+    @Override
+    public List<QuickHelpPost> getPartialQHP(Department department) {
+        return null;
+    }
+
+    @Override
+    public List<QuickHelpPost> getPartialQHP() {
         return null;
     }
 }

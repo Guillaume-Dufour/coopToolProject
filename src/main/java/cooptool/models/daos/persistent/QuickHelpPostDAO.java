@@ -1,7 +1,10 @@
 package cooptool.models.daos.persistent;
 
 import cooptool.models.daos.AbstractDAOFactory;
+import cooptool.models.objects.Department;
 import cooptool.models.objects.QuickHelpPost;
+
+import java.util.List;
 
 public abstract class QuickHelpPostDAO {
 
@@ -13,10 +16,14 @@ public abstract class QuickHelpPostDAO {
         return LazyHolder.INSTANCE;
     }
 
-    public abstract void create(QuickHelpPost quickHelpPost);
+    public abstract boolean create(QuickHelpPost quickHelpPost);
 
     public abstract void delete(QuickHelpPost quickHelpPost);
 
     public abstract QuickHelpPost getQuickHelpPost(int id);
+
+    public abstract List<QuickHelpPost> getPartialQHP(Department department);
+
+    public abstract List<QuickHelpPost> getPartialQHP();
 
 }
