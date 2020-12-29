@@ -33,31 +33,20 @@ public class MentoringDemandsDisplay implements Initializable {
     List<MentoringDemand> partialMentoringDemands;
     Button focusButton;
     boolean isInitialized = false;
+    
+    private final UserFacade userFacade = UserFacade.getInstance();
+    private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
+        if (userFacade.isCurrentUserAdmin()){
             header_admin.setVisible(false);
         } else {
             header_student.setVisible(false);
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
-        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
-        for(int j=1;j<=numberOfButtons;j++){
-            Button button = new Button(String.valueOf(j));
-            button.setOnAction(event -> {
-                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
-                focusButton.setDisable(false);
-                button.setDisable(true);
-                focusButton = button;
-            });
-            if(j==1){
-                focusButton = button;
-                focusButton.setDisable(true);
-            }
-            pageHbox.getChildren().add(button);
-        }
+        createNavigationButtons();
         showMentoringDemands(0);
         isInitialized = true;
     }
@@ -73,15 +62,9 @@ public class MentoringDemandsDisplay implements Initializable {
             MentoringDemand cur = partialMentoringDemands.get(i);
             StudentRole studentRole = (StudentRole) cur.getCreator().getRole();
             BorderPane borderPane = new BorderPane();
-            String topText = String.format(
-                    "Creator : %s %s, Department : %s%d",
-                    studentRole.getFirstName(),
-                    studentRole.getLastName(),
-                    studentRole.getDepartment().getAbbreviation(),
-                    studentRole.getDepartment().getYear()
-            );
+            String topText = studentRole.getStudentRepresentation();
             String centerText = String.format(
-                    "Description : %s\nSubject : %s\nSchedules : %s",
+                    "Description : %s\nSubject : %s\nSchedules :\n%s",
                     cur.getDescription(),
                     cur.getSubject().getName(),
                     cur.schedulesToString());
@@ -100,11 +83,29 @@ public class MentoringDemandsDisplay implements Initializable {
         grid.getChildren().retainAll(grid.getChildren().get(0));
     }
 
+    private void createNavigationButtons(){
+        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
+        for(int j=1;j<=numberOfButtons;j++){
+            Button button = new Button(String.valueOf(j));
+            button.setOnAction(event -> {
+                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
+                focusButton.setDisable(false);
+                button.setDisable(true);
+                focusButton = button;
+            });
+            if(j==1){
+                focusButton = button;
+                focusButton.setDisable(true);
+            }
+            pageHbox.getChildren().add(button);
+        }
+    }
+
     public void goToCreationPage(){
-        ViewLoader.getInstance().load(ViewPath.CREATE_MENTORING_DEMAND);
+        viewLoader.load(ViewPath.CREATE_MENTORING_DEMAND);
     }
 
     public void goToMentoringDemand(int id){
-        ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND,id);
+        viewLoader.load(ViewPath.GET_MENTORING_DEMAND,id);
     }
 }

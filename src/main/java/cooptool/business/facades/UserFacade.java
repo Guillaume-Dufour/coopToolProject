@@ -5,10 +5,18 @@ import cooptool.utils.BCrypt;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.UserDAO;
+import cooptool.models.objects.Department;
+import cooptool.models.objects.StudentRole;
+import cooptool.models.objects.User;
+import cooptool.utils.BCrypt;
 import cooptool.utils.Mail;
 
 import java.util.*;
 import java.util.regex.*;
+import java.util.List;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Singleton used to hide the implementation of the database calls to the controller
@@ -160,5 +168,9 @@ public class UserFacade {
      */
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public boolean isCurrentUserAdmin(){
+        return currentUser.getRole() instanceof StudentRole;
     }
 }

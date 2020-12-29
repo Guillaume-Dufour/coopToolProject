@@ -70,4 +70,14 @@ public class StudentRole extends UserRole {
                 ", department=" + department +
                 '}';
     }
+
+    public String getStudentRepresentation(){
+        return String.format(
+                "%s %s %s%d",
+                firstName,
+                lastName,
+                department.getAbbreviation(),
+                department.getYear()
+        );
+    }
 }
