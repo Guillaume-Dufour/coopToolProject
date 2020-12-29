@@ -88,8 +88,8 @@ public class NotificationFacade {
         timer.cancel();
     }
 
-    public boolean create(User user, String content, NotificationType typeNotification) {
-        return notificationDAO.create(new Notification(user, content, typeNotification));
+    public boolean create(User user, String content, int objectId, NotificationType typeNotification) {
+        return notificationDAO.create(new Notification(user, content, objectId, typeNotification));
     }
 
     public boolean delete(Notification notification) {

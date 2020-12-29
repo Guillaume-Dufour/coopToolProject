@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public abstract class MySQLFactoryObject {
 
-    private static final int ADMIN_ROLE = 0;
-    private static final int STUDENT_ROLE = 1;
+    public static final int ADMIN_ROLE = 0;
+    public static final int STUDENT_ROLE = 1;
 
     public static User createUser(ResultSet rs) {
 
@@ -79,12 +79,18 @@ public abstract class MySQLFactoryObject {
                 createUser(rs),
                 getValue(rs, NotificationTable.CONTENT_NOTIFICATION, String.class),
                 getValue(rs, NotificationTable.DATE_CREATION_NOTIFICATION, LocalDateTime.class),
+                getValue(rs, NotificationTable.ID_OBJECT_NOTIFICATION),
                 NotificationType.getType(getValue(rs, NotificationTable.TYPE_NOTIFICATION))
         );
     }
 
     public static QuickHelpPost createQuickHelpPost(ResultSet rs) {
-        return null;
+        return new QuickHelpPost(
+                getValue(rs, PostTable.ID_POST),
+                createSubject(rs),
+                getValue(rs, PostTable.DESCRIPTION_POST, String.class),
+                getValue(rs, PostTable.DATE_POST, LocalDateTime.class)
+        );
     }
 
     public static Participation createParticipation(ResultSet rs) {

@@ -10,9 +10,9 @@ public class TimeUtils {
     private static ArrayList<Integer> minutes;
 
     public static ArrayList<Integer> getHoursArrayList(){
-        if(hours == null){
+        if (hours == null) {
             hours = new ArrayList<>();
-            for(int i=0;i<24;i++){
+            for(int i=0;i<24;i++) {
                 hours.add(i);
             }
         }
@@ -36,5 +36,9 @@ public class TimeUtils {
 
     public static LocalDateTime parse(String formattedDate){
         return LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getHoursArrayList());
     }
 }

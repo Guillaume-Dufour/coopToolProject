@@ -6,6 +6,7 @@ public enum NotificationTable implements TableInterface {
     ID_USER("id_user"),
     CONTENT_NOTIFICATION("content_notification"),
     DATE_CREATION_NOTIFICATION("date_creation_notification"),
+    ID_OBJECT_NOTIFICATION("id_object_notification"),
     TYPE_NOTIFICATION("type_notification");
 
     @Override

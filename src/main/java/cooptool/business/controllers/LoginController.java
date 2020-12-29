@@ -79,6 +79,8 @@ public class LoginController implements Initializable{
 
         inputMail.setOnKeyPressed(this::onEnter);
         inputPassword.setOnKeyPressed(this::onEnter);
+
+        loginButton.getStyleClass().addAll("btn", "btn-primary");
     }
 
     public void handleNewPassword() {
