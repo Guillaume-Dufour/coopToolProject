@@ -1,6 +1,7 @@
 package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.SubjectDAO;
+import cooptool.models.enumDatabase.SubjectTable;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 
@@ -22,6 +23,9 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
         String requete = "INSERT INTO subject (name_subject, id_department) " +
                 "VALUES (?, ?);";
+
+        String sql = "INSERT INTO subject (%s, %s) VALUES(?, ?)";
+        sql = String.format(sql, SubjectTable.NAME_SUBJECT, SubjectTable.ID_DEPARTMENT);
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);

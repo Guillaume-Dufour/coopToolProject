@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -25,7 +26,8 @@
             <TableColumn fx:id="deleteCol" prefWidth="97.0" text="#" />
          </columns>
       </TableView>
-      <Button fx:id="deleteAllButton" layoutX="584.0" layoutY="119.0" onAction="#deleteAllNotifications" mnemonicParsing="false" text="Supprimer toutes les notifications" />
+      <Button fx:id="deleteAllButton" layoutX="584.0" layoutY="119.0" mnemonicParsing="false" onAction="#deleteAllNotifications" text="Supprimer toutes les notifications" />
+      <ComboBox fx:id="notificationTypesBox" layoutX="128.0" layoutY="119.0" prefWidth="150.0" />
     </children>
 
 

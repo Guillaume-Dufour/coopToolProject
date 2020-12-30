@@ -78,8 +78,8 @@ public class MentoringDemandCreator implements Initializable {
     }
 
     private void initializeHourAndMinutesBoxes(){
-        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
-        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
+        List<Integer> hours = TimeUtils.getHoursArrayList();
+        List<Integer> minutes = TimeUtils.getMinutesArrayList();
 
         hourBox.setItems(FXCollections.observableList(hours));
         minBox.setItems(FXCollections.observableList(minutes));

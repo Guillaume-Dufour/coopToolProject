@@ -31,9 +31,9 @@
                 <Font name="Book Antiqua" size="34.0" />
             </font>
         </Button>
-      <StackPane layoutX="668.0" layoutY="107.0" prefHeight="75.0" prefWidth="103.0">
+      <StackPane layoutX="668.0" layoutY="107.0" onMouseClicked="#goToNotificationPage" prefHeight="75.0" prefWidth="103.0">
          <children>
-            <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/cloche.jpg" />
                </image>

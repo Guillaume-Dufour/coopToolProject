@@ -40,8 +40,8 @@ public class LoginController implements Initializable{
     /**
      * Method called by the loginButton
      * Checks the credentials inserted in the inputMail and inputPassword
-     * If the system recognizes a student ->  redirects him to student home page
-     * If the system recognizes a student ->  redirects him to admin home page
+     * If the system recognizes a student, it redirects him to student home page
+     * If the system recognizes a student, it redirects him to admin home page
      * Else change the text of the errorLabel with an according error message
      */
     public void login() {
@@ -79,8 +79,6 @@ public class LoginController implements Initializable{
 
         inputMail.setOnKeyPressed(this::onEnter);
         inputPassword.setOnKeyPressed(this::onEnter);
-
-        loginButton.getStyleClass().addAll("btn", "btn-primary");
     }
 
     public void handleNewPassword() {

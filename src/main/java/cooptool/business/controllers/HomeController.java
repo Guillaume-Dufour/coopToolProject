@@ -15,7 +15,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -60,8 +59,6 @@ public class HomeController implements Initializable {
     public void goToNotificationPage(MouseEvent mouseEvent) {
 
         Object[] tabNotifications = notifications.toArray();
-
-        System.out.println(Arrays.toString(tabNotifications));
 
         ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
     }

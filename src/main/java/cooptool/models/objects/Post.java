@@ -3,6 +3,7 @@ package cooptool.models.objects;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Post {
     private int id;

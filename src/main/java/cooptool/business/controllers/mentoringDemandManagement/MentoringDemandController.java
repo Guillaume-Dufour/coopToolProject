@@ -25,10 +25,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.MissingResourceException;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MentoringDemandController implements Initializable {
     @FXML
@@ -135,8 +132,8 @@ public class MentoringDemandController implements Initializable {
     }
 
     public void addSchedule(){
-        ArrayList<Integer> hours = TimeUtils.getHoursArrayList();
-        ArrayList<Integer> minutes = TimeUtils.getMinutesArrayList();
+        List<Integer> hours = TimeUtils.getHoursArrayList();
+        List<Integer> minutes = TimeUtils.getMinutesArrayList();
 
         // Create the custom dialog.
         Dialog<LocalDateTime> dialog = new Dialog<>();

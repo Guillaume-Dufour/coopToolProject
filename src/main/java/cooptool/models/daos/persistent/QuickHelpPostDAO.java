@@ -3,6 +3,8 @@ package cooptool.models.daos.persistent;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.objects.QuickHelpPost;
 
+import java.util.List;
+
 public abstract class QuickHelpPostDAO {
 
     private static class LazyHolder {
@@ -18,5 +20,4 @@ public abstract class QuickHelpPostDAO {
     public abstract void delete(QuickHelpPost quickHelpPost);
 
     public abstract QuickHelpPost getQuickHelpPost(int id);
-
 }
