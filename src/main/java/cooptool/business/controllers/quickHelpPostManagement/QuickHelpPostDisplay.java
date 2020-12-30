@@ -37,7 +37,7 @@ public class QuickHelpPostDisplay implements Initializable {
             disableStudentRights();
         }
         partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getQuickHelpPosts();
-        createNavigationButtons();
+        //createNavigationButtons();
     }
 
     public void goToQHPDisplayPage() {
