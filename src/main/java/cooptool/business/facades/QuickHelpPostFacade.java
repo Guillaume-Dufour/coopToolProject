@@ -48,4 +48,14 @@ public class QuickHelpPostFacade {
             return quickHelpPostDAO.getPartialQHP();
         }
     }
+
+    public List<QuickHelpPost> getMyQuickHelpPosts() {
+        UserRole userRole = currentUser.getRole();
+        if(userRole instanceof StudentRole){
+            return quickHelpPostDAO.getPartialQHP(currentUser, ((StudentRole) userRole).getDepartment());
+        }
+        else{
+            return quickHelpPostDAO.getPartialQHP();
+        }
+    }
 }

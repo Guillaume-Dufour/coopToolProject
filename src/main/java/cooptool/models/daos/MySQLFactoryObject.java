@@ -89,6 +89,7 @@ public abstract class MySQLFactoryObject {
                 getValue(rs, PostTable.ID_POST),
                 createSubject(rs),
                 getValue(rs, PostTable.DESCRIPTION_POST, String.class),
+                createUser(rs),
                 getValue(rs, PostTable.DATE_POST, LocalDateTime.class)
         );
     }

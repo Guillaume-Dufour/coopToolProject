@@ -4,9 +4,11 @@ import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.daos.persistent.QuickHelpPostDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.QuickHelpPost;
+import cooptool.models.objects.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
@@ -50,8 +52,68 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
     @Override
     public List<QuickHelpPost> getPartialQHP(Department department) {
-        return null;
+        String statement =
+                "SELECT * " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "JOIN user AS u ON post.id_user_creator = u.id_user " +
+                        "JOIN department ON u.id_department = department.id_department "+
+                        "WHERE department.abbreviation_department = ? AND type_post = 1 ORDER BY date_post,post.id_post";
+        List<QuickHelpPost> partialQHP = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1,department.getAbbreviation());
+
+            ResultSet res = preparedStatement.executeQuery();
+            int previousIdPost = -1;
+
+            while(res.next()){
+                int idPost = res.getInt(1);
+                if(idPost != previousIdPost){
+                    partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
+                    previousIdPost = idPost;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return partialQHP;
     }
+
+    @Override
+    public List<QuickHelpPost> getPartialQHP(User user, Department department) {
+        String statement =
+                "SELECT * " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "JOIN user AS u ON post.id_user_creator = u.id_user " +
+                        "JOIN department ON u.id_department = department.id_department "+
+                        "WHERE u.id_user = ? AND department.abbreviation_department = ? AND type_post = 1 ORDER BY date_post,post.id_post";
+        List<QuickHelpPost> partialQHP = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1,user.getId());
+            preparedStatement.setString(2,department.getAbbreviation());
+            ResultSet res = preparedStatement.executeQuery();
+            int previousIdPost = -1;
+
+            while(res.next()){
+                int idPost = res.getInt(1);
+                if(idPost != previousIdPost){
+                    partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
+                    previousIdPost = idPost;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return partialQHP;
+    }
+
 
     @Override
     public List<QuickHelpPost> getPartialQHP() {
