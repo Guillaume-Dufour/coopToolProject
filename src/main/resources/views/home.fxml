@@ -26,7 +26,7 @@
                 <Font name="Book Antiqua" size="34.0" />
             </font>
         </Button>
-        <Button fx:id="quickHelpButton" alignment="CENTER" layoutX="450.0" layoutY="200.0" mnemonicParsing="false" onAction="#displayQuickHelp" prefHeight="240.0" prefWidth="269.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" wrapText="true">
+        <Button fx:id="quickHelpButton" alignment="CENTER" layoutX="450.0" layoutY="200.0" mnemonicParsing="false" onAction="#displayQuickHelpPost" prefHeight="240.0" prefWidth="269.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" wrapText="true">
             <font>
                 <Font name="Book Antiqua" size="34.0" />
             </font>

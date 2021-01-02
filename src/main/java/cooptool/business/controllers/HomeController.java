@@ -52,8 +52,8 @@ public class HomeController implements Initializable {
         ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
     }
 
-    public void displayQuickHelp() {
-
+    public void displayQuickHelpPost() {
+        ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
     public void goToNotificationPage(MouseEvent mouseEvent) {

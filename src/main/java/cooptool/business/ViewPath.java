@@ -20,6 +20,7 @@ public enum ViewPath {
     GET_MENTORING_DEMAND("views/mentoringDemands/get_demand.fxml"),
     QUICK_HELP_POST_HOME_PAGE("views/quickHelpPosts/home_page.fxml"),
     CREATE_QUICK_HELP_POST("views/quickHelpPosts/creation.fxml"),
+    GET_QUICK_HELP_POST("views/quickHelpPosts/get_quickHelpPost.fxml"),
     HISTORY_DISPLAY("views/browsingHistory/display_history.fxml"),
     NOTIFICATIONS("views/notifications.fxml");
 
