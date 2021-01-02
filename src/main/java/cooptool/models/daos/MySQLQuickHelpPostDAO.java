@@ -42,12 +42,42 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
     @Override
     public void delete(QuickHelpPost quickHelpPost) {
-
+        String statement =
+                "DELETE FROM post " +
+                        "WHERE id_post = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(statement);
+            deletionStatement.setInt(1,quickHelpPost.getId());
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public QuickHelpPost getQuickHelpPost(int id) {
-        return null;
+        String statement =
+                "SELECT * " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "JOIN user creator ON post.id_user_creator = creator.id_user " +
+                        "JOIN department ON creator.id_department = department.id_department "+
+                        "WHERE post.id_post = ? AND type_post = 1";
+        QuickHelpPost qhp = null;
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, id);
+            ResultSet res = preparedStatement.executeQuery();
+            while(res.next()){
+                int idPost = res.getInt(1);
+                qhp = MySQLFactoryObject.createQuickHelpPost(res);
+            }
+            System.out.println("ooooooooooo " + qhp);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return qhp;
     }
 
     @Override
@@ -118,5 +148,21 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
     @Override
     public List<QuickHelpPost> getPartialQHP() {
         return null;
+    }
+
+    @Override
+    public void updateDescription(QuickHelpPost qhp) {
+        String statement =
+                "UPDATE post " +
+                        "SET description_post = ? " +
+                        "WHERE id_post = ?";
+        try {
+            PreparedStatement updateStatement = connection.prepareStatement(statement);
+            updateStatement.setString(1, qhp.getDescription());
+            updateStatement.setInt(2, qhp.getId());
+            updateStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

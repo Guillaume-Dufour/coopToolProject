@@ -31,9 +31,9 @@ public class QuickHelpPostCreator implements Initializable {
     @FXML
     TextArea description;
     @FXML
-    Button creationButton;
+    Button creationButton, cancelButton;
     @FXML
-    Label infoLabel,errorLabel;
+    Label errorLabel;
 
     private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
 
@@ -69,7 +69,7 @@ public class QuickHelpPostCreator implements Initializable {
         });
     }
 
-    public void cancelCreation(ActionEvent actionEvent) {
+    public void cancelCreation() {
         ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 }

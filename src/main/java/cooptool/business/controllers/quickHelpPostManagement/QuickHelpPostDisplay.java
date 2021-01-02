@@ -77,6 +77,9 @@ public class QuickHelpPostDisplay implements Initializable {
     }
 
     private void goToQuickHelpPost(int id) {
+        System.out.println("Etape 1 " + id);
+        viewLoader.load(ViewPath.GET_QUICK_HELP_POST, id);
+        // we communicate the id of the quick help post that we want to display with details
     }
 
     public void goToQHPDisplayPage() {
@@ -90,7 +93,6 @@ public class QuickHelpPostDisplay implements Initializable {
 
     public void goToMyQHPDisplayPage() {
         partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getMyQuickHelpPosts();
-        //viewLoader.load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
         displayQuickHelpPosts(0);
     }
 

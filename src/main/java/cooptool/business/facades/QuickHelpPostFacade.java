@@ -35,8 +35,8 @@ public class QuickHelpPostFacade {
         quickHelpPostDAO.create(quickHelpPost);
     }
 
-    public void delete(QuickHelpPost quickHelpPost){
-
+    public void delete(QuickHelpPost qhp){
+        quickHelpPostDAO.delete(qhp);
     }
 
     public List<QuickHelpPost> getQuickHelpPosts(){
@@ -57,5 +57,18 @@ public class QuickHelpPostFacade {
         else{
             return quickHelpPostDAO.getPartialQHP();
         }
+    }
+
+    public QuickHelpPost getQuickHelpPost(int id) {
+        return quickHelpPostDAO.getQuickHelpPost(id);
+    }
+
+    public boolean isCurrentUserCreatorOfQHP(QuickHelpPost qhp) {
+        return currentUser.getId() == qhp.getCreator().getId();
+    }
+
+    public void updateDescription(QuickHelpPost qhp,String updatedDesc){
+        qhp.setDescription(updatedDesc);
+        quickHelpPostDAO.updateDescription(qhp);
     }
 }
