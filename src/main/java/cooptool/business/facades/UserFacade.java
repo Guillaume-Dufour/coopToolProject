@@ -3,6 +3,7 @@ package cooptool.business.facades;
 import cooptool.exceptions.*;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.persistent.UserDAO;
+import cooptool.models.objects.AdminRole;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
@@ -27,7 +28,7 @@ public class UserFacade {
     private User currentUser;
     private final UserDAO userDAO;
 
-    private static Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
+    private static final Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
     private static Matcher matcher;
     private String patternMdp = "abcdefghijklmnopqrstuvwxyz1234567890";
 
@@ -166,7 +167,7 @@ public class UserFacade {
         return currentUser;
     }
 
-    public boolean isCurrentUserAdmin(){
+    public boolean isCurrentUserStudent(){
         return currentUser.getRole() instanceof StudentRole;
     }
 }

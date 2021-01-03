@@ -39,7 +39,7 @@ public class MentoringDemandsDisplay implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserAdmin()){
+        if (userFacade.isCurrentUserStudent()){
             header_admin.setVisible(false);
         } else {
             header_student.setVisible(false);

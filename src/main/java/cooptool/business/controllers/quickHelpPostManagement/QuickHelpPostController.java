@@ -8,7 +8,6 @@ import cooptool.models.objects.QuickHelpPost;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.Subject;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -40,7 +39,7 @@ public class QuickHelpPostController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserAdmin()){
+        if (userFacade.isCurrentUserStudent()){
             header_admin.setVisible(false);
 
         } else {
