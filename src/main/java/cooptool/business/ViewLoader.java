@@ -51,11 +51,8 @@ public class ViewLoader extends Parent {
 
         try {
             root = loader.load();
-            ScrollPane scrollPane = new ScrollPane(root);
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-            Scene scene = new Scene(scrollPane, 800, 600);
+            Scene scene = new Scene(root, 800, 600);
             stage.setScene(scene);
 
 

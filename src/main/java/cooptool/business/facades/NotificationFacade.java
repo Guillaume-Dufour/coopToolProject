@@ -38,12 +38,12 @@ public class NotificationFacade {
         return notifications;
     }
 
-    /*public TimerTask getNbNotificationsByUser(User user) {
+    /*public TimerTask getNbUnreadNotifications(User user) {
         return new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
-                    nbNotifications.setValue(notificationDAO.getNbNotificationsByUser(user));
+                    nbNotifications.setValue(notificationDAO.getNbUnreadNotifications(user));
                     System.out.println("nb notifs");
                 });
             }
@@ -72,7 +72,7 @@ public class NotificationFacade {
 
     /*public void changeTaskToNbNotifications(User user) {
         purgeTimer();
-        timer.schedule(getNbNotificationsByUser(user), 0, 5 * 1000);
+        timer.schedule(getNbUnreadNotifications(user), 0, 5 * 1000);
     }
 
     public void changeTaskToGetNotifications(User user) {
@@ -98,5 +98,11 @@ public class NotificationFacade {
 
     public boolean deleteAllNotifications(User user) {
         return notificationDAO.deleteAllNotificationsByUser(user);
+    }
+
+    public void changeStatusToRead(Notification notification) {
+        notification.changeStatusToRead();
+
+
     }
 }

@@ -54,6 +54,10 @@ public class Notification {
         return isRead;
     }
 
+    public void changeStatusToRead() {
+        isRead = 1;
+    }
+
     @Override
     public String toString() {
         return "Notification{" +

@@ -128,9 +128,10 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             preparedStatement.setInt(1,user.getId());
             preparedStatement.setString(2,department.getAbbreviation());
             ResultSet res = preparedStatement.executeQuery();
+
             int previousIdPost = -1;
 
-            while(res.next()){
+            while(res.next()) {
                 int idPost = res.getInt(1);
                 if(idPost != previousIdPost){
                     partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));

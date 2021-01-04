@@ -69,11 +69,11 @@ public class MySQLNotificationDAO extends NotificationDAO {
     }
 
     @Override
-    public int getNbNotificationsByUser(User user) {
+    public int getNbUnreadNotifications(User user) {
 
         String requete = "SELECT COUNT(*) as nb " +
                 "FROM notification " +
-                "WHERE id_user = ?;";
+                "WHERE id_user = ? AND is_read = 0;";
 
         int nbNotifications = 0;
 
@@ -91,6 +91,11 @@ public class MySQLNotificationDAO extends NotificationDAO {
         }
 
         return nbNotifications;
+    }
+
+    @Override
+    public boolean upadteStatusRead(Notification notification) {
+        return false;
     }
 
     @Override
