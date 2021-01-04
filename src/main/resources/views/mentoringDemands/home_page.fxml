@@ -11,16 +11,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.mentoringDemandManagement.MentoringDemandsDisplay">
    <children>
-      <Pane fx:id="header_student">
-         <children>
-            <fx:include source="../header_student.fxml" />
-         </children>
-      </Pane>
-      <Pane fx:id="header_admin">
-         <children>
-            <fx:include source="../header_admin.fxml" />
-         </children>
-      </Pane>
+       <fx:include maxHeight="1000.0" maxWidth="1500.0" source="../header.fxml"/>
       <Label layoutX="317.0" layoutY="116.0" text="MentoringDemands" />
       <Button fx:id="creationButton" layoutX="26.0" layoutY="112.0" mnemonicParsing="false" onAction="#goToCreationPage" text="New Demand" />
       <GridPane fx:id="grid" gridLinesVisible="true" layoutX="71.0" layoutY="158.0" prefHeight="393.0" prefWidth="681.0">

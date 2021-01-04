@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.AccountController">
-    <children>
-        <Pane fx:id="header_student">
-            <children>
-                <fx:include source="../header_student.fxml" />
-            </children>
-        </Pane>
-        <Pane fx:id="header_admin">
-            <children>
-                <fx:include source="../header_admin.fxml" />
-            </children>
-        </Pane>
-        <GridPane layoutX="150.0" layoutY="210.0" prefHeight="180.0" prefWidth="500.0">
+<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.userManagement.AccountController">
+    <top>
+        <fx:include maxHeight="1000.0" maxWidth="1500.0" source="../header.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+        <GridPane BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -33,21 +26,55 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom : " />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :" GridPane.rowIndex="1" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Promotion :" GridPane.rowIndex="3" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description :" GridPane.rowIndex="4" />
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse Mail : " GridPane.rowIndex="2" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nom : " GridPane.halignment="CENTER" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prénom :" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Promotion :" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description :" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse Mail : " GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                 <Text fx:id="labelLastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
                 <Text fx:id="labelFirstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Text fx:id="labelMail" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Text fx:id="labelPromotion" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Text fx:id="labelDescription" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </BorderPane.margin>
         </GridPane>
-      <Button fx:id="deleteButton" layoutX="569.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" />
-      <Button fx:id="retourButton" layoutX="57.0" layoutY="132.0" mnemonicParsing="false" onAction="#goBack" text="Retour" />
-      <Button fx:id="updateButton" layoutX="433.0" layoutY="499.0" mnemonicParsing="false" onAction="#goToUpdatePage" text="Modifier le compte" />
-      <Button fx:id="historyButton" layoutX="659.0" layoutY="132.0" mnemonicParsing="false" onAction="#displayHistory" text="Mon historique" />
-    </children>
-</AnchorPane>
+    </center>
+    <left>
+        <Button fx:id="retourButton" mnemonicParsing="false" onAction="#goBack" text="Retour">
+         <BorderPane.margin>
+            <Insets left="20.0" top="20.0" />
+         </BorderPane.margin></Button>
+    </left>
+    <right>
+        <Button fx:id="historyButton" mnemonicParsing="false" onAction="#displayHistory" text="Mon historique">
+         <BorderPane.margin>
+            <Insets right="20.0" top="20.0" />
+         </BorderPane.margin></Button>
+    </right>
+   <bottom>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="updateButton" mnemonicParsing="false" onAction="#goToUpdatePage" text="Modifier le compte" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteAccount" text="Supprimer le compte" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </Button>
+         </children>
+      </GridPane>
+   </bottom>
+</BorderPane>

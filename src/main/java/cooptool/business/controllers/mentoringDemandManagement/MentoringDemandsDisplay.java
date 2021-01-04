@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MentoringDemandsDisplay implements Initializable {
-    @FXML
-    Pane header_admin,header_student;
+
     @FXML
     Button creationButton;
     @FXML
@@ -40,9 +39,8 @@ public class MentoringDemandsDisplay implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (userFacade.isCurrentUserAdmin()){
-            header_admin.setVisible(false);
+            //TODO: reprendre la condition
         } else {
-            header_student.setVisible(false);
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();

@@ -5,8 +5,17 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.StudentRole;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.image.ImageView;
 
-public class HeaderController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class HeaderController implements Initializable {
+
+    @FXML
+    ImageView parameterButton, messageButton;
 
     UserFacade userFacade = UserFacade.getInstance();
 
@@ -35,5 +44,14 @@ public class HeaderController {
     }
 
     public void privateMessage() {
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
+            parameterButton.setVisible(false);
+        } else {
+            messageButton.setVisible(false);
+        }
     }
 }

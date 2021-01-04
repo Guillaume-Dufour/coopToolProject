@@ -2,50 +2,49 @@
 
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HeaderController">
-
-<GridPane gridLinesVisible="true" prefHeight="89.0" prefWidth="800.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="208.33334350585938" minWidth="10.0" prefWidth="175.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.9999796549479" minWidth="10.0" prefWidth="175.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.66668701171875" minWidth="10.0" prefWidth="77.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.66664632161462" minWidth="10.0" prefWidth="174.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.0" minWidth="10.0" prefWidth="174.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints maxHeight="129.33334350585938" minHeight="10.0" prefHeight="39.999996185302734" vgrow="SOMETIMES" />
-        </rowConstraints>
-        <children>
-            <ImageView fx:id="homeButton" fitHeight="90.0" fitWidth="88.0" onMouseClicked="#goToHome" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 0;" GridPane.columnIndex="2">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HeaderController">
+    <top>
+        <GridPane gridLinesVisible="true" prefHeight="90.0" prefWidth="600.0" style="-fx-background-color: WHITE;">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="88.0" minWidth="88.0" prefWidth="88.0" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="129.33334350585938" minHeight="10.0" prefHeight="39.999996185302734" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <ImageView fx:id="homeButton" fitHeight="90.0" fitWidth="88.0" onMouseClicked="#goToHome" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/logo.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="searchButton" fitHeight="62.0" fitWidth="74.0" onMouseClicked="#searchStudent" pickOnBounds="true" style="-fx-translate-x: 54;">
+            <ImageView fx:id="searchButton" fitHeight="62.0" fitWidth="70.0" onMouseClicked="#searchStudent" pickOnBounds="true" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/loupe.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="messageButton" fitHeight="55.0" fitWidth="84.0" onMouseClicked="#privateMessage" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 51;" GridPane.columnIndex="1">
+            <ImageView fx:id="messageButton" fitHeight="50.0" fitWidth="70.0" onMouseClicked="#privateMessage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/message.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="profilButton" fitHeight="65.0" fitWidth="67.0" onMouseClicked="#goToProfil" pickOnBounds="true" style="-fx-translate-x: 56;" GridPane.columnIndex="3">
+            <ImageView fx:id="profilButton" fitHeight="71.0" fitWidth="70.0" onMouseClicked="#goToProfil" pickOnBounds="true" GridPane.columnIndex="3" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/profil.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="disconnectButton" fitHeight="56.0" fitWidth="65.0" onMouseClicked="#disconnect" pickOnBounds="true" smooth="false" style="-fx-translate-x: 52;" GridPane.columnIndex="4">
+            <ImageView fx:id="disconnectButton" fitHeight="56.0" fitWidth="70.0" onMouseClicked="#disconnect" pickOnBounds="true" smooth="false" GridPane.columnIndex="4" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/deco.JPG" />
                 </image>
             </ImageView>
-        </children>
-    </GridPane>
-</AnchorPane>
+        </GridPane>
+    </top>
+</BorderPane>

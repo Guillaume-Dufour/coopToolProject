@@ -26,8 +26,6 @@ import java.util.ResourceBundle;
 public class SearchStudentController implements Initializable {
 
     @FXML
-    Pane header_student, header_admin;
-    @FXML
     ComboBox<Department> listDepartments;
     @FXML
     Text errorLabel;
@@ -67,11 +65,6 @@ public class SearchStudentController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
-            header_admin.setVisible(false);
-        } else {
-            header_student.setVisible(false);
-        }
         Components.createDepartmentComboBox(listDepartments, departmentFacade.getAllDepartments());
         if (resources.containsKey("1")) {
             listDepartments.getSelectionModel().select((Department) resources.getObject("1"));
