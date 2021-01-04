@@ -31,7 +31,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MentoringDemandController implements Initializable {
-
+    @FXML
+    Pane header_admin,header_student;
     @FXML
     Text descriptionArea;
     @FXML
@@ -54,9 +55,11 @@ public class MentoringDemandController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserAdmin()){
-            //TODO: reprendre la condition
+        if (userFacade.isCurrentUserStudent()){
+            header_admin.setVisible(false);
+
         } else {
+            header_student.setVisible(false);
             disableStudentRights();
         }
 

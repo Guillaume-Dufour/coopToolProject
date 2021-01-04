@@ -5,15 +5,32 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.mentoringDemandManagement.MentoringDemandCreator">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.quickHelpPostManagement.QuickHelpPostCreator">
    <children>
-      <fx:include maxHeight="1000.0" maxWidth="1500.0" source="../header.fxml"/>
-         <ComboBox fx:id="subject" layoutX="54.0" layoutY="223.0" prefWidth="150.0" />
-         <TextArea fx:id="description" layoutX="50.0" layoutY="312.0" prefHeight="88.0" prefWidth="263.0" />
-         <Button layoutX="48.0" layoutY="453.0" mnemonicParsing="false" onAction="#create" text="Create" />
-         <Label layoutX="54.0" layoutY="189.0" text="Subject" />
-         <Label layoutX="54.0" layoutY="272.0" text="Description" />
+      <Pane fx:id="header_student">
+         <children>
+            <fx:include source="../header_student.fxml" />
+         </children>
+      </Pane>
+      <FlowPane alignment="CENTER" layoutX="-1.0" layoutY="89.0" prefHeight="69.0" prefWidth="803.0">
+         <children>
+            <Label alignment="TOP_LEFT" contentDisplay="CENTER" text="Nouvelle aide rapide" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="CENTER" layoutY="149.0" nodeOrientation="LEFT_TO_RIGHT" orientation="VERTICAL" prefHeight="452.0" prefWidth="803.0">
+         <children>
+               <Label text="Matière" />
+               <ComboBox fx:id="subject" prefWidth="150.0" />
+               <Label text="Description" />
+               <TextArea fx:id="description" prefHeight="88.0" prefWidth="263.0" />
+               <Button fx:id="creationButton" mnemonicParsing="false" onAction="#create" text="Créer" />
+               <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelCreation" text="Annuler" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" />
+         </children>
+      </FlowPane>
    </children>
 </AnchorPane>

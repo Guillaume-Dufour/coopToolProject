@@ -34,7 +34,7 @@ public class MySQLDAOFactory extends AbstractDAOFactory {
 
     @Override
     public QuickHelpPostDAO getQuickHelpPostDAO() {
-        return null;
+        return new MySQLQuickHelpPostDAO();
     }
 
     @Override
