@@ -2,10 +2,8 @@ package cooptool.business.controllers.quickHelpPostManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
-import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.QuickHelpPostFacade;
 import cooptool.business.facades.UserFacade;
-import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.QuickHelpPost;
 import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
@@ -20,11 +18,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class QuickHelpPostDisplay implements Initializable {
+public class    QuickHelpPostDisplay implements Initializable {
 
     @FXML
     Pane header_admin,header_student;
@@ -41,7 +38,7 @@ public class QuickHelpPostDisplay implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserAdmin()){
+        if (userFacade.isCurrentUserStudent()){
             header_admin.setVisible(false);
         } else {
             header_student.setVisible(false);
