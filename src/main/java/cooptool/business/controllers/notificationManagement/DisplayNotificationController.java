@@ -121,8 +121,8 @@ public class DisplayNotificationController implements Initializable {
                     setGraphic(label);
                 }
                 else {
-                    label.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
                     label.setText(item.getContent());
+                    label.setStyle("-fx-font-weight: bold");
                     setGraphic(label);
                 }
             }

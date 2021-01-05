@@ -1,49 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HomeController">
-    <children>
-      <Pane fx:id="header_student">
+<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.HomeController">
+    <top>
+        <fx:include maxHeight="1000.0" maxWidth="1500.0" source="header.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+   <center>
+      <GridPane BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-              <fx:include source="header_student.fxml" />
-         </children>
-      </Pane>
-      <Pane fx:id="header_admin">
-         <children>
-              <fx:include source="header_admin.fxml" />
-         </children>
-      </Pane>
-        <Button fx:id="mentoringDemandButton" layoutX="100.0" layoutY="200.0" mnemonicParsing="false" onAction="#displayMentoringDemand" prefHeight="232.0" prefWidth="269.0" style="-fx-background-color: #ff5f5f;" text="Demande de Tutorat " textAlignment="CENTER" wrapText="true">
-            <font>
-                <Font name="Book Antiqua" size="34.0" />
-            </font>
-        </Button>
-        <Button fx:id="quickHelpButton" alignment="CENTER" layoutX="450.0" layoutY="200.0" mnemonicParsing="false" onAction="#displayQuickHelpPost" prefHeight="240.0" prefWidth="269.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" wrapText="true">
-            <font>
-                <Font name="Book Antiqua" size="34.0" />
-            </font>
-        </Button>
-      <StackPane layoutX="668.0" layoutY="107.0" onMouseClicked="#goToNotificationPage" prefHeight="75.0" prefWidth="103.0">
-         <children>
-            <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/cloche.jpg" />
-               </image>
-            </ImageView>
-            <Label fx:id="notificationNumber" alignment="CENTER" prefHeight="20.0" prefWidth="23.0" textFill="RED">
+            <Button fx:id="mentoringDemandButton" mnemonicParsing="false" onAction="#displayMentoringDemand" prefHeight="1500.0" prefWidth="1500.0" style="-fx-background-color: #ff5f5f;" text="Demande de Tutorat " textAlignment="CENTER" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </GridPane.margin>
                <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
+                  <Font size="18.0" />
+               </font></Button>
+            <Button fx:id="quickHelpButton" mnemonicParsing="false" onAction="#displayQuickHelpPost" prefHeight="1500.0" prefWidth="1500.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+             <StackPane alignment="TOP_RIGHT" layoutX="668.0" layoutY="107.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                 <children>
+                     <ImageView fx:id="notificationImage" fitHeight="47.0" fitWidth="56.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
+                         <image>
+                             <Image url="@../images/cloche.jpg" />
+                         </image>
+                     </ImageView>
+                     <Label fx:id="notificationNumber" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="48.0" textAlignment="CENTER" textFill="RED" StackPane.alignment="TOP_RIGHT">
+                         <font>
+                             <Font name="System Bold" size="13.0" />
+                         </font>
+                     </Label>
+                 </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+             </StackPane>
          </children>
-      </StackPane>
-    </children>
-</AnchorPane>
+      </GridPane>
+   </center>
+    <!--<right>
+        <StackPane layoutX="668.0" layoutY="107.0" prefHeight="75.0" prefWidth="103.0">
+            <children>
+                <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/cloche.jpg" />
+                    </image>
+                </ImageView>
+                <Label fx:id="notificationNumber" alignment="CENTER" prefHeight="20.0" prefWidth="23.0" textFill="RED">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            </children>
+        </StackPane>
+    </right>-->
+</BorderPane>

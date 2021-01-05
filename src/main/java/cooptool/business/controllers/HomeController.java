@@ -10,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -20,6 +21,9 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
     @FXML
     Pane header_student, header_admin;
+
+    @FXML
+    Button mentoringDemandButton;
 
     @FXML
     Label notificationNumber;
@@ -55,6 +59,7 @@ public class HomeController implements Initializable {
     public void displayQuickHelpPost() {
         ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
+
 
     public void goToNotificationPage(MouseEvent mouseEvent) {
 
