@@ -30,7 +30,7 @@
                     <Image url="@../images/loupe.JPG" />
                 </image>
             </ImageView>
-            <ImageView fx:id="messageButton" fitHeight="50.0" fitWidth="70.0" onMouseClicked="#privateMessage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <ImageView fx:id="notificationButton" fitHeight="50.0" fitWidth="70.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                 <image>
                     <Image url="@../images/message.JPG" />
                 </image>

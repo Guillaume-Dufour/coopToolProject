@@ -4,20 +4,26 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.models.objects.Notification;
 import cooptool.models.objects.StudentRole;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class HeaderController implements Initializable {
 
     @FXML
-    ImageView parameterButton, messageButton;
+    ImageView parameterButton, notificationButton;
 
     UserFacade userFacade = UserFacade.getInstance();
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
+    private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
+
 
     public void goToHome() {
         ViewLoader.getInstance().load(ViewPath.HOME);
@@ -43,7 +49,10 @@ public class HeaderController implements Initializable {
         ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 
-    public void privateMessage() {
+    public void goToNotificationPage() {
+        Object[] tabNotifications = notifications.toArray();
+        System.out.println(Arrays.toString(tabNotifications));
+        ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
     }
 
     @Override
@@ -51,7 +60,7 @@ public class HeaderController implements Initializable {
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
             parameterButton.setVisible(false);
         } else {
-            messageButton.setVisible(false);
+            notificationButton.setVisible(false);
         }
     }
 }

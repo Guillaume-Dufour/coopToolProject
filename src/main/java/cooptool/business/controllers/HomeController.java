@@ -32,10 +32,10 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        notifications.addListener((ListChangeListener<Notification>) c -> {
-            int nbNotifications = c.getList().size();
-            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
-        });
+//        notifications.addListener((ListChangeListener<Notification>) c -> {
+//            int nbNotifications = c.getList().size();
+//            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
+//        });
 
         /*notificationFacade.getNbNotifications().addListener(new ChangeListener<Number>() {
             @Override
