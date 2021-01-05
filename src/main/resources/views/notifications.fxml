@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -30,4 +31,7 @@
                 <Insets left="20.0" right="20.0" top="20.0" />
             </BorderPane.margin></Button>
     </right>
+   <bottom>
+      <ChoiceBox fx:id="notificationTypesBox" prefWidth="150.0" BorderPane.alignment="CENTER" />
+   </bottom>
 </BorderPane>

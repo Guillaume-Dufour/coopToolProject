@@ -94,8 +94,22 @@ public class MySQLNotificationDAO extends NotificationDAO {
     }
 
     @Override
-    public boolean upadteStatusRead(Notification notification) {
-        return false;
+    public boolean updateStatusRead(Notification notification) {
+
+        String requete = "UPDATE notification SET is_read = ? WHERE id_notification = ?;";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.setInt(1, notification.getIsRead());
+            preparedStatement.setInt(2, notification.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

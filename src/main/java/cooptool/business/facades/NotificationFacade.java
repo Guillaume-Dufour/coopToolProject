@@ -100,9 +100,9 @@ public class NotificationFacade {
         return notificationDAO.deleteAllNotificationsByUser(user);
     }
 
-    public void changeStatusToRead(Notification notification) {
+    public boolean changeStatusToRead(Notification notification) {
         notification.changeStatusToRead();
 
-
+        return notificationDAO.updateStatusRead(notification);
     }
 }

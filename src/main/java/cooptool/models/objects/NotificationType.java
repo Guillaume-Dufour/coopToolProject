@@ -32,6 +32,8 @@ public enum NotificationType {
     }
 
     public static List<String> getStringValues() {
-        return Arrays.stream(NotificationType.values()).map(NotificationType::getString).collect(Collectors.toList());
+        return Arrays.stream(NotificationType.values())
+                .map(NotificationType::getString)
+                .collect(Collectors.toList());
     }
 }
