@@ -21,8 +21,6 @@ public class AccountController implements Initializable {
     Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
     @FXML
     Button deleteButton, updateButton, retourButton, historyButton;
-    @FXML
-    Pane header_student, header_admin;
 
     UserFacade userFacade = UserFacade.getInstance();
     User user = null;
@@ -30,13 +28,9 @@ public class AccountController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         user = (User)resources.getObject("1");
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
-            header_admin.setVisible(false);
-        } else {
-            header_student.setVisible(false);
-        }
         if (!user.equals(userFacade.getCurrentUser())){
             updateButton.setVisible(false);
+            historyButton.setVisible(false);
             if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
                 deleteButton.setVisible(false);
             }

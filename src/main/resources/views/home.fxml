@@ -40,40 +40,24 @@
                <font>
                   <Font size="18.0" />
                </font></Button>
-             <StackPane alignment="TOP_RIGHT" layoutX="668.0" layoutY="107.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
-                 <children>
-                     <ImageView fx:id="notificationImage" fitHeight="47.0" fitWidth="56.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
-                         <image>
-                             <Image url="@../images/cloche.jpg" />
-                         </image>
-                     </ImageView>
-                     <Label fx:id="notificationNumber" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="48.0" textAlignment="CENTER" textFill="RED" StackPane.alignment="TOP_RIGHT">
-                         <font>
-                             <Font name="System Bold" size="13.0" />
-                         </font>
-                     </Label>
-                 </children>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-             </StackPane>
+<!--             <StackPane fx:id="notificationImage" alignment="TOP_RIGHT" layoutX="668.0" layoutY="107.0" maxHeight="0.0" maxWidth="0.0" onMouseClicked="#goToNotificationPage" prefHeight="0.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">-->
+<!--                 <children>-->
+<!--                     <ImageView fitHeight="47.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                         <image>-->
+<!--                             <Image url="@../images/cloche.jpg" />-->
+<!--                         </image>-->
+<!--                     </ImageView>-->
+<!--                     <Label fx:id="notificationNumber" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="48.0" textAlignment="CENTER" textFill="RED" StackPane.alignment="TOP_RIGHT">-->
+<!--                         <font>-->
+<!--                             <Font name="System Bold" size="13.0" />-->
+<!--                         </font>-->
+<!--                     </Label>-->
+<!--                 </children>-->
+<!--               <padding>-->
+<!--                  <Insets top="5.0" />-->
+<!--               </padding>-->
+<!--             </StackPane>-->
          </children>
       </GridPane>
    </center>
-    <!--<right>
-        <StackPane layoutX="668.0" layoutY="107.0" prefHeight="75.0" prefWidth="103.0">
-            <children>
-                <ImageView fx:id="notificationImage" fitHeight="73.0" fitWidth="73.0" onMouseClicked="#goToNotificationPage" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../images/cloche.jpg" />
-                    </image>
-                </ImageView>
-                <Label fx:id="notificationNumber" alignment="CENTER" prefHeight="20.0" prefWidth="23.0" textFill="RED">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
-            </children>
-        </StackPane>
-    </right>-->
 </BorderPane>

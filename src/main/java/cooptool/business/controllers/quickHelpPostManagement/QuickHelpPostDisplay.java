@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 public class    QuickHelpPostDisplay implements Initializable {
 
     @FXML
-    Pane header_admin,header_student;
-    @FXML
     Button displayQHPButton, displayMyQHPButton, creationQHPButton;
     @FXML
     GridPane grid;
@@ -39,9 +37,8 @@ public class    QuickHelpPostDisplay implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (userFacade.isCurrentUserStudent()){
-            header_admin.setVisible(false);
+            //TODO : reformuler la condition
         } else {
-            header_student.setVisible(false);
             disableStudentRights();
         }
         partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getQuickHelpPosts();

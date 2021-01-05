@@ -13,14 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
-    @FXML
-    Pane header_student, header_admin;
 
     @FXML
     Button mentoringDemandButton;
@@ -28,21 +28,17 @@ public class HomeController implements Initializable {
     @FXML
     Label notificationNumber;
 
+
     private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
     private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if (UserFacade.getInstance().getCurrentUser().getRole() instanceof StudentRole){
-            header_admin.setVisible(false);
-        } else {
-            header_student.setVisible(false);
-        }
 
-        notifications.addListener((ListChangeListener<Notification>) c -> {
-            int nbNotifications = c.getList().size();
-            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
-        });
+//        notifications.addListener((ListChangeListener<Notification>) c -> {
+//            int nbNotifications = c.getList().size();
+//            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
+//        });
 
         /*notificationFacade.getNbNotifications().addListener(new ChangeListener<Number>() {
             @Override

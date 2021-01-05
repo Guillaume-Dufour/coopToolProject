@@ -1,11 +1,14 @@
 package cooptool.business;
 
+import cooptool.business.facades.NotificationFacade;
+import cooptool.models.objects.Notification;
 import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -16,7 +19,7 @@ public class ViewLoader extends Parent {
 
     private Stage stage;
 
-    private final LinkedList<ViewPath> previousView = new LinkedList<>();
+    private final LinkedList<ViewPath> previousView = new LinkedList<ViewPath>();
 
     private ViewLoader() {
 
@@ -51,8 +54,11 @@ public class ViewLoader extends Parent {
 
         try {
             root = loader.load();
+            /*ScrollPane scrollPane = new ScrollPane(root);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+            scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);*/
 
-            Scene scene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
 
 
@@ -66,4 +72,5 @@ public class ViewLoader extends Parent {
         this.previousView.removeLast();
         return this.previousView.getLast();
     }
+
 }
