@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 public enum NotificationType {
 
     MENTORING_DEMAND(1),
-    QUICK_HELP_POST(2),
-    MESSAGE(3);
+    QUICK_HELP_POST(2);
 
     private final int value;
 

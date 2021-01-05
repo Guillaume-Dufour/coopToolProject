@@ -15,12 +15,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.List;
@@ -67,9 +71,9 @@ public class DisplayNotificationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        FilteredList<Notification> notifications = new FilteredList<>(FXCollections.observableArrayList());
+        //FilteredList<Notification> notifications = new FilteredList<>(FXCollections.observableArrayList());
 
-        //ObservableList<Notification> notifications = FXCollections.observableArrayList();
+        ObservableList<Notification> notifications = FXCollections.observableArrayList();
 
         List<String> typesNotification = NotificationType.getStringValues();
 
@@ -95,12 +99,12 @@ public class DisplayNotificationController implements Initializable {
             });*//*
         });*/
 
-        /*for (String s : resources.keySet()) {
+        for (String s : resources.keySet()) {
             notifications.add((Notification) resources.getObject(s));
-        }*/
+        }
 
-        SortedList<Notification> sortedNotifications = new SortedList<>(notifications);
-        sortedNotifications.comparatorProperty().bind(notificationTableView.comparatorProperty());
+        /*SortedList<Notification> sortedNotifications = new SortedList<>(notifications);
+        sortedNotifications.comparatorProperty().bind(notificationTableView.comparatorProperty());*/
 
         notificationCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue()));
 
@@ -116,15 +120,38 @@ public class DisplayNotificationController implements Initializable {
                     setGraphic(null);
                 }
                 else if (item.getIsRead() == 0) {
-                    label.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+                    label.setFont(Font.font("System", FontWeight.BOLD, 12));
                     label.setText(item.getContent());
                     setGraphic(label);
                 }
                 else {
                     label.setText(item.getContent());
-                    label.setStyle("-fx-font-weight: bold");
+                    label.setStyle(null);
+                    label.setFont(Font.font("System", FontWeight.NORMAL, 12));
                     setGraphic(label);
                 }
+            }
+        });
+
+        notificationTableView.setRowFactory(tr -> new TableRow<>() {
+
+            @Override
+            protected void updateItem(Notification item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                }
+                else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
+                    setStyle("-fx-background-color: #F9D4D4;");
+                }
+                else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
+                    setStyle("-fx-background-color: #D4DAF9;");
+                }
+                else {
+                    setStyle("");
+                }
+
             }
         });
 
