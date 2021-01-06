@@ -12,6 +12,7 @@ public class QuickHelpPostFacade {
     private static final QuickHelpPostFacade INSTANCE;
     private QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
     private User currentUser = UserFacade.getInstance().getCurrentUser();
+    private PostFacade postFacade = PostFacade.getInstance();
 
     static{
         INSTANCE = new QuickHelpPostFacade();
@@ -39,28 +40,37 @@ public class QuickHelpPostFacade {
         quickHelpPostDAO.delete(qhp);
     }
 
-    public List<QuickHelpPost> getQuickHelpPosts(){
+    public List<QuickHelpPost> getQuickHelpPosts(Department department){
+        List<QuickHelpPost> list = null;
         UserRole userRole = currentUser.getRole();
         if(userRole instanceof StudentRole){
-            return quickHelpPostDAO.getPartialQHP(((StudentRole) userRole).getDepartment());
+            list = quickHelpPostDAO.getPartialQHP(((StudentRole) userRole).getDepartment());
         }
-        else{
-            return quickHelpPostDAO.getPartialQHP();
-        }
+        return list;
     }
 
     public List<QuickHelpPost> getMyQuickHelpPosts() {
+        List<QuickHelpPost> list = null;
         UserRole userRole = currentUser.getRole();
         if(userRole instanceof StudentRole){
-            return quickHelpPostDAO.getPartialQHP(currentUser, ((StudentRole) userRole).getDepartment());
+            list = quickHelpPostDAO.getMyQHP(currentUser, ((StudentRole) userRole).getDepartment());
         }
-        else{
-            return quickHelpPostDAO.getPartialQHP();
+        return list;
+    }
+
+    public List<QuickHelpPost> getQHPByAbbreviation(String abbreviation, int year) {
+        List<QuickHelpPost> list = null;
+        UserRole userRole = currentUser.getRole();
+        if(!(userRole instanceof StudentRole)){
+            list = quickHelpPostDAO.getQHPByAbbreviation(abbreviation, year);
         }
+        return list;
     }
 
     public QuickHelpPost getQuickHelpPost(int id) {
-        return quickHelpPostDAO.getQuickHelpPost(id);
+        QuickHelpPost qhp = quickHelpPostDAO.getQuickHelpPost(id);
+        postFacade.getComments(qhp);
+        return qhp;
     }
 
     public boolean isCurrentUserCreatorOfQHP(QuickHelpPost qhp) {

@@ -159,4 +159,19 @@ public class MySQLPostDAO extends PostDAO {
             e.printStackTrace();
         }
     }
+
+    public boolean deleteComment(Comment comment) {
+        String statement =
+                "DELETE FROM comment WHERE id_comment = ?;";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setInt(1, comment.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

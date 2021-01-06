@@ -12,7 +12,6 @@ public abstract class PostDAO {
     public static final int MENTORING_DEMAND = 0;
     public static final int QUICK_HELP_POST = 1;
 
-
     private static class LazyHolder {
         static final PostDAO INSTANCE = AbstractDAOFactory.getInstance().getPostDAO();
     }
@@ -27,4 +26,5 @@ public abstract class PostDAO {
     public abstract boolean deleteAllFromBrowsingHistory (User user);
     public abstract void comment(Comment comment, Post post);
     public abstract void getComments(Post post);
+    public abstract boolean deleteComment(Comment comment);
 }
