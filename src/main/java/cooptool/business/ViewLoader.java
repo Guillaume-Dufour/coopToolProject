@@ -1,10 +1,14 @@
 package cooptool.business;
 
+import cooptool.business.facades.NotificationFacade;
+import cooptool.models.objects.Notification;
 import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -50,7 +54,9 @@ public class ViewLoader extends Parent {
 
         try {
             root = loader.load();
-            Scene scene = new Scene(root);
+            double height = stage.getHeight();
+            double width = stage.getWidth();
+            Scene scene = new Scene(root, width, height);
             stage.setScene(scene);
 
 
