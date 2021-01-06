@@ -6,6 +6,7 @@ import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.StudentRole;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HeaderController implements Initializable {
 
@@ -58,10 +60,27 @@ public class HeaderController implements Initializable {
         ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
     }
 
+    public String valueTextNbNotification(int nbNotifications) {
+        return nbNotifications == 0 ? "" : String.valueOf(nbNotifications);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
             parameterButton.setVisible(false);
+
+            AtomicInteger nbUnreadNotifications = new AtomicInteger((int) notificationFacade.getNotifications().stream()
+                    .filter(notification -> notification.getIsRead() == 0)
+                    .count());
+
+            notificationNumber.setText(valueTextNbNotification(nbUnreadNotifications.get()));
+
+            notifications.addListener((ListChangeListener<Notification>) c -> {
+                nbUnreadNotifications.set((int) c.getList().stream()
+                        .filter(notification -> notification.getIsRead() == 0)
+                        .count());
+                notificationNumber.setText(valueTextNbNotification(nbUnreadNotifications.get()));
+            });
         } else {
             notificationButton.setVisible(false);
             notificationNumber.setVisible(false);

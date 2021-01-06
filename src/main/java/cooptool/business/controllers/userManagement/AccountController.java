@@ -8,11 +8,15 @@ import cooptool.models.objects.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AccountController implements Initializable {
@@ -46,11 +50,24 @@ public class AccountController implements Initializable {
         labelDescription.setText(description);
     }
 
-    /**
-     * load la page
-     */
     public void deleteAccount() {
-        ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT, user);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Voulez-vous confirmer la suppression de votre compte ?");
+
+        alert.initOwner(ViewLoader.getInstance().getStage());
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+            userFacade.deleteAccount(user);
+            if (userFacade.getCurrentUser() == null){
+                ViewLoader.getInstance().load(ViewPath.LOGIN);
+            } else {
+                ViewLoader.getInstance().load(ViewPath.HOME);
+            }
+        }
     }
 
     public void goToUpdatePage() {

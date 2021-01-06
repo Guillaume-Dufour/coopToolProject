@@ -131,12 +131,12 @@ public class DisplayNotificationController implements Initializable {
                 if (item == null || empty) {
                     setStyle("");
                 }
-                else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
+               /* else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
                     setStyle("-fx-background-color: #F9D4D4;");
                 }
                 else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
                     setStyle("-fx-background-color: #D4DAF9;");
-                }
+                }*/
                 else {
                     setStyle("");
                 }

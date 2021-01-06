@@ -20,12 +20,11 @@ public class NotificationFacade {
     private final NotificationDAO notificationDAO = NotificationDAO.getInstance();
     //private final IntegerProperty nbNotifications;
     private final ObservableList<Notification> notifications;
-    private final Timer timer;
+    private Timer timer;
 
     private boolean run = false;
 
     private NotificationFacade() {
-        timer = new Timer();
         notifications = FXCollections.observableArrayList();
         //nbNotifications = new SimpleIntegerProperty();
     }
@@ -63,7 +62,8 @@ public class NotificationFacade {
     }
 
     public void searchNotifications(User user) {
-        timer.schedule(getNotificationsByUser(user), 0, 30 * 1000);
+        timer = new Timer();
+        timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
     }
 
     /*public IntegerProperty getNbNotifications() {
@@ -80,9 +80,9 @@ public class NotificationFacade {
         timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
     }*/
 
-    public void purgeTimer() {
+    /*public void purgeTimer() {
         timer.purge();
-    }
+    }*/
 
     public void stopTimer() {
         timer.cancel();

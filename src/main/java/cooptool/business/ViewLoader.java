@@ -1,14 +1,10 @@
 package cooptool.business;
 
-import cooptool.business.facades.NotificationFacade;
-import cooptool.models.objects.Notification;
 import cooptool.utils.MapResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
-import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 import java.util.LinkedList;

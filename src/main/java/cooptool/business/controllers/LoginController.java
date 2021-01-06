@@ -6,6 +6,7 @@ import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -53,7 +54,10 @@ public class LoginController implements Initializable{
             if (userFacade.getCurrentUser().getValidate() == 0){
                 ViewLoader.getInstance().load(ViewPath.VALIDATE);
             } else {
-                notificationFacade.searchNotifications(userFacade.getCurrentUser());
+                if (userFacade.getCurrentUser().getRole() instanceof StudentRole) {
+                    notificationFacade.searchNotifications(userFacade.getCurrentUser());
+                }
+
                 ViewLoader.getInstance().load(ViewPath.HOME);
             }
         } catch(MailNotFound | UnmatchedPassword e) {
