@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -19,6 +20,8 @@ public class HeaderController implements Initializable {
 
     @FXML
     ImageView parameterButton, notificationButton;
+    @FXML
+    Text notificationNumber;
 
     UserFacade userFacade = UserFacade.getInstance();
     private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
@@ -61,6 +64,8 @@ public class HeaderController implements Initializable {
             parameterButton.setVisible(false);
         } else {
             notificationButton.setVisible(false);
+            notificationNumber.setVisible(false);
+            notificationNumber.setDisable(true);
         }
     }
 }
