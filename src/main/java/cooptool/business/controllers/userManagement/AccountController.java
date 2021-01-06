@@ -46,19 +46,22 @@ public class AccountController implements Initializable {
         labelDescription.setText(description);
     }
 
-    public void deleteAccount(ActionEvent event) {
+    /**
+     * load la page
+     */
+    public void deleteAccount() {
         ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT, user);
     }
 
-    public void goToUpdatePage(ActionEvent event) {
+    public void goToUpdatePage() {
         ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT, user);
     }
 
-    public void goBack(ActionEvent event) {
+    public void goBack() {
         ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
     }
 
-    public void displayHistory(ActionEvent event) {
+    public void displayHistory() {
         ViewLoader.getInstance().load(ViewPath.HISTORY_DISPLAY, user);
     }
 }
