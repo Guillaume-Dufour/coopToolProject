@@ -44,8 +44,13 @@ public class UpdateAccountController implements Initializable {
     @FXML
     Button cancelUpdateButton;
 
-
+    /**
+     * attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * attribute to access to the DepartmentFacade method
+     */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     public void cancelUpdate(ActionEvent event) {
