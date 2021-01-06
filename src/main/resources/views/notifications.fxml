@@ -8,7 +8,7 @@
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.notificationManagement.DisplayNotificationController">
     <top>
-        <fx:include maxHeight="1000.0" maxWidth="1500.0" source="header.fxml" BorderPane.alignment="TOP_CENTER" />
+        <fx:include maxHeight="1000.0" maxWidth="3000.0" source="header.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
     <center>
       <TableView fx:id="notificationTableView">

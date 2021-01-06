@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 public class QuickHelpPostController implements Initializable {
 
     @FXML
-    Pane header_admin,header_student;
-    @FXML
     Text descriptionArea;
     @FXML
     Label creatorLabel,subjectLabel,creationDateLabel;
@@ -39,12 +37,6 @@ public class QuickHelpPostController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserStudent()){
-            header_admin.setVisible(false);
-
-        } else {
-            header_student.setVisible(false);
-        }
         // Get back the id and then the quick help post
         int idQHP = (int) resources.getObject("1");
         qhp = qhpFacade.getQuickHelpPost(idQHP);
