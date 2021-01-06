@@ -78,11 +78,11 @@ public class NotificationFacade {
     public void changeTaskToGetNotifications(User user) {
         purgeTimer();
         timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
-    }
+    }*/
 
     public void purgeTimer() {
         timer.purge();
-    }*/
+    }
 
     public void stopTimer() {
         timer.cancel();
