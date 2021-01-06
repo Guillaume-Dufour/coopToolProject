@@ -33,7 +33,13 @@ public class RegisterController implements Initializable {
     @FXML
     ComboBox<Department> listDepartments;
 
+    /**
+     * attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * attribute to access to the DepartmentFacade method
+     */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     public void goToLoginPage() {

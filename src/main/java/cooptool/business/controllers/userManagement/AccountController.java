@@ -18,11 +18,32 @@ import java.util.ResourceBundle;
 public class AccountController implements Initializable {
 
     @FXML
-    Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
+    Text labelLastName;
     @FXML
-    Button deleteButton, updateButton, retourButton, historyButton;
+    Text labelFirstName;
+    @FXML
+    Text labelMail;
+    @FXML
+    Text labelPromotion;
+    @FXML
+    Text labelDescription;
 
+    @FXML
+    Button deleteButton;
+    @FXML
+    Button updateButton;
+    @FXML
+    Button backButton;
+    @FXML
+    Button historyButton;
+
+    /**
+     * Attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * Attribute to stock the concerned student
+     */
     User user = null;
 
     @Override
@@ -47,20 +68,33 @@ public class AccountController implements Initializable {
     }
 
     /**
-     * load la page
+     * Method called by the deleteButton <br>
+     * Load the view to delete an account
      */
     public void deleteAccount() {
         ViewLoader.getInstance().load(ViewPath.DELETE_ACCOUNT, user);
     }
 
+    /**
+     * Method called by the updateButton <br>
+     * Load the view to update an account
+     */
     public void goToUpdatePage() {
         ViewLoader.getInstance().load(ViewPath.UPDATE_STUDENT_ACCOUNT, user);
     }
 
+    /**
+     * Method called by the backButton <br>
+     * Load the previous view
+     */
     public void goBack() {
         ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
     }
 
+    /**
+     * Method called by the historyButton <br>
+     * Load the view to display the student's history
+     */
     public void displayHistory() {
         ViewLoader.getInstance().load(ViewPath.HISTORY_DISPLAY, user);
     }

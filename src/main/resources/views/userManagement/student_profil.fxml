@@ -43,7 +43,7 @@
         </GridPane>
     </center>
     <left>
-        <Button fx:id="retourButton" mnemonicParsing="false" onAction="#goBack" text="Retour">
+        <Button fx:id="backButton" mnemonicParsing="false" onAction="#goBack" text="Retour">
          <BorderPane.margin>
             <Insets left="20.0" top="20.0" />
          </BorderPane.margin></Button>

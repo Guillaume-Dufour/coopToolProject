@@ -20,10 +20,21 @@ public class DeleteAccountController implements Initializable {
     @FXML
     Button cancelDeleteButton;
 
+    /**
+     * Attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * Attribute to stock the concerned student
+     */
     User user = null;
 
-    public void deleteAccount(ActionEvent event) {
+    /**
+     * Method called by the deleteButton
+     * Delete the user account
+     * Switch to the login view or the home view, depending of the state of the current user
+     */
+    public void deleteAccount() {
         deleteButton.setDisable(true);
         userFacade.deleteAccount(user);
         if (userFacade.getCurrentUser() == null){
@@ -33,7 +44,10 @@ public class DeleteAccountController implements Initializable {
         }
     }
 
-    public void cancelDelete(ActionEvent event) {
+    /**
+     * Switch to the home view
+     */
+    public void cancelDelete() {
         ViewLoader.getInstance().load(ViewPath.HOME);
     }
 

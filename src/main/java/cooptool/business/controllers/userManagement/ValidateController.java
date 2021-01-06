@@ -22,6 +22,9 @@ public class ValidateController {
     @FXML
     Button cancelVerification;
 
+    /**
+     * attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
 
     public void handleValidationCode(ActionEvent event) {
