@@ -21,7 +21,6 @@ public abstract class PostDAO {
     }
     public abstract List<Post> findPostByUser (User user);
     public abstract Post findPostById (int id);
-    public abstract boolean update (Post post);
     public abstract boolean deleteOneFromBrowsingHistory (User user, Post post);
     public abstract boolean deleteAllFromBrowsingHistory (User user);
     public abstract void comment(Comment comment, Post post);

@@ -15,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.List;
@@ -38,9 +37,7 @@ public class MentoringDemandsDisplay implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserStudent()){
-            //TODO : changer la condition
-        } else {
+        if (!userFacade.isCurrentUserStudent()){
             creationButton.setVisible(false);
         }
         partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
