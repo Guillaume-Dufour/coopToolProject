@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.quickHelpPostManagement.QuickHelpPostController">
     <children>
-        <Pane fx:id="header_student">
-            <children>
-                <fx:include source="../header_student.fxml" />
-            </children>
-        </Pane>
-        <Pane fx:id="header_admin">
-            <children>
-                <fx:include source="../header_admin.fxml" />
-            </children>
-        </Pane>
-      <VBox layoutX="45.0" layoutY="132.0" prefHeight="349.0" prefWidth="458.0">
+        <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml"/>
+      <VBox layoutX="45.0" layoutY="132.0" prefHeight="349.0" prefWidth="677.0">
          <children>
+             <Button fx:id="comeBackButton" mnemonicParsing="false" onAction="#comeBackHome" text="Retour" />
               <Button fx:id="updateDescriptionButton" layoutX="25.0" layoutY="96.0" mnemonicParsing="false" onAction="#updateDescription" text="Edit Desc" textFill="#0213ff" />
               <Button fx:id="deleteButton" layoutX="109.0" layoutY="96.0" mnemonicParsing="false" onAction="#delete" text="Delete" textFill="#eb0b0b" />
               <Label fx:id="creatorLabel" text="Auteur" />
               <Label fx:id="creationDateLabel" text="Date de publication" />
               <Label fx:id="subjectLabel" text="Matière" />
              <Text fx:id="descriptionArea" layoutX="54.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-
-             <Button fx:id="comeBackButton" mnemonicParsing="false" onAction="#comeBackHome" text="Retour" />
+             <Label layoutX="40.0" layoutY="399.0" text="Commentaires" />
+            <HBox alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="560.0">
+               <children>
+                   <TextArea fx:id="commentArea" prefHeight="42.0" prefWidth="556.0" />
+                   <Button fx:id="commentButton" mnemonicParsing="false" onAction="#comment" text="Comment" textFill="#bc5e06" />
+               </children>
+            </HBox>
+             <ScrollPane fx:id="commentsPane" layoutX="14.0" layoutY="487.0" prefHeight="126.0" prefWidth="406.0">
+                 <content>
+                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                 </content>
+             </ScrollPane>
          </children>
       </VBox>
     </children>

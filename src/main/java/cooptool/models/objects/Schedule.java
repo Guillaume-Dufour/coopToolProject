@@ -22,6 +22,7 @@ public class Schedule {
         this.creator = creator;
     }
 
+    @Override
     public String toString(){
         return String.format(
                 "%s/%s/%d %s:%s",
@@ -32,5 +33,4 @@ public class Schedule {
                 TimeUtils.format(dateTime.getMinute())
         );
     }
-
 }

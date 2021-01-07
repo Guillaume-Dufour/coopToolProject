@@ -25,9 +25,11 @@ public abstract class QuickHelpPostDAO {
 
     public abstract List<QuickHelpPost> getPartialQHP(Department department);
 
-    public abstract List<QuickHelpPost> getPartialQHP(User user, Department department);
+    public abstract List<QuickHelpPost> getMyQHP(User user, Department department);
 
     public abstract List<QuickHelpPost> getPartialQHP();
+
+    public abstract List<QuickHelpPost> getQHPByAbbreviation(String abbreviation, int year);
 
     public abstract void updateDescription(QuickHelpPost qhp);
 }

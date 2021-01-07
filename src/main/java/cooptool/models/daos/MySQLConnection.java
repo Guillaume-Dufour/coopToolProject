@@ -22,13 +22,6 @@ public class MySQLConnection {
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
-            finally{
-                try {
-                    INSTANCE.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

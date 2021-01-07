@@ -7,7 +7,8 @@ public enum NotificationTable implements TableInterface {
     CONTENT_NOTIFICATION("content_notification"),
     DATE_CREATION_NOTIFICATION("date_creation_notification"),
     ID_OBJECT_NOTIFICATION("id_object_notification"),
-    TYPE_NOTIFICATION("type_notification");
+    TYPE_NOTIFICATION("type_notification"),
+    IS_READ("is_read");
 
     @Override
     public String toString() {

@@ -25,9 +25,17 @@ public class NewPasswordController {
     @FXML
     Text errorLabel;
 
+    /**
+     * Attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
 
-    public void handleNewPassword(ActionEvent event) {
+    /**
+     * Method called by the confirmedButton <br>
+     * Change the password of the user corresponding to the selected mail <br>
+     * Switch to the login view
+     */
+    public void handleNewPassword() {
         confirmedButton.setDisable(true);
         String mail = inputMail.getText();
         try {
@@ -40,7 +48,10 @@ public class NewPasswordController {
         }
     }
 
-    public void goToLogin(ActionEvent event) {
+    /**
+     * Switch to the login view
+     */
+    public void goToLogin() {
         ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 }

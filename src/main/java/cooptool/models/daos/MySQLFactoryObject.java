@@ -80,7 +80,8 @@ public abstract class MySQLFactoryObject {
                 getValue(rs, NotificationTable.CONTENT_NOTIFICATION, String.class),
                 getValue(rs, NotificationTable.DATE_CREATION_NOTIFICATION, LocalDateTime.class),
                 getValue(rs, NotificationTable.ID_OBJECT_NOTIFICATION),
-                NotificationType.getType(getValue(rs, NotificationTable.TYPE_NOTIFICATION))
+                NotificationType.getType(getValue(rs, NotificationTable.TYPE_NOTIFICATION)),
+                getValue(rs, NotificationTable.IS_READ)
         );
     }
 

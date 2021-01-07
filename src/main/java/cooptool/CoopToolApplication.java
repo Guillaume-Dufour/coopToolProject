@@ -18,7 +18,7 @@ public class CoopToolApplication extends Application {
 
     /**
      * The start method set the primary stage and load the primary scene
-     * @param primaryStage
+     * @param primaryStage Stage of the window
      */
     @Override
     public void start(Stage primaryStage) {

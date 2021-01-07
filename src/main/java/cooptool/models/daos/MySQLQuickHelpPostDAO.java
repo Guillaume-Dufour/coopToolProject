@@ -70,10 +70,8 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             preparedStatement.setInt(1, id);
             ResultSet res = preparedStatement.executeQuery();
             while(res.next()){
-                int idPost = res.getInt(1);
                 qhp = MySQLFactoryObject.createQuickHelpPost(res);
             }
-            System.out.println("ooooooooooo " + qhp);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -96,14 +94,8 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             preparedStatement.setString(1,department.getAbbreviation());
 
             ResultSet res = preparedStatement.executeQuery();
-            int previousIdPost = -1;
-
             while(res.next()){
-                int idPost = res.getInt(1);
-                if(idPost != previousIdPost){
-                    partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
-                    previousIdPost = idPost;
-                }
+                partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +105,7 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
     }
 
     @Override
-    public List<QuickHelpPost> getPartialQHP(User user, Department department) {
+    public List<QuickHelpPost> getMyQHP(User user, Department department) {
         String statement =
                 "SELECT * " +
                         "FROM post " +
@@ -128,14 +120,11 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             preparedStatement.setInt(1,user.getId());
             preparedStatement.setString(2,department.getAbbreviation());
             ResultSet res = preparedStatement.executeQuery();
+
             int previousIdPost = -1;
 
-            while(res.next()){
-                int idPost = res.getInt(1);
-                if(idPost != previousIdPost){
-                    partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
-                    previousIdPost = idPost;
-                }
+            while(res.next()) {
+                partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -144,6 +133,30 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
         return partialQHP;
     }
 
+    @Override
+    public List<QuickHelpPost> getQHPByAbbreviation(String abbreviation, int year) {
+        String statement =
+                "SELECT * " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "JOIN user AS u ON post.id_user_creator = u.id_user " +
+                        "JOIN department ON u.id_department = department.id_department "+
+                        "WHERE department.abbreviation_department = ? AND department.year_department = ? AND type_post = 1 ORDER BY date_post,post.id_post";
+        List<QuickHelpPost> partialQHP = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement.setString(1,abbreviation);
+            preparedStatement.setInt(2,year);
+            ResultSet res = preparedStatement.executeQuery();
+            while(res.next()){
+                partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return partialQHP;
+    }
 
     @Override
     public List<QuickHelpPost> getPartialQHP() {

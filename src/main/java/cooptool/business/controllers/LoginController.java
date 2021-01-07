@@ -6,6 +6,7 @@ import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,8 +41,8 @@ public class LoginController implements Initializable{
     /**
      * Method called by the loginButton
      * Checks the credentials inserted in the inputMail and inputPassword
-     * If the system recognizes a student ->  redirects him to student home page
-     * If the system recognizes a student ->  redirects him to admin home page
+     * If the system recognizes a student, it redirects him to student home page
+     * If the system recognizes a student, it redirects him to admin home page
      * Else change the text of the errorLabel with an according error message
      */
     public void login() {
@@ -53,7 +54,10 @@ public class LoginController implements Initializable{
             if (userFacade.getCurrentUser().getValidate() == 0){
                 ViewLoader.getInstance().load(ViewPath.VALIDATE);
             } else {
-                notificationFacade.searchNotifications(userFacade.getCurrentUser());
+                if (userFacade.getCurrentUser().getRole() instanceof StudentRole) {
+                    notificationFacade.searchNotifications(userFacade.getCurrentUser());
+                }
+
                 ViewLoader.getInstance().load(ViewPath.HOME);
             }
         } catch(MailNotFound | UnmatchedPassword e) {
@@ -79,7 +83,6 @@ public class LoginController implements Initializable{
 
         inputMail.setOnKeyPressed(this::onEnter);
         inputPassword.setOnKeyPressed(this::onEnter);
-
     }
 
     public void handleNewPassword() {

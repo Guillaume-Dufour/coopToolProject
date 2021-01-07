@@ -3,42 +3,42 @@ package cooptool.utils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TimeUtils {
 
-    private static ArrayList<Integer> hours;
-    private static ArrayList<Integer> minutes;
+    private static List<Integer> hours;
+    private static List<Integer> minutes;
 
-    public static ArrayList<Integer> getHoursArrayList(){
+    public static List<Integer> getHoursArrayList() {
         if (hours == null) {
             hours = new ArrayList<>();
-            for(int i=0;i<24;i++) {
+            for(int i = 0; i < 24; i++) {
                 hours.add(i);
             }
         }
         return hours;
     }
 
-    public static ArrayList<Integer> getMinutesArrayList(){
-        if(minutes == null){
+    public static List<Integer> getMinutesArrayList() {
+        if (minutes == null) {
             minutes = new ArrayList<>();
-            for(int i=0;i<60;i++){
+            for(int i = 0; i < 60; i++) {
                 minutes.add(i);
             }
         }
         return minutes;
     }
 
-    public static String format(int value){
-        return value < 10 ? "0"+ value : String.valueOf(value);
+    public static String format(int value) {
+        return value < 10 ? "0" + value : String.valueOf(value);
     }
 
 
-    public static LocalDateTime parse(String formattedDate){
+    public static LocalDateTime parse(String formattedDate) {
         return LocalDateTime.parse(formattedDate, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
     }
 
-    public static void main(String[] args) {
-        System.out.println(getHoursArrayList());
-    }
+
+
 }

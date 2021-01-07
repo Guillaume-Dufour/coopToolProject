@@ -3,6 +3,7 @@ package cooptool.business.controllers.notificationManagement;
 import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
+import cooptool.models.objects.NotificationType;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -10,13 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DisplayNotificationController implements Initializable {
@@ -25,13 +25,16 @@ public class DisplayNotificationController implements Initializable {
     TableView<Notification> notificationTableView;
 
     @FXML
-    TableColumn<Notification, String> notificationCol;
+    TableColumn<Notification, Notification> notificationCol;
 
     @FXML
     TableColumn<Notification, Void> deleteCol;
 
     @FXML
     Button deleteAllButton;
+
+    @FXML
+    ChoiceBox<String> notificationTypesBox;
 
     NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
@@ -57,20 +60,88 @@ public class DisplayNotificationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        //FilteredList<Notification> notifications = new FilteredList<>(FXCollections.observableArrayList());
+
         ObservableList<Notification> notifications = FXCollections.observableArrayList();
+
+        List<String> typesNotification = NotificationType.getStringValues();
+
+        notificationTypesBox.setItems(FXCollections.observableList(typesNotification));
+
+        notificationTypesBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(typesNotification.get(newValue.intValue()));
+        });
+
+        /*FilteredList<Notification> filteredNotifications = new FilteredList<>(notifications);
+
+        notificationTypesBox.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println(newValue);
+            *//*filteredNotifications.setPredicate(notification -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                System.out.println(notification.getTypeNotification().getString().equalsIgnoreCase(newValue));
+
+                return notification.getTypeNotification().getString().equalsIgnoreCase(newValue);
+            });*//*
+        });*/
 
         for (String s : resources.keySet()) {
             notifications.add((Notification) resources.getObject(s));
         }
 
-        notificationCol.setCellValueFactory(param -> {
+        /*SortedList<Notification> sortedNotifications = new SortedList<>(notifications);
+        sortedNotifications.comparatorProperty().bind(notificationTableView.comparatorProperty());*/
 
-            String res = param.getValue().getContent();
+        notificationCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue()));
 
-            return new SimpleObjectProperty<>(res);
+        notificationCol.setCellFactory(param -> new TableCell<>() {
+
+            private final Label label = new Label();
+
+            @Override
+            protected void updateItem(Notification item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                }
+                else if (item.getIsRead() == 0) {
+                    label.setFont(Font.font("System", FontWeight.BOLD, 12));
+                    label.setText(item.getContent());
+                    setGraphic(label);
+                }
+                else {
+                    label.setText(item.getContent());
+                    label.setStyle(null);
+                    label.setFont(Font.font("System", FontWeight.NORMAL, 12));
+                    setGraphic(label);
+                }
+            }
         });
 
-        notificationCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        notificationTableView.setRowFactory(tr -> new TableRow<>() {
+
+            @Override
+            protected void updateItem(Notification item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setStyle("");
+                }
+               /* else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
+                    setStyle("-fx-background-color: #F9D4D4;");
+                }
+                else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
+                    setStyle("-fx-background-color: #D4DAF9;");
+                }*/
+                else {
+                    setStyle("");
+                }
+            }
+        });
 
         deleteCol.setCellFactory(param -> new TableCell<>() {
 
@@ -89,14 +160,27 @@ public class DisplayNotificationController implements Initializable {
                 }
                 else {
                     deleteButton.setText("Supprimer");
-                    deleteButton.setStyle("-fx-background-color: #D4D8DA");
+                    deleteButton.setStyle("-fx-background-color: #d4d8da");
 
                     setGraphic(deleteButton);
                 }
             }
         });
 
+        //notificationTableView.setItems(filteredNotifications);
+
         notificationTableView.setItems(notifications);
+
+        notificationTableView.setOnMouseClicked(event -> {
+
+            Notification selectedNotification = notificationTableView.getSelectionModel().getSelectedItem();
+
+            boolean res = notificationFacade.changeStatusToRead(selectedNotification);
+
+            if (res) {
+                notificationTableView.refresh();
+            }
+        });
 
         notificationFacade.getNotifications().addListener((ListChangeListener<Notification>) c -> {
             notifications.setAll(c.getList());

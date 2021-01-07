@@ -10,6 +10,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -17,10 +18,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
+
+    @FXML
+    Button mentoringDemandButton;
 
     @FXML
     Label notificationNumber;
@@ -53,11 +56,10 @@ public class HomeController implements Initializable {
         ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
+
     public void goToNotificationPage(MouseEvent mouseEvent) {
 
         Object[] tabNotifications = notifications.toArray();
-
-        System.out.println(Arrays.toString(tabNotifications));
 
         ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
     }

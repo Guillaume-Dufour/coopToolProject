@@ -24,5 +24,7 @@ public abstract class NotificationDAO {
 
     public abstract boolean deleteAllNotificationsByUser(User user);
 
-    public abstract int getNbNotificationsByUser(User user);
+    public abstract int getNbUnreadNotifications(User user);
+
+    public abstract boolean updateStatusRead(Notification notification);
 }

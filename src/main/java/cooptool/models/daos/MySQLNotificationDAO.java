@@ -3,11 +3,10 @@ package cooptool.models.daos;
 import cooptool.models.daos.persistent.NotificationDAO;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.User;
+import cooptool.utils.TimeUtils;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +47,16 @@ public class MySQLNotificationDAO extends NotificationDAO {
     @Override
     public boolean create(Notification notification) {
 
-        String requete = "INSERT INTO notification (id_user, content_notification) VALUES (?, ?);";
+        String requete = "INSERT INTO notification (id_user, content_notification, date_creation_notification, id_object_notification, type_notification) " +
+                "VALUES (?, ?, ?, ?, ?);";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
             preparedStatement.setInt(1, notification.getUser().getId());
             preparedStatement.setString(2, notification.getContent());
+            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setInt(4, notification.getObjectId());
+            preparedStatement.setInt(5, notification.getTypeNotification().getValue());
 
             preparedStatement.executeUpdate();
 
@@ -66,11 +69,11 @@ public class MySQLNotificationDAO extends NotificationDAO {
     }
 
     @Override
-    public int getNbNotificationsByUser(User user) {
+    public int getNbUnreadNotifications(User user) {
 
         String requete = "SELECT COUNT(*) as nb " +
                 "FROM notification " +
-                "WHERE id_user = ?;";
+                "WHERE id_user = ? AND is_read = 0;";
 
         int nbNotifications = 0;
 
@@ -88,6 +91,25 @@ public class MySQLNotificationDAO extends NotificationDAO {
         }
 
         return nbNotifications;
+    }
+
+    @Override
+    public boolean updateStatusRead(Notification notification) {
+
+        String requete = "UPDATE notification SET is_read = ? WHERE id_notification = ?;";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            preparedStatement.setInt(1, notification.getIsRead());
+            preparedStatement.setInt(2, notification.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     @Override

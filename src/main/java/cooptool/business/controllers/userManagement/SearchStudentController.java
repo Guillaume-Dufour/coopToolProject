@@ -34,7 +34,13 @@ public class SearchStudentController implements Initializable {
     @FXML
     ListView<User> studentListView;
 
+    /**
+     * attribute to access to the DepartmentFacade method
+     */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    /**
+     * attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
 
     Department department;

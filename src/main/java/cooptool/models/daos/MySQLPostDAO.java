@@ -120,19 +120,6 @@ public class MySQLPostDAO extends PostDAO {
     }
 
     @Override
-    public void deleteComment(Comment comment, Post post) {
-        String query =
-                "DELETE FROM comment WHERE comment_id = ?";
-        try {
-            PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,post.getId());
-            deletionStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public void getComments(Post post) {
         String query =
                 "SELECT comment.id_comment,comment.content_comment,comment.date_comment," +
@@ -166,5 +153,19 @@ public class MySQLPostDAO extends PostDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean deleteComment(Comment comment) {
+        String query =
+                "DELETE FROM comment WHERE id_comment = ?;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, comment.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

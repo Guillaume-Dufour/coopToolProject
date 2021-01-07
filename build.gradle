@@ -5,18 +5,16 @@ plugins {
 }
 
 group 'org.example'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
     compile group: 'javax.mail', name: 'mail', version: '1.4'
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0'
 }
 
 javafx {
@@ -24,4 +22,10 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = 'cooptool.CoopToolApplication'
+jar {
+    manifest {
+        attributes 'Main-Class': 'cooptool.Main'
+    }
+}
+
+mainClassName = "cooptool.CoopToolApplication"
