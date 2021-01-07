@@ -54,7 +54,11 @@ public abstract class Post {
     public String toString() {
         return "Post{" +
                 "id=" + id +
+                ", subject=" + subject +
                 ", description='" + description + '\'' +
+                ", creator=" + creator +
+                ", creationDate=" + creationDate +
+                ", comments=" + comments +
                 '}';
     }
 

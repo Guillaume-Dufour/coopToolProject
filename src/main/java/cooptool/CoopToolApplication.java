@@ -12,6 +12,10 @@ import javafx.stage.Stage;
  */
 public class CoopToolApplication extends Application {
 
+    /**
+     *
+     * @param args Parameters of the application
+     */
     public static void main(String[] args) {
         launch(args);
     }

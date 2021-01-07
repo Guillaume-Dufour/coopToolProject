@@ -61,6 +61,8 @@ public class MentoringDemandController implements Initializable {
             int idDemand = (int) resources.getObject("1");
             demand = mentoringDemandFacade.getMentoringDemand(idDemand);
 
+            System.out.println(demand);
+
             setDescription();
             setCreatorInfos();
             setSubjectInfos();

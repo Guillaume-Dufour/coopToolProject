@@ -26,6 +26,11 @@ public class Components {
         });
     }
 
+    /**
+     *
+     * @param button
+     * @param available
+     */
     public static void createAvailabilityButton(Button button, int available) {
 
         if (available == 1) {
