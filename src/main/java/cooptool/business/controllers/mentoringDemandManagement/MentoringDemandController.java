@@ -60,6 +60,7 @@ public class MentoringDemandController implements Initializable {
 
             System.out.println(demand);
 
+            System.out.println(demand);
             setDescription();
             setCreatorInfos();
             setSubjectInfos();

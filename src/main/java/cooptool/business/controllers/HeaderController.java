@@ -25,21 +25,43 @@ public class HeaderController implements Initializable {
     @FXML
     Text notificationNumber;
 
+    /**
+     * Attribute to access to the UserFacade method
+     */
     UserFacade userFacade = UserFacade.getInstance();
-    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
-    private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
 
+    /**
+     * Attribute to access to the NotificationFacade method
+     */
+    NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
+    /**
+     * Attribute to stock the notifications of the student
+     */
+    ObservableList<Notification> notifications = notificationFacade.getNotifications();
+
+    /**
+     * Switch to the home view
+     */
     public void goToHome() {
         ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
+    /**
+     * Switch to the search student view
+     */
     public void searchStudent() {ViewLoader.getInstance().load(ViewPath.SEARCH_STUDENT);}
 
+    /**
+     * Switch to the handle department view
+     */
     public void manageDepartment() {
         ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
     }
 
+    /**
+     * Switch the the profile of the user
+     */
     public void goToProfil() {
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
             ViewLoader.getInstance().load(ViewPath.STUDENT_PROFIL, userFacade.getCurrentUser());
@@ -48,18 +70,30 @@ public class HeaderController implements Initializable {
         }
     }
 
+    /**
+     * Disconnect the current user <br>
+     * Switch to the login view
+     */
     public void disconnect() {
         userFacade.disconnect();
         NotificationFacade.getInstance().stopTimer();
         ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 
+    /**
+     * Switch to the notification view with the user's notifications
+     */
     public void goToNotificationPage() {
         Object[] tabNotifications = notifications.toArray();
         System.out.println(Arrays.toString(tabNotifications));
         ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
     }
 
+    /**
+     * Display the number of user's notifications
+     * @param nbNotifications the number of user's notifications
+     * @return a String which represents the number of user's notifications or nothing if 0
+     */
     public String valueTextNbNotification(int nbNotifications) {
         return nbNotifications == 0 ? "" : String.valueOf(nbNotifications);
     }

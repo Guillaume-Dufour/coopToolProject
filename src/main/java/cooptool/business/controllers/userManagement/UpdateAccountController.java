@@ -45,19 +45,29 @@ public class UpdateAccountController implements Initializable {
     Button cancelUpdateButton;
 
     /**
-     * attribute to access to the UserFacade method
+     * Attribute to access to the UserFacade method
      */
     UserFacade userFacade = UserFacade.getInstance();
     /**
-     * attribute to access to the DepartmentFacade method
+     * Attribute to access to the DepartmentFacade method
      */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
-    public void cancelUpdate(ActionEvent event) {
+    /**
+     * Method called by the cancelUpdateButton <br>
+     * Switch to the home view
+     */
+    public void cancelUpdate() {
         ViewLoader.getInstance().load(ViewPath.HOME);
     }
 
-    public void updateAccount(ActionEvent event) {
+    /**
+     * Method called by the updateButton <br>
+     * Update the account of the user with the provided information <br>
+     * Update the password of the user if a new conformed password is provided <br>
+     * Load the home view
+     */
+    public void updateAccount() {
         updateButton.setDisable(true);
         if(userFacade.getCurrentUser().getRole() instanceof StudentRole){
             String firstName = inputFirstName.getText();
