@@ -6,6 +6,7 @@ import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.*;
+import cooptool.utils.Components;
 import cooptool.utils.TimeUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -14,7 +15,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -22,9 +22,12 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class MentoringDemandCreator implements Initializable {
-    MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+    private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
+
     @FXML
-    ComboBox<Subject> subject;
+    ComboBox<Subject> subjectComboBox;
     @FXML
     ComboBox<Integer> hourBox,minBox;
     @FXML
@@ -33,21 +36,20 @@ public class MentoringDemandCreator implements Initializable {
     DatePicker date;
     @FXML
     Label infoLabel,errorLabel;
-
-    User currentUser = UserFacade.getInstance().getCurrentUser();
-    StudentRole student = (StudentRole) currentUser.getRole();
-    private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
     
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+    private final User currentUser = userFacade.getCurrentUser();
+    private final StudentRole student = (StudentRole) currentUser.getRole();
+    private final List<Subject> subjects = subjectFacade.getSubjectsByDepartment(student.getDepartment());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        initializeSubjectBox();
+        Components.initializeSubjectBox(subjects,subjectComboBox);
         initializeHourAndMinutesBoxes();
     }
 
     public void create() {
-        if(subject.getValue() == null){
+        if(subjectComboBox.getValue() == null){
             errorLabel.setText("Please pick a subject");
         }
         else if(date.getValue() == null || minBox.getValue() == null || hourBox.getValue() == null){
@@ -55,26 +57,9 @@ public class MentoringDemandCreator implements Initializable {
         }
         else{
             LocalDateTime dateTime = LocalDateTime.of(date.getValue(),LocalTime.of(hourBox.getValue(), minBox.getValue()));
-            mentoringDemandFacade.create(subject.getValue(),description.getText(),dateTime);
+            mentoringDemandFacade.create(subjectComboBox.getValue(),description.getText(),dateTime);
             viewLoader.load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
         }
-    }
-
-    private void initializeSubjectBox(){
-        subject.setItems(FXCollections.observableList(subjects));
-        subject.setConverter(new StringConverter<>() {
-
-            @Override
-            public String toString(Subject object) {
-                return object != null ? object.getName() : "select a subject...";
-            }
-
-            @Override
-            public Subject fromString(String string) {
-                return null;
-            }
-
-        });
     }
 
     private void initializeHourAndMinutesBoxes(){

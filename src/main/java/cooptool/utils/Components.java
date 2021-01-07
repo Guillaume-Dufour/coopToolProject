@@ -1,7 +1,10 @@
 package cooptool.utils;
 
 import cooptool.models.objects.Department;
+import cooptool.models.objects.Subject;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
@@ -41,6 +44,24 @@ public class Components {
             button.setText("Indisponible");
             button.setStyle("-fx-background-color: #f0524d");
         }
+    }
+
+    public static void initializeSubjectBox(List<Subject> subjects,ComboBox<Subject> subjectComboBox){
+        subjects.add(null);
+        subjectComboBox.setItems(FXCollections.observableList(subjects));
+        subjectComboBox.setConverter(new StringConverter<>() {
+
+            @Override
+            public String toString(Subject object) {
+                return object != null ? object.getName() : "Tous les sujets";
+            }
+
+            @Override
+            public Subject fromString(String string) {
+                return null;
+            }
+
+        });
     }
 
 }

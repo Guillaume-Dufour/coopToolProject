@@ -3,14 +3,20 @@ package cooptool.business.controllers.mentoringDemandManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
+import cooptool.business.facades.PostFacade;
+import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.StudentRole;
+import cooptool.models.objects.Subject;
+import cooptool.models.objects.User;
+import cooptool.utils.Components;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -28,33 +34,46 @@ public class MentoringDemandsDisplay implements Initializable {
     GridPane grid;
     @FXML
     HBox pageHbox;
-    List<MentoringDemand> partialMentoringDemands;
-    Button focusButton;
-    boolean isInitialized = false;
+    @FXML
+    ComboBox<Subject> subjectComboBox;
+    @FXML
+    Button focusButton,myDemandsButton;
     
     private final UserFacade userFacade = UserFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+    private final User currentUser = userFacade.getCurrentUser();
+    private final StudentRole student = (StudentRole) currentUser.getRole();
+    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
+    //TODO get Subjects by abv
+    private final List<Subject> subjects = subjectFacade.getSubjectsByDepartment(student.getDepartment());
+
+    private List<MentoringDemand> allMentoringDemands;
+    boolean isInitialized = false;
+    private boolean currentUserDemands = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (!userFacade.isCurrentUserStudent()){
             creationButton.setVisible(false);
         }
-        partialMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
-        createNavigationButtons();
-        showMentoringDemands(0);
+        allMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
+        Components.initializeSubjectBox(subjects,subjectComboBox);
+        handleSubjectChange();
+        createNavigationButtons(allMentoringDemands);
+        showMentoringDemands(allMentoringDemands,0);
         isInitialized = true;
     }
 
-    public void showMentoringDemands(int offset){
+    public void showMentoringDemands(List<MentoringDemand> demands,int offset){
         if(isInitialized){
             clearGrid();
         }
         for(int i=offset;i<6+offset;i++){
-            if(i==partialMentoringDemands.size()){
+            if(i==demands.size()){
                 break;
             }
-            MentoringDemand cur = partialMentoringDemands.get(i);
+            MentoringDemand cur = demands.get(i);
             StudentRole studentRole = (StudentRole) cur.getCreator().getRole();
             BorderPane borderPane = new BorderPane();
             String topText = studentRole.getStudentRepresentation();
@@ -78,12 +97,12 @@ public class MentoringDemandsDisplay implements Initializable {
         grid.getChildren().retainAll(grid.getChildren().get(0));
     }
 
-    private void createNavigationButtons(){
-        int numberOfButtons = (partialMentoringDemands.size()-1)/6 +1;
+    private void createNavigationButtons(List<MentoringDemand> demands){
+        int numberOfButtons = (demands.size()-1)/6 +1;
         for(int j=1;j<=numberOfButtons;j++){
             Button button = new Button(String.valueOf(j));
             button.setOnAction(event -> {
-                showMentoringDemands((Integer.parseInt(button.getText())-1) * 6);
+                showMentoringDemands(demands,(Integer.parseInt(button.getText())-1) * 6);
                 focusButton.setDisable(false);
                 button.setDisable(true);
                 focusButton = button;
@@ -96,11 +115,59 @@ public class MentoringDemandsDisplay implements Initializable {
         }
     }
 
+    private void handleSubjectChange(){
+        subjectComboBox.setOnAction(event -> {
+            Subject subject = subjectComboBox.getValue();
+            if(subject == null){
+                reload(filter());
+            }
+            else{
+                reload(postFacade.filterPostsPerSubject(filter(),subject));
+            }
+        });
+    }
+
+    private List<MentoringDemand> filter(){
+        if(currentUserDemands){
+            return postFacade.filterCurrentUserPosts(allMentoringDemands);
+        }
+        else{
+            return allMentoringDemands;
+        }
+    }
+
+    private void reload(List<MentoringDemand> mentoringDemands){
+        clearButtons();
+        createNavigationButtons(mentoringDemands);
+        showMentoringDemands(mentoringDemands,0);
+    }
+
+    private void clearButtons(){
+        pageHbox.getChildren().clear();
+    }
+
     public void goToCreationPage(){
         viewLoader.load(ViewPath.CREATE_MENTORING_DEMAND);
     }
 
     public void goToMentoringDemand(int id){
         viewLoader.load(ViewPath.GET_MENTORING_DEMAND,id);
+    }
+
+    public void switchMyDemandsState() {
+        if(currentUserDemands){
+            myDemandsButton.setText("All demands");
+            currentUserDemands = false;
+        }
+        else{
+            myDemandsButton.setText("My demands");
+            currentUserDemands = true;
+        }
+        if(subjectComboBox.getValue() == null){
+            reload(filter());
+        }
+        else{
+            reload(postFacade.filterPostsPerSubject(filter(),subjectComboBox.getValue()));
+        }
     }
 }
