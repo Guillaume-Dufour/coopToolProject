@@ -20,47 +20,23 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class HomeController {
 
     @FXML
-    Button mentoringDemandButton;
+    Button mentoringDemandButton, quickHelpButton;
 
-    @FXML
-    Label notificationNumber;
-
-
-    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
-    private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-
-//        notifications.addListener((ListChangeListener<Notification>) c -> {
-//            int nbNotifications = c.getList().size();
-//            notificationNumber.setText(nbNotifications != 0 ? String.valueOf(nbNotifications) : "");
-//        });
-
-        /*notificationFacade.getNbNotifications().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                notificationNumber.setText(newValue.toString());
-            }
-        });*/
-    }
-
+    /**
+     * Switch to the mentoring demand home page view
+     */
     public void displayMentoringDemand() {
         ViewLoader.getInstance().load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
     }
 
+    /**
+     * Switch to the quick help post home page view
+     */
     public void displayQuickHelpPost() {
         ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
-
-    public void goToNotificationPage(MouseEvent mouseEvent) {
-
-        Object[] tabNotifications = notifications.toArray();
-
-        ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
-    }
 }
