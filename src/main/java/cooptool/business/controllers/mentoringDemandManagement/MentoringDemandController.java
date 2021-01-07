@@ -18,7 +18,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -54,9 +53,7 @@ public class MentoringDemandController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (userFacade.isCurrentUserStudent()){
-            //TODO: changer la condition
-        } else {
+        if (!userFacade.isCurrentUserStudent()){
             disableStudentRights();
         }
 
@@ -380,6 +377,9 @@ public class MentoringDemandController implements Initializable {
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
             gridPane.add(new Text(comment.getContent()),0,counter);
             gridPane.add(new Label(studentRole.getStudentRepresentation()),1,counter);
+            Button deletionButton = new Button("Delete");
+            deletionButton.setStyle("-fx-background-color: #F14521");
+            deletionButton.setOnAction(event -> postFacade.deleteComment(comment,demand));
             counter++;
         }
     }
@@ -399,5 +399,9 @@ public class MentoringDemandController implements Initializable {
         teachButton.setVisible(false);
         addScheduleButton.setVisible(false);
         commentArea.setVisible(false);
+    }
+
+    public void goBack() {
+        viewLoader.load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
     }
 }

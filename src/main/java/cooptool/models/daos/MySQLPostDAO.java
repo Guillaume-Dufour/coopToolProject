@@ -18,7 +18,7 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public List<Post> findPostByUser(User user) {
-        String statement = "SELECT * " +
+        String query = "SELECT * " +
                 "FROM browsing_history b, post p, subject s " +
                 "WHERE b.id_post = p.id_post " +
                 "AND s.id_subject = p.id_subject " +
@@ -26,7 +26,7 @@ public class MySQLPostDAO extends PostDAO {
         List<Post> result = new ArrayList<>();
         PreparedStatement preparedStatement;
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
@@ -67,17 +67,12 @@ public class MySQLPostDAO extends PostDAO {
     }
 
     @Override
-    public boolean update(Post post) {
-        return false;
-    }
-
-    @Override
     public boolean deleteOneFromBrowsingHistory(User user, Post post) {
-        String statement =
+        String query =
                 "DELETE FROM browsing_history WHERE id_user = ? AND id_post = ?;";
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, post.getId());
             preparedStatement.executeUpdate();
@@ -92,11 +87,11 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public boolean deleteAllFromBrowsingHistory(User user) {
-        String statement =
+        String query =
                 "DELETE FROM browsing_history WHERE id_user = ?;";
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
 
@@ -109,11 +104,11 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public void comment(Comment comment, Post post) {
-        String statement =
+        String query =
                 "INSERT INTO comment (content_comment,date_comment,id_user_creator,id_post) " +
                 "VALUES (?,?,?,?)";
         try {
-            PreparedStatement insertStatement = connection.prepareStatement(statement);
+            PreparedStatement insertStatement = connection.prepareStatement(query);
             insertStatement.setString(1, comment.getContent());
             insertStatement.setTimestamp(2, Timestamp.valueOf(comment.getCreationDate()));
             insertStatement.setInt(3,comment.getCreator().getId());
@@ -125,8 +120,21 @@ public class MySQLPostDAO extends PostDAO {
     }
 
     @Override
+    public void deleteComment(Comment comment, Post post) {
+        String query =
+                "DELETE FROM comment WHERE comment_id = ?";
+        try {
+            PreparedStatement deletionStatement = connection.prepareStatement(query);
+            deletionStatement.setInt(1,post.getId());
+            deletionStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void getComments(Post post) {
-        String statement =
+        String query =
                 "SELECT comment.id_comment,comment.content_comment,comment.date_comment," +
                         "user.id_user,user.first_name_user,user.last_name_user," +
                         "department.abbreviation_department,year_department " +
@@ -135,7 +143,7 @@ public class MySQLPostDAO extends PostDAO {
                         "JOIN department ON user.id_department = department.id_department " +
                         "WHERE comment.id_post = ?";
         try {
-            PreparedStatement selectStatement = connection.prepareStatement(statement);
+            PreparedStatement selectStatement = connection.prepareStatement(query);
             selectStatement.setInt(1,post.getId());
             ResultSet res = selectStatement.executeQuery();
             while(res.next()){

@@ -50,4 +50,8 @@ public class PostFacade {
     public void getComments(Post post){
         postDAO.getComments(post);
     }
+
+    public void deleteComment(Comment comment,Post post){
+        postDAO.deleteComment(comment,post);
+    }
 }
