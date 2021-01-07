@@ -112,12 +112,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public MentoringDemand getMentoringDemand(int id) {
         String query =
-                        "SELECT post.id_post,description_post,date_post," +
-                        "name_subject," +
-                        "creator.id_user,creator.first_name_user,creator.last_name_user," +
-                        "abbreviation_department,year_department," +
-                        "date_post_session," +
-                        "scheduleCreator.id_user,scheduleCreator.first_name_user,scheduleCreator.last_name_user " +
+                        "SELECT * " +
                         "FROM post " +
                         "NATURAL JOIN subject " +
                         "LEFT JOIN schedule on post.id_post = schedule.id_post " +
@@ -139,7 +134,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                     firstLine = false;
                 }
 
-                Timestamp scheduleTs = res.getTimestamp(10);
+                Timestamp scheduleTs = res.getTimestamp(ScheduleTable.DATE_POST_SESSION.toString());
 
                 //Case where the post has no schedules
                 if (scheduleTs != null) {
