@@ -33,7 +33,7 @@
                <font>
                   <Font size="18.0" />
                </font></Button>
-            <Button fx:id="quickHelpButton" mnemonicParsing="false" onAction="#displayQuickHelpPost" prefHeight="1500.0" prefWidth="1500.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+            <Button fx:id="quickHelpPostButton" mnemonicParsing="false" onAction="#displayQuickHelpPost" prefHeight="1500.0" prefWidth="1500.0" style="-fx-background-color: #79D6FD;" text="Aide Rapide" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
                </GridPane.margin>

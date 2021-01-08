@@ -1,12 +1,13 @@
 package cooptool.utils;
 
+import cooptool.business.ViewLoader;
 import cooptool.models.objects.Department;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Components {
 
@@ -26,11 +27,6 @@ public class Components {
         });
     }
 
-    /**
-     *
-     * @param button
-     * @param available
-     */
     public static void createAvailabilityButton(Button button, int available) {
 
         if (available == 1) {
@@ -41,6 +37,18 @@ public class Components {
             button.setText("Indisponible");
             button.setStyle("-fx-background-color: #f0524d");
         }
+    }
+
+    public static Optional<ButtonType> createConfirmationAlert(String message) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.initOwner(ViewLoader.getInstance().getStage());
+
+        return alert.showAndWait();
+
     }
 
 }

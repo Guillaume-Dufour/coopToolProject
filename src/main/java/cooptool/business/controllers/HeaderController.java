@@ -7,14 +7,12 @@ import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.StudentRole;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,8 +25,6 @@ public class HeaderController implements Initializable {
 
     UserFacade userFacade = UserFacade.getInstance();
     private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
-    private final ObservableList<Notification> notifications = notificationFacade.getNotifications();
-
 
     public void goToHome() {
         ViewLoader.getInstance().load(ViewPath.HOME);
@@ -55,9 +51,7 @@ public class HeaderController implements Initializable {
     }
 
     public void goToNotificationPage() {
-        Object[] tabNotifications = notifications.toArray();
-        System.out.println(Arrays.toString(tabNotifications));
-        ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS, tabNotifications);
+        ViewLoader.getInstance().load(ViewPath.NOTIFICATIONS);
     }
 
     public String valueTextNbNotification(int nbNotifications) {
@@ -66,6 +60,7 @@ public class HeaderController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
             parameterButton.setVisible(false);
 
@@ -75,7 +70,7 @@ public class HeaderController implements Initializable {
 
             notificationNumber.setText(valueTextNbNotification(nbUnreadNotifications.get()));
 
-            notifications.addListener((ListChangeListener<Notification>) c -> {
+            notificationFacade.getNotifications().addListener((ListChangeListener<Notification>) c -> {
                 nbUnreadNotifications.set((int) c.getList().stream()
                         .filter(notification -> notification.getIsRead() == 0)
                         .count());

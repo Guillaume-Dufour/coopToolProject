@@ -20,7 +20,7 @@ public enum NotificationType {
     }
 
     public static NotificationType getType(int type) {
-        return type < NotificationType.values().length ? NotificationType.values()[type-1] : null;
+        return type <= NotificationType.values().length ? NotificationType.values()[type-1] : null;
     }
 
     public String getString() {
@@ -30,9 +30,7 @@ public enum NotificationType {
                 .collect(Collectors.joining(" "));
     }
 
-    public static List<String> getStringValues() {
-        return Arrays.stream(NotificationType.values())
-                .map(NotificationType::getString)
-                .collect(Collectors.toList());
+    public static NotificationType[] sortedValues() {
+        return Arrays.stream(values()).sorted().toArray(NotificationType[]::new);
     }
 }

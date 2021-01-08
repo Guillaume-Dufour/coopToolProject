@@ -1,23 +1,23 @@
 package cooptool.business.controllers;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
 import cooptool.exceptions.UnmatchedPassword;
-import cooptool.business.ViewLoader;
-import cooptool.business.ViewPath;
 import cooptool.models.objects.StudentRole;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable{

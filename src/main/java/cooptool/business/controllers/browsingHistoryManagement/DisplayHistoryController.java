@@ -5,21 +5,23 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.PostFacade;
 import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.Post;
+import cooptool.models.objects.QuickHelpPost;
 import cooptool.models.objects.User;
+import cooptool.utils.Components;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Modality;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DisplayHistoryController implements Initializable {
 
@@ -32,25 +34,23 @@ public class DisplayHistoryController implements Initializable {
     @FXML
     TableColumn<Post, Void> deletePostCol;
 
+    @FXML
+    ChoiceBox<String> postTypes;
+
     PostFacade postFacade = PostFacade.getInstance();
     User user;
 
+    private ObservableList<Post> posts;
+
     public void deleteAll(ActionEvent event) {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Voulez-vous confirmer la suppression de votre historique ?");
-
-        alert.initOwner(ViewLoader.getInstance().getStage());
-
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = Components.createConfirmationAlert("Voulez-vous confirmer la suppression de votre historique ?");
 
         if (result.isPresent() && result.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
             boolean res = postFacade.deleteAllBrowsingHistory(user);
 
             if (res) {
-                historyTableView.getItems().clear();
-                historyTableView.refresh();
+                posts.clear();
             }
         }
     }
@@ -59,8 +59,7 @@ public class DisplayHistoryController implements Initializable {
         boolean res = postFacade.deleteOneFromBrowsingHistory(user, post);
 
         if (res) {
-            historyTableView.getItems().remove(post);
-            historyTableView.refresh();
+            posts.remove(post);
         }
     }
 
@@ -126,6 +125,35 @@ public class DisplayHistoryController implements Initializable {
             }
         });
 
-        historyTableView.setItems(FXCollections.observableList(postFacade.getBrowsingHistory(user)));
+        posts = FXCollections.observableList(postFacade.getBrowsingHistory(user));
+
+        FilteredList<Post> filteredPosts = new FilteredList<>(posts);
+
+        List<String> types = Arrays.asList("Tous", "Mentoring Demand", "Quick Help Post");
+
+        postTypes.setItems(FXCollections.observableList(types));
+
+        postTypes.setValue("Tous");
+
+        postTypes.setOnAction(event -> {
+            filteredPosts.setPredicate(post -> {
+
+                String type = postTypes.getSelectionModel().getSelectedItem();
+
+                switch (type) {
+                    case "Mentoring Demand":
+                        return post instanceof MentoringDemand;
+                    case "Quick Help Post":
+                        return post instanceof QuickHelpPost;
+                    default:
+                        return true;
+                }
+            });
+        });
+
+        SortedList<Post> sortedPosts = new SortedList<>(filteredPosts);
+        sortedPosts.comparatorProperty().bind(historyTableView.comparatorProperty());
+
+        historyTableView.setItems(sortedPosts);
     }
 }

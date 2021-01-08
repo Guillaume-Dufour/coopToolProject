@@ -4,20 +4,22 @@ import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.NotificationType;
+import cooptool.utils.Components;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DisplayNotificationController implements Initializable {
 
@@ -34,25 +36,20 @@ public class DisplayNotificationController implements Initializable {
     Button deleteAllButton;
 
     @FXML
-    ChoiceBox<String> notificationTypesBox;
+    ChoiceBox<NotificationType> notificationTypesBox;
 
     NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     public void deleteNotification(ActionEvent event, Notification notification) {
-        boolean res = notificationFacade.delete(notification);
-
-        if (res) {
-            notificationTableView.getItems().remove(notification);
-            notificationTableView.refresh();
-        }
+        notificationFacade.delete(notification);
     }
 
     public void deleteAllNotifications(ActionEvent event) {
-        boolean res = notificationFacade.deleteAllNotifications(UserFacade.getInstance().getCurrentUser());
 
-        if (res) {
-            notificationTableView.getItems().clear();
-            notificationTableView.refresh();
+        Optional<ButtonType> result = Components.createConfirmationAlert("Voulez-vous vraiment supprimer toutes vos notifications ?");
+
+        if (result.isPresent() && result.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+            notificationFacade.deleteAllNotifications(UserFacade.getInstance().getCurrentUser());
         }
     }
 
@@ -60,40 +57,43 @@ public class DisplayNotificationController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        //FilteredList<Notification> notifications = new FilteredList<>(FXCollections.observableArrayList());
+        ObservableList<Notification> notifications = notificationFacade.getNotifications();
 
-        ObservableList<Notification> notifications = FXCollections.observableArrayList();
+        FilteredList<Notification> notificationFilteredList = new FilteredList<>(notifications, p -> true);
 
-        List<String> typesNotification = NotificationType.getStringValues();
+
+        List<NotificationType> typesNotification = new ArrayList<>();
+        typesNotification.add(null);
+        typesNotification.addAll(Arrays.asList(NotificationType.sortedValues()));
+
+        notificationTypesBox.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(NotificationType object) {
+                return object == null ? "Tous" : object.getString();
+            }
+
+            @Override
+            public NotificationType fromString(String string) {
+                return null;
+            }
+        });
 
         notificationTypesBox.setItems(FXCollections.observableList(typesNotification));
 
-        notificationTypesBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(typesNotification.get(newValue.intValue()));
-        });
+        notificationTypesBox.setOnAction(event -> {
+            notificationFilteredList.setPredicate(notification -> {
+                NotificationType type = notificationTypesBox.getSelectionModel().getSelectedItem();
 
-        /*FilteredList<Notification> filteredNotifications = new FilteredList<>(notifications);
-
-        notificationTypesBox.getEditor().textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println(newValue);
-            *//*filteredNotifications.setPredicate(notification -> {
-
-                if (newValue == null || newValue.isEmpty()) {
+                if (type == null) {
                     return true;
                 }
 
-                System.out.println(notification.getTypeNotification().getString().equalsIgnoreCase(newValue));
+                return notification.getTypeNotification().equals(type);
+            });
+        });
 
-                return notification.getTypeNotification().getString().equalsIgnoreCase(newValue);
-            });*//*
-        });*/
-
-        for (String s : resources.keySet()) {
-            notifications.add((Notification) resources.getObject(s));
-        }
-
-        /*SortedList<Notification> sortedNotifications = new SortedList<>(notifications);
-        sortedNotifications.comparatorProperty().bind(notificationTableView.comparatorProperty());*/
+        SortedList<Notification> sortedNotifications = new SortedList<>(notificationFilteredList);
+        sortedNotifications.comparatorProperty().bind(notificationTableView.comparatorProperty());
 
         notificationCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue()));
 
@@ -131,12 +131,12 @@ public class DisplayNotificationController implements Initializable {
                 if (item == null || empty) {
                     setStyle("");
                 }
-               /* else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
+                else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
                     setStyle("-fx-background-color: #F9D4D4;");
                 }
                 else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
                     setStyle("-fx-background-color: #D4DAF9;");
-                }*/
+                }
                 else {
                     setStyle("");
                 }
@@ -167,9 +167,7 @@ public class DisplayNotificationController implements Initializable {
             }
         });
 
-        //notificationTableView.setItems(filteredNotifications);
-
-        notificationTableView.setItems(notifications);
+        notificationTableView.setItems(sortedNotifications);
 
         notificationTableView.setOnMouseClicked(event -> {
 
@@ -180,11 +178,6 @@ public class DisplayNotificationController implements Initializable {
             if (res) {
                 notificationTableView.refresh();
             }
-        });
-
-        notificationFacade.getNotifications().addListener((ListChangeListener<Notification>) c -> {
-            notifications.setAll(c.getList());
-            notificationTableView.refresh();
         });
     }
 }

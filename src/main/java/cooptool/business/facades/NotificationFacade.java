@@ -5,6 +5,9 @@ import cooptool.models.objects.Notification;
 import cooptool.models.objects.NotificationType;
 import cooptool.models.objects.User;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.WritableIntegerValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,15 +21,11 @@ public class NotificationFacade {
     }
 
     private final NotificationDAO notificationDAO = NotificationDAO.getInstance();
-    //private final IntegerProperty nbNotifications;
     private final ObservableList<Notification> notifications;
     private Timer timer;
 
-    private boolean run = false;
-
     private NotificationFacade() {
         notifications = FXCollections.observableArrayList();
-        //nbNotifications = new SimpleIntegerProperty();
     }
 
     public static NotificationFacade getInstance() {
@@ -36,18 +35,6 @@ public class NotificationFacade {
     public ObservableList<Notification> getNotifications() {
         return notifications;
     }
-
-    /*public TimerTask getNbUnreadNotifications(User user) {
-        return new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    nbNotifications.setValue(notificationDAO.getNbUnreadNotifications(user));
-                    System.out.println("nb notifs");
-                });
-            }
-        };
-    }*/
 
     public TimerTask getNotificationsByUser(User user) {
         return new TimerTask() {
@@ -66,24 +53,6 @@ public class NotificationFacade {
         timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
     }
 
-    /*public IntegerProperty getNbNotifications() {
-        return nbNotifications;
-    }*/
-
-    /*public void changeTaskToNbNotifications(User user) {
-        purgeTimer();
-        timer.schedule(getNbUnreadNotifications(user), 0, 5 * 1000);
-    }
-
-    public void changeTaskToGetNotifications(User user) {
-        purgeTimer();
-        timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
-    }*/
-
-    /*public void purgeTimer() {
-        timer.purge();
-    }*/
-
     public void stopTimer() {
         timer.cancel();
     }
@@ -92,12 +61,21 @@ public class NotificationFacade {
         return notificationDAO.create(new Notification(user, content, objectId, typeNotification));
     }
 
-    public boolean delete(Notification notification) {
-        return notificationDAO.delete(notification);
+    public void delete(Notification notification) {
+
+        boolean res = notificationDAO.delete(notification);
+
+        if (res) {
+            notifications.remove(notification);
+        }
     }
 
-    public boolean deleteAllNotifications(User user) {
-        return notificationDAO.deleteAllNotificationsByUser(user);
+    public void deleteAllNotifications(User user) {
+        boolean res = notificationDAO.deleteAllNotificationsByUser(user);
+
+        if (res) {
+            notifications.clear();
+        }
     }
 
     public boolean changeStatusToRead(Notification notification) {

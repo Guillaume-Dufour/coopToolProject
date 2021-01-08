@@ -5,6 +5,7 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
+import cooptool.utils.Components;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -75,13 +76,7 @@ public class AccountController implements Initializable {
      */
     public void deleteAccount() {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Voulez-vous confirmer la suppression de votre compte ?");
-
-        alert.initOwner(ViewLoader.getInstance().getStage());
-
-        Optional<ButtonType> result = alert.showAndWait();
+        Optional<ButtonType> result = Components.createConfirmationAlert("Voulez-vous confirmer la suppression de votre compte ?");
 
         if (result.isPresent() && result.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
             userFacade.deleteAccount(user);

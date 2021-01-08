@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.browsingHistoryManagement.DisplayHistoryController">
    <children>
-       <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml"/>
+       <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml" />
        <TableView fx:id="historyTableView" layoutX="50.0" layoutY="200.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: WHITE;">
         <columns>
           <TableColumn fx:id="titlePostCol" maxWidth="700.0" prefWidth="600.0" text="Historique" />
@@ -16,5 +16,6 @@
         </columns>
       </TableView>
       <Button fx:id="deleteAllButton" layoutX="596.0" layoutY="138.0" mnemonicParsing="false" onAction="#deleteAll" text="Supprimer l'historique" />
+      <ChoiceBox fx:id="postTypes" layoutX="88.0" layoutY="138.0" prefWidth="150.0" />
    </children>
 </AnchorPane>
