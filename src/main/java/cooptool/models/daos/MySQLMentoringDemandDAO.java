@@ -109,6 +109,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         }
     }
 
+
     @Override
     public MentoringDemand getMentoringDemand(int id) {
         String query =
@@ -150,6 +151,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
         return result;
     }
+
 
     private void addParticipationsToMentoringDemand(MentoringDemand demand){
         String query =
@@ -193,7 +195,6 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         }
     }
 
-
     @Override
     public void participate(MentoringDemand mentoringDemand, Participation participation) {
         String query = "INSERT INTO participation (id_user,id_post,date_post_session,role_user) VALUES (?,?,?,?)";
@@ -230,8 +231,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         }
     }
 
-    @Override
-    public void removeParticipation(MentoringDemand demand, Schedule schedule) {
+    private void removeParticipation(MentoringDemand demand, Schedule schedule) {
         String query =
                         "DELETE FROM participation " +
                         "WHERE id_post = ? AND date_post_session = ?";
@@ -282,11 +282,15 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         String query =
                 "DELETE FROM schedule WHERE id_post = ? AND creator_id = ? AND date_post_session = ?";
         try {
+            connection.setAutoCommit(false);
             PreparedStatement deletionStatement = connection.prepareStatement(query);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,schedule.getCreator().getId());
             deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
+            removeParticipation(demand,schedule);
+            connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -314,17 +318,41 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
 
     @Override
-    public List<MentoringDemand> getPartialMentoringDemands() {
-        return null;
+    public List<MentoringDemand> getMentoringDemands() {
+        String query =
+                        "SELECT * " +
+                        "FROM post " +
+                        "NATURAL JOIN subject " +
+                        "LEFT JOIN schedule ON post.id_post = schedule.id_post " +
+                        "JOIN user u1 ON post.id_user_creator = u1.id_user " +
+                        "WHERE type_post = 0 ORDER BY date_post,post.id_post";
+        List<MentoringDemand> result = new ArrayList<>();
+        PreparedStatement preparedStatement;
+        try{
+            preparedStatement = connection.prepareStatement(query);
+            ResultSet res = preparedStatement.executeQuery();
+            int previousIdPost = -1;
+            while(res.next()){
+                int idPost = res.getInt(1);
+                if(idPost != previousIdPost){
+                    result.add(MySQLFactoryObject.createMentoringDemand(res));
+                    previousIdPost = idPost;
+                }
+                Timestamp scheduleTs = res.getTimestamp(String.valueOf(ScheduleTable.DATE_POST_SESSION));
+                if(scheduleTs != null){
+                    LocalDateTime scheduleDate = scheduleTs.toLocalDateTime();
+                    result.get(result.size()-1).addSchedule(new Schedule(scheduleDate,null));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
-    public List<MentoringDemand> getPartialMentoringDemands(User user) {
-        return null;
-    }
-
-    @Override
-    public List<MentoringDemand> getPartialMentoringDemands(Department department) {
+    public List<MentoringDemand> getMentoringDemands(Department department) {
         String query =
                         "SELECT * " +
                         "FROM post " +
@@ -360,10 +388,5 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
         return result;
 
-    }
-
-    @Override
-    public List<MentoringDemand> getPartialMentoringDemands(Subject subject) {
-        return null;
     }
 }

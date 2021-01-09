@@ -51,10 +51,10 @@ public class MentoringDemandFacade {
     public List<MentoringDemand> getMentoringDemands(){
         UserRole userRole = currentUser.getRole();
         if(userRole instanceof StudentRole){
-            return mentoringDemandDAO.getPartialMentoringDemands(((StudentRole) userRole).getDepartment());
+            return mentoringDemandDAO.getMentoringDemands(((StudentRole) userRole).getDepartment());
         }
         else{
-            return mentoringDemandDAO.getPartialMentoringDemands();
+            return mentoringDemandDAO.getMentoringDemands();
         }
     }
 
@@ -119,7 +119,6 @@ public class MentoringDemandFacade {
 
     public void deleteSchedule(MentoringDemand demand,Schedule schedule){
         mentoringDemandDAO.removeSchedule(demand,schedule);
-        mentoringDemandDAO.removeParticipation(demand,schedule);
     }
 
     public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){

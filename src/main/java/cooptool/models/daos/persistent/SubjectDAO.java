@@ -22,5 +22,9 @@ public abstract class SubjectDAO {
 
     public abstract List<Subject> getSubjectsByDepartment(Department department);
 
+    public abstract List<Subject> getSubjectsByPromotion(String abbreviation);
+
+    public abstract List<Subject> getAllSubjects();
+
     public abstract List<Subject> getAvailableSubjectsByDepartment(Department department);
 }
