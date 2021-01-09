@@ -29,8 +29,6 @@ import java.util.ResourceBundle;
 public class QuickHelpPostDisplay implements Initializable {
 
     @FXML
-    Pane header_admin,header_student;
-    @FXML
     Button displayQHPButton, displayMyQHPButton, creationQHPButton, validateDepartmentButton;
     @FXML
     GridPane grid;
@@ -57,7 +55,6 @@ public class QuickHelpPostDisplay implements Initializable {
         else {
             disableAdminRights();
             partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
-            disableAdminRights();
             createNavigationButtons();
             displayQuickHelpPosts(0);
         }

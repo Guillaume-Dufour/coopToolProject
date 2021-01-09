@@ -40,10 +40,25 @@ public class QuickHelpPostController implements Initializable {
     @FXML
     Button deleteButton, updateDescriptionButton, comeBackButton, commentButton;
 
+    /**
+     * Attribute to access to the UserFacade methods
+     */
     private final UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * Attribute to access to the ViewLoader singleton
+     */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+    /**
+     * Attribute to access to the QuickHelpPostFacade methods
+     */
     private final QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+    /**
+     * Attribute to access to the PostFacade methods
+     */
     private PostFacade postFacade = PostFacade.getInstance();
+    /**
+     * Attribute to access to the QuickHelpPost methods
+     */
     private QuickHelpPost qhp;
 
     @Override
@@ -67,6 +82,10 @@ public class QuickHelpPostController implements Initializable {
         }
     }
 
+    /**
+     * Method called by initialize method <br>
+     * Display all elements of the quick help post
+     */
     public void displayQuickHelpPost() {
         displayCreator();
         displayCreationDate();
@@ -75,6 +94,10 @@ public class QuickHelpPostController implements Initializable {
         displayComments();
     }
 
+    /**
+     * Method called by displayQuickHelpPost method <br>
+     * Display quick help post's creator
+     */
     public void displayCreator() {
         String creator = ((StudentRole)(qhp.getCreator().getRole())).getStudentRepresentation();
         String creatorString = String.format(
@@ -83,6 +106,10 @@ public class QuickHelpPostController implements Initializable {
         creatorLabel.setText(creatorString);
     }
 
+    /**
+     * Method called by displayQuickHelpPost method <br>
+     * Display the creation date of the quick help post
+     */
     public void displayCreationDate() {
         LocalDateTime creationDate = qhp.getCreationDate();
         String creationDateString = String.format(
@@ -91,6 +118,10 @@ public class QuickHelpPostController implements Initializable {
         creationDateLabel.setText(creationDateString);
     }
 
+    /**
+     * Method called by displayQuickHelpPost method <br>
+     * Display the subject of the quick help post
+     */
     public void displaySubject() {
         Subject qhpSubject = qhp.getSubject();
         String subjectString = String.format(
@@ -100,10 +131,18 @@ public class QuickHelpPostController implements Initializable {
         subjectLabel.setText(subjectString);
     }
 
+    /**
+     * Method called by displayQuickHelpPost method <br>
+     * Display the description of the quick help post
+     */
     public void displayDescription() {
         descriptionArea.setText(String.format("Description :\n%s",qhp.getDescription()));
     }
 
+    /**
+     * Method called by displayQuickHelpPost method <br>
+     * Display all the comments linked to the quick help post
+     */
     public void displayComments() {
         ArrayList<Comment> comments = qhp.getComments();
         GridPane gridPane = new GridPane();
@@ -111,8 +150,8 @@ public class QuickHelpPostController implements Initializable {
         int counter = 0;
         for(Comment comment : comments){
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
-            gridPane.add(new Text(comment.getContent()),0,counter);
-            gridPane.add(new Label(studentRole.getStudentRepresentation()),1,counter);
+            gridPane.add(new Label(studentRole.getStudentRepresentation() + " : "),0,counter);
+            gridPane.add(new Text(comment.getContent()),1,counter);
             // if the use is not the admin or the creator of the qhp he can not delete the comment
             if(userFacade.isCurrentUserStudent() || qhpFacade.isCurrentUserCreatorOfQHP(qhp)) {
                 Button deleteComButton = new Button("Supprimer");
@@ -124,11 +163,22 @@ public class QuickHelpPostController implements Initializable {
         }
     }
 
+    /**
+     * Method called by deleteComButton <br>
+     * Delete the comment and reload the view
+     */
     private void deleteComment(Comment comment) {
         postFacade.deleteComment(comment);
         refresh();
     }
 
+    /**
+     * Method called by updateDescriptionButton <br>
+     * Open a dialog window to change description.
+     * If the new description is empty when updateButton is pressed, the old one is kept,
+     * Otherwise the description changes.
+     * If cancelButton is pressed, nothing is done, it cancelled the action.
+     */
     public void updateDescription() {
         // Create the custom dialog.
         Dialog<String> dialog = new Dialog<>();
@@ -144,12 +194,17 @@ public class QuickHelpPostController implements Initializable {
         TextArea description = new TextArea(qhp.getDescription());
         grid.add(new Label("Description:"),0,0);
         grid.add(description,1,0);
-
+        Label errorLabel = new Label("");
+        grid.add(errorLabel, 0,1);
         dialog.getDialogPane().setContent(grid);
         Platform.runLater(description::requestFocus);
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButtonType) {
-                return description.getText();
+                if(description.getText() == "") {
+                }
+                else {
+                    return description.getText();
+                }
             }
             return null;
         });
@@ -160,6 +215,12 @@ public class QuickHelpPostController implements Initializable {
         });
     }
 
+    /**
+     * Method called by deleteButton <br>
+     * Open an alert before deleting the quick help post
+     * If the user confirmed, comment is deleted and the view is reloaded.
+     * Otherwise nothing is done, it cancelled the action.
+     */
     public void delete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Supprimer cette aide rapide");
@@ -168,25 +229,36 @@ public class QuickHelpPostController implements Initializable {
         if(option.isPresent()) {
             if (option.get() == ButtonType.OK) {
                 qhpFacade.delete(qhp);
-                viewLoader.load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
+                comeBackHome();
             }
         }
     }
 
+    /**
+     * Method called by updateDescription, deleteComment and comment methods <br>
+     * Display the quick help post by calling the controller
+     */
     private void refresh(){
         viewLoader.load(ViewPath.GET_QUICK_HELP_POST,qhp.getId());
     }
 
+    /**
+     * Method called by delete method <br>
+     * Display the quick help post by calling the controller
+     */
     public void comeBackHome() {
         viewLoader.load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
+    /**
+     * Method called by commentButton <br>
+     * Add the new comment linked to the quick help post and reload the view
+     */
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),qhp);
             refresh();
         } catch (CommentFormatException e) {
-            //errorLabel.setText(e.getMessage());
         }
     }
 }
