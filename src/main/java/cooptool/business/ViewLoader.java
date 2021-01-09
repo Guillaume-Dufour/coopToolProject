@@ -66,5 +66,4 @@ public class ViewLoader extends Parent {
         this.previousView.removeLast();
         return this.previousView.getLast();
     }
-
 }

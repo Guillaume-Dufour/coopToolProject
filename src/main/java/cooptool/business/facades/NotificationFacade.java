@@ -5,9 +5,6 @@ import cooptool.models.objects.Notification;
 import cooptool.models.objects.NotificationType;
 import cooptool.models.objects.User;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.WritableIntegerValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
