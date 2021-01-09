@@ -11,6 +11,7 @@ import org.mockito.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class UserFacadeTest {
@@ -34,7 +35,7 @@ class UserFacadeTest {
         ) {
             User user = new User(27, "mathilde.tribot@etu.umontpellier.fr", "$2a$10$c.N1O5bApJ.b9w5hko.c4uF2i53LCPCMJswgHdFkzns3mm43DGUIW", null, 1);
 
-            when(mockUserDAO.findUserByMail("mathilde.tribot@etu.umontpellier.fr")).thenReturn(user);
+            when(mockUserDAO.findUserByMail(any())).thenReturn(user);
             userDAOMockedStatic.when(UserDAO::getInstance).thenReturn(mockUserDAO);
 
             userFacade.login("mathilde.tribot@etu.umontpellier.fr", "guillaume");
@@ -51,7 +52,7 @@ class UserFacadeTest {
         ) {
             User user = new User(27, "mathilde.tribot@etu.umontpellier.fr", "$2a$10$c.N1O5bApJ.b9w5hko.c4uF2i53LCPCMJswgHdFkzns3mm43DGUIW", null, 1);
 
-            when(mockUserDAO.findUserByMail("mathilde.tribot@etu.umontpellier.fr")).thenReturn(user);
+            when(mockUserDAO.findUserByMail(any())).thenReturn(user);
             userDAOMockedStatic.when(UserDAO::getInstance).thenReturn(mockUserDAO);
 
             assertThrows(UnmatchedPassword.class, () -> {
@@ -67,7 +68,7 @@ class UserFacadeTest {
                 MockedStatic<UserDAO> userDAOMockedStatic = Mockito.mockStatic(UserDAO.class)
         ) {
 
-            when(mockUserDAO.findUserByMail("test.test@etu.umontpellier.fr")).thenReturn(null);
+            when(mockUserDAO.findUserByMail(any())).thenReturn(null);
             userDAOMockedStatic.when(UserDAO::getInstance).thenReturn(mockUserDAO);
 
             assertThrows(MailNotFound.class, () -> {
