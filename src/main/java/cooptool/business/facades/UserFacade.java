@@ -32,7 +32,7 @@ public class UserFacade {
     /**
      * Attribute to access to the UserDAO methods
      */
-    private final UserDAO userDAO;
+    private final UserDAO userDAO = UserDAO.getInstance();
 
     /**
      * Attribute to stock the pattern of a valid mail address
@@ -48,7 +48,6 @@ public class UserFacade {
     private String patternMdp = "abcdefghijklmnopqrstuvwxyz1234567890";
 
     private UserFacade() {
-        userDAO = AbstractDAOFactory.getInstance().getUserDAO();
     }
 
     /**

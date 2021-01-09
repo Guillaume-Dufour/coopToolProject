@@ -15,7 +15,7 @@ public class ViewLoader extends Parent {
 
     private Stage stage;
 
-    private final LinkedList<ViewPath> previousView = new LinkedList<ViewPath>();
+    private final LinkedList<ViewPath> previousView = new LinkedList<>();
 
     private ViewLoader() {
 

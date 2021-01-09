@@ -8,6 +8,7 @@ import java.util.List;
 
 public class DepartmentFacade {
 
+
     private static final DepartmentFacade INSTANCE;
     private final DepartmentDAO departmentDAO = DepartmentDAO.getInstance();
     private final List<Department> availablesDepartments = departmentDAO.getAvailableDepartments();
@@ -22,17 +23,17 @@ public class DepartmentFacade {
         return INSTANCE;
     }
 
-    public void create(String name, String abbreviation, int year) throws DepartmentNotConformed {
+    public boolean create(String name, String abbreviation, int year) throws DepartmentNotConformed {
 
         if (name.length() <= 100 && abbreviation.length() <= 10 && (year >= 1 && year <= 5)) {
-            departmentDAO.create(new Department(name, year, abbreviation));
+            return departmentDAO.create(new Department(name, year, abbreviation));
         }
         else {
             throw new DepartmentNotConformed();
         }
     }
 
-    public void update(Department department, String name, String abbreviation, int year) throws DepartmentNotConformed {
+    public boolean update(Department department, String name, String abbreviation, int year) throws DepartmentNotConformed {
 
         if (name.length() <= 100 && abbreviation.length() <= 10 && (year >= 1 && year <= 5)) {
 
@@ -40,7 +41,7 @@ public class DepartmentFacade {
             department.setAbbreviation(abbreviation);
             department.setYear(year);
 
-            departmentDAO.update(department);
+            return departmentDAO.update(department);
         }
         else {
             throw new DepartmentNotConformed();
@@ -49,10 +50,6 @@ public class DepartmentFacade {
 
     public void updateAvailability(Department department) {
         departmentDAO.update(department);
-    }
-
-    public Department getDepartment(){
-        return null;
     }
 
     public List<Department> getAvailableDepartments() {

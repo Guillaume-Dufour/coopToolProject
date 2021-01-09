@@ -51,7 +51,10 @@ public class NotificationFacade {
     }
 
     public void stopTimer() {
-        timer.cancel();
+        try {
+            timer.cancel();
+        } catch (NullPointerException ignored) {
+        }
     }
 
     public boolean create(User user, String content, int objectId, NotificationType typeNotification) {

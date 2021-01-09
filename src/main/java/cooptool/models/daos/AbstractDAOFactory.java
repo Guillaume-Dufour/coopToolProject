@@ -8,6 +8,7 @@ public abstract class AbstractDAOFactory {
         static final AbstractDAOFactory INSTANCE = new MySQLDAOFactory();
     }
 
+
     public static AbstractDAOFactory getInstance() {
         return LazyHolder.INSTANCE;
     }
