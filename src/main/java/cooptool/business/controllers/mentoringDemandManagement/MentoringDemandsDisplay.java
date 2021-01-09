@@ -41,12 +41,10 @@ public class MentoringDemandsDisplay implements Initializable {
     
     private final UserFacade userFacade = UserFacade.getInstance();
     private final PostFacade postFacade = PostFacade.getInstance();
+    private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
     private final ViewLoader viewLoader = ViewLoader.getInstance();
-    private final User currentUser = userFacade.getCurrentUser();
-    private final StudentRole student = (StudentRole) currentUser.getRole();
     private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
-    //TODO get Subjects by abv
-    private final List<Subject> subjects = subjectFacade.getSubjectsByDepartment(student.getDepartment());
+    private final List<Subject> subjects = subjectFacade.getPromotionSubjects();
 
     private List<MentoringDemand> allMentoringDemands;
     boolean isInitialized = false;
@@ -57,7 +55,7 @@ public class MentoringDemandsDisplay implements Initializable {
         if (!userFacade.isCurrentUserStudent()){
             creationButton.setVisible(false);
         }
-        allMentoringDemands = MentoringDemandFacade.getInstance().getMentoringDemands();
+        allMentoringDemands = mentoringDemandFacade.getMentoringDemands();
         Components.initializeSubjectBox(subjects,subjectComboBox);
         handleSubjectChange();
         createNavigationButtons(allMentoringDemands);

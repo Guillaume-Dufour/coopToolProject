@@ -100,6 +100,51 @@ public class MySQLSubjectDAO extends SubjectDAO {
     }
 
     @Override
+    public List<Subject> getSubjectsByPromotion(String abbreviation) {
+        List<Subject> subjects = new ArrayList<>();
+
+        String query =
+                "SELECT * " +
+                "FROM subject s " +
+                "JOIN department d ON d.id_department = s.id_department AND d.abbreviation_department = ? " +
+                "ORDER BY s.name_subject";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, abbreviation);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                Subject subject = MySQLFactoryObject.createSubject(result);
+                subjects.add(subject);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subjects;
+    }
+
+    @Override
+    public List<Subject> getAllSubjects() {
+        List<Subject> subjects = new ArrayList<>();
+        String query =
+                "SELECT * FROM subject NATURAL JOIN department";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet result = preparedStatement.executeQuery();
+            while (result.next()) {
+                Subject subject = MySQLFactoryObject.createSubject(result);
+                subjects.add(subject);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subjects;
+    }
+
+    @Override
     public List<Subject> getAvailableSubjectsByDepartment(Department department) {
         return getSubjectsByDepartment(department).stream().filter(subject -> subject.getAvailable() == 1).collect(Collectors.toList());
     }
