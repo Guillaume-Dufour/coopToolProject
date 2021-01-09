@@ -7,12 +7,14 @@ import java.util.List;
 
 public abstract class DepartmentDAO {
 
-    private static class LazyHolder {
-        static final DepartmentDAO INSTANCE = AbstractDAOFactory.getInstance().getDepartmentDAO();
+    private static final DepartmentDAO INSTANCE = AbstractDAOFactory.getInstance().getDepartmentDAO();
+
+    private DepartmentDAO() {
+        
     }
 
     public static DepartmentDAO getInstance() {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     public abstract boolean create(Department department);

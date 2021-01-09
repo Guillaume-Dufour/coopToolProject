@@ -27,22 +27,38 @@ public class DisplayHistoryController implements Initializable {
 
     @FXML
     Button deleteAllButton;
+
     @FXML
     TableView<Post> historyTableView;
+
     @FXML
     TableColumn<Post, String> titlePostCol;
+
     @FXML
     TableColumn<Post, Void> deletePostCol;
 
     @FXML
     ChoiceBox<String> postTypes;
 
+    /**
+     * Attribute to access to the PostFacade
+     */
     PostFacade postFacade = PostFacade.getInstance();
-    User user;
 
+    /**
+     * User whose browsing history is displayed
+     */
+    private User user;
+
+    /**
+     * Posts of the browsing history
+     */
     private ObservableList<Post> posts;
 
-    public void deleteAll(ActionEvent event) {
+    /**
+     * Delete all posts of the browsing history user
+     */
+    public void deleteAll() {
 
         Optional<ButtonType> result = Components.createConfirmationAlert("Voulez-vous confirmer la suppression de votre historique ?");
 
@@ -55,6 +71,11 @@ public class DisplayHistoryController implements Initializable {
         }
     }
 
+    /**
+     * Delete the post in the browsing history of the user
+     * @param event Event that has the action
+     * @param post Post to be deleted
+     */
     public void deletePostFromHistory(ActionEvent event, Post post) {
         boolean res = postFacade.deleteOneFromBrowsingHistory(user, post);
 

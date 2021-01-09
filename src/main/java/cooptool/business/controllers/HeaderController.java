@@ -20,6 +20,7 @@ public class HeaderController implements Initializable {
 
     @FXML
     ImageView parameterButton, notificationButton;
+
     @FXML
     Text notificationNumber;
 

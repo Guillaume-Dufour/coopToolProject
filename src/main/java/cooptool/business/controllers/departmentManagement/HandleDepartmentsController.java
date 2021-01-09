@@ -53,10 +53,24 @@ public class HandleDepartmentsController implements Initializable {
     @FXML
     TableColumn<Subject, Integer> availableSubjectCol;
 
+    /**
+     * Attribute to access to the department facade
+     */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+
+    /**
+     * Attribute to access to the subject facade
+     */
     SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
+    /**
+     * Current department whose subjects are displayed
+     */
     Department department;
+
+    /**
+     * List of the subjects that are displayed
+     */
     List<Subject> subjects = new ArrayList<>();
 
     public void updateDepartment() {

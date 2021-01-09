@@ -1,6 +1,7 @@
 package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.DepartmentDAO;
+import cooptool.models.enumDatabase.DepartmentTable;
 import cooptool.models.objects.*;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class MySQLDepartmentDAO extends DepartmentDAO {
 
-    Connection connection = MySQLConnection.getInstance();
+    private final Connection connection = MySQLConnection.getInstance();
 
     protected MySQLDepartmentDAO() {
         super();
@@ -21,7 +22,12 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
 
         List<Department> departments = new ArrayList<>();
 
-        String requete = "SELECT * FROM department ORDER BY abbreviation_department, year_department";
+        String requete = "SELECT * FROM department ORDER BY %s, %s";
+
+        requete = String.format(requete,
+                DepartmentTable.ABBREVIATION_DEPARTMENT,
+                DepartmentTable.YEAR_DEPARTMENT
+        );
 
         try {
             Statement statement = connection.createStatement();
@@ -49,8 +55,13 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
     @Override
     public boolean create(Department department) {
 
-        String requete = "INSERT INTO department (name_department, abbreviation_department, year_department) " +
-                "VALUES (?, ?, ?);";
+        String requete = "INSERT INTO department (%s, %s, %s) VALUES (?, ?, ?);";
+
+        requete = String.format(requete,
+                DepartmentTable.NAME_DEPARTMENT,
+                DepartmentTable.ABBREVIATION_DEPARTMENT,
+                DepartmentTable.YEAR_DEPARTMENT
+        );
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
@@ -73,11 +84,19 @@ public class MySQLDepartmentDAO extends DepartmentDAO {
     public boolean update(Department department) {
 
         String requete = "UPDATE department " +
-                "SET name_department = ?, " +
-                "abbreviation_department = ?, " +
-                "year_department = ?, " +
-                "available = ? " +
-                "WHERE id_department = ?";
+                "SET %s = ?, " +
+                "%s = ?, " +
+                "%s = ?, " +
+                "%s = ? " +
+                "WHERE %s = ?";
+
+        requete = String.format(requete,
+                DepartmentTable.NAME_DEPARTMENT,
+                DepartmentTable.ABBREVIATION_DEPARTMENT,
+                DepartmentTable.YEAR_DEPARTMENT,
+                DepartmentTable.AVAILABLE,
+                DepartmentTable.ID_DEPARTMENT
+        );
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(requete);

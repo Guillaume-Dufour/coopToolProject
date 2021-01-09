@@ -99,11 +99,6 @@ public class LoginController implements Initializable{
         ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
     }
 
-    /**
-     *
-     * @param event
-     */
-    //TODO : ask question to guigui
     private void onEnter(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)) {
             login();

@@ -4,18 +4,24 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.browsingHistoryManagement.DisplayHistoryController">
-   <children>
-       <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml" />
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cooptool.business.controllers.browsingHistoryManagement.DisplayHistoryController">
+    <top>
+        <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
        <TableView fx:id="historyTableView" layoutX="50.0" layoutY="200.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: WHITE;">
         <columns>
           <TableColumn fx:id="titlePostCol" maxWidth="700.0" prefWidth="600.0" text="Historique" />
           <TableColumn fx:id="deletePostCol" maxWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Supprimer" />
         </columns>
       </TableView>
-      <Button fx:id="deleteAllButton" layoutX="596.0" layoutY="138.0" mnemonicParsing="false" onAction="#deleteAll" text="Supprimer l'historique" />
-      <ChoiceBox fx:id="postTypes" layoutX="88.0" layoutY="138.0" prefWidth="150.0" />
-   </children>
-</AnchorPane>
+    </center>
+    <right>
+        <Button fx:id="deleteAllButton" layoutX="596.0" layoutY="138.0" mnemonicParsing="false" onAction="#deleteAll" text="Supprimer l'historique" />
+    </right>
+    <left>
+        <ChoiceBox fx:id="postTypes" layoutX="88.0" layoutY="138.0" prefWidth="150.0" />
+    </left>
+</BorderPane>

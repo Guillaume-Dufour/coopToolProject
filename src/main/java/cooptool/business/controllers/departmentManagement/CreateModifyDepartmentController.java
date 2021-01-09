@@ -36,8 +36,14 @@ public class CreateModifyDepartmentController implements Initializable {
     @FXML
     Text errorLabel;
 
+    /**
+     * Attribute to access to the department facade
+     */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
+    /**
+     * Department
+     */
     Department department;
 
     @Override
@@ -61,6 +67,10 @@ public class CreateModifyDepartmentController implements Initializable {
         }
     }
 
+    /**
+     * Create a department from the fields
+     * @param event Action
+     */
     public void createDepartment(ActionEvent event) {
 
         try {

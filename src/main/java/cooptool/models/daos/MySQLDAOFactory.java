@@ -2,6 +2,9 @@ package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.*;
 
+/**
+ * Factory that creates the MySQL DAOs
+ */
 public class MySQLDAOFactory extends AbstractDAOFactory {
 
     protected MySQLDAOFactory() {

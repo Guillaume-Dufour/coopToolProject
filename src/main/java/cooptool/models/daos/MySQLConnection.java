@@ -7,8 +7,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Singleton
- * Create the connection with the database
+ * MySQLConnection singleton <br>
+ * Connection with the database
  */
 public class MySQLConnection {
 
@@ -17,9 +17,8 @@ public class MySQLConnection {
 
         static {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
                 INSTANCE = DriverManager.getConnection(PropertiesResource.getDatabaseProperties().getProperty("JDBC_URL"));
-            } catch (ClassNotFoundException | SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -30,7 +29,8 @@ public class MySQLConnection {
     }
 
     /**
-     * @return Connection with the database
+     * Get the connection of the MySQLConnection
+     * @return The connection to the database
      */
     public static Connection getInstance() {
         return LazyHolder.INSTANCE;
