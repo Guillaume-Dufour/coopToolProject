@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -28,8 +29,6 @@ import java.util.ResourceBundle;
 public class QuickHelpPostDisplay implements Initializable {
 
     @FXML
-    Pane header_admin,header_student;
-    @FXML
     Button displayQHPButton, displayMyQHPButton, creationQHPButton, validateDepartmentButton;
     @FXML
     GridPane grid;
@@ -38,6 +37,8 @@ public class QuickHelpPostDisplay implements Initializable {
     @FXML
     ComboBox<Department> department;
 
+    private final QuickHelpPostFacade quickHelpPostFacade = QuickHelpPostFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
     private final UserFacade userFacade = UserFacade.getInstance();
     private final ViewLoader viewLoader = ViewLoader.getInstance();
     List<QuickHelpPost> partialQuickHelpPosts;
@@ -53,8 +54,7 @@ public class QuickHelpPostDisplay implements Initializable {
         // The user is a student
         else {
             disableAdminRights();
-            partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getQuickHelpPosts(null);
-            disableAdminRights();
+            partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
             createNavigationButtons();
             displayQuickHelpPosts(0);
         }
@@ -108,7 +108,7 @@ public class QuickHelpPostDisplay implements Initializable {
     }
 
     public void goToQHPDisplayPage() {
-        partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getQuickHelpPosts(null);
+        partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
         viewLoader.load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
@@ -117,7 +117,7 @@ public class QuickHelpPostDisplay implements Initializable {
     }
 
     public void goToMyQHPDisplayPage() {
-        partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getMyQuickHelpPosts();
+        partialQuickHelpPosts = postFacade.filterCurrentUserPosts(partialQuickHelpPosts);
         displayQuickHelpPosts(0);
     }
 
@@ -157,7 +157,7 @@ public class QuickHelpPostDisplay implements Initializable {
         clearNavigationButtons();
         String dep = department.getValue().getAbbreviation();
         int year = department.getValue().getYear();
-        partialQuickHelpPosts = QuickHelpPostFacade.getInstance().getQHPByAbbreviation(dep, year);
+        partialQuickHelpPosts = quickHelpPostFacade.getQHPByAbbreviation(dep, year);
         createNavigationButtons();
         displayQuickHelpPosts(0);
     }

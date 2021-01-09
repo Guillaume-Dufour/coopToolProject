@@ -35,16 +35,24 @@ public class SearchStudentController implements Initializable {
     ListView<User> studentListView;
 
     /**
-     * attribute to access to the DepartmentFacade method
+     * Attribute to access to the DepartmentFacade method
      */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
     /**
-     * attribute to access to the UserFacade method
+     * Attribute to access to the UserFacade method
      */
     UserFacade userFacade = UserFacade.getInstance();
 
+    /**
+     * Attribute to stock the selected department
+     */
     Department department;
 
+    /**
+     * Method called by the validateButton <br>
+     * If a department is chosen, we retrieve all the student of the department and we display them <br>
+     * You can click on a student to see his profile
+     */
     public void searchStudent() {
         department = listDepartments.getValue();
         if (department == null) {

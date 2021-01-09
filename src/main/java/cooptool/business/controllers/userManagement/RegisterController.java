@@ -34,20 +34,28 @@ public class RegisterController implements Initializable {
     ComboBox<Department> listDepartments;
 
     /**
-     * attribute to access to the UserFacade method
+     * Attribute to access to the UserFacade method
      */
     UserFacade userFacade = UserFacade.getInstance();
     /**
-     * attribute to access to the DepartmentFacade method
+     * Attribute to access to the DepartmentFacade method
      */
     DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
+    /**
+     * Switch to the login view
+     */
     public void goToLoginPage() {
         ViewLoader.getInstance().load(ViewPath.LOGIN);
     }
 
-    public void register(ActionEvent event) {
-        System.out.println(event);
+    /**
+     * Method called by the buttonRegister <br>
+     * Register a user with the provided information <br>
+     * Send an email with a validation code <br>
+     * Load the login view
+     */
+    public void register() {
         buttonRegister.setDisable(true);
         String firstName = inputFirstName.getText();
         String lastName = inputLastName.getText();

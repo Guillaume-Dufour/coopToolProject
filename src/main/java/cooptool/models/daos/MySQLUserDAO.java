@@ -149,7 +149,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateValidation(int id){
         String statement =
-                "UPDATE `user` " +
+                "UPDATE `user " +
                         "SET validate = 1 " +
                         "WHERE id_user = ?";
         PreparedStatement preparedStatement = null;

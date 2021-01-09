@@ -35,7 +35,13 @@ public class LoginController implements Initializable{
     @FXML
     Button newPasswordButton;
 
+    /**
+     * Attribute to access to the UserFacade methods
+     */
     UserFacade userFacade = UserFacade.getInstance();
+    /**
+     * Attribute to access to the notificationFacade methods
+     */
     NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
@@ -85,10 +91,19 @@ public class LoginController implements Initializable{
         inputPassword.setOnKeyPressed(this::onEnter);
     }
 
+    /**
+     * Method called by the newPasswordButton
+     * Switch to the forgot password view
+     */
     public void handleNewPassword() {
         ViewLoader.getInstance().load(ViewPath.FORGOT_PASSWORD);
     }
 
+    /**
+     *
+     * @param event
+     */
+    //TODO : ask question to guigui
     private void onEnter(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)) {
             login();

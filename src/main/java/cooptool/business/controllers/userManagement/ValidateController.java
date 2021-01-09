@@ -23,11 +23,16 @@ public class ValidateController {
     Button cancelVerification;
 
     /**
-     * attribute to access to the UserFacade method
+     * Attribute to access to the UserFacade method
      */
     UserFacade userFacade = UserFacade.getInstance();
 
-    public void handleValidationCode(ActionEvent event) {
+    /**
+     * Method called by the validateButton <br>
+     * Check if the provided code corresponds to the user's validation code <br>
+     * If it's ok, switch to the home view
+     */
+    public void handleValidationCode() {
         validateButton.setDisable(true);
         int testedCode = 0;
         try {
@@ -46,7 +51,11 @@ public class ValidateController {
         }
     }
 
-    public void cancelVerification(ActionEvent event) {
+    /**
+     * Method called by the cancelVerificationButton
+     * Switch to the login view
+     */
+    public void cancelVerification() {
         userFacade.disconnect();
         ViewLoader.getInstance().load(ViewPath.LOGIN);
     }

@@ -6,6 +6,7 @@ import cooptool.models.objects.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MentoringDemandFacade {
@@ -55,6 +56,16 @@ public class MentoringDemandFacade {
         else{
             return mentoringDemandDAO.getPartialMentoringDemands();
         }
+    }
+
+    public List<MentoringDemand> filterDemands(List<MentoringDemand> mentoringDemands,Subject subject){
+        List<MentoringDemand> filteredDemands = new LinkedList<>();
+        for(MentoringDemand mentoringDemand : mentoringDemands){
+            if(mentoringDemand.getSubject().getId() == subject.getId()){
+                filteredDemands.add(mentoringDemand);
+            }
+        }
+        return filteredDemands;
     }
 
     public Participation getCurrentUserParticipation(MentoringDemand demand){

@@ -22,10 +22,6 @@ import java.util.ResourceBundle;
 
 public class QuickHelpPostCreator implements Initializable {
 
-    User user = UserFacade.getInstance().getCurrentUser();
-    StudentRole student = (StudentRole) user.getRole();
-    QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
-
     @FXML
     ComboBox<Subject> subject;
     @FXML
@@ -35,6 +31,21 @@ public class QuickHelpPostCreator implements Initializable {
     @FXML
     Label errorLabel;
 
+    /**
+     * Attribute to access to the current user's methods
+     */
+    private User user = UserFacade.getInstance().getCurrentUser();
+    /**
+     * Attribute to get the student role's methods
+     */
+    private StudentRole student = (StudentRole) user.getRole();
+    /**
+     * Attribute to access to the QuickHelpPostFacade methods
+     */
+    private QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+    /**
+     * Attribute to get the lists of subjects of the current user's department
+     */
     private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
 
     @Override
@@ -42,9 +53,16 @@ public class QuickHelpPostCreator implements Initializable {
         initializeSubjectBox();
     }
 
+    /**
+     * Method called by creationButton <br>
+     * Verify if the subject and/or the description is empty and if not, create the quickHelpPost then reload the view
+     */
     public void create(ActionEvent actionEvent) {
         if(subject.getValue() == null) {
             errorLabel.setText("Veuillez choisir une matière.");
+        }
+        else if(description.getText() == "") {
+            errorLabel.setText("Veuillez écrire une description.");
         }
         else {
             QuickHelpPostFacade.getInstance().create(description.getText(), subject.getValue(), user);
@@ -52,6 +70,10 @@ public class QuickHelpPostCreator implements Initializable {
         }
     }
 
+    /**
+     * Method called by initialize method <br>
+     * Display a box which contains the list of subjects (attribute)
+     */
     private void initializeSubjectBox(){
         subject.setItems(FXCollections.observableList(subjects));
         subject.setConverter(new StringConverter<>() {
@@ -69,6 +91,10 @@ public class QuickHelpPostCreator implements Initializable {
         });
     }
 
+    /**
+     * Method called by cancelButton <br>
+     * Cancel the creation action and come back to the home page of quick help posts
+     */
     public void cancelCreation() {
         ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }

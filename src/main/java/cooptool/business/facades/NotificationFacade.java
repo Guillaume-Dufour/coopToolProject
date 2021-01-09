@@ -47,7 +47,7 @@ public class NotificationFacade {
 
     public void searchNotifications(User user) {
         timer = new Timer();
-        timer.schedule(getNotificationsByUser(user), 0, 5 * 1000);
+        timer.schedule(getNotificationsByUser(user), 0, 30 * 1000);
     }
 
     public void stopTimer() {

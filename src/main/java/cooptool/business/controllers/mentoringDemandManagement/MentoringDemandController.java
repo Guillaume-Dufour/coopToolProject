@@ -4,6 +4,7 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.PostFacade;
+import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
 import cooptool.exceptions.TooMuchSchedules;
@@ -57,9 +58,6 @@ public class MentoringDemandController implements Initializable {
         try {
             int idDemand = (int) resources.getObject("1");
             demand = mentoringDemandFacade.getMentoringDemand(idDemand);
-
-            System.out.println(demand);
-
             setDescription();
             setCreatorInfos();
             setSubjectInfos();
@@ -376,10 +374,15 @@ public class MentoringDemandController implements Initializable {
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
             gridPane.add(new Text(comment.getContent()),0,counter);
             gridPane.add(new Label(studentRole.getStudentRepresentation()),1,counter);
-            Button deletionButton = new Button("Delete");
-            deletionButton.setStyle("-fx-background-color: #F14521");
-            deletionButton.setOnAction(event -> postFacade.deleteComment(comment));
-            gridPane.add(deletionButton,2,counter);
+            if(comment.getCreator().getId() == userFacade.getCurrentUser().getId()){
+                Button deletionButton = new Button("Delete");
+                deletionButton.setStyle("-fx-background-color: #F14521");
+                deletionButton.setOnAction(event -> {
+                    postFacade.deleteComment(comment);
+                    refresh();
+                });
+                gridPane.add(deletionButton,2,counter);
+            }
             counter++;
         }
     }
