@@ -56,6 +56,7 @@ public class QuickHelpPostCreator implements Initializable {
     /**
      * Method called by creationButton <br>
      * Verify if the subject and/or the description is empty and if not, create the quickHelpPost then reload the view
+     * @param actionEvent
      */
     public void create(ActionEvent actionEvent) {
         if(subject.getValue() == null) {

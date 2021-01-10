@@ -18,7 +18,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -36,7 +35,7 @@ public class QuickHelpPostController implements Initializable {
     @FXML
     TextArea commentArea;
     @FXML
-    Label creatorLabel,subjectLabel,creationDateLabel, errorLabel;
+    Label creatorLabel,subjectLabel,creationDateLabel;
     @FXML
     Button deleteButton, updateDescriptionButton, comeBackButton, commentButton;
 
@@ -166,7 +165,9 @@ public class QuickHelpPostController implements Initializable {
     /**
      * Method called by deleteComButton <br>
      * Delete the comment and reload the view
+     * @param comment the comment we want delete
      */
+
     private void deleteComment(Comment comment) {
         postFacade.deleteComment(comment);
         refresh();
