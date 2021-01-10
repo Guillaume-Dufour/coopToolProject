@@ -51,8 +51,9 @@ public class ViewLoader extends Parent {
 
         try {
             root = loader.load();
-            double height = stage.getHeight();
-            double width = stage.getWidth();
+            double height = stage.getScene() != null ? stage.getScene().getHeight() : Double.NaN;
+            double width = stage.getScene() != null ? stage.getScene().getWidth() : Double.NaN;
+
             Scene scene = new Scene(root, width, height);
             stage.setScene(scene);
 
