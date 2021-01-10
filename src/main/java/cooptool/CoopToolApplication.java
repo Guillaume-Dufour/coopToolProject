@@ -8,12 +8,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- * Main of Coop'Tool Application
+ * CoopTool Application launcher
  */
 public class CoopToolApplication extends Application {
 
     /**
-     *
+     * Main of the application
      * @param args Parameters of the application
      */
     public static void main(String[] args) {

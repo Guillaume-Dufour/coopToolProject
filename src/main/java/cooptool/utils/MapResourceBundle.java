@@ -2,10 +2,17 @@ package cooptool.utils;
 
 import java.util.*;
 
+/**
+ * MapResourceBundle class
+ */
 public class MapResourceBundle extends ResourceBundle {
 
     private final Map<String, Object> map;
 
+    /**
+     *
+     * @param objects
+     */
     public MapResourceBundle(Object[] objects) {
 
         map = new HashMap<>();
@@ -14,8 +21,6 @@ public class MapResourceBundle extends ResourceBundle {
             map.put(String.valueOf(i+1), objects[i]);
         }
     }
-
-
 
     @Override
     protected Object handleGetObject(String key) {

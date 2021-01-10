@@ -1,5 +1,9 @@
 package cooptool.business;
 
+/**
+ * ViewPath class <br>
+ * Paths to the view files
+ */
 public enum ViewPath {
 
     LOGIN("views/login.fxml"),
@@ -24,13 +28,20 @@ public enum ViewPath {
     HISTORY_DISPLAY("views/browsingHistory/display_history.fxml"),
     NOTIFICATIONS("views/notifications.fxml");
 
-
     private final String path;
 
+    /**
+     * Create a ViewPath from his path
+     * @param path Path to the view file
+     */
     ViewPath(String path){
         this.path = path;
     }
 
+    /**
+     * Return the path of the view file
+     * @return View file name
+     */
     public String getPath(){
         return path;
     }

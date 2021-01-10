@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
-    Connection connection = MySQLConnection.getInstance();
+    private final Connection connection = MySQLConnection.getInstance();
 
     protected MySQLQuickHelpPostDAO() {
         super();
@@ -21,22 +21,26 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
     @Override
     public boolean create(QuickHelpPost quickHelpPost) {
-        String statement =
-                "INSERT INTO post (description_post,date_post,type_post,id_user_creator,id_subject) " +
-                        "VALUES (?,?,?,?,?)";
-        PreparedStatement insertPostStatement;
+        String query =
+                "INSERT INTO post (description_post, date_post, type_post, id_user_creator, id_subject) " +
+                        "VALUES (?, ?, ?, ?, ?)";
+
         try{
-            insertPostStatement = connection.prepareStatement(statement);
+            PreparedStatement insertPostStatement = connection.prepareStatement(query);
+
             insertPostStatement.setString(1, quickHelpPost.getDescription());
             insertPostStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             insertPostStatement.setInt(3, PostDAO.QUICK_HELP_POST);
             insertPostStatement.setInt(4, quickHelpPost.getCreator().getId());
             insertPostStatement.setInt(5, quickHelpPost.getSubject().getId());
+
             insertPostStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+
         return true;
     }
 
@@ -121,8 +125,6 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             preparedStatement.setString(2,department.getAbbreviation());
             ResultSet res = preparedStatement.executeQuery();
 
-            int previousIdPost = -1;
-
             while(res.next()) {
                 partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
             }
@@ -156,11 +158,6 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
             e.printStackTrace();
         }
         return partialQHP;
-    }
-
-    @Override
-    public List<QuickHelpPost> getPartialQHP() {
-        return null;
     }
 
     @Override

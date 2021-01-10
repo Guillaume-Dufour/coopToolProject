@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class MySQLSubjectDAO extends SubjectDAO {
 
-    Connection connection = MySQLConnection.getInstance();
+    private final Connection connection = MySQLConnection.getInstance();
 
     protected MySQLSubjectDAO() {
         super();
@@ -21,14 +21,16 @@ public class MySQLSubjectDAO extends SubjectDAO {
     @Override
     public boolean create(Subject subject) {
 
-        String requete = "INSERT INTO subject (name_subject, id_department) " +
+        String query = "INSERT INTO subject (%s, %s) " +
                 "VALUES (?, ?);";
 
-        String sql = "INSERT INTO subject (%s, %s) VALUES(?, ?)";
-        sql = String.format(sql, SubjectTable.NAME_SUBJECT, SubjectTable.ID_DEPARTMENT);
+        query = String.format(query,
+                SubjectTable.NAME_SUBJECT,
+                SubjectTable.ID_DEPARTMENT
+        );
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setString(1, subject.getName());
             preparedStatement.setInt(2, subject.getDepartment().getId());
@@ -46,14 +48,14 @@ public class MySQLSubjectDAO extends SubjectDAO {
     @Override
     public boolean update(Subject subject) {
 
-        String requete = "UPDATE subject " +
+        String query = "UPDATE subject " +
                 "SET name_subject = ?, " +
                 "available = ? ," +
                 "id_department = ? " +
                 "WHERE id_subject = ?";
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(requete);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             preparedStatement.setString(1, subject.getName());
             preparedStatement.setInt(2, subject.getAvailable());
@@ -61,6 +63,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
             preparedStatement.setInt(4, subject.getId());
 
             preparedStatement.executeUpdate();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;
@@ -86,9 +89,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
             ResultSet result = preparedStatement.executeQuery();
 
             while (result.next()) {
-
                 Subject subject = MySQLFactoryObject.createSubject(result);
-
                 subjects.add(subject);
             }
 
@@ -112,7 +113,9 @@ public class MySQLSubjectDAO extends SubjectDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, abbreviation);
+
             ResultSet result = preparedStatement.executeQuery();
+
             while (result.next()) {
                 Subject subject = MySQLFactoryObject.createSubject(result);
                 subjects.add(subject);
@@ -126,13 +129,18 @@ public class MySQLSubjectDAO extends SubjectDAO {
 
     @Override
     public List<Subject> getAllSubjects() {
+
         List<Subject> subjects = new ArrayList<>();
-        String query =
-                "SELECT * FROM subject NATURAL JOIN department";
+
+        String query = "SELECT * " +
+                "FROM subject s " +
+                "JOIN department d on d.id_department = s.id_department";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
+
             ResultSet result = preparedStatement.executeQuery();
+
             while (result.next()) {
                 Subject subject = MySQLFactoryObject.createSubject(result);
                 subjects.add(subject);
@@ -141,6 +149,7 @@ public class MySQLSubjectDAO extends SubjectDAO {
         catch (SQLException e) {
             e.printStackTrace();
         }
+
         return subjects;
     }
 

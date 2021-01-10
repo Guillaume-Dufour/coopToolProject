@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class ViewLoader extends Parent {
@@ -15,7 +16,7 @@ public class ViewLoader extends Parent {
 
     private Stage stage;
 
-    private final LinkedList<ViewPath> previousView = new LinkedList<>();
+    private final Deque<ViewPath> previousView = new LinkedList<>();
 
     private ViewLoader() {
 

@@ -1,6 +1,8 @@
 package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.NotificationDAO;
+import cooptool.models.enumDatabase.NotificationTable;
+import cooptool.models.enumDatabase.UserTable;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.User;
 import cooptool.utils.TimeUtils;
@@ -23,10 +25,17 @@ public class MySQLNotificationDAO extends NotificationDAO {
 
         List<Notification> notifications = new ArrayList<>();
 
+        String requete = "SELECT * " +
+                "FROM notification n " +
+                "JOIN user u on n.%s = u.%s AND u.%s = ?;";
+
+        requete = String.format(requete,
+                NotificationTable.ID_USER,
+                UserTable.ID_USER,
+                UserTable.ID_USER
+        );
+
         try {
-            String requete = "SELECT * " +
-                    "FROM notification n " +
-                    "JOIN user u on n.id_user = u.id_user AND u.id_user = ?;";
 
             PreparedStatement preparedStatement = connection.prepareStatement(requete);
             preparedStatement.setInt(1, user.getId());
@@ -66,31 +75,6 @@ public class MySQLNotificationDAO extends NotificationDAO {
         }
 
         return true;
-    }
-
-    @Override
-    public int getNbUnreadNotifications(User user) {
-
-        String requete = "SELECT COUNT(*) as nb " +
-                "FROM notification " +
-                "WHERE id_user = ? AND is_read = 0;";
-
-        int nbNotifications = 0;
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(requete);
-            preparedStatement.setInt(1, user.getId());
-            ResultSet rs = preparedStatement.executeQuery();
-
-            if (rs.next()) {
-                nbNotifications = rs.getInt("nb");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
-        }
-
-        return nbNotifications;
     }
 
     @Override

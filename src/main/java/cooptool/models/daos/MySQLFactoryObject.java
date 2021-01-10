@@ -10,8 +10,17 @@ import java.util.ArrayList;
 
 public abstract class MySQLFactoryObject {
 
+    /**
+     * User table constants
+     */
     public static final int ADMIN_ROLE = 0;
     public static final int STUDENT_ROLE = 1;
+
+    /**
+     * Post table constants
+     */
+    public static final int MENTORING_DEMAND = 0;
+    public static final int QUICK_HELP_POST = 1;
 
     public static User createUser(ResultSet rs) {
 
@@ -106,6 +115,29 @@ public abstract class MySQLFactoryObject {
     public static Schedule createSchedule(ResultSet rs) {
         return new Schedule(
                 getValue(rs, ScheduleTable.DATE_POST_SESSION, LocalDateTime.class),
+                createUser(rs)
+        );
+    }
+
+    public static Post createPost(ResultSet rs) {
+
+        int type = getValue(rs, PostTable.TYPE_POST);
+
+        switch (type) {
+            case MENTORING_DEMAND:
+                return createMentoringDemand(rs);
+            case QUICK_HELP_POST:
+                return createQuickHelpPost(rs);
+            default:
+                return null;
+        }
+    }
+
+    public static Comment createComment(ResultSet rs) {
+        return new Comment(
+                getValue(rs, CommentTable.ID_COMMENT),
+                getValue(rs, CommentTable.CONTENT_COMMENT, String.class),
+                getValue(rs, CommentTable.DATE_COMMENT, LocalDateTime.class),
                 createUser(rs)
         );
     }

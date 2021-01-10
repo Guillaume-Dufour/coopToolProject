@@ -9,12 +9,12 @@ import java.util.List;
 
 public abstract class QuickHelpPostDAO {
 
-    private static class LazyHolder {
-        static final QuickHelpPostDAO INSTANCE = AbstractDAOFactory.getInstance().getQuickHelpPostDAO();
-    }
+    public static final QuickHelpPostDAO INSTANCE = AbstractDAOFactory.getInstance().getQuickHelpPostDAO();
+
+    protected QuickHelpPostDAO() {}
 
     public static QuickHelpPostDAO getInstance() {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     public abstract boolean create(QuickHelpPost quickHelpPost);
@@ -26,8 +26,6 @@ public abstract class QuickHelpPostDAO {
     public abstract List<QuickHelpPost> getPartialQHP(Department department);
 
     public abstract List<QuickHelpPost> getMyQHP(User user, Department department);
-
-    public abstract List<QuickHelpPost> getPartialQHP();
 
     public abstract List<QuickHelpPost> getQHPByAbbreviation(String abbreviation, int year);
 

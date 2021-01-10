@@ -11,6 +11,13 @@ public class Comment {
     private LocalDateTime creationDate;
     private User creator;
 
+    public Comment(int id, String content, LocalDateTime creationDate, User creator){
+        this.id = id;
+        this.content = content;
+        this.creationDate = creationDate;
+        this.creator = creator;
+    }
+
     /**
      * Returns the comment id
      * @return int id
@@ -41,12 +48,5 @@ public class Comment {
      */
     public User getCreator() {
         return creator;
-    }
-
-    public Comment(int id, String content, LocalDateTime creationDate, User creator){
-        this.id = id;
-        this.content = content;
-        this.creationDate = creationDate;
-        this.creator = creator;
     }
 }

@@ -12,15 +12,14 @@ public abstract class PostDAO {
     public static final int MENTORING_DEMAND = 0;
     public static final int QUICK_HELP_POST = 1;
 
-    private static class LazyHolder {
-        static final PostDAO INSTANCE = AbstractDAOFactory.getInstance().getPostDAO();
-    }
+    public static final PostDAO INSTANCE = AbstractDAOFactory.getInstance().getPostDAO();
+
+    protected PostDAO() {}
 
     public static PostDAO getInstance() {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
     public abstract List<Post> findPostByUser (User user);
-    public abstract Post findPostById (int id);
     public abstract boolean deleteOneFromBrowsingHistory (User user, Post post);
     public abstract boolean deleteAllFromBrowsingHistory (User user);
     public abstract void comment(Comment comment, Post post);

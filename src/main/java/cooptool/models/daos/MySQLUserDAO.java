@@ -69,11 +69,6 @@ public class MySQLUserDAO extends UserDAO {
             e.printStackTrace();
         }
         return listUser;
-    };
-
-    @Override
-    public User find(int id) {
-        return null;
     }
 
     @Override
@@ -149,7 +144,7 @@ public class MySQLUserDAO extends UserDAO {
     @Override
     public boolean updateValidation(int id){
         String statement =
-                "UPDATE `user " +
+                "UPDATE user " +
                         "SET validate = 1 " +
                         "WHERE id_user = ?";
         PreparedStatement preparedStatement = null;

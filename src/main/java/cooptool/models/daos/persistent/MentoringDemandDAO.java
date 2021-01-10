@@ -5,14 +5,21 @@ import cooptool.models.objects.*;
 
 import java.util.List;
 
+/**
+ * MentoringDemandDAO class
+ */
 public abstract class MentoringDemandDAO {
 
-    private static class LazyHolder {
-        static final MentoringDemandDAO INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
-    }
+    private static final MentoringDemandDAO INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
 
+    protected MentoringDemandDAO() {}
+
+    /**
+     * Get the MentoringDemandDAO instance
+     * @return MentoringDemandDAO instance
+     */
     public static MentoringDemandDAO getInstance() {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     /**

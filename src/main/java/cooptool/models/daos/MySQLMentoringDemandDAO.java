@@ -28,7 +28,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 "INSERT INTO participation (id_user,id_post,date_post_session,role_user) " +
                     "VALUES (?,?,?,?)";
         String query3 =
-                "INSERT INTO schedule (id_post,date_post_session,creator_id) " +
+                "INSERT INTO schedule (id_post,date_post_session,id_creator) " +
                         "VALUES (?,?,?)";
 
         PreparedStatement insertPostStatement;
@@ -118,7 +118,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                         "NATURAL JOIN subject " +
                         "LEFT JOIN schedule on post.id_post = schedule.id_post " +
                         "JOIN user creator ON post.id_user_creator = creator.id_user " +
-                        "LEFT JOIN user scheduleCreator ON schedule.creator_id = scheduleCreator.id_user " +
+                        "LEFT JOIN user scheduleCreator ON schedule.id_creator = scheduleCreator.id_user " +
                         "JOIN department ON creator.id_department = department.id_department "+
                         "WHERE post.id_post = ? AND type_post = 0 ORDER BY date_post";
 
@@ -264,7 +264,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public void addSchedule(MentoringDemand demand, Schedule schedule) {
         String query =
-                "INSERT INTO schedule (id_post,date_post_session,creator_id) " +
+                "INSERT INTO schedule (id_post,date_post_session,id_creator) " +
                 "VALUES (?,?,?)";
         try {
             PreparedStatement insertStatement = connection.prepareStatement(query);
@@ -280,7 +280,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public void removeSchedule(MentoringDemand demand, Schedule schedule) {
         String query =
-                "DELETE FROM schedule WHERE id_post = ? AND creator_id = ? AND date_post_session = ?";
+                "DELETE FROM schedule WHERE id_post = ? AND id_creator = ? AND date_post_session = ?";
         try {
             connection.setAutoCommit(false);
             PreparedStatement deletionStatement = connection.prepareStatement(query);

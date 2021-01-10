@@ -8,12 +8,10 @@ import java.util.List;
 
 public abstract class SubjectDAO {
 
-    private static class LazyHolder {
-        static final SubjectDAO INSTANCE = AbstractDAOFactory.getInstance().getSubjectDAO();
-    }
+    private static final SubjectDAO INSTANCE = AbstractDAOFactory.getInstance().getSubjectDAO();
 
     public static SubjectDAO getInstance() {
-        return LazyHolder.INSTANCE;
+        return INSTANCE;
     }
 
     public abstract boolean create(Subject subject);

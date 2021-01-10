@@ -1,6 +1,7 @@
 package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.PostDAO;
+import cooptool.models.enumDatabase.BrowsingHistoryTable;
 import cooptool.models.objects.*;
 
 import java.sql.*;
@@ -18,41 +19,23 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public List<Post> findPostByUser(User user) {
+
         String query = "SELECT * " +
                 "FROM browsing_history b, post p, subject s " +
                 "WHERE b.id_post = p.id_post " +
                 "AND s.id_subject = p.id_subject " +
                 "AND b.id_user = ?;";
+
         List<Post> result = new ArrayList<>();
-        PreparedStatement preparedStatement;
+
         try {
-            preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
+
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int typePost = resultSet.getInt("type_post");
-                Post post;
-                Subject subject = new Subject(
-                        resultSet.getInt("id_subject"),
-                        resultSet.getString("name_subject"),
-                        resultSet.getInt("available"),
-                        null
-                );
-                if (typePost == MENTORING_DEMAND) {
-                    post = new MentoringDemand(
-                            resultSet.getInt("id_post"),
-                            subject,
-                            resultSet.getString("description_post"),
-                            resultSet.getTimestamp("date_post").toLocalDateTime());
-                } else {
-                    post = new QuickHelpPost(
-                            resultSet.getInt("id_post"),
-                            subject,
-                            resultSet.getString("description_post"),
-                            resultSet.getTimestamp("date_post").toLocalDateTime()
-                    );
-                }
-                result.add(post);
+
+            while (resultSet.next()) {
+                result.add(MySQLFactoryObject.createPost(resultSet));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -61,20 +44,21 @@ public class MySQLPostDAO extends PostDAO {
         return result;
     }
 
-        @Override
-    public Post findPostById(int id) {
-        return null;
-    }
-
     @Override
     public boolean deleteOneFromBrowsingHistory(User user, Post post) {
-        String query =
-                "DELETE FROM browsing_history WHERE id_user = ? AND id_post = ?;";
-        PreparedStatement preparedStatement = null;
+
+        String query = "DELETE FROM browsing_history WHERE %s = ? AND %s = ?;";
+
+        query = String.format(query,
+                BrowsingHistoryTable.ID_USER,
+                BrowsingHistoryTable.ID_POST
+        );
+
         try {
-            preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.setInt(2, post.getId());
+
             preparedStatement.executeUpdate();
 
         } catch (SQLException throwables) {
@@ -87,12 +71,16 @@ public class MySQLPostDAO extends PostDAO {
 
     @Override
     public boolean deleteAllFromBrowsingHistory(User user) {
-        String query =
-                "DELETE FROM browsing_history WHERE id_user = ?;";
+        String query = "DELETE FROM browsing_history WHERE %s = ?;";
+
+        query = String.format(query,
+                BrowsingHistoryTable.ID_USER
+        );
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, user.getId());
+
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -149,6 +137,8 @@ public class MySQLPostDAO extends PostDAO {
                 User creator =
                         new User(idCreator,null,null, roleCreator,-1);
                 post.addComment(new Comment(idComment,content,creationDate,creator));
+
+                //TODO: createComment
             }
         } catch (SQLException e) {
             e.printStackTrace();

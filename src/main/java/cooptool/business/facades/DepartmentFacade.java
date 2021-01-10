@@ -8,7 +8,6 @@ import java.util.List;
 
 public class DepartmentFacade {
 
-
     private static final DepartmentFacade INSTANCE;
     private final DepartmentDAO departmentDAO = DepartmentDAO.getInstance();
     private final List<Department> availablesDepartments = departmentDAO.getAvailableDepartments();
