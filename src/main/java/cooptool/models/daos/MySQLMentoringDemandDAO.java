@@ -210,6 +210,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 insertStatement.executeUpdate();
             }
             connection.commit();
+            connection.setAutoCommit(true);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -282,15 +283,15 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         String query =
                 "DELETE FROM schedule WHERE id_post = ? AND id_creator = ? AND date_post_session = ?";
         try {
-            connection.setAutoCommit(false);
+            removeParticipation(demand,schedule);
+            System.out.println(demand.getId());
+            System.out.println(schedule.getCreator().getId());
+            System.out.println(Timestamp.valueOf(schedule.getDateTime()));
             PreparedStatement deletionStatement = connection.prepareStatement(query);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,schedule.getCreator().getId());
             deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
-            removeParticipation(demand,schedule);
-            connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
