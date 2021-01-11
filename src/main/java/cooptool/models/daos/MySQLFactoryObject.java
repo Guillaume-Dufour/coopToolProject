@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+/**
+ * MySQLFactoryObject class
+ */
 public abstract class MySQLFactoryObject {
 
     /**
@@ -22,6 +25,11 @@ public abstract class MySQLFactoryObject {
     public static final int MENTORING_DEMAND = 0;
     public static final int QUICK_HELP_POST = 1;
 
+    /**
+     * Create a user from the resultSet fields
+     * @param rs Query ResultSet
+     * @return User created from the ResultSet
+     */
     public static User createUser(ResultSet rs) {
 
         int typeUser = getValue(rs, UserTable.TYPE_USER);
@@ -52,6 +60,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a subject from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Subject created from the ResultSet
+     */
     public static Subject createSubject(ResultSet rs) {
         return new Subject(
                 getValue(rs, SubjectTable.ID_SUBJECT),
@@ -61,6 +74,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a department from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Department created from the ResultSet
+     */
     public static Department createDepartment(ResultSet rs) {
         return new Department(
                 getValue(rs, DepartmentTable.ID_DEPARTMENT),
@@ -71,6 +89,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a mentoring demand from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Mentoring demand created from the ResultSet
+     */
     public static MentoringDemand createMentoringDemand(ResultSet rs) {
         return new MentoringDemand(
                 getValue(rs, PostTable.ID_POST),
@@ -82,6 +105,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a notification from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Notification created from the ResultSet
+     */
     public static Notification createNotification(ResultSet rs) {
         return new Notification(
                 getValue(rs, NotificationTable.ID_NOTIFICATION),
@@ -94,6 +122,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a quick help post from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Quick help post created from the ResultSet
+     */
     public static QuickHelpPost createQuickHelpPost(ResultSet rs) {
         return new QuickHelpPost(
                 getValue(rs, PostTable.ID_POST),
@@ -104,6 +137,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a participation from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Participation created from the ResultSet
+     */
     public static Participation createParticipation(ResultSet rs) {
         return new Participation(
                 createUser(rs),
@@ -112,6 +150,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a schedule from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Schedule created from the ResultSet
+     */
     public static Schedule createSchedule(ResultSet rs) {
         return new Schedule(
                 getValue(rs, ScheduleTable.DATE_POST_SESSION, LocalDateTime.class),
@@ -119,6 +162,11 @@ public abstract class MySQLFactoryObject {
         );
     }
 
+    /**
+     * Create a post from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Post created from the ResultSet
+     */
     public static Post createPost(ResultSet rs) {
 
         int type = getValue(rs, PostTable.TYPE_POST);
@@ -133,6 +181,11 @@ public abstract class MySQLFactoryObject {
         }
     }
 
+    /**
+     * Create a comment from the resultSet fields
+     * @param rs Query ResultSet
+     * @return Comment created from the ResultSet
+     */
     public static Comment createComment(ResultSet rs) {
         return new Comment(
                 getValue(rs, CommentTable.ID_COMMENT),

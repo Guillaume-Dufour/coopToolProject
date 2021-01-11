@@ -1,9 +1,10 @@
 package cooptool.models.objects;
 
-import cooptool.utils.BCrypt;
-
 import java.util.Objects;
 
+/**
+ * User class
+ */
 public class User {
 
     /**
@@ -81,15 +82,6 @@ public class User {
         return validate;
     }
 
-    /**
-     * check if the provided password correspond to the user password
-     * @param password
-     * @return True if the provided password correspond to the user password, False otherwise
-     */
-    public boolean checkPassword(String password) {
-        return BCrypt.checkpw(password, this.password);
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -102,7 +94,7 @@ public class User {
 
     /**
      * set a new id to the user
-     * @param id
+     * @param id ID to set
      */
     public void setId(int id) {
         this.id = id;
@@ -110,7 +102,7 @@ public class User {
 
     /**
      * set a new mail to the user
-     * @param mail
+     * @param mail New user mail
      */
     public void setMail(String mail) {
         this.mail = mail;
@@ -118,18 +110,10 @@ public class User {
 
     /**
      * set a new password to the user
-     * @param password
+     * @param password New user password
      */
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    /**
-     * set a new role to the user
-     * @param role
-     */
-    public void setRole(UserRole role) {
-        this.role = role;
     }
 
     @Override

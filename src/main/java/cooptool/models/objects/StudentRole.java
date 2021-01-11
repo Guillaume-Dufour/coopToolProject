@@ -1,5 +1,8 @@
 package cooptool.models.objects;
 
+/**
+ * StudentRole class
+ */
 public class StudentRole extends UserRole {
 
     /**

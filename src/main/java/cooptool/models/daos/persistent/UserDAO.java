@@ -11,6 +11,9 @@ import java.util.List;
  */
 public abstract class UserDAO {
 
+    /**
+     * Instance of UserDAO
+     */
     public static final UserDAO INSTANCE = AbstractDAOFactory.getInstance().getUserDAO();
 
     protected UserDAO() {}

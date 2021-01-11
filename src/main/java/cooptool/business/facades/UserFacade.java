@@ -48,10 +48,12 @@ public class UserFacade {
      */
     private String patternMdp = "abcdefghijklmnopqrstuvwxyz1234567890";
 
-    private UserFacade() {}
+    private UserFacade() {
+    }
 
     /**
      * Get the UserFacade instance
+     *
      * @return UserFacade instance
      */
     public static UserFacade getInstance() {
@@ -61,17 +63,18 @@ public class UserFacade {
     /**
      * Function used to login an user using his credentials <br>
      * It asks the database his information and then creates and set the current user
-     * @param mail Mail of the user who wants to logged in
+     *
+     * @param mail     Mail of the user who wants to logged in
      * @param password Password entered
-     * @throws MailNotFound : if there is no match
+     * @throws MailNotFound      : if there is no match
      * @throws UnmatchedPassword : if the password does not corresponds to the mail
      */
     public void login(String mail, String password) throws MailNotFound, UnmatchedPassword {
         User user = userDAO.findUserByMail(mail);
-        if(user == null) {
+        if (user == null) {
             throw new MailNotFound();
         }
-        if(!user.checkPassword(password)){
+        if (!checkPassword(user, password)) {
             throw new UnmatchedPassword();
         }
         currentUser = user;
@@ -80,27 +83,36 @@ public class UserFacade {
     /**
      * Function used to register an user using the provided information <br>
      * It verifies the format of the information and then creates and save a new user
-     * @param firstName First name of the user
-     * @param lastName Last name of the user
-     * @param mail Mail of the user
-     * @param department Department of the user
-     * @param password Password of the user
+     *
+     * @param firstName         First name of the user
+     * @param lastName          Last name of the user
+     * @param mail              Mail of the user
+     * @param department        Department of the user
+     * @param password          Password of the user
      * @param confirmedPassword Confirmed password of the user
-     * @throws MailAlreadyExists : if the mail is already in the database
-     * @throws MailNotConformed : if the mail is not conformed with a university mail
+     * @throws MailAlreadyExists    : if the mail is already in the database
+     * @throws MailNotConformed     : if the mail is not conformed with a university mail
      * @throws PasswordNotConformed : if the password is not conformed
-     * @throws UnmatchedPassword : if the password doesn't match with de confirmedPassword
+     * @throws UnmatchedPassword    : if the password doesn't match with de confirmedPassword
      */
     public void register(String firstName, String lastName, String mail,
                          Department department, String password, String confirmedPassword)
-    throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword {
+            throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword {
 
-        if (!password.equals(confirmedPassword)){ throw new UnmatchedPassword(); }
+        if (!password.equals(confirmedPassword)) {
+            throw new UnmatchedPassword();
+        }
         matcher = pattern.matcher(mail);
-        if (!matcher.find()){ throw new MailNotConformed(); }
-        if (password.length() < 8){ throw new PasswordNotConformed(); }
+        if (!matcher.find()) {
+            throw new MailNotConformed();
+        }
+        if (password.length() < 8) {
+            throw new PasswordNotConformed();
+        }
         User user = userDAO.findUserByMail(mail);
-        if (user != null){ throw new MailAlreadyExists(); }
+        if (user != null) {
+            throw new MailAlreadyExists();
+        }
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
@@ -112,10 +124,11 @@ public class UserFacade {
 
     /**
      * Ask the list of all the student belonging to the provided department
+     *
      * @param department Department we want the users
      * @return a list of the students belonging to the provided department
      */
-    public List<User> findStudentByDepartment(Department department){
+    public List<User> findStudentByDepartment(Department department) {
         return userDAO.findUserByDepartment(department);
     }
 
@@ -123,6 +136,7 @@ public class UserFacade {
      * Create a new password for the user corresponding to the provided mail <br>
      * Send the new password by mail to the concerned user <br>
      * Save the new password
+     *
      * @param mail Mail we want to send a mail
      */
     public void sendValidationCode(String mail) {
@@ -138,10 +152,11 @@ public class UserFacade {
 
     /**
      * Check if the code entered by the user corresponds to the user's validation code
+     *
      * @param testedCode Verification code
      * @return True if the testedCode is the user's validation code, False otherwise
      */
-    public boolean checkValidationCode(int testedCode){
+    public boolean checkValidationCode(int testedCode) {
         System.out.println("je suis dans userFacade, tested code = " + testedCode);
         int code = userDAO.getCodeByUser(currentUser.getId());
         System.out.println("je suis dans userFacade, code = " + code);
@@ -151,23 +166,25 @@ public class UserFacade {
     /**
      * Delete the account of the user
      * Disconnect the user if he deleted his own account
+     *
      * @param user User we want to delete the account
      */
     public void deleteAccount(User user) {
         userDAO.delete(user);
-        if (user.equals(currentUser)){
-            currentUser= null;
+        if (user.equals(currentUser)) {
+            currentUser = null;
         }
     }
 
     /**
      * Update a user's account with the provided information
-     * @param firstName New first name of the student
-     * @param lastName New last name of the student
-     * @param department New department of the student
+     *
+     * @param firstName   New first name of the student
+     * @param lastName    New last name of the student
+     * @param department  New department of the student
      * @param description New description of the student
      */
-    public void updateAccount(String firstName, String lastName, Department department, String description){
+    public void updateAccount(String firstName, String lastName, Department department, String description) {
         User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
                 firstName, lastName, description, department
         ), 1);
@@ -177,17 +194,18 @@ public class UserFacade {
 
     /**
      * Update the user's password with the provided password
-     * @param oldPassword Old password of the user
-     * @param newPassword New password of the user
+     *
+     * @param oldPassword          Old password of the user
+     * @param newPassword          New password of the user
      * @param newConfirmedPassword New confirmed password of the user
-     * @throws UnmatchedPassword : if the old password doesn't match with the current password or if newPassword doesn't match with the newConfirmedPassword
+     * @throws UnmatchedPassword    : if the old password doesn't match with the current password or if newPassword doesn't match with the newConfirmedPassword
      * @throws PasswordNotConformed : if the password is not confirmed
      */
     public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword, PasswordNotConformed {
-        if (newPassword.equals(newConfirmedPassword) && currentUser.checkPassword(oldPassword)){
-            if (newPassword.length() >= 8){
+        if (newPassword.equals(newConfirmedPassword) && checkPassword(currentUser, oldPassword)) {
+            if (newPassword.length() >= 8) {
                 String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                User user = new User(currentUser.getId(), currentUser.getMail(), password , currentUser.getRole(), 1);
+                User user = new User(currentUser.getId(), currentUser.getMail(), password, currentUser.getRole(), 1);
                 userDAO.updatePassword(user);
                 currentUser = user;
             } else {
@@ -202,17 +220,18 @@ public class UserFacade {
      * Create a new password for the user corresponding to the provided mail address
      * Update the password of the user with this new password
      * Send a mail to the user containing the new password
+     *
      * @param mail Mail we want to send the new password
      * @throws MailNotFound : if the mail doesn't exist
      */
     public void forgotPassword(String mail) throws MailNotFound {
         User user = userDAO.findUserByMail(mail);
-        if(user == null) {
+        if (user == null) {
             throw new MailNotFound();
         }
         Random r = new Random();
         StringBuilder password = new StringBuilder();
-        while (!(password.length() > 8)){
+        while (!(password.length() > 8)) {
             int random = r.nextInt(37);
             password.append(patternMdp.charAt(random));
         }
@@ -242,6 +261,7 @@ public class UserFacade {
 
     /**
      * Get the current user of the application
+     *
      * @return Current user of the application
      */
     public User getCurrentUser() {
@@ -250,9 +270,21 @@ public class UserFacade {
 
     /**
      * Check if the user logged is a student
+     *
      * @return True if the user logged is a student, False otherwise
      */
-    public boolean isCurrentUserStudent(){
+    public boolean isCurrentUserStudent() {
         return currentUser.getRole() instanceof StudentRole;
+    }
+
+    /**
+     * Check if the provided password correspond to the user password
+     *
+     * @param user     User of the database
+     * @param password Password to check
+     * @return True if the provided password correspond to the user password, False otherwise
+     */
+    public boolean checkPassword(User user, String password) {
+        return BCrypt.checkpw(password, user.getPassword());
     }
 }

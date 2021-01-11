@@ -3,17 +3,23 @@ package cooptool.models.daos.persistent;
 import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.QuickHelpPost;
-import cooptool.models.objects.User;
 
 import java.util.List;
 
+/**
+ * QuickHelpPostDAO class
+ */
 public abstract class QuickHelpPostDAO {
 
+    /**
+     * Instance of QuickHellPostDAO
+     */
     public static final QuickHelpPostDAO INSTANCE = AbstractDAOFactory.getInstance().getQuickHelpPostDAO();
 
     protected QuickHelpPostDAO() {}
 
     /**
+     * Get the QuickHelpPostDAO instance
      * @return the instance of the QuickHelpPostDAO singleton
      */
     public static QuickHelpPostDAO getInstance() {

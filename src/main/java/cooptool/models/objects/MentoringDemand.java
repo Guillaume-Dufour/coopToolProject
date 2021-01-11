@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Class representing mentoring demands that are posts where users can participate as either student or tutor
  * When they participate they need to give a schedule
  */
-public class MentoringDemand extends Post{
+public class MentoringDemand extends Post {
 
     public static final int STUDENT = 0;
     public static final int TUTOR = 1;
