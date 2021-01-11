@@ -23,27 +23,30 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * DisplayHistoryController class
+ */
 public class DisplayHistoryController implements Initializable {
 
     @FXML
-    Button deleteAllButton;
+    private Button deleteAllButton;
 
     @FXML
-    TableView<Post> historyTableView;
+    private TableView<Post> historyTableView;
 
     @FXML
-    TableColumn<Post, String> titlePostCol;
+    private TableColumn<Post, String> titlePostCol;
 
     @FXML
-    TableColumn<Post, Void> deletePostCol;
+    private TableColumn<Post, Void> deletePostCol;
 
     @FXML
-    ChoiceBox<String> postTypes;
+    private ChoiceBox<String> postTypes;
 
     /**
      * Attribute to access to the PostFacade
      */
-    PostFacade postFacade = PostFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
 
     /**
      * User whose browsing history is displayed

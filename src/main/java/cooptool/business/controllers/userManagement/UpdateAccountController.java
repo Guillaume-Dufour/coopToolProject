@@ -9,49 +9,46 @@ import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.utils.Components;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
-import javafx.util.StringConverter;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * UpdateAccountController class
+ */
 public class UpdateAccountController implements Initializable {
 
     @FXML
-    TextField inputFirstName;
+    private TextField inputFirstName, inputLastName;
+
     @FXML
-    TextField inputLastName;
+    private ComboBox<Department> listDepartments;
+
     @FXML
-    ComboBox<Department> listDepartments;
+    private TextArea inputDescription;
+
     @FXML
-    TextArea inputDescription;
+    private PasswordField inputOldPassword, inputNewPassword, inputNewConfirmedPassword;
+
     @FXML
-    PasswordField inputOldPassword;
+    private Text errorLabel;
+
     @FXML
-    PasswordField inputNewPassword;
-    @FXML
-    PasswordField inputNewConfirmedPassword;
-    @FXML
-    Text errorLabel;
-    @FXML
-    Button updateButton;
-    @FXML
-    Button cancelUpdateButton;
+    private Button updateButton, cancelUpdateButton;
 
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
+
     /**
      * Attribute to access to the DepartmentFacade method
      */
-    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     /**
      * Method called by the cancelUpdateButton <br>

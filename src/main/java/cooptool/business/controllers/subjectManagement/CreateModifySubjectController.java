@@ -19,27 +19,68 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * CreateModifySubjectController class
+ */
 public class CreateModifySubjectController implements Initializable {
 
     @FXML
-    Text title;
+    private Text title, errorLabel;
 
     @FXML
-    TextField inputName;
+    private TextField inputName;
 
     @FXML
-    ComboBox<Department> listDepartments;
+    private ComboBox<Department> listDepartments;
 
     @FXML
-    Button validateButton;
+    private Button validateButton;
 
-    @FXML
-    Text errorLabel;
+    /**
+     * Attribute to access to the SubjectFacade
+     */
+    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
-    SubjectFacade subjectFacade = SubjectFacade.getInstance();
-    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    /**
+     * Attribute to access to the DepartmentFacade
+     */
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
-    Subject subject;
+    /**
+     * Subject
+     */
+    private Subject subject;
+
+    /**
+     * Create a subject from the fields
+     * @param event Action event
+     */
+    public void createSubject(ActionEvent event) {
+
+        try {
+            subjectFacade.create(inputName.getText(), listDepartments.getValue());
+            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
+
+        } catch (SubjectNotConformed subjectNotConformed) {
+            errorLabel.setText(subjectNotConformed.getMessage());
+        }
+    }
+
+
+    /**
+     * Update the subject from the fields
+     * @param event Action event
+     */
+    public void udpateSubject(ActionEvent event) {
+
+        try {
+            subjectFacade.update(subject, inputName.getText(), listDepartments.getValue());
+            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
+
+        } catch (SubjectNotConformed subjectNotConformed) {
+            errorLabel.setText(subjectNotConformed.getMessage());
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,29 +101,6 @@ public class CreateModifySubjectController implements Initializable {
             title.setText("Création de matière");
             validateButton.setText("Valider");
             validateButton.setOnAction(this::createSubject);
-        }
-    }
-
-    public void createSubject(ActionEvent event) {
-
-        try {
-            subjectFacade.create(inputName.getText(), listDepartments.getValue());
-            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
-
-        } catch (SubjectNotConformed subjectNotConformed) {
-            errorLabel.setText(subjectNotConformed.getMessage());
-        }
-    }
-
-
-    public void udpateSubject(ActionEvent event) {
-
-        try {
-            subjectFacade.update(subject, inputName.getText(), listDepartments.getValue());
-            ViewLoader.getInstance().load(ViewPath.HANDLE_DEPARTMENTS);
-
-        } catch (SubjectNotConformed subjectNotConformed) {
-            errorLabel.setText(subjectNotConformed.getMessage());
         }
     }
 }

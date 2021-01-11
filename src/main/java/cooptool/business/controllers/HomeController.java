@@ -8,10 +8,10 @@ import javafx.scene.control.Button;
 public class HomeController {
 
     @FXML
-    Button mentoringDemandButton;
+    private Button mentoringDemandButton;
 
     @FXML
-    Button quickHelpPostButton;
+    private Button quickHelpPostButton;
     
     /**
      * Switch to the mentoring demand home page view

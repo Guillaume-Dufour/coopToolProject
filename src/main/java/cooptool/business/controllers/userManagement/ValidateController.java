@@ -3,29 +3,29 @@ package cooptool.business.controllers.userManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.UserFacade;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-
+/**
+ * ValidateController class
+ */
 public class ValidateController {
 
     @FXML
-    TextField inputCode;
+    private TextField inputCode;
+
     @FXML
-    Button validateButton;
+    private Button validateButton, cancelVerification;
+
     @FXML
-    Text errorLabel;
-    @FXML
-    Button cancelVerification;
+    private Text errorLabel;
 
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
 
     /**
      * Method called by the validateButton <br>
@@ -38,7 +38,7 @@ public class ValidateController {
         try {
             testedCode = Integer.parseInt(inputCode.getText());
         } catch (final NumberFormatException e){
-            errorLabel.setText("veuillez entrer un code");
+            errorLabel.setText("Veuillez entrer un code");
             validateButton.setDisable(false);
             return;
         }
@@ -46,7 +46,7 @@ public class ValidateController {
             userFacade.updateValidation();
             ViewLoader.getInstance().load(ViewPath.HOME);
         } else {
-            errorLabel.setText("mauvais code");
+            errorLabel.setText("Mauvais code");
             validateButton.setDisable(false);
         }
     }

@@ -17,36 +17,37 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * SearchStudentController class
+ */
 public class SearchStudentController implements Initializable {
 
     @FXML
-    ComboBox<Department> listDepartments;
+    private ComboBox<Department> listDepartments;
+
     @FXML
-    Text errorLabel;
+    private Text errorLabel;
+
     @FXML
-    Button validateButton;
+    private Button validateButton;
+
     @FXML
-    ListView<User> studentListView;
+    private ListView<User> studentListView;
 
     /**
      * Attribute to access to the DepartmentFacade method
      */
-    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
-
-    /**
-     * Attribute to stock the selected department
-     */
-    Department department;
+    private final UserFacade userFacade = UserFacade.getInstance();
 
     /**
      * Method called by the validateButton <br>
@@ -54,7 +55,12 @@ public class SearchStudentController implements Initializable {
      * You can click on a student to see his profile
      */
     public void searchStudent() {
-        department = listDepartments.getValue();
+
+        /**
+         * Attribute to stock the selected department
+         */
+        Department department = listDepartments.getValue();
+
         if (department == null) {
             errorLabel.setText("Veuillez sélectionner un département");
         }
@@ -62,7 +68,7 @@ public class SearchStudentController implements Initializable {
             errorLabel.setText("");
             ObservableList<User> items = FXCollections.observableList(userFacade.findStudentByDepartment(department));
             studentListView.setItems(items);
-            studentListView.setCellFactory(lv -> new ListCell<User>() {
+            studentListView.setCellFactory(lv -> new ListCell<>() {
                         @Override
                         public void updateItem(User row, boolean empty) {
                             super.updateItem(row, empty) ;
@@ -76,10 +82,10 @@ public class SearchStudentController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Components.createDepartmentComboBox(listDepartments, departmentFacade.getAllDepartments());
+
         if (resources.containsKey("1")) {
             listDepartments.getSelectionModel().select((Department) resources.getObject("1"));
             this.searchStudent();

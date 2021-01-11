@@ -21,29 +21,45 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * DisplayNotificationController class
+ */
 public class DisplayNotificationController implements Initializable {
 
     @FXML
-    TableView<Notification> notificationTableView;
+    private TableView<Notification> notificationTableView;
 
     @FXML
-    TableColumn<Notification, Notification> notificationCol;
+    private TableColumn<Notification, Notification> notificationCol;
 
     @FXML
-    TableColumn<Notification, Void> deleteCol;
+    private TableColumn<Notification, Void> deleteCol;
 
     @FXML
-    Button deleteAllButton;
+    private Button deleteAllButton;
 
     @FXML
-    ChoiceBox<NotificationType> notificationTypesBox;
+    private ChoiceBox<NotificationType> notificationTypesBox;
 
-    NotificationFacade notificationFacade = NotificationFacade.getInstance();
+    /**
+     * Attribute to access to the NotificationFacade
+     */
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
+
+    /**
+     * Delete the notification in parameter
+     * @param event Action event
+     * @param notification Notification to delete
+     */
     public void deleteNotification(ActionEvent event, Notification notification) {
         notificationFacade.delete(notification);
     }
 
+    /**
+     * Delete all the notifications of the user
+     * @param event Action event
+     */
     public void deleteAllNotifications(ActionEvent event) {
 
         Optional<ButtonType> result = Components.createConfirmationAlert("Voulez-vous vraiment supprimer toutes vos notifications ?");
@@ -52,7 +68,6 @@ public class DisplayNotificationController implements Initializable {
             notificationFacade.deleteAllNotifications(UserFacade.getInstance().getCurrentUser());
         }
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

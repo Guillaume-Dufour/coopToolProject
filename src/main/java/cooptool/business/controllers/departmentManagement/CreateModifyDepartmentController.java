@@ -16,35 +16,29 @@ import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ * CreateModifyDepartmentController class
+ */
 public class CreateModifyDepartmentController implements Initializable {
 
     @FXML
-    Text title;
+    private Text title, errorLabel;
 
     @FXML
-    TextField inputName;
+    private TextField inputName, inputAbbreviation, inputYear;
 
     @FXML
-    TextField inputAbbreviation;
-
-    @FXML
-    TextField inputYear;
-
-    @FXML
-    Button validateButton;
-
-    @FXML
-    Text errorLabel;
+    private Button validateButton;
 
     /**
      * Attribute to access to the department facade
      */
-    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     /**
      * Department
      */
-    Department department;
+    private Department department;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,7 +63,7 @@ public class CreateModifyDepartmentController implements Initializable {
 
     /**
      * Create a department from the fields
-     * @param event Action
+     * @param event Action event
      */
     public void createDepartment(ActionEvent event) {
 
@@ -87,6 +81,10 @@ public class CreateModifyDepartmentController implements Initializable {
         }
     }
 
+    /**
+     * Update the department from the fields
+     * @param event Action event
+     */
     public void updateDepartment(ActionEvent event) {
 
         try {

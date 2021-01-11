@@ -78,7 +78,7 @@
                      </GridPane.margin>
                   </Text>
                   <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateDepartment" text="Modifier" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-                  <Button fx:id="availableDepartmentButton" mnemonicParsing="false" onAction="#deleteDepartment" text="Supprimer" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+                  <Button fx:id="availableDepartmentButton" mnemonicParsing="false" text="Supprimer" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
                </children>
                <GridPane.margin>
                   <Insets />

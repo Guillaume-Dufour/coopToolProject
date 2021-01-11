@@ -23,17 +23,22 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable{
 
     @FXML
-    TextField inputMail;
+    private TextField inputMail;
+
     @FXML
-    PasswordField inputPassword;
+    private PasswordField inputPassword;
+
     @FXML
-    Text errorLabel;
+    private Text errorLabel;
+
     @FXML
-    Button loginButton;
+    private Button loginButton;
+
     @FXML
-    Button registerButton;
+    private Button registerButton;
+
     @FXML
-    Button newPasswordButton;
+    private Button newPasswordButton;
 
     /**
      * Attribute to access to the UserFacade methods

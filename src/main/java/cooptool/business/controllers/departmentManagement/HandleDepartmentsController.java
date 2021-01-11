@@ -24,62 +24,49 @@ import java.util.ResourceBundle;
 public class HandleDepartmentsController implements Initializable {
 
     @FXML
-    Button createDepartmentButton;
+    private Button createDepartmentButton, createSubjectButton;
 
     @FXML
-    Button createSubjectButton;
+    private ComboBox<Department> listDepartments;
 
     @FXML
-    ComboBox<Department> listDepartments;
+    private Text errorLabel, departmentInfos;
 
     @FXML
-    Text errorLabel;
+    private Button updateButton, availableDepartmentButton;
 
     @FXML
-    Text departmentInfos;
+    private TableView<Subject> listSubjects;
 
     @FXML
-    Button updateButton;
+    private TableColumn<Subject, String> nameSubjectCol;
 
     @FXML
-    Button availableDepartmentButton;
-
-    @FXML
-    TableView<Subject> listSubjects;
-
-    @FXML
-    TableColumn<Subject, String> nameSubjectCol;
-
-    @FXML
-    TableColumn<Subject, Integer> availableSubjectCol;
+    private TableColumn<Subject, Integer> availableSubjectCol;
 
     /**
      * Attribute to access to the department facade
      */
-    DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
 
     /**
      * Attribute to access to the subject facade
      */
-    SubjectFacade subjectFacade = SubjectFacade.getInstance();
+    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
 
     /**
      * Current department whose subjects are displayed
      */
-    Department department;
+    private Department department;
 
     /**
      * List of the subjects that are displayed
      */
     List<Subject> subjects = new ArrayList<>();
 
-    public void updateDepartment() {
-        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT, department);
-    }
-
-    public void deleteDepartment() {
-    }
-
+    /**
+     * Search information of a department
+     */
     public void searchDepartment() {
 
         department = listDepartments.getValue();
@@ -101,6 +88,53 @@ public class HandleDepartmentsController implements Initializable {
             listSubjects.setVisible(true);
         }
 
+    }
+
+    /**
+     * Update the availability of the department in parameter
+     * @param event Action event
+     * @param department Department we want to update the availability
+     */
+    public void updateAvailabilityDepartment(ActionEvent event, Department department) {
+
+        int available = department.changeAvailability();
+        departmentFacade.updateAvailability(department);
+
+        Components.createAvailabilityButton(((Button)event.getSource()), available);
+    }
+
+    /**
+     * Update the availability of the subject in parameter
+     * @param event Action event
+     * @param subject Subject we want to update the availability
+     */
+    public void updateAvailabilitySubject(ActionEvent event, Subject subject) {
+
+        int available = subject.changeAvailability();
+        subjectFacade.updateAvailability(subject);
+
+        Components.createAvailabilityButton(((Button)event.getSource()), available);
+    }
+
+    /**
+     * Access to the create deparment page
+     */
+    public void goToCreateDepartmentPage() {
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT);
+    }
+
+    /**
+     * Access to the create subject page
+     */
+    public void goToCreateSubjectPage() {
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_SUBJECT);
+    }
+
+    /**
+     * Access to the update department page
+     */
+    public void updateDepartment() {
+        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT, department);
     }
 
     @Override
@@ -144,29 +178,5 @@ public class HandleDepartmentsController implements Initializable {
                 ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_SUBJECT, listSubjects.getSelectionModel().getSelectedItem());
             }
         });
-    }
-
-    public void updateAvailabilityDepartment(ActionEvent event, Department department) {
-
-        int available = department.changeAvailability();
-        departmentFacade.updateAvailability(department);
-
-        Components.createAvailabilityButton(((Button)event.getSource()), available);
-    }
-
-    public void updateAvailabilitySubject(ActionEvent event, Subject subject) {
-
-        int available = subject.changeAvailability();
-        subjectFacade.updateAvailability(subject);
-
-        Components.createAvailabilityButton(((Button)event.getSource()), available);
-    }
-
-    public void goToCreateDepartmentPage() {
-        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT);
-    }
-
-    public void goToCreateSubjectPage() {
-        ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_SUBJECT);
     }
 }

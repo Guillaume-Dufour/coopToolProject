@@ -19,20 +19,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HeaderController implements Initializable {
 
     @FXML
-    ImageView parameterButton, notificationButton;
+    private ImageView parameterButton, notificationButton;
 
     @FXML
-    Text notificationNumber;
+    private Text notificationNumber;
 
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
 
     /**
      * Attribute to access to the NotificationFacade method
      */
-    NotificationFacade notificationFacade = NotificationFacade.getInstance();
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
      * Switch to the home view

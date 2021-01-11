@@ -8,7 +8,6 @@ import cooptool.models.objects.User;
 import cooptool.utils.Components;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -18,57 +17,26 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * AccountController class
+ */
 public class AccountController implements Initializable {
 
     @FXML
-    Text labelLastName;
-    @FXML
-    Text labelFirstName;
-    @FXML
-    Text labelMail;
-    @FXML
-    Text labelPromotion;
-    @FXML
-    Text labelDescription;
+    private Text labelLastName, labelFirstName, labelMail, labelPromotion, labelDescription;
 
     @FXML
-    Button deleteButton;
-    @FXML
-    Button updateButton;
-    @FXML
-    Button backButton;
-    @FXML
-    Button historyButton;
+    private Button deleteButton, updateButton, backButton, historyButton;
 
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
+
     /**
      * Attribute to stock the concerned student
      */
-    User user = null;
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        user = (User)resources.getObject("1");
-        if (!user.equals(userFacade.getCurrentUser())){
-            updateButton.setVisible(false);
-            historyButton.setVisible(false);
-            if (userFacade.getCurrentUser().getRole() instanceof StudentRole){
-                deleteButton.setVisible(false);
-            }
-        }
-        labelFirstName.setText(((StudentRole) user.getRole()).getFirstName());
-        labelLastName.setText(((StudentRole) user.getRole()).getLastName());
-        labelMail.setText(user.getMail());
-        labelPromotion.setText(((StudentRole) user.getRole()).getDepartment().toString());
-        String description = ((StudentRole) user.getRole()).getDescription();
-        if (description == null){
-            description = "je n'ai pas encore de description";
-        }
-        labelDescription.setText(description);
-    }
+    private User user = null;
 
     /**
      * Method called by the deleteButton <br>
@@ -110,5 +78,34 @@ public class AccountController implements Initializable {
      */
     public void displayHistory() {
         ViewLoader.getInstance().load(ViewPath.HISTORY_DISPLAY, user);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        user = (User) resources.getObject("1");
+
+        if (!user.equals(userFacade.getCurrentUser())) {
+
+            updateButton.setVisible(false);
+            historyButton.setVisible(false);
+
+            if (userFacade.getCurrentUser().getRole() instanceof StudentRole) {
+                deleteButton.setVisible(false);
+            }
+        }
+
+        labelFirstName.setText(((StudentRole) user.getRole()).getFirstName());
+        labelLastName.setText(((StudentRole) user.getRole()).getLastName());
+        labelMail.setText(user.getMail());
+        labelPromotion.setText(((StudentRole) user.getRole()).getDepartment().toString());
+
+        String description = ((StudentRole) user.getRole()).getDescription();
+
+        if (description == null) {
+            description = "Je n'ai pas encore de description";
+        }
+
+        labelDescription.setText(description);
     }
 }

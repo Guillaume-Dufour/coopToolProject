@@ -4,31 +4,29 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.MailNotFound;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
-
+/**
+ * NewPasswordController class
+ */
 public class NewPasswordController {
 
     @FXML
-    TextField inputMail;
+    private TextField inputMail;
+
     @FXML
-    Button confirmedButton;
+    private Button confirmedButton, cancelButton;
+
     @FXML
-    Button cancelButton;
-    @FXML
-    Text resultLabel;
-    @FXML
-    Text errorLabel;
+    private Text resultLabel, errorLabel;
 
     /**
      * Attribute to access to the UserFacade method
      */
-    UserFacade userFacade = UserFacade.getInstance();
+    private final UserFacade userFacade = UserFacade.getInstance();
 
     /**
      * Method called by the confirmedButton <br>
@@ -36,8 +34,10 @@ public class NewPasswordController {
      * Switch to the login view
      */
     public void handleNewPassword() {
+
         confirmedButton.setDisable(true);
         String mail = inputMail.getText();
+
         try {
             userFacade.forgotPassword(mail);
             confirmedButton.setVisible(false);
