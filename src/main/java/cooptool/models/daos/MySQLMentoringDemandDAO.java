@@ -284,9 +284,6 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                 "DELETE FROM schedule WHERE id_post = ? AND id_creator = ? AND date_post_session = ?";
         try {
             removeParticipation(demand,schedule);
-            System.out.println(demand.getId());
-            System.out.println(schedule.getCreator().getId());
-            System.out.println(Timestamp.valueOf(schedule.getDateTime()));
             PreparedStatement deletionStatement = connection.prepareStatement(query);
             deletionStatement.setInt(1,demand.getId());
             deletionStatement.setInt(2,schedule.getCreator().getId());

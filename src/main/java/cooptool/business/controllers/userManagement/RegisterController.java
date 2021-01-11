@@ -69,7 +69,6 @@ public class RegisterController implements Initializable {
         String lastName = inputLastName.getText();
         String mail = inputMail.getText();
         Department department = listDepartments.getValue();
-        System.out.println(department);
         String password = inputPassword.getText();
         String confirmedPassword = inputConfirmedPassword.getText();
 

@@ -147,7 +147,6 @@ public class MentoringDemandFacade {
      * @throws TooMuchSchedulesException if there is already 10 schedules or more
      */
     public void addSchedule(MentoringDemand demand, LocalDateTime date) throws TooMuchSchedulesException, ScheduleAlreadyExistsException {
-        System.out.println(mentoringDemandDAO.getNumberOfSchedules(demand));
         if(mentoringDemandDAO.getNumberOfSchedules(demand) < 10){
             if(!scheduleAlreadyExistsInDemand(demand,date)){
                 mentoringDemandDAO.addSchedule(

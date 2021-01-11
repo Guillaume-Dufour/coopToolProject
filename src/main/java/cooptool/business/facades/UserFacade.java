@@ -225,15 +225,12 @@ public class UserFacade {
      * @throws PasswordNotConformed : if the password is not confirmed
      */
     public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword, PasswordNotConformed {
-        if (newPassword.equals(newConfirmedPassword) && checkPassword(currentUser, oldPassword)) {
-            if (newPassword.length() >= 8) {
-                String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                User user = new User(currentUser.getId(), currentUser.getMail(), password, currentUser.getRole(), 1);
-                userDAO.updatePassword(user);
-                currentUser = user;
-            } else {
-                throw new PasswordNotConformed();
-            }
+        if (checkPassword(currentUser, oldPassword)) {
+            checkPasswordInformation(newPassword, newConfirmedPassword);
+            String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            User user = new User(currentUser.getId(), currentUser.getMail(), password, currentUser.getRole(), 1);
+            userDAO.updatePassword(user);
+            currentUser = user;
         } else {
             throw new UnmatchedPassword();
         }

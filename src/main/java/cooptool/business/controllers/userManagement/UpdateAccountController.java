@@ -72,8 +72,6 @@ public class UpdateAccountController implements Initializable {
             String firstName = inputFirstName.getText();
             String lastName = inputLastName.getText();
             Department department = listDepartments.getValue();
-            System.out.println("je suis dans le controller");
-            System.out.println(department);
             String description = inputDescription.getText();
             try {
                 userFacade.updateAccount(firstName, lastName, department, description);
