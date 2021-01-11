@@ -86,11 +86,17 @@ public class MentoringDemandController implements Initializable {
         }
     }
 
+    /**
+     * Function called by the javafx view to suppress the current user participation
+     */
     public void suppressParticipation() {
         mentoringDemandFacade.suppressCurrentUserParticipation(demand);
         refresh();
     }
 
+    /**
+     * Function called by the javafx view to participate to the demand
+     */
     public void participate(ActionEvent actionEvent) {
         ArrayList<Schedule> schedules = new ArrayList<>();
         for(Node node:schedulesPane.getChildren()) {
@@ -123,6 +129,9 @@ public class MentoringDemandController implements Initializable {
         viewLoader.load(ViewPath.GET_MENTORING_DEMAND,demand.getId());
     }
 
+    /**
+     * Function called by the javafx view to add a schedule to the demand
+     */
     public void addSchedule(){
         List<Integer> hours = TimeUtils.getHoursArrayList();
         List<Integer> minutes = TimeUtils.getMinutesArrayList();
@@ -210,6 +219,9 @@ public class MentoringDemandController implements Initializable {
         }
     }
 
+    /**
+     * Function called by the javafx view to edit the description of the demand
+     */
     public void editDescription() {
         // Create the custom dialog.
         Dialog<String> dialog = new Dialog<>();
@@ -251,6 +263,9 @@ public class MentoringDemandController implements Initializable {
         });
     }
 
+    /**
+     * Function called by the javafx view to delete the demand
+     */
     public void delete() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete mentoring demand");
@@ -387,19 +402,29 @@ public class MentoringDemandController implements Initializable {
         }
     }
 
-    private void setNumberOfParticipants(Schedule schedule,int index){
-        int numberOfParticipants = 0;
+    private void setNumberOfParticipants(Schedule schedule, int index){
+        int numberOfStudents = 0;
+        int numberOfTutors = 0;
         for(Participation participation : demand.getParticipationArray()){
             ArrayList<Schedule> schedulesParticipation = participation.getParticipationSchedules();
             for(Schedule scheduleParticipation : schedulesParticipation){
                 if(schedule.getDateTime().equals(scheduleParticipation.getDateTime())){
-                    numberOfParticipants++;
+                    if(participation.getParticipationType() == MentoringDemand.STUDENT){
+                        numberOfStudents++;
+                    }
+                    else if(participation.getParticipationType() == MentoringDemand.TUTOR){
+                        numberOfTutors++;
+                    }
                 }
             }
         }
-        schedulesPane.add(new Label(Integer.toString(numberOfParticipants)),3,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfStudents) + " etudiants"),3,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfTutors) + " tuteur"),4,index);
     }
 
+    /**
+     * Function called by the javafx view to comment the current demand
+     */
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),demand);
@@ -417,6 +442,9 @@ public class MentoringDemandController implements Initializable {
         commentArea.setVisible(false);
     }
 
+    /**
+     * Function called by the javafx view to load the previous page
+     */
     public void goBack() {
         viewLoader.load(ViewPath.MENTORING_DEMAND_HOME_PAGE);
     }

@@ -21,7 +21,7 @@ public enum ViewPath {
     STUDENT_PROFIL("views/userManagement/student_profil.fxml"),
     MENTORING_DEMAND_HOME_PAGE("views/mentoringDemands/home_page.fxml"),
     CREATE_MENTORING_DEMAND("views/mentoringDemands/creation.fxml"),
-    GET_MENTORING_DEMAND("views/mentoringDemands/get_demand.fxml"),
+    GET_MENTORING_DEMAND("views/mentoringDemands/get_demand_responsive.fxml"),
     QUICK_HELP_POST_HOME_PAGE("views/quickHelpPosts/home_page.fxml"),
     CREATE_QUICK_HELP_POST("views/quickHelpPosts/creation.fxml"),
     GET_QUICK_HELP_POST("views/quickHelpPosts/get_quickHelpPost.fxml"),
