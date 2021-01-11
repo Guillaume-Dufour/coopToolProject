@@ -3,6 +3,7 @@ package cooptool.business.controllers.mentoringDemandManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
@@ -45,6 +46,7 @@ public class MentoringDemandController implements Initializable {
     private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
     private final PostFacade postFacade = PostFacade.getInstance();
     private final UserFacade userFacade = UserFacade.getInstance();
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
     private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override
@@ -428,6 +430,8 @@ public class MentoringDemandController implements Initializable {
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),demand);
+            String text = "nouveau commentaire de " + ((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName() + " concernant votre demande de tutorat : " + demand.getSubject().getName();
+            notificationFacade.create(demand.getCreator(), text, demand.getId(), NotificationType.MENTORING_DEMAND);
             refresh();
         } catch (CommentFormatException e) {
             errorLabel.setText(e.getMessage());

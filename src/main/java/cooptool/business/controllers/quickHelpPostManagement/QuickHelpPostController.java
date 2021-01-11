@@ -2,14 +2,12 @@ package cooptool.business.controllers.quickHelpPostManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.QuickHelpPostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
-import cooptool.models.objects.Comment;
-import cooptool.models.objects.QuickHelpPost;
-import cooptool.models.objects.StudentRole;
-import cooptool.models.objects.Subject;
+import cooptool.models.objects.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -65,6 +63,11 @@ public class QuickHelpPostController implements Initializable {
      * Attribute to access to the PostFacade methods
      */
     private final PostFacade postFacade = PostFacade.getInstance();
+
+    /**
+     * Attribute to access to the NotificationFacade methods
+     */
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
      * Attribute to access to the QuickHelpPost methods
@@ -269,6 +272,8 @@ public class QuickHelpPostController implements Initializable {
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),qhp);
+            String text = "nouveau commentaire de " + ((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName() + " concernant votre aide rapide : " + qhp.getSubject().getName();
+            notificationFacade.create(qhp.getCreator(), text, qhp.getId(), NotificationType.QUICK_HELP_POST);
             refresh();
         } catch (CommentFormatException e) {
         }
