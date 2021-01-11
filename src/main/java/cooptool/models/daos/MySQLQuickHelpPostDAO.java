@@ -4,7 +4,6 @@ import cooptool.models.daos.persistent.PostDAO;
 import cooptool.models.daos.persistent.QuickHelpPostDAO;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.QuickHelpPost;
-import cooptool.models.objects.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -99,33 +98,6 @@ public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
             ResultSet res = preparedStatement.executeQuery();
             while(res.next()){
-                partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return partialQHP;
-    }
-
-    @Override
-    public List<QuickHelpPost> getMyQHP(User user, Department department) {
-        String statement =
-                "SELECT * " +
-                        "FROM post " +
-                        "NATURAL JOIN subject " +
-                        "JOIN user AS u ON post.id_user_creator = u.id_user " +
-                        "JOIN department ON u.id_department = department.id_department "+
-                        "WHERE u.id_user = ? AND department.abbreviation_department = ? AND type_post = 1 ORDER BY date_post,post.id_post";
-        List<QuickHelpPost> partialQHP = new ArrayList<>();
-        PreparedStatement preparedStatement;
-        try{
-            preparedStatement = connection.prepareStatement(statement);
-            preparedStatement.setInt(1,user.getId());
-            preparedStatement.setString(2,department.getAbbreviation());
-            ResultSet res = preparedStatement.executeQuery();
-
-            while(res.next()) {
                 partialQHP.add(MySQLFactoryObject.createQuickHelpPost(res));
             }
         } catch (SQLException e) {

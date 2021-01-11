@@ -33,7 +33,7 @@ public class QuickHelpPostFacade {
     private QuickHelpPostFacade(){}
 
     /**
-     * @return the unique instance of the QuickHelpPostFacade singleton
+     * @return the instance of the QuickHelpPostFacade singleton
      */
     public static QuickHelpPostFacade getInstance(){
         return INSTANCE;
@@ -117,7 +117,7 @@ public class QuickHelpPostFacade {
 
     /**
      * Method to update the description of the quick help post in parameter
-     * @param qhp
+     * @param qhp quickHelpPost we want to update
      * @param updatedDesc the text of the description
      */
     public void updateDescription(QuickHelpPost qhp,String updatedDesc){
