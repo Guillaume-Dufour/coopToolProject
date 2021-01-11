@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * PostTable enum
+ */
 public enum PostTable implements TableInterface {
 
     ID_POST("id_post"),

@@ -1,7 +1,7 @@
 package cooptool.models.enumDatabase;
 
 /**
- * TableInterface class
+ * TableInterface interface
  */
 public interface TableInterface {
 

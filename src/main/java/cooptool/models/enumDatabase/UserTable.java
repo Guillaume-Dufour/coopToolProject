@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * UserTable enum
+ */
 public enum UserTable implements TableInterface {
 
     ID_USER("id_user"),

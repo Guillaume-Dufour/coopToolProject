@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * ScheduleTable enum
+ */
 public enum ScheduleTable implements TableInterface {
 
     ID_POST("id_post"),

@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * BrowsingHistoryTable enum
+ */
 public enum BrowsingHistoryTable implements TableInterface {
 
     ID_USER("id_user"),

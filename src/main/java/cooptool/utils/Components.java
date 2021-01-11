@@ -4,18 +4,25 @@ import cooptool.business.ViewLoader;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.Subject;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Components class
+ */
 public class Components {
 
+    /**
+     * Set a department combobox in parameter with the list of departments in parameter
+     * @param departmentComboBox ComboBox
+     * @param listDepartments List of departments we want to put into the ComboBox
+     */
     public static void createDepartmentComboBox(ComboBox<Department> departmentComboBox, List<Department> listDepartments) {
         departmentComboBox.setItems(FXCollections.observableList(listDepartments));
 
@@ -32,6 +39,11 @@ public class Components {
         });
     }
 
+    /**
+     * Set the button in parameter with the availability state in parameter
+     * @param button Button
+     * @param available Availability to display the button properly
+     */
     public static void createAvailabilityButton(Button button, int available) {
 
         if (available == 1) {
@@ -44,6 +56,11 @@ public class Components {
         }
     }
 
+    /**
+     * Create an alert window with the message
+     * @param message Message we want to print into the alert window
+     * @return Choice done by the user
+     */
     public static Optional<ButtonType> createConfirmationAlert(String message) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -53,9 +70,13 @@ public class Components {
         alert.initOwner(ViewLoader.getInstance().getStage());
 
         return alert.showAndWait();
-
     }
 
+    /**
+     * Set a subject combobox in parameter with the list of subjects in parameter
+     * @param subjects List of subject we want to put into the ComboBox
+     * @param subjectComboBox ComboBox
+     */
     public static void initializeSubjectBox(List<Subject> subjects,ComboBox<Subject> subjectComboBox){
         subjects.add(null);
         subjectComboBox.setItems(FXCollections.observableList(subjects));

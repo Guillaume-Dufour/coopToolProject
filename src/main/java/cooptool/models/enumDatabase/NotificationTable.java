@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * NotificationTable enum
+ */
 public enum NotificationTable implements TableInterface {
 
     ID_NOTIFICATION("id_notification"),
