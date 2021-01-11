@@ -63,7 +63,8 @@ public class MentoringDemandsDisplay implements Initializable {
         isInitialized = true;
     }
 
-    public void showMentoringDemands(List<MentoringDemand> demands,int offset){
+
+    private void showMentoringDemands(List<MentoringDemand> demands,int offset){
         if(isInitialized){
             clearGrid();
         }
@@ -91,7 +92,7 @@ public class MentoringDemandsDisplay implements Initializable {
         }
     }
 
-    public void clearGrid(){
+    private void clearGrid(){
         grid.getChildren().retainAll(grid.getChildren().get(0));
     }
 
@@ -144,14 +145,24 @@ public class MentoringDemandsDisplay implements Initializable {
         pageHbox.getChildren().clear();
     }
 
+    /**
+     * Function called by the javafx view to load the creation page
+     */
     public void goToCreationPage(){
         viewLoader.load(ViewPath.CREATE_MENTORING_DEMAND);
     }
 
+    /**
+     * Function called by the javafx view to load a mentoring demand
+     */
     public void goToMentoringDemand(int id){
         viewLoader.load(ViewPath.GET_MENTORING_DEMAND,id);
     }
 
+    /**
+     * Function called by the javafx view to switch the state between All demands and My demands
+     * Those states correspond to show either demands from everybody or demands from the current user
+     */
     public void switchMyDemandsState() {
         if(currentUserDemands){
             myDemandsButton.setText("All demands");

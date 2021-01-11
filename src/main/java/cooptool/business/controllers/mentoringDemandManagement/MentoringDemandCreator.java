@@ -48,6 +48,9 @@ public class MentoringDemandCreator implements Initializable {
         initializeHourAndMinutesBoxes();
     }
 
+    /**
+     * Function called by the javafx view to create a mentoring demand
+     */
     public void create() {
         if(subjectComboBox.getValue() == null){
             errorLabel.setText("Please pick a subject");
