@@ -45,11 +45,11 @@
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin></Button>
-            <Label fx:id="creatorLabel" text="creatorLabel" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="subjectLabel" text="subjectLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="infoLabel" text="infoLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="creatorLabel" text="creatorLabel" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <Label fx:id="subjectLabel" text="subjectLabel" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+            <Label fx:id="infoLabel" text="infoLabel" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
             <Text fx:id="descriptionArea" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-            <Label fx:id="participationLabel" text="participationLabel" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="participationLabel" text="participationLabel" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5" />
             <Label text="Commentaires" GridPane.rowIndex="6" />
             <TextArea fx:id="commentArea" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="7" />
             <Button fx:id="commentButton" mnemonicParsing="false" onAction="#comment" text="Valider commentaire" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7">
@@ -110,6 +110,7 @@
                <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="147.0" />
                <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.0" minWidth="10.0" prefWidth="123.0" />
                <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="119.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="119.0" />
                <ColumnConstraints hgrow="SOMETIMES" maxWidth="144.0" minWidth="10.0" prefWidth="119.0" />
            </columnConstraints>
            <rowConstraints>

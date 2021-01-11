@@ -403,8 +403,8 @@ public class MentoringDemandController implements Initializable {
                 }
             }
         }
-        schedulesPane.add(new Label(Integer.toString(numberOfStudents)),3,index);
-        schedulesPane.add(new Label(Integer.toString(numberOfTutors)),4,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfStudents) + " etudiants"),3,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfTutors) + " tuteur"),4,index);
     }
 
     public void comment() {
