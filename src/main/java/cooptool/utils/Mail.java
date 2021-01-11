@@ -5,6 +5,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
+/**
+ * Mail class
+ */
 public class Mail {
 
     private static final String ADRESSE = PropertiesResource.getMailProperties().getProperty("ADDR_MAIL");

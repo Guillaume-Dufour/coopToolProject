@@ -6,11 +6,34 @@ import java.time.LocalDateTime;
  * Class representing post comments
  */
 public class Comment {
+
+    /**
+     * Comment ID
+     */
     private int id;
+
+    /**
+     * Comment content
+     */
     private String content;
+
+    /**
+     * Comment creation date
+     */
     private LocalDateTime creationDate;
+
+    /**
+     * Comment user creator
+     */
     private User creator;
 
+    /**
+     * Constructor
+     * @param id Comment ID
+     * @param content Comment content
+     * @param creationDate Comment creation date
+     * @param creator Comment user creator
+     */
     public Comment(int id, String content, LocalDateTime creationDate, User creator){
         this.id = id;
         this.content = content;

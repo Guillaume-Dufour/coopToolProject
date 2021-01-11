@@ -3,6 +3,9 @@ package cooptool.models.objects;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * NotificationType enum
+ */
 public enum NotificationType {
 
     MENTORING_DEMAND(1),
@@ -18,10 +21,19 @@ public enum NotificationType {
         return value;
     }
 
+    /**
+     * Get notification type by its value
+     * @param type Value of the notification type we want
+     * @return
+     */
     public static NotificationType getType(int type) {
         return type <= NotificationType.values().length ? NotificationType.values()[type-1] : null;
     }
 
+    /**
+     * Get the notification type in String format
+     * @return Notification type in String format
+     */
     public String getString() {
         return Arrays.stream(this.toString().split("_"))
                 .map(String::toLowerCase)
@@ -29,6 +41,10 @@ public enum NotificationType {
                 .collect(Collectors.joining(" "));
     }
 
+    /**
+     * Get all notification types sorted by value
+     * @return Notification types array sorted
+     */
     public static NotificationType[] sortedValues() {
         return Arrays.stream(values()).sorted().toArray(NotificationType[]::new);
     }

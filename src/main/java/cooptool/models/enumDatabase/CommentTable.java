@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * CommentTable enum
+ */
 public enum CommentTable implements TableInterface {
 
     ID_COMMENT("id_comment"),

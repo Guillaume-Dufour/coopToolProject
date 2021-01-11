@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * SubjectTable enum
+ */
 public enum SubjectTable implements TableInterface {
 
     ID_SUBJECT("id_subject"),

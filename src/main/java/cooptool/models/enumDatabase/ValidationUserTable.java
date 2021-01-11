@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * ValidationUserTable enum
+ */
 public enum ValidationUserTable implements TableInterface {
 
     ID_USER("id_user"),

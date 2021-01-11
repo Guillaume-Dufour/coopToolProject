@@ -7,11 +7,14 @@ import java.util.*;
  */
 public class MapResourceBundle extends ResourceBundle {
 
+    /**
+     * Map that stores the resources
+     */
     private final Map<String, Object> map;
 
     /**
-     *
-     * @param objects
+     * Constructor
+     * @param objects Resources
      */
     public MapResourceBundle(Object[] objects) {
 

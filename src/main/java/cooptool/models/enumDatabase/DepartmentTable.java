@@ -1,5 +1,8 @@
 package cooptool.models.enumDatabase;
 
+/**
+ * DepartmentTable enum
+ */
 public enum DepartmentTable implements TableInterface {
 
     ID_DEPARTMENT("id_department"),

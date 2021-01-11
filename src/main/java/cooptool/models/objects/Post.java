@@ -7,13 +7,45 @@ import java.util.ArrayList;
  * Class representing a post
  */
 public abstract class Post {
+
+    /**
+     * Post ID
+     */
     private int id;
+
+    /**
+     * Post subject
+     */
     private Subject subject;
+
+    /**
+     * Post description
+     */
     private String description;
+
+    /**
+     * Post user creator
+     */
     private User creator;
+
+    /**
+     * Post creation date
+     */
     private LocalDateTime creationDate;
+
+    /**
+     * Post comments
+     */
     private ArrayList<Comment> comments;
 
+    /**
+     * Constructor
+     * @param id Post ID
+     * @param subject Post subject
+     * @param description Post description
+     * @param creator Post user creator
+     * @param creationDate Post creation date
+     */
     public Post(int id, Subject subject, String description, User creator, LocalDateTime creationDate) {
         this.id = id;
         this.subject = subject;
@@ -23,12 +55,25 @@ public abstract class Post {
         this.comments = new ArrayList<>();
     }
 
+    /**
+     * Constructor
+     * @param subject Post subject
+     * @param description Post description
+     * @param creator Post user creator
+     */
     public Post(Subject subject, String description, User creator) {
         this(0, subject, description, creator, LocalDateTime.now());
     }
 
-    public Post(int id, Subject subject, String description, LocalDateTime dateTime) {
-        this(id, subject, description, null, dateTime);
+    /**
+     * Constructor
+     * @param id Post ID
+     * @param subject Post subject
+     * @param description Post description
+     * @param creationDate Post creation date
+     */
+    public Post(int id, Subject subject, String description, LocalDateTime creationDate) {
+        this(id, subject, description, null, creationDate);
     }
 
     /**

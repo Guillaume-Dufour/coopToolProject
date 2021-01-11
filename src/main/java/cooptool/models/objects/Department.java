@@ -5,27 +5,38 @@ import java.util.Objects;
 public class Department {
 
     /**
-     * ID of the department
+     * Department ID
      */
     private int id;
 
     /**
-     * Name of the department
+     * Department name
      */
     private String speciality;
 
     /**
-     * Year
+     * Department year
      */
     private int year;
 
     /**
-     * Abbreviation of the department (speciality + year)
+     * Department abbreviation (speciality + year)
      */
     private String abbreviation;
 
+    /**
+     * Department availability
+     */
     private int available;
 
+    /**
+     * Constructor
+     * @param id Department ID
+     * @param speciality Department name
+     * @param year Department year
+     * @param abbreviation Department abbreviation
+     * @param available Department availability
+     */
     public Department(int id, String speciality, int year, String abbreviation, int available) {
         this.id = id;
         this.speciality = speciality;
@@ -34,30 +45,60 @@ public class Department {
         this.available = available;
     }
 
+    /**
+     * Constructor
+     * @param speciality Department name
+     * @param year Department year
+     * @param abbreviation Department abbreviation
+     */
     public Department(String speciality, int year, String abbreviation) {
         this(0, speciality, year, abbreviation, 1);
     }
 
+    /**
+     * Get the department ID
+     * @return Department ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Get the department name
+     * @return Department name
+     */
     public String getSpeciality() {
         return speciality;
     }
 
+    /**
+     * Get the department year
+     * @return Department year
+     */
     public int getYear() {
         return year;
     }
 
+    /**
+     * Get the department abbreviation
+     * @return Department abbreviation
+     */
     public String getAbbreviation() {
         return abbreviation;
     }
 
+    /**
+     * Get the deparment availability
+     * @return Department availability
+     */
     public int getAvailable() {
         return available;
     }
 
+    /**
+     * Change the department availability
+     * @return New department availability state
+     */
     public int changeAvailability() {
         if (available == 0) {
             available = 1;
@@ -69,14 +110,26 @@ public class Department {
         return available;
     }
 
+    /**
+     * Set the new department name
+     * @param speciality New department name
+     */
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
     }
 
+    /**
+     * Set the new department year
+     * @param year New year department
+     */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * Set the new department abbreviation
+     * @param abbreviation New department abbreviation
+     */
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }

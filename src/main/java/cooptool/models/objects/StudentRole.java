@@ -25,6 +25,13 @@ public class StudentRole extends UserRole {
      */
     private Department department;
 
+    /**
+     * Constructor
+     * @param firstName Student first name
+     * @param lastName Student last name
+     * @param description Student description
+     * @param department Student department
+     */
     public StudentRole(String firstName, String lastName, String description, Department department) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,48 +39,58 @@ public class StudentRole extends UserRole {
         this.department = department;
     }
 
+    /**
+     * Get the student first name
+     * @return Student first name
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Get the student last name
+     * @return Student last name
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Get the student description
+     * @return Student description
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    /**
+     * Set the new student department
+     * @param department New student department
+     */
     public void setDepartment(Department department) {
         this.department = department;
     }
 
+    /**
+     * Set the new student description
+     * @param description New student description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Get the student department
+     * @return Student department
+     */
     public Department getDepartment() {
         return department;
     }
 
-    @Override
-    public String toString() {
-        return "StudentRole{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", description='" + description + '\'' +
-                ", department=" + department +
-                '}';
-    }
-
+    /**
+     * Representation of a student in String format
+     * @return Representation of a student
+     */
     public String getStudentRepresentation(){
         return String.format(
                 "%s %s %s%d",
