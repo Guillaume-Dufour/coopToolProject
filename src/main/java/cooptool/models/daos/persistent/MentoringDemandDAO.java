@@ -10,6 +10,9 @@ import java.util.List;
  */
 public abstract class MentoringDemandDAO {
 
+    /**
+     * Instance of the MentoringDemandDAO
+     */
     private static final MentoringDemandDAO INSTANCE = AbstractDAOFactory.getInstance().getMentoringDemandDAO();
 
     protected MentoringDemandDAO() {}
@@ -92,14 +95,14 @@ public abstract class MentoringDemandDAO {
 
     /**
      * Returns all the mentoring demands
-     * @return
+     * @return List of all mentoring demands
      */
     public abstract List<MentoringDemand> getMentoringDemands();
 
     /**
      * Returns all the mentoring demands corresponding to a department
      * @param department Department object representing the department to search on
-     * @return
+     * @return List of all mentoring demands for a department
      */
     public abstract List<MentoringDemand> getMentoringDemands(Department department);
 

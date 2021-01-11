@@ -1,9 +1,7 @@
 package cooptool.business.facades;
 
 import cooptool.exceptions.*;
-import cooptool.models.daos.AbstractDAOFactory;
 import cooptool.models.daos.persistent.UserDAO;
-import cooptool.models.objects.AdminRole;
 import cooptool.models.objects.Department;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.User;
@@ -29,6 +27,7 @@ public class UserFacade {
      * Attribute to stock the user logged in the application
      */
     private User currentUser;
+
     /**
      * Attribute to access to the UserDAO methods
      */
@@ -38,20 +37,22 @@ public class UserFacade {
      * Attribute to stock the pattern of a valid mail address
      */
     private static final Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
+
     /**
      * Attribute to stock the potential mail address
      */
     private static Matcher matcher;
+
     /**
      * Attribute used to create a new password randomly
      */
     private String patternMdp = "abcdefghijklmnopqrstuvwxyz1234567890";
 
-    private UserFacade() {
-    }
+    private UserFacade() {}
 
     /**
-     * @return l'unique instance du singleton UserFacade
+     * Get the UserFacade instance
+     * @return UserFacade instance
      */
     public static UserFacade getInstance() {
         return LazyHolder.INSTANCE;
@@ -60,8 +61,8 @@ public class UserFacade {
     /**
      * Function used to login an user using his credentials <br>
      * It asks the database his information and then creates and set the current user
-     * @param mail
-     * @param password
+     * @param mail Mail of the user who wants to logged in
+     * @param password Password entered
      * @throws MailNotFound : if there is no match
      * @throws UnmatchedPassword : if the password does not corresponds to the mail
      */
@@ -79,12 +80,12 @@ public class UserFacade {
     /**
      * Function used to register an user using the provided information <br>
      * It verifies the format of the information and then creates and save a new user
-     * @param firstName
-     * @param lastName
-     * @param mail
-     * @param department
-     * @param password
-     * @param confirmedPassword
+     * @param firstName First name of the user
+     * @param lastName Last name of the user
+     * @param mail Mail of the user
+     * @param department Department of the user
+     * @param password Password of the user
+     * @param confirmedPassword Confirmed password of the user
      * @throws MailAlreadyExists : if the mail is already in the database
      * @throws MailNotConformed : if the mail is not conformed with a university mail
      * @throws PasswordNotConformed : if the password is not conformed
@@ -111,7 +112,7 @@ public class UserFacade {
 
     /**
      * Ask the list of all the student belonging to the provided department
-     * @param department
+     * @param department Department we want the users
      * @return a list of the students belonging to the provided department
      */
     public List<User> findStudentByDepartment(Department department){
@@ -122,7 +123,7 @@ public class UserFacade {
      * Create a new password for the user corresponding to the provided mail <br>
      * Send the new password by mail to the concerned user <br>
      * Save the new password
-     * @param mail
+     * @param mail Mail we want to send a mail
      */
     public void sendValidationCode(String mail) {
         User user = userDAO.findUserByMail(mail);
@@ -137,7 +138,7 @@ public class UserFacade {
 
     /**
      * Check if the code entered by the user corresponds to the user's validation code
-     * @param testedCode
+     * @param testedCode Verification code
      * @return True if the testedCode is the user's validation code, False otherwise
      */
     public boolean checkValidationCode(int testedCode){
@@ -150,9 +151,9 @@ public class UserFacade {
     /**
      * Delete the account of the user
      * Disconnect the user if he deleted his own account
-     * @param user
+     * @param user User we want to delete the account
      */
-    public void deleteAccount(User user){
+    public void deleteAccount(User user) {
         userDAO.delete(user);
         if (user.equals(currentUser)){
             currentUser= null;
@@ -161,10 +162,10 @@ public class UserFacade {
 
     /**
      * Update a user's account with the provided information
-     * @param firstName
-     * @param lastName
-     * @param department
-     * @param description
+     * @param firstName New first name of the student
+     * @param lastName New last name of the student
+     * @param department New department of the student
+     * @param description New description of the student
      */
     public void updateAccount(String firstName, String lastName, Department department, String description){
         User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
@@ -176,9 +177,9 @@ public class UserFacade {
 
     /**
      * Update the user's password with the provided password
-     * @param oldPassword
-     * @param newPassword
-     * @param newConfirmedPassword
+     * @param oldPassword Old password of the user
+     * @param newPassword New password of the user
+     * @param newConfirmedPassword New confirmed password of the user
      * @throws UnmatchedPassword : if the old password doesn't match with the current password or if newPassword doesn't match with the newConfirmedPassword
      * @throws PasswordNotConformed : if the password is not confirmed
      */
@@ -201,7 +202,7 @@ public class UserFacade {
      * Create a new password for the user corresponding to the provided mail address
      * Update the password of the user with this new password
      * Send a mail to the user containing the new password
-     * @param mail
+     * @param mail Mail we want to send the new password
      * @throws MailNotFound : if the mail doesn't exist
      */
     public void forgotPassword(String mail) throws MailNotFound {
@@ -240,7 +241,8 @@ public class UserFacade {
     }
 
     /**
-     * @return the current User
+     * Get the current user of the application
+     * @return Current user of the application
      */
     public User getCurrentUser() {
         return currentUser;

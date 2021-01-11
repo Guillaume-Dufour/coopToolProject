@@ -20,6 +20,9 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * LoginController class
+ */
 public class LoginController implements Initializable{
 
     @FXML

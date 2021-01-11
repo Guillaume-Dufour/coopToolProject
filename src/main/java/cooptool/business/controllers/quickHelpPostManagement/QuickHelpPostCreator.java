@@ -5,48 +5,52 @@ import cooptool.business.ViewPath;
 import cooptool.business.facades.QuickHelpPostFacade;
 import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
-import cooptool.models.objects.*;
-import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+import cooptool.models.objects.StudentRole;
+import cooptool.models.objects.Subject;
+import cooptool.models.objects.User;
+import cooptool.utils.Components;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.util.StringConverter;
 
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * QuickHelpPostCreator class
+ */
 public class QuickHelpPostCreator implements Initializable {
 
     @FXML
-    ComboBox<Subject> subject;
+    private ComboBox<Subject> subject;
+
     @FXML
-    TextArea description;
+    private TextArea description;
+
     @FXML
-    Button creationButton, cancelButton;
+    private Button creationButton, cancelButton;
+
     @FXML
-    Label errorLabel;
+    private Label errorLabel;
 
     /**
      * Attribute to access to the current user's methods
      */
-    private User user = UserFacade.getInstance().getCurrentUser();
-    /**
-     * Attribute to get the student role's methods
-     */
-    private StudentRole student = (StudentRole) user.getRole();
+    private final User user = UserFacade.getInstance().getCurrentUser();
+
     /**
      * Attribute to access to the QuickHelpPostFacade methods
      */
-    private QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+    private final QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+
     /**
      * Attribute to get the lists of subjects of the current user's department
      */
-    private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(student.getDepartment());
+    private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(((StudentRole) user.getRole()).getDepartment());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,17 +60,16 @@ public class QuickHelpPostCreator implements Initializable {
     /**
      * Method called by creationButton <br>
      * Verify if the subject and/or the description is empty and if not, create the quickHelpPost then reload the view
-     * @param actionEvent
      */
-    public void create(ActionEvent actionEvent) {
-        if(subject.getValue() == null) {
-            errorLabel.setText("Veuillez choisir une matière.");
+    public void create() {
+        if (subject.getValue() == null) {
+            errorLabel.setText("Veuillez choisir une matière");
         }
-        else if(description.getText() == "") {
-            errorLabel.setText("Veuillez écrire une description.");
+        else if (description.getText().equals("")) {
+            errorLabel.setText("Veuillez écrire une description");
         }
         else {
-            QuickHelpPostFacade.getInstance().create(description.getText(), subject.getValue(), user);
+            qhpFacade.create(description.getText(), subject.getValue(), user);
             ViewLoader.getInstance().load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
         }
     }
@@ -75,21 +78,8 @@ public class QuickHelpPostCreator implements Initializable {
      * Method called by initialize method <br>
      * Display a box which contains the list of subjects (attribute)
      */
-    private void initializeSubjectBox(){
-        subject.setItems(FXCollections.observableList(subjects));
-        subject.setConverter(new StringConverter<>() {
-
-            @Override
-            public String toString(Subject object) {
-                return object != null ? object.getName() : "Choisir une matière...";
-            }
-
-            @Override
-            public Subject fromString(String string) {
-                return null;
-            }
-
-        });
+    private void initializeSubjectBox() {
+        Components.initializeSubjectBox(subjects, subject);
     }
 
     /**

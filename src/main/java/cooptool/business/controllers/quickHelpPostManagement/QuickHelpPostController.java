@@ -26,35 +26,46 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * QuickHelpPostController class
+ */
 public class QuickHelpPostController implements Initializable {
 
     @FXML
-    ScrollPane commentsPane;
+    private ScrollPane commentsPane;
+
     @FXML
-    Text descriptionArea;
+    private Text descriptionArea;
+
     @FXML
-    TextArea commentArea;
+    private TextArea commentArea;
+
     @FXML
-    Label creatorLabel,subjectLabel,creationDateLabel;
+    private Label creatorLabel,subjectLabel,creationDateLabel;
+
     @FXML
-    Button deleteButton, updateDescriptionButton, comeBackButton, commentButton;
+    private Button deleteButton, updateDescriptionButton, comeBackButton, commentButton;
 
     /**
      * Attribute to access to the UserFacade methods
      */
     private final UserFacade userFacade = UserFacade.getInstance();
+
     /**
      * Attribute to access to the ViewLoader singleton
      */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+
     /**
      * Attribute to access to the QuickHelpPostFacade methods
      */
     private final QuickHelpPostFacade qhpFacade = QuickHelpPostFacade.getInstance();
+
     /**
      * Attribute to access to the PostFacade methods
      */
-    private PostFacade postFacade = PostFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
+
     /**
      * Attribute to access to the QuickHelpPost methods
      */

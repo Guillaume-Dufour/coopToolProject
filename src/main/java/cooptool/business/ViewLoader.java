@@ -10,18 +10,32 @@ import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 
+/**
+ * ViewLoader class
+ */
 public class ViewLoader extends Parent {
 
+    /**
+     * Instance of the ViewLoader
+     */
     private static ViewLoader viewLoader = null;
 
+    /**
+     * Stage of the application
+     */
     private Stage stage;
 
+    /**
+     * List of previous views of the application to make the history
+     */
     private final Deque<ViewPath> previousView = new LinkedList<>();
 
-    private ViewLoader() {
+    private ViewLoader() {}
 
-    }
-
+    /**
+     * Get the instance of the ViewLoader
+     * @return Instance of the ViewLoader
+     */
     public static ViewLoader getInstance() {
 
         if (viewLoader == null) {
@@ -31,6 +45,10 @@ public class ViewLoader extends Parent {
         return viewLoader;
     }
 
+    /**
+     * Set the stage of the ViewLoader
+     * @param stage Stage of the application
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -64,6 +82,10 @@ public class ViewLoader extends Parent {
 
     }
 
+    /**
+     * Get the previous view to go back
+     * @return Previous ViewPath
+     */
     public ViewPath getPreviousPath() {
         this.previousView.removeLast();
         return this.previousView.getLast();

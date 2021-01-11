@@ -3,71 +3,81 @@ package cooptool.business.controllers.quickHelpPostManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.*;
-import cooptool.models.objects.*;
+import cooptool.models.objects.Department;
+import cooptool.models.objects.QuickHelpPost;
+import cooptool.models.objects.StudentRole;
+import cooptool.models.objects.Subject;
 import cooptool.utils.Components;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * QuickHelpPostDisplay class
+ */
 public class QuickHelpPostDisplay implements Initializable {
 
     @FXML
-    Button displayQHPButton, displayMyQHPButton, creationQHPButton, validateDepartmentButton;
+    private Button displayQHPButton, displayMyQHPButton, creationQHPButton, validateDepartmentButton;
+
     @FXML
-    GridPane grid;
+    private GridPane grid;
+
     @FXML
-    HBox pageHbox;
+    private HBox pageHbox;
+
     @FXML
-    ComboBox<Department> department;
+    private ComboBox<Department> department;
+
     @FXML
-    ComboBox<Subject> subjectComboBox;
+    private ComboBox<Subject> subjectComboBox;
 
     /**
      * Attribute to access to the QuickHelpPostFacade methods
      */
     private final QuickHelpPostFacade quickHelpPostFacade = QuickHelpPostFacade.getInstance();
+
     /**
      * Attribute to access to the PostFacade methods
      */
     private final PostFacade postFacade = PostFacade.getInstance();
+
     /**
      * Attribute to access to the current user's methods
      */
     private final UserFacade userFacade = UserFacade.getInstance();
+
     /**
      * Attribute to access to the ViewLoader methods
      */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+
     /**
      * Attribute that we change according the quick help posts we want to display
      */
-    List<QuickHelpPost> partialQuickHelpPosts;
+    private List<QuickHelpPost> partialQuickHelpPosts;
+
     /**
      * Attribute to access to the Department methods
      */
-    private DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+    private final DepartmentFacade departmentFacade = DepartmentFacade.getInstance();
+
     /**
      * Attribute to access to the SubjectFacade methods
      */
     private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
+
     /**
      * Attribute with all the subjects of a department
      */
@@ -83,7 +93,7 @@ public class QuickHelpPostDisplay implements Initializable {
         // The user is a student
         else {
             disableAdminRights();
-            partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
+            partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts();
             Components.initializeSubjectBox(subjects,subjectComboBox);
             handleSubjectChange();
             createNavigationButtons();
@@ -97,20 +107,7 @@ public class QuickHelpPostDisplay implements Initializable {
      */
     public void createFilterDepartment() {
         List<Department> departments = departmentFacade.getAllDepartments();
-        department.setItems(FXCollections.observableList(departments));
-        department.setConverter(new StringConverter<>() {
-
-            @Override
-            public String toString(Department department) {
-                return department != null ? department.getAbbreviation() + " " + department.getYear(): "Choisir un départment...";
-            }
-
-            @Override
-            public Department fromString(String string) {
-                return null;
-            }
-
-        });
+        Components.createDepartmentComboBox(department, departments);
     }
 
     /**
@@ -119,11 +116,15 @@ public class QuickHelpPostDisplay implements Initializable {
      * @param offset integer to decide how many quick help posts we want to see by page more/less than 6
      */
     public void displayQuickHelpPosts(int offset) {
+
         clearGrid();
-        for(int i=offset;i<6+offset;i++){
-            if(i==partialQuickHelpPosts.size()){
+
+        for(int i = offset; i < 6 + offset; i++) {
+
+            if (i == partialQuickHelpPosts.size()) {
                 break;
             }
+
             QuickHelpPost qhp = partialQuickHelpPosts.get(i);
             StudentRole studentRole = (StudentRole) qhp.getCreator().getRole();
             BorderPane borderPane = new BorderPane();
@@ -157,7 +158,7 @@ public class QuickHelpPostDisplay implements Initializable {
      * Change the view to come back to quick help post home page with all the quick help post of the user's department
      */
     public void goToQHPDisplayPage() {
-        partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
+        partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts();
         viewLoader.load(ViewPath.QUICK_HELP_POST_HOME_PAGE);
     }
 
@@ -203,11 +204,11 @@ public class QuickHelpPostDisplay implements Initializable {
      * Create navigation bar according the number of quick help posts to display
      */
     public void createNavigationButtons() {
-        int numberOfButtons = (partialQuickHelpPosts.size()-1)/6 +1;
-        for(int j=1;j<=numberOfButtons;j++){
+        int numberOfButtons = (partialQuickHelpPosts.size() - 1) / 6 + 1;
+        for(int j = 1; j <= numberOfButtons; j++) {
             Button button = new Button(String.valueOf(j));
             button.setOnAction(event -> {
-                displayQuickHelpPosts((Integer.parseInt(button.getText())-1) * 6);
+                displayQuickHelpPosts((Integer.parseInt(button.getText()) - 1) * 6);
             });
             pageHbox.getChildren().add(button);
         }
@@ -253,7 +254,7 @@ public class QuickHelpPostDisplay implements Initializable {
         subjectComboBox.setOnAction(event -> {
             Subject subject = subjectComboBox.getValue();
             if(subject !=null) {
-                partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts(null);
+                partialQuickHelpPosts = quickHelpPostFacade.getQuickHelpPosts();
                 reload(postFacade.filterPostsPerSubject(partialQuickHelpPosts,subject));
             }
             else {

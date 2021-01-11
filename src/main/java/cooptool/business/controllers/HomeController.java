@@ -5,6 +5,9 @@ import cooptool.business.ViewPath;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+/**
+ * HomeController class
+ */
 public class HomeController {
 
     @FXML

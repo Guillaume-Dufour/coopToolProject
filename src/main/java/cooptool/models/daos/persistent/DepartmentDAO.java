@@ -10,6 +10,9 @@ import java.util.List;
  */
 public abstract class DepartmentDAO {
 
+    /**
+     * Instance of the DepartmentDAO
+     */
     private static final DepartmentDAO INSTANCE = AbstractDAOFactory.getInstance().getDepartmentDAO();
 
     protected DepartmentDAO() {}

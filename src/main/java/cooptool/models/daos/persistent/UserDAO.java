@@ -38,59 +38,59 @@ public abstract class UserDAO {
     public abstract List<User> findUserByDepartment(Department department);
 
     /**
-     *
-     * @param user
-     * @return
+     * Function called to create a new user in the database from the provided user
+     * @param user User to be added in the database
+     * @return True if the creation is a success, False otherwise
      */
     public abstract boolean create(User user);
 
     /**
-     *
-     * @param user
-     * @return
+     * Function called to update a user in the database from the provided user
+     * @param user User to be updated in the database
+     * @return True if the update is a success, False otherwise
      */
     public abstract boolean update(User user);
 
     /**
-     *
-     * @param user
-     * @return
+     * Function called to update the user's password in the database from the provided user
+     * @param user User to be updated in the database
+     * @return True if the update is a success, False otherwise
      */
     public abstract boolean updatePassword(User user);
 
     /**
-     *
-     * @param id
-     * @return
+     * Function called to update the user's validation state in the database from the provided student's id
+     * @param id Id of the concerned user
+     * @return True if the update is a success, False otherwise
      */
     public abstract boolean updateValidation(int id);
 
     /**
-     *
-     * @param user
-     * @return
+     * Function called to delete a user from the database
+     * @param user User to be deleted from the database
+     * @return True if the deletion is a success, False otherwise
      */
     public abstract boolean delete(User user);
 
     /**
-     *
-     * @param userId
-     * @param validationCode
-     * @return
+     * Function called to create a user's validation code in the database with the provided information
+     * @param userId Id of the concerned user
+     * @param validationCode Validation code
+     * @return True if the creation is a success, False otherwise
      */
     public abstract boolean createValidationCode(int userId, int validationCode);
 
     /**
-     *
-     * @param id
-     * @return
+     * Return the validation code of the corresponding user
+     * @param id Id of the concerned user
+     * @return the validation code if the corresponding user
      */
     public abstract int getCodeByUser(int id);
 
     /**
-     *
-     * @param id
-     * @return
+     * Function called to delete the validation code of the corresponding user
+     * @param id Id of the concerned user
+     * @return True if the deletion is a success, False otherwise
      */
     public abstract boolean deleteCodeByUser(int id);
 }

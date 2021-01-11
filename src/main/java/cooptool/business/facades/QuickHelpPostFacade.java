@@ -6,31 +6,37 @@ import cooptool.models.objects.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+/**
+ * QuickHelpPostFacade class
+ */
 public class QuickHelpPostFacade {
 
     /**
      * Attribute to stock the QuickHelpPostFacade singleton
      */
     private static final QuickHelpPostFacade INSTANCE;
+
     /**
      * Attribute to access to the QuickHelpPostDAO methods
      */
-    private QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+    private final QuickHelpPostDAO quickHelpPostDAO = QuickHelpPostDAO.getInstance();
+
     /**
      * Attribute to stock the user logged in the application
      */
-    private User currentUser = UserFacade.getInstance().getCurrentUser();
+    private final User currentUser = UserFacade.getInstance().getCurrentUser();
+
     /**
      * Attribute to access to the postFacade methods
      */
-    private PostFacade postFacade = PostFacade.getInstance();
+    private final PostFacade postFacade = PostFacade.getInstance();
+
 
     static{
         INSTANCE = new QuickHelpPostFacade();
     }
 
-    private QuickHelpPostFacade(){}
+    private QuickHelpPostFacade() {}
 
     /**
      * @return the unique instance of the QuickHelpPostFacade singleton
@@ -68,10 +74,9 @@ public class QuickHelpPostFacade {
 
     /**
      * Method which get the quick help posts of the department of the current student
-     * @param department
      * @return the list of quick help posts
      */
-    public List<QuickHelpPost> getQuickHelpPosts(Department department){
+    public List<QuickHelpPost> getQuickHelpPosts(){
         List<QuickHelpPost> list = null;
         UserRole userRole = currentUser.getRole();
         if(userRole instanceof StudentRole){
@@ -82,8 +87,8 @@ public class QuickHelpPostFacade {
 
     /**
      * Method which get the list of quick help posts according a department abbreviation and a year
-     * @param abbreviation
-     * @param year
+     * @param abbreviation Abbreviation of the department we want the quickHelpPosts
+     * @param year Year of the department we want the quickHelpPosts
      * @return the corresponding list of quick help posts
      */
     public List<QuickHelpPost> getQHPByAbbreviation(String abbreviation, int year) {
@@ -97,7 +102,7 @@ public class QuickHelpPostFacade {
 
     /**
      * Method to get a quick help post according its id
-     * @param id
+     * @param id ID of the quickHelpPost we want to get
      * @return the corresponding quick help post
      */
     public QuickHelpPost getQuickHelpPost(int id) {
@@ -108,7 +113,7 @@ public class QuickHelpPostFacade {
 
     /**
      * Method to verify if the current student is the creator of a quick help post
-     * @param qhp
+     * @param qhp QuickHelpPost we want to see if it's one of the current user
      * @return a boolean, if it's true the current user is the creator of the quick help post, otherwise it's not
      */
     public boolean isCurrentUserCreatorOfQHP(QuickHelpPost qhp) {
@@ -117,7 +122,7 @@ public class QuickHelpPostFacade {
 
     /**
      * Method to update the description of the quick help post in parameter
-     * @param qhp
+     * @param qhp QuickHelpPost we want to update
      * @param updatedDesc the text of the description
      */
     public void updateDescription(QuickHelpPost qhp,String updatedDesc){

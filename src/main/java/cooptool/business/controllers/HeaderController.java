@@ -16,6 +16,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * HeaderController class
+ */
 public class HeaderController implements Initializable {
 
     @FXML
