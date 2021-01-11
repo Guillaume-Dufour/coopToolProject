@@ -77,9 +77,6 @@ public class HandleDepartmentsController implements Initializable {
         ViewLoader.getInstance().load(ViewPath.CREATE_MODIFY_DEPARTMENT, department);
     }
 
-    public void deleteDepartment() {
-    }
-
     public void searchDepartment() {
 
         department = listDepartments.getValue();
@@ -146,6 +143,7 @@ public class HandleDepartmentsController implements Initializable {
         });
     }
 
+    //TODO : finir la javadoc
     public void updateAvailabilityDepartment(ActionEvent event, Department department) {
 
         int available = department.changeAvailability();

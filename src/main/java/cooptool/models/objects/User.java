@@ -43,24 +43,49 @@ public class User {
         this(0,mail, password, role, validate);
     }
 
+    /**
+     * return the Id of the user
+     * @return Id of the user
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * return the mail of the user
+     * @return mail of the user
+     */
     public String getMail() {
         return mail;
     }
 
+    /**
+     * return the password of the user
+     * @return password of the user
+     */
     public String getPassword(){ return password; }
 
+    /**
+     * return the role of the user
+     * @return role of the user
+     */
     public UserRole getRole() {
         return role;
     }
 
+    /**
+     * return the validate state of the user
+     * @return validate state of the user
+     */
     public int getValidate() {
         return validate;
     }
 
+    /**
+     * check if the provided password correspond to the user password
+     * @param password
+     * @return True if the provided password correspond to the user password, False otherwise
+     */
     public boolean checkPassword(String password) {
         return BCrypt.checkpw(password, this.password);
     }
@@ -75,18 +100,34 @@ public class User {
                 '}';
     }
 
+    /**
+     * set a new id to the user
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     * set a new mail to the user
+     * @param mail
+     */
     public void setMail(String mail) {
         this.mail = mail;
     }
 
+    /**
+     * set a new password to the user
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * set a new role to the user
+     * @param role
+     */
     public void setRole(UserRole role) {
         this.role = role;
     }

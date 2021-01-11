@@ -29,6 +29,12 @@ public class Mail {
                 });
     }
 
+    /**
+     * Method called to send an email with the provided information
+     * @param subject Subject of the mail
+     * @param text Content of the mail
+     * @param adrReceiver Recipients of the mail
+     */
     public static void sendMail(String subject, String text, String adrReceiver) {
 
         try {

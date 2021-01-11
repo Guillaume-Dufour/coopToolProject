@@ -87,6 +87,10 @@ public class CreateModifyDepartmentController implements Initializable {
         }
     }
 
+    /**
+     * Apdate a department from the fields
+     * @param event Action
+     */
     public void updateDepartment(ActionEvent event) {
 
         try {
