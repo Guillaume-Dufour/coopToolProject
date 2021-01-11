@@ -41,19 +41,9 @@ public class MentoringDemand extends Post{
         this.schedules = schedules;
     }
 
-    public MentoringDemand(Subject subject, String description, ArrayList<Schedule> schedules, User creator) {
-        super(subject, description, creator);
-        this.schedules = schedules;
-    }
-
-    public MentoringDemand(int id, Subject subject, String description, LocalDateTime time) {
-        super(id, subject, description, null, time);
-        this.schedules = null;
-    }
-
     /**
      * Add a schedule to the demand
-     * @param schedule
+     * @param schedule the schedule to add
      */
     public void addSchedule(Schedule schedule){
         schedules.add(schedule);
@@ -61,7 +51,7 @@ public class MentoringDemand extends Post{
 
     /**
      * Add a new participation to the demand
-     * @param newParticipation
+     * @param newParticipation the participation object to add to the demand
      */
     public void addParticipation(Participation newParticipation){
         participationArray.add(newParticipation);
@@ -69,7 +59,7 @@ public class MentoringDemand extends Post{
 
     /**
      * Returns all the participations of the demand
-     * @return an arraylist of Participation objects
+     * @return an arraylist of all the Participation objects of the demand
      */
     public ArrayList<Participation> getParticipationArray(){
         return participationArray;

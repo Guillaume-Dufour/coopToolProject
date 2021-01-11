@@ -4,10 +4,8 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
 import cooptool.business.facades.PostFacade;
-import cooptool.business.facades.SubjectFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
-import cooptool.exceptions.TooMuchSchedules;
 import cooptool.models.objects.*;
 import cooptool.utils.TimeUtils;
 import javafx.application.Platform;
@@ -195,7 +193,7 @@ public class MentoringDemandController implements Initializable {
             try {
                 mentoringDemandFacade.addSchedule(demand,localDateTime);
                 refresh();
-            } catch (TooMuchSchedules exception) {
+            } catch (Exception exception) {
                 errorLabel.setText(exception.getMessage());
             }
         });
@@ -350,6 +348,7 @@ public class MentoringDemandController implements Initializable {
             }
             schedulesPane.add(button,1,counter);
             addScheduleDeletionButtonIfCreator(schedule,counter);
+            setNumberOfParticipants(schedule,counter);
             counter++;
         }
     }
@@ -361,6 +360,7 @@ public class MentoringDemandController implements Initializable {
             CheckBox checkBox = new CheckBox(schedule.toString());
             schedulesPane.add(checkBox,0,counter);
             addScheduleDeletionButtonIfCreator(schedule,counter);
+            setNumberOfParticipants(schedule,counter);
             counter++;
         }
     }
@@ -385,6 +385,19 @@ public class MentoringDemandController implements Initializable {
             }
             counter++;
         }
+    }
+
+    private void setNumberOfParticipants(Schedule schedule,int index){
+        int numberOfParticipants = 0;
+        for(Participation participation : demand.getParticipationArray()){
+            ArrayList<Schedule> schedulesParticipation = participation.getParticipationSchedules();
+            for(Schedule scheduleParticipation : schedulesParticipation){
+                if(schedule.getDateTime().equals(scheduleParticipation.getDateTime())){
+                    numberOfParticipants++;
+                }
+            }
+        }
+        schedulesPane.add(new Label(Integer.toString(numberOfParticipants)),3,index);
     }
 
     public void comment() {

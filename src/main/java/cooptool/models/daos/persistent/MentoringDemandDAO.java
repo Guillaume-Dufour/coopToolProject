@@ -24,19 +24,19 @@ public abstract class MentoringDemandDAO {
 
     /**
      * Inserts a new mentoring demand
-     * @param mentoringDemand MentoringDemand object which is the one to create
+     * @param mentoringDemand the corresponding demand
      */
     public abstract void create(MentoringDemand mentoringDemand);
 
     /**
      * Updates the description of a mentoring demand
-     * @param mentoringDemand MentoringDemand object we want to do the update on
+     * @param mentoringDemand the corresponding demand
      */
     public abstract void updateDescription(MentoringDemand mentoringDemand);
 
     /**
      * Deletes a mentoring demand
-     * @param mentoringDemand MentoringDemand we want to delete
+     * @param mentoringDemand the corresponding demand
      */
     public abstract void delete(MentoringDemand mentoringDemand);
 
@@ -49,14 +49,14 @@ public abstract class MentoringDemandDAO {
 
     /**
      * Adds a participant to a demand
-     * @param mentoringDemand MentoringDemand to participate
+     * @param mentoringDemand the corresponding demand
      * @param participation Participation object representing participation of the user
      */
     public abstract void participate(MentoringDemand mentoringDemand, Participation participation);
 
     /**
      * Deletes an user participation from a demand
-     * @param demand MentoringDemand to delete the participation
+     * @param demand the corresponding demand
      * @param user User, the user which wants to delete his participation
      */
     public abstract void suppressParticipation(MentoringDemand demand, User user);
@@ -70,22 +70,22 @@ public abstract class MentoringDemandDAO {
     public abstract void quitSchedule(MentoringDemand demand, User user, Schedule schedule);
 
     /**
-     * Creates a schedule for a demand in the sql database
-     * @param demand MentoringDemand to add
-     * @param schedule
+     * Creates a schedule for a demand
+     * @param demand the corresponding demand
+     * @param schedule the schedule to add
      */
     public abstract void addSchedule(MentoringDemand demand, Schedule schedule);
 
     /**
-     * Removes a schedule for a demand in the sql database
-     * @param demand MentoringDemand to remove
-     * @param schedule
+     * Removes a schedule for a demand
+     * @param demand the corresponding demand
+     * @param schedule the schedule to remove
      */
     public abstract void removeSchedule(MentoringDemand demand, Schedule schedule);
 
     /**
      * Returns the number of schedules of a mentoring demand
-     * @param demand MentoringDemand to ask
+     * @param demand the corresponding demand
      * @return int, number of schedules
      */
     public abstract int getNumberOfSchedules(MentoringDemand demand);

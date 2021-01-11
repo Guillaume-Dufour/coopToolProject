@@ -35,7 +35,7 @@ public class MentoringDemandCreator implements Initializable {
     @FXML
     DatePicker date;
     @FXML
-    Label infoLabel,errorLabel;
+    Label errorLabel;
     
     private final ViewLoader viewLoader = ViewLoader.getInstance();
     private final User currentUser = userFacade.getCurrentUser();
