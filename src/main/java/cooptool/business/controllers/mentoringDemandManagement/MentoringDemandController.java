@@ -387,17 +387,24 @@ public class MentoringDemandController implements Initializable {
         }
     }
 
-    private void setNumberOfParticipants(Schedule schedule,int index){
-        int numberOfParticipants = 0;
+    private void setNumberOfParticipants(Schedule schedule, int index){
+        int numberOfStudents = 0;
+        int numberOfTutors = 0;
         for(Participation participation : demand.getParticipationArray()){
             ArrayList<Schedule> schedulesParticipation = participation.getParticipationSchedules();
             for(Schedule scheduleParticipation : schedulesParticipation){
                 if(schedule.getDateTime().equals(scheduleParticipation.getDateTime())){
-                    numberOfParticipants++;
+                    if(participation.getParticipationType() == MentoringDemand.STUDENT){
+                        numberOfStudents++;
+                    }
+                    else if(participation.getParticipationType() == MentoringDemand.TUTOR){
+                        numberOfTutors++;
+                    }
                 }
             }
         }
-        schedulesPane.add(new Label(Integer.toString(numberOfParticipants)),3,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfStudents)),3,index);
+        schedulesPane.add(new Label(Integer.toString(numberOfTutors)),4,index);
     }
 
     public void comment() {
