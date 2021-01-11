@@ -12,9 +12,9 @@
         <fx:include maxHeight="1000.0" maxWidth="3000.0" source="../header.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
     <center>
-       <TableView fx:id="historyTableView" layoutX="50.0" layoutY="200.0" prefHeight="350.0" prefWidth="700.0" style="-fx-background-color: WHITE;">
+       <TableView fx:id="historyTableView" layoutX="50.0" layoutY="200.0" prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: WHITE;">
         <columns>
-          <TableColumn fx:id="titlePostCol" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="-1.0" text="Historique" />
+          <TableColumn fx:id="titlePostCol" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="-1.0" text="Historique" />
           <TableColumn fx:id="deletePostCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Supprimer" />
         </columns>
          <columnResizePolicy>
