@@ -146,6 +146,7 @@ public class MentoringDemandFacade {
      * @param demand the corresponding demand
      * @param date the schedule to add
      * @throws TooMuchSchedulesException if there is already 10 schedules or more
+     * @throws ScheduleAlreadyExistsException if the schedule already exists
      */
     public void addSchedule(MentoringDemand demand, LocalDateTime date) throws TooMuchSchedulesException, ScheduleAlreadyExistsException {
         if(mentoringDemandDAO.getNumberOfSchedules(demand) < 10){

@@ -83,7 +83,7 @@ public class Notification {
 
     /**
      * Get the notification user
-     * @return
+     * @return Notification user
      */
     public User getUser() {
         return user;

@@ -128,6 +128,7 @@ public class MentoringDemandController implements Initializable {
 
     /**
      * Function called by the javafx view to participate to the demand
+     * @param actionEvent Action event
      */
     public void participate(ActionEvent actionEvent) {
         ArrayList<Schedule> schedules = new ArrayList<>();

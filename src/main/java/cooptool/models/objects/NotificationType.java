@@ -24,7 +24,7 @@ public enum NotificationType {
     /**
      * Get notification type by its value
      * @param type Value of the notification type we want
-     * @return
+     * @return Notification type
      */
     public static NotificationType getType(int type) {
         return type <= NotificationType.values().length ? NotificationType.values()[type-1] : null;

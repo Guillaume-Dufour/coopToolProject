@@ -84,7 +84,7 @@ public class LoginController implements Initializable{
      * Method called by the register button
      * Switch the user scene to the register page
      */
-    public void goToRegisterPage(ActionEvent event) {
+    public void goToRegisterPage() {
         registerButton.setDisable(true);
         ViewLoader.getInstance().load(ViewPath.REGISTER);
     }

@@ -100,6 +100,7 @@ public class UserFacade {
      * @throws MailNotConformed     : if the mail is not conformed with a university mail
      * @throws PasswordNotConformed : if the password is not conformed
      * @throws UnmatchedPassword    : if the password doesn't match with de confirmedPassword
+     * @throws NameNotConformed     : if the first name or last name are not conformed
      */
     public void register(String firstName, String lastName, String mail,
                          Department department, String password, String confirmedPassword)
@@ -205,6 +206,8 @@ public class UserFacade {
      * @param lastName    New last name of the student
      * @param department  New department of the student
      * @param description New description of the student
+     * @throws MailNotConformed if the mail is not conformed
+     * @throws NameNotConformed if the first name or last name are not conformed
      */
     public void updateAccount(String firstName, String lastName, Department department, String description) throws MailNotConformed, NameNotConformed {
         checkUserInformation(firstName, lastName, currentUser.getMail());

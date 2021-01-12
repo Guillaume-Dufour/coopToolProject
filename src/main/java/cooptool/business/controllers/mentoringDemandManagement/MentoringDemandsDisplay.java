@@ -188,6 +188,7 @@ public class MentoringDemandsDisplay implements Initializable {
 
     /**
      * Function called by the javafx view to load a mentoring demand
+     * @param id Mentoring demand ID
      */
     public void goToMentoringDemand(int id){
         viewLoader.load(ViewPath.GET_MENTORING_DEMAND,id);
