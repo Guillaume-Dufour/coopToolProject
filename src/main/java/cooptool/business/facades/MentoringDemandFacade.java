@@ -21,7 +21,7 @@ public class MentoringDemandFacade {
 
     private PostFacade postFacade = PostFacade.getInstance();
 
-    private User currentUser = UserFacade.getInstance().getCurrentUser();
+    private UserFacade userFacade = UserFacade.getInstance();
     
     private MentoringDemandFacade(){}
 
@@ -41,9 +41,10 @@ public class MentoringDemandFacade {
      */
     public void create(Subject subject,String description,LocalDateTime dateTime){
         ArrayList<Schedule> schedules = new ArrayList<>();
-        schedules.add(new Schedule(dateTime, currentUser));
+        schedules.add(new Schedule(dateTime, userFacade.getCurrentUser()));
+        System.out.println(userFacade.getCurrentUser());
         MentoringDemand demand =
-                new MentoringDemand(-1,subject,description,LocalDateTime.now(),schedules,currentUser);
+                new MentoringDemand(-1,subject,description,LocalDateTime.now(),schedules,userFacade.getCurrentUser());
         mentoringDemandDAO.create(demand);
     }
 
@@ -72,7 +73,7 @@ public class MentoringDemandFacade {
      *          else returns all the existing mentoring demands
      */
     public List<MentoringDemand> getMentoringDemands(){
-        UserRole userRole = currentUser.getRole();
+        UserRole userRole = userFacade.getCurrentUser().getRole();
         if(userRole instanceof StudentRole){
             return mentoringDemandDAO.getMentoringDemands(((StudentRole) userRole).getDepartment());
         }
@@ -87,7 +88,7 @@ public class MentoringDemandFacade {
      * @return Either Participation object if he's participating else it returns null
      */
     public Participation getCurrentUserParticipation(MentoringDemand demand){
-        int idUser = currentUser.getId();
+        int idUser = userFacade.getCurrentUser().getId();
         for(Participation participation : demand.getParticipationArray()){
             if(idUser == participation.getParticipant().getId()){
                 return participation;
@@ -101,7 +102,7 @@ public class MentoringDemandFacade {
      * @param demand the corresponding demand
      */
     public void suppressCurrentUserParticipation(MentoringDemand demand){
-        mentoringDemandDAO.suppressParticipation(demand,currentUser);
+        mentoringDemandDAO.suppressParticipation(demand,userFacade.getCurrentUser());
     }
 
     /**
@@ -113,7 +114,7 @@ public class MentoringDemandFacade {
     public void participate(MentoringDemand demand,int participationType,ArrayList<Schedule> schedules){
         mentoringDemandDAO.participate(
                 demand,
-                new Participation(currentUser,participationType,schedules)
+                new Participation(userFacade.getCurrentUser(),participationType,schedules)
         );
     }
 
@@ -136,7 +137,7 @@ public class MentoringDemandFacade {
      */
     public void quitSchedule(MentoringDemand demand, Schedule schedule){
         mentoringDemandDAO.quitSchedule(
-                demand,currentUser,schedule
+                demand,userFacade.getCurrentUser(),schedule
         );
     }
 
@@ -150,7 +151,7 @@ public class MentoringDemandFacade {
         if(mentoringDemandDAO.getNumberOfSchedules(demand) < 10){
             if(!scheduleAlreadyExistsInDemand(demand,date)){
                 mentoringDemandDAO.addSchedule(
-                        demand,new Schedule(date,currentUser)
+                        demand,new Schedule(date,userFacade.getCurrentUser())
                 );
             }
             else{
@@ -178,7 +179,7 @@ public class MentoringDemandFacade {
      * @return true if he is the creator else returns false
      */
     public boolean isCurrentUserCreatorOfSchedule(Schedule schedule){
-        return currentUser.getId() == schedule.getCreator().getId();
+        return userFacade.getCurrentUser().getId() == schedule.getCreator().getId();
     }
 
     /**
@@ -196,7 +197,7 @@ public class MentoringDemandFacade {
      * @return true if he is else returns false
      */
     public boolean isCurrentUserCreatorOfDemand(MentoringDemand demand){
-        return currentUser.getId() == demand.getCreator().getId();
+        return userFacade.getCurrentUser().getId() == demand.getCreator().getId();
     }
 
     /**

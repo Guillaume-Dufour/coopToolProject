@@ -59,6 +59,8 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
             Schedule initialSchedule = mentoringDemand.getSchedules().get(0);
 
+            System.out.println(mentoringDemand.getCreator().getId());
+
             insertParticipationStatement = connection.prepareStatement(query2);
             insertParticipationStatement.setInt(1, mentoringDemand.getCreator().getId());
             insertParticipationStatement.setInt(2, postId);

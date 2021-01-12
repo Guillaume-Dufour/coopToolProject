@@ -87,11 +87,12 @@ public class RegisterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Components.createDepartmentComboBox(listDepartments, departmentFacade.getAvailableDepartments());
 
-        inputFirstName.setText("Guillaume");
-        inputLastName.setText("Dufour");
-        inputMail.setText("guillaume.dufour@etu.umontpellier.fr");
+        inputFirstName.setText("Marine");
+        inputLastName.setText("Teroitin");
+        inputMail.setText("marine.teroitin@etu.umontpellier.fr");
         inputPassword.setText("guillaume");
         inputConfirmedPassword.setText("guillaume");
+        listDepartments.setValue(departmentFacade.getAvailableDepartments().stream().filter(department -> department.getId() == 7).findFirst().get());
     }
 
 }
