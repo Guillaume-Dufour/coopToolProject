@@ -9,7 +9,6 @@ import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.MentoringDemand;
 import cooptool.models.objects.StudentRole;
 import cooptool.models.objects.Subject;
-import cooptool.models.objects.User;
 import cooptool.utils.Components;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,28 +25,63 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * MentoringDemandsDisplay class
+ */
 public class MentoringDemandsDisplay implements Initializable {
 
     @FXML
-    Button creationButton;
+    private Button creationButton;
+
     @FXML
-    GridPane grid;
+    private GridPane grid;
+
     @FXML
-    HBox pageHbox;
+    private HBox pageHbox;
+
     @FXML
-    ComboBox<Subject> subjectComboBox;
+    private ComboBox<Subject> subjectComboBox;
+
     @FXML
-    Button focusButton,myDemandsButton;
-    
+    private Button focusButton, myDemandsButton;
+
+    /**
+     * Attribute to access the user facade
+     */
     private final UserFacade userFacade = UserFacade.getInstance();
+
+    /**
+     * Attribute to access to the post facade
+     */
     private final PostFacade postFacade = PostFacade.getInstance();
+
+    /**
+     * Attribute to access to the mentoring demand facade
+     */
     private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+
+    /**
+     * Attribute to access to the View loader
+     */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+
+    /**
+     * Attribute to access to the subject facade
+     */
     private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
+
+    /**
+     * List of subjects
+     */
     private final List<Subject> subjects = subjectFacade.getPromotionSubjects();
 
+    /**
+     * List of mentoring demands
+     */
     private List<MentoringDemand> allMentoringDemands;
+
     boolean isInitialized = false;
+
     private boolean currentUserDemands = false;
 
     @Override

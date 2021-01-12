@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQLNotificationDAO class
+ */
 public class MySQLNotificationDAO extends NotificationDAO {
 
     Connection connection = MySQLConnection.getInstance();

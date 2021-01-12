@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQLUserDAO class
+ */
 public class MySQLUserDAO extends UserDAO {
 
     Connection connection = MySQLConnection.getInstance();
@@ -126,9 +129,9 @@ public class MySQLUserDAO extends UserDAO {
                 "UPDATE `user` " +
                         "SET password_user = ?" +
                         "WHERE id_user = ?";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setString(1, user.getPassword());
             preparedStatement.setInt(2, user.getId());
             preparedStatement.executeUpdate();
@@ -145,9 +148,9 @@ public class MySQLUserDAO extends UserDAO {
                 "UPDATE user " +
                         "SET validate = 1 " +
                         "WHERE id_user = ?";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -161,9 +164,9 @@ public class MySQLUserDAO extends UserDAO {
     public boolean delete(User user) {
         String statement =
                 "DELETE FROM `user` WHERE `user`.`id_user` = ?";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, user.getId());
             preparedStatement.executeUpdate();
 
@@ -179,9 +182,9 @@ public class MySQLUserDAO extends UserDAO {
         String statement =
                 "INSERT INTO validation_user (id_user, code_validation) " +
                         "VALUES (?,?);";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1,userId);
             preparedStatement.setInt(2, validationCode);
             preparedStatement.executeUpdate();
@@ -219,9 +222,9 @@ public class MySQLUserDAO extends UserDAO {
     public boolean deleteCodeByUser(int id){
         String statement =
                 "DELETE FROM `validation_user` WHERE id_user = ?";
-        PreparedStatement preparedStatement = null;
+
         try {
-            preparedStatement = connection.prepareStatement(statement);
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -230,5 +233,4 @@ public class MySQLUserDAO extends UserDAO {
         }
         return true;
     }
-
 }

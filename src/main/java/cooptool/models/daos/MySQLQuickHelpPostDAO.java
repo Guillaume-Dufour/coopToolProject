@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQLQuickHelpPostDAO class
+ */
 public class MySQLQuickHelpPostDAO extends QuickHelpPostDAO {
 
     private final Connection connection = MySQLConnection.getInstance();

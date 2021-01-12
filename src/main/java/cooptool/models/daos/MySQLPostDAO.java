@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQLPostDAO class
+ */
 public class MySQLPostDAO extends PostDAO {
 
     Connection connection = MySQLConnection.getInstance();
@@ -110,9 +113,7 @@ public class MySQLPostDAO extends PostDAO {
     @Override
     public void getComments(Post post) {
         String query =
-                "SELECT comment.id_comment,comment.content_comment,comment.date_comment," +
-                        "user.id_user,user.first_name_user,user.last_name_user," +
-                        "department.abbreviation_department,year_department " +
+                "SELECT * " +
                         "FROM comment " +
                         "JOIN user ON comment.id_user_creator = user.id_user " +
                         "JOIN department ON user.id_department = department.id_department " +
@@ -121,24 +122,8 @@ public class MySQLPostDAO extends PostDAO {
             PreparedStatement selectStatement = connection.prepareStatement(query);
             selectStatement.setInt(1,post.getId());
             ResultSet res = selectStatement.executeQuery();
-            while(res.next()){
-                int idComment = res.getInt(1);
-                String content = res.getString(2);
-                LocalDateTime creationDate = res.getTimestamp(3).toLocalDateTime();
-                int idCreator = res.getInt(4);
-                String firstNameCreator = res.getString(5);
-                String lastNameCreator = res.getString(6);
-                String abbreviationDptCreator = res.getString(7);
-                int yearDptCreator = res.getInt(8);
-                Department departmentCreator =
-                        new Department(-1,null,yearDptCreator,abbreviationDptCreator,-1);
-                StudentRole roleCreator =
-                        new StudentRole(firstNameCreator,lastNameCreator,null,departmentCreator);
-                User creator =
-                        new User(idCreator,null,null, roleCreator,-1);
-                post.addComment(new Comment(idComment,content,creationDate,creator));
-
-                //TODO: createComment
+            while(res.next()) {
+                post.addComment(MySQLFactoryObject.createComment(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -13,10 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -65,6 +62,7 @@ public class SearchStudentController implements Initializable {
             errorLabel.setText("");
             ObservableList<User> items = FXCollections.observableList(userFacade.findStudentByDepartment(department));
             studentListView.setItems(items);
+            studentListView.setPlaceholder(new Label("Il n'y a pas d'etudiant "));
             studentListView.setCellFactory(lv -> new ListCell<>() {
                         @Override
                         public void updateItem(User row, boolean empty) {
