@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * MySQLDepartmentDAO class
+ */
 public class MySQLDepartmentDAO extends DepartmentDAO {
 
     private final Connection connection = MySQLConnection.getInstance();

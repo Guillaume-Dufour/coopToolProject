@@ -86,6 +86,12 @@ public class RegisterController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Components.createDepartmentComboBox(listDepartments, departmentFacade.getAvailableDepartments());
+
+        inputFirstName.setText("Guillaume");
+        inputLastName.setText("Dufour");
+        inputMail.setText("guillaume.dufour@etu.umontpellier.fr");
+        inputPassword.setText("guillaume");
+        inputConfirmedPassword.setText("guillaume");
     }
 
 }

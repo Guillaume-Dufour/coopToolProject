@@ -69,7 +69,7 @@ public class AccountController implements Initializable {
      * Load the previous view
      */
     public void goBack() {
-        ViewLoader.getInstance().load(ViewLoader.getInstance().getPreviousPath(), ((StudentRole)user.getRole()).getDepartment());
+        ViewLoader.getInstance().load(ViewPath.SEARCH_STUDENT, ((StudentRole)user.getRole()).getDepartment());
     }
 
     /**

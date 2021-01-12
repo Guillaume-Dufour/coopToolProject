@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * MySQLMentoringDemandDAO class
+ */
 public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
     Connection connection = MySQLConnection.getInstance();

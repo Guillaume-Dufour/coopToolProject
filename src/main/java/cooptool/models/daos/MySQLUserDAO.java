@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQLUserDAO class
+ */
 public class MySQLUserDAO extends UserDAO {
 
     Connection connection = MySQLConnection.getInstance();

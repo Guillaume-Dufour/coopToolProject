@@ -88,6 +88,7 @@ public class ViewLoader extends Parent {
      */
     public ViewPath getPreviousPath() {
         this.previousView.removeLast();
-        return this.previousView.getLast();
+        ViewPath viewPath= this.previousView.getLast();
+        return viewPath;
     }
 }
