@@ -112,8 +112,6 @@ public class MySQLUserDAO extends UserDAO {
             preparedStatement.setInt(4, ((StudentRole) user.getRole()).getDepartment().getId());
             preparedStatement.setInt(5, user.getId());
 
-            System.out.println(preparedStatement);
-
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

@@ -8,6 +8,7 @@ import cooptool.models.objects.User;
 import cooptool.utils.BCrypt;
 import cooptool.utils.Mail;
 
+import javax.naming.Name;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -36,7 +37,12 @@ public class UserFacade {
     /**
      * Attribute to stock the pattern of a valid mail address
      */
-    private static final Pattern pattern = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
+    private static final Pattern patternMail = Pattern.compile("^[a-z]+-?[a-z]+\\.[a-z]+-?[a-z]+[0-9]{0,2}@etu\\.umontpellier\\.fr$");
+
+    /**
+     * Attribute to stock the pattern of a valid mail address
+     */
+    private static final Pattern patternName = Pattern.compile("^[a-z,A-Z]+$");
 
     /**
      * Attribute to stock the potential mail address
@@ -97,18 +103,10 @@ public class UserFacade {
      */
     public void register(String firstName, String lastName, String mail,
                          Department department, String password, String confirmedPassword)
-            throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword {
+            throws MailAlreadyExists, MailNotConformed, PasswordNotConformed, UnmatchedPassword, NameNotConformed {
 
-        if (!password.equals(confirmedPassword)) {
-            throw new UnmatchedPassword();
-        }
-        matcher = pattern.matcher(mail);
-        if (!matcher.find()) {
-            throw new MailNotConformed();
-        }
-        if (password.length() < 8) {
-            throw new PasswordNotConformed();
-        }
+        checkUserInformation(firstName, lastName, mail);
+        checkPasswordInformation(password, confirmedPassword);
         User user = userDAO.findUserByMail(mail);
         if (user != null) {
             throw new MailAlreadyExists();
@@ -120,6 +118,32 @@ public class UserFacade {
                 new StudentRole(firstName, lastName, "", department), 0);
         boolean res = userDAO.create(user);
 
+    }
+
+    private void checkUserInformation (String firstName, String lastName, String mail)
+            throws MailNotConformed, NameNotConformed {
+        matcher = patternMail.matcher(mail);
+        if (!matcher.find()) {
+            throw new MailNotConformed();
+        }
+        matcher = patternName.matcher(firstName);
+        if (!matcher.find()){
+            throw new NameNotConformed();
+        }
+        matcher = patternName.matcher(lastName);
+        if (!matcher.find()){
+            throw new NameNotConformed();
+        }
+    }
+
+    private void checkPasswordInformation (String password, String confirmedPassword)
+            throws PasswordNotConformed, UnmatchedPassword {
+        if (!password.equals(confirmedPassword)) {
+            throw new UnmatchedPassword();
+        }
+        if (password.length() < 8) {
+            throw new PasswordNotConformed();
+        }
     }
 
     /**
@@ -157,9 +181,7 @@ public class UserFacade {
      * @return True if the testedCode is the user's validation code, False otherwise
      */
     public boolean checkValidationCode(int testedCode) {
-        System.out.println("je suis dans userFacade, tested code = " + testedCode);
         int code = userDAO.getCodeByUser(currentUser.getId());
-        System.out.println("je suis dans userFacade, code = " + code);
         return code == testedCode;
     }
 
@@ -184,7 +206,8 @@ public class UserFacade {
      * @param department  New department of the student
      * @param description New description of the student
      */
-    public void updateAccount(String firstName, String lastName, Department department, String description) {
+    public void updateAccount(String firstName, String lastName, Department department, String description) throws MailNotConformed, NameNotConformed {
+        checkUserInformation(firstName, lastName, currentUser.getMail());
         User user = new User(currentUser.getId(), currentUser.getMail(), currentUser.getPassword(), new StudentRole(
                 firstName, lastName, description, department
         ), 1);
@@ -202,15 +225,12 @@ public class UserFacade {
      * @throws PasswordNotConformed : if the password is not confirmed
      */
     public void updatePassword(String oldPassword, String newPassword, String newConfirmedPassword) throws UnmatchedPassword, PasswordNotConformed {
-        if (newPassword.equals(newConfirmedPassword) && checkPassword(currentUser, oldPassword)) {
-            if (newPassword.length() >= 8) {
-                String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-                User user = new User(currentUser.getId(), currentUser.getMail(), password, currentUser.getRole(), 1);
-                userDAO.updatePassword(user);
-                currentUser = user;
-            } else {
-                throw new PasswordNotConformed();
-            }
+        if (checkPassword(currentUser, oldPassword)) {
+            checkPasswordInformation(newPassword, newConfirmedPassword);
+            String password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            User user = new User(currentUser.getId(), currentUser.getMail(), password, currentUser.getRole(), 1);
+            userDAO.updatePassword(user);
+            currentUser = user;
         } else {
             throw new UnmatchedPassword();
         }
@@ -287,4 +307,5 @@ public class UserFacade {
     public boolean checkPassword(User user, String password) {
         return BCrypt.checkpw(password, user.getPassword());
     }
+
 }

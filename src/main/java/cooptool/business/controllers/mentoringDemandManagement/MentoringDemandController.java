@@ -3,6 +3,7 @@ package cooptool.business.controllers.mentoringDemandManagement;
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.MentoringDemandFacade;
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
@@ -67,6 +68,11 @@ public class MentoringDemandController implements Initializable {
      * Attribute to access to the user facade
      */
     private final UserFacade userFacade = UserFacade.getInstance();
+
+    /**
+     * Attribute to access to the notification facade
+     */
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
      * Attribute to access to the View loader
@@ -413,8 +419,12 @@ public class MentoringDemandController implements Initializable {
         int counter = 0;
         for(Comment comment : comments){
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
-            gridPane.add(new Text(comment.getContent()),0,counter);
-            gridPane.add(new Label(studentRole.getStudentRepresentation()),1,counter);
+            Node nodeText = new Text(comment.getContent());
+            gridPane.add(nodeText,0,counter);
+            GridPane.setMargin(nodeText, new Insets(10, 10, 10, 10));
+            Node nodeLabel = new Label(studentRole.getStudentRepresentation());
+            gridPane.add(nodeLabel,1,counter);
+            GridPane.setMargin(nodeLabel, new Insets(10, 10, 10, 10));
             if(comment.getCreator().getId() == userFacade.getCurrentUser().getId()){
                 Button deletionButton = new Button("Delete");
                 deletionButton.setStyle("-fx-background-color: #F14521");
@@ -423,6 +433,7 @@ public class MentoringDemandController implements Initializable {
                     refresh();
                 });
                 gridPane.add(deletionButton,2,counter);
+                GridPane.setMargin(deletionButton, new Insets(10, 10, 10, 10));
             }
             counter++;
         }
@@ -444,8 +455,8 @@ public class MentoringDemandController implements Initializable {
                 }
             }
         }
-        schedulesPane.add(new Label(Integer.toString(numberOfStudents) + " etudiants"),3,index);
-        schedulesPane.add(new Label(Integer.toString(numberOfTutors) + " tuteur"),4,index);
+        schedulesPane.add(new Label(numberOfStudents + " etudiants"),3,index);
+        schedulesPane.add(new Label(numberOfTutors + " tuteur"),4,index);
     }
 
     /**
@@ -454,6 +465,8 @@ public class MentoringDemandController implements Initializable {
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),demand);
+            String text = "nouveau commentaire de " + ((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName() + " concernant votre demande de tutorat : " + demand.getSubject().getName();
+            notificationFacade.create(demand.getCreator(), text, demand.getId(), NotificationType.MENTORING_DEMAND);
             refresh();
         } catch (CommentFormatException e) {
             errorLabel.setText(e.getMessage());

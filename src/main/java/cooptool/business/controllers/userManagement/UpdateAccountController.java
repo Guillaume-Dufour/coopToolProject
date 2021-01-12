@@ -4,6 +4,8 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.UserFacade;
+import cooptool.exceptions.MailNotConformed;
+import cooptool.exceptions.NameNotConformed;
 import cooptool.exceptions.PasswordNotConformed;
 import cooptool.exceptions.UnmatchedPassword;
 import cooptool.models.objects.Department;
@@ -70,10 +72,14 @@ public class UpdateAccountController implements Initializable {
             String firstName = inputFirstName.getText();
             String lastName = inputLastName.getText();
             Department department = listDepartments.getValue();
-            System.out.println("je suis dans le controller");
-            System.out.println(department);
             String description = inputDescription.getText();
-            userFacade.updateAccount(firstName, lastName, department, description);
+            try {
+                userFacade.updateAccount(firstName, lastName, department, description);
+            } catch (MailNotConformed | NameNotConformed e) {
+                errorLabel.setText(e.getMessage());
+                updateButton.setDisable(false);
+                return;
+            }
         }
         String oldPassword = inputOldPassword.getText();
         String newPassword = inputNewPassword.getText();
@@ -82,8 +88,6 @@ public class UpdateAccountController implements Initializable {
             try {
                 userFacade.updatePassword(oldPassword, newPassword, newConfirmedPassword);
             } catch (UnmatchedPassword | PasswordNotConformed e) {
-                System.out.println("je suis dans le catch");
-                System.out.println(e);
                 errorLabel.setText(e.getMessage());
                 updateButton.setDisable(false);
                 return;

@@ -2,20 +2,19 @@ package cooptool.business.controllers.quickHelpPostManagement;
 
 import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
+import cooptool.business.facades.NotificationFacade;
 import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.QuickHelpPostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.exceptions.CommentFormatException;
-import cooptool.models.objects.Comment;
-import cooptool.models.objects.QuickHelpPost;
-import cooptool.models.objects.StudentRole;
-import cooptool.models.objects.Subject;
+import cooptool.models.objects.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -65,6 +64,11 @@ public class QuickHelpPostController implements Initializable {
      * Attribute to access to the PostFacade methods
      */
     private final PostFacade postFacade = PostFacade.getInstance();
+
+    /**
+     * Attribute to access to the NotificationFacade methods
+     */
+    private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
     /**
      * Attribute to access to the QuickHelpPost methods
@@ -160,14 +164,19 @@ public class QuickHelpPostController implements Initializable {
         int counter = 0;
         for(Comment comment : comments){
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
-            gridPane.add(new Label(studentRole.getStudentRepresentation() + " : "),0,counter);
-            gridPane.add(new Text(comment.getContent()),1,counter);
+            Node nodeLabel = new Label(studentRole.getStudentRepresentation() + " : ");
+            gridPane.add(nodeLabel,0,counter);
+            GridPane.setMargin(nodeLabel, new Insets(10, 10, 10, 10));
+            Node nodeText = new Text(comment.getContent());
+            gridPane.add(nodeText,1,counter);
+            GridPane.setMargin(nodeText, new Insets(10, 10, 10, 10));
             // if the use is not the admin or the creator of the qhp he can not delete the comment
             if(userFacade.isCurrentUserStudent() || qhpFacade.isCurrentUserCreatorOfQHP(qhp)) {
                 Button deleteComButton = new Button("Supprimer");
                 EventHandler<ActionEvent> event = event1 -> deleteComment(comment);
                 deleteComButton.setOnAction(event);
                 gridPane.add(deleteComButton, 2,counter);
+                GridPane.setMargin(deleteComButton, new Insets(10, 10, 10, 10));
             }
             counter++;
         }
@@ -269,6 +278,8 @@ public class QuickHelpPostController implements Initializable {
     public void comment() {
         try {
             postFacade.comment(commentArea.getText(),qhp);
+            String text = "nouveau commentaire de " + ((StudentRole)userFacade.getCurrentUser().getRole()).getFirstName() + " concernant votre aide rapide : " + qhp.getSubject().getName();
+            notificationFacade.create(qhp.getCreator(), text, qhp.getId(), NotificationType.QUICK_HELP_POST);
             refresh();
         } catch (CommentFormatException e) {
         }

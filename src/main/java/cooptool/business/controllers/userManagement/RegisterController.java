@@ -4,10 +4,7 @@ import cooptool.business.ViewLoader;
 import cooptool.business.ViewPath;
 import cooptool.business.facades.DepartmentFacade;
 import cooptool.business.facades.UserFacade;
-import cooptool.exceptions.MailAlreadyExists;
-import cooptool.exceptions.MailNotConformed;
-import cooptool.exceptions.PasswordNotConformed;
-import cooptool.exceptions.UnmatchedPassword;
+import cooptool.exceptions.*;
 import cooptool.models.objects.Department;
 import cooptool.utils.Components;
 import javafx.fxml.FXML;
@@ -72,7 +69,6 @@ public class RegisterController implements Initializable {
         String lastName = inputLastName.getText();
         String mail = inputMail.getText();
         Department department = listDepartments.getValue();
-        System.out.println(department);
         String password = inputPassword.getText();
         String confirmedPassword = inputConfirmedPassword.getText();
 
@@ -81,7 +77,7 @@ public class RegisterController implements Initializable {
             userFacade.sendValidationCode(mail);
             ViewLoader.getInstance().load(ViewPath.LOGIN);
 
-        } catch (MailAlreadyExists | MailNotConformed |PasswordNotConformed | UnmatchedPassword e){
+        } catch (MailAlreadyExists | MailNotConformed | PasswordNotConformed | UnmatchedPassword | NameNotConformed e){
             buttonRegister.setDisable(false);
             errorLabel.setText(e.getMessage());
         }
