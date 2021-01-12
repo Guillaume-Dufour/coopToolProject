@@ -1,9 +1,13 @@
 package cooptool.business.controllers.notificationManagement;
 
+import cooptool.business.ViewLoader;
+import cooptool.business.ViewPath;
 import cooptool.business.facades.NotificationFacade;
+import cooptool.business.facades.PostFacade;
 import cooptool.business.facades.UserFacade;
 import cooptool.models.objects.Notification;
 import cooptool.models.objects.NotificationType;
+import cooptool.models.objects.Post;
 import cooptool.utils.Components;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -46,6 +50,10 @@ public class DisplayNotificationController implements Initializable {
      */
     private final NotificationFacade notificationFacade = NotificationFacade.getInstance();
 
+    /**
+     * Attribute to access to the NotificationFacade
+     */
+    private final PostFacade postFacade = PostFacade.getInstance();
 
     /**
      * Delete the notification in parameter
@@ -141,20 +149,20 @@ public class DisplayNotificationController implements Initializable {
 
             @Override
             protected void updateItem(Notification item, boolean empty) {
-                super.updateItem(item, empty);
+            super.updateItem(item, empty);
 
-                if (item == null || empty) {
-                    setStyle("");
-                }
-                else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
-                    setStyle("-fx-background-color: #F9D4D4;");
-                }
-                else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
-                    setStyle("-fx-background-color: #D4DAF9;");
-                }
-                else {
-                    setStyle("");
-                }
+            if (item == null || empty) {
+                setStyle("");
+            }
+            else if (item.getTypeNotification().getValue() == NotificationType.MENTORING_DEMAND.getValue()){
+                setStyle("-fx-background-color: #F9D4D4;");
+            }
+            else if (item.getTypeNotification().getValue() == NotificationType.QUICK_HELP_POST.getValue()){
+                setStyle("-fx-background-color: #D4DAF9;");
+            }
+            else {
+                setStyle("");
+            }
             }
         });
 
@@ -188,10 +196,18 @@ public class DisplayNotificationController implements Initializable {
 
             Notification selectedNotification = notificationTableView.getSelectionModel().getSelectedItem();
 
-            boolean res = notificationFacade.changeStatusToRead(selectedNotification);
+            if(event.getClickCount() == 2){
+                if (selectedNotification.getTypeNotification() == NotificationType.MENTORING_DEMAND){
+                    ViewLoader.getInstance().load(ViewPath.GET_MENTORING_DEMAND, selectedNotification.getObjectId());
+                } else {
+                    ViewLoader.getInstance().load(ViewPath.GET_QUICK_HELP_POST, selectedNotification.getObjectId());
+                }
+            } else {
+                boolean res = notificationFacade.changeStatusToRead(selectedNotification);
 
-            if (res) {
-                notificationTableView.refresh();
+                if (res) {
+                    notificationTableView.refresh();
+                }
             }
         });
     }

@@ -142,7 +142,7 @@ public class DisplayHistoryController implements Initializable {
                     path = ViewPath.GET_MENTORING_DEMAND;
                 }
                 else {
-                    path = ViewPath.HOME;
+                    path = ViewPath.GET_QUICK_HELP_POST;
                 }
 
                 ViewLoader.getInstance().load(path, selected.getId());

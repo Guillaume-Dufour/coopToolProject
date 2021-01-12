@@ -56,9 +56,6 @@ public class SearchStudentController implements Initializable {
      */
     public void searchStudent() {
 
-        /**
-         * Attribute to stock the selected department
-         */
         Department department = listDepartments.getValue();
 
         if (department == null) {
