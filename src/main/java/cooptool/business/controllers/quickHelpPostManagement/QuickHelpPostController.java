@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -163,14 +164,19 @@ public class QuickHelpPostController implements Initializable {
         int counter = 0;
         for(Comment comment : comments){
             StudentRole studentRole = (StudentRole) comment.getCreator().getRole();
-            gridPane.add(new Label(studentRole.getStudentRepresentation() + " : "),0,counter);
-            gridPane.add(new Text(comment.getContent()),1,counter);
+            Node nodeLabel = new Label(studentRole.getStudentRepresentation() + " : ");
+            gridPane.add(nodeLabel,0,counter);
+            GridPane.setMargin(nodeLabel, new Insets(10, 10, 10, 10));
+            Node nodeText = new Text(comment.getContent());
+            gridPane.add(nodeText,1,counter);
+            GridPane.setMargin(nodeText, new Insets(10, 10, 10, 10));
             // if the use is not the admin or the creator of the qhp he can not delete the comment
             if(userFacade.isCurrentUserStudent() || qhpFacade.isCurrentUserCreatorOfQHP(qhp)) {
                 Button deleteComButton = new Button("Supprimer");
                 EventHandler<ActionEvent> event = event1 -> deleteComment(comment);
                 deleteComButton.setOnAction(event);
                 gridPane.add(deleteComButton, 2,counter);
+                GridPane.setMargin(deleteComButton, new Insets(10, 10, 10, 10));
             }
             counter++;
         }
