@@ -25,26 +25,52 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * MentoringDemandController class
+ */
 public class MentoringDemandController implements Initializable {
 
     @FXML
-    Text descriptionArea;
-    @FXML
-    Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
-    @FXML
-    Button learnButton,teachButton,suppressParticipationButton,addScheduleButton,editDescriptionButton,deleteButton,commentButton;
-    @FXML
-    GridPane schedulesPane;
-    @FXML
-    ScrollPane commentsPane;
-    @FXML
-    TextArea commentArea;
+    private Text descriptionArea;
 
+    @FXML
+    private Label creatorLabel,subjectLabel,participationLabel,infoLabel,errorLabel;
+
+    @FXML
+    private Button learnButton,teachButton,suppressParticipationButton,addScheduleButton,editDescriptionButton,deleteButton,commentButton;
+
+    @FXML
+    private GridPane schedulesPane;
+
+    @FXML
+    private ScrollPane commentsPane;
+
+    @FXML
+    private TextArea commentArea;
+
+    /**
+     * Mentoring demand
+     */
     private MentoringDemand demand;
-    
+
+    /**
+     * Attribute to access to the mentoring demand facade
+     */
     private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+
+    /**
+     * Attribute to access to the post facade
+     */
     private final PostFacade postFacade = PostFacade.getInstance();
+
+    /**
+     * Attribute to access to the user facade
+     */
     private final UserFacade userFacade = UserFacade.getInstance();
+
+    /**
+     * Attribute to access to the View loader
+     */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
 
     @Override

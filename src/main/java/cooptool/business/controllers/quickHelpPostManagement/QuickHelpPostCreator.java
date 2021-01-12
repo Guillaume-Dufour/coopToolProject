@@ -50,7 +50,7 @@ public class QuickHelpPostCreator implements Initializable {
     /**
      * Attribute to get the lists of subjects of the current user's department
      */
-    private final List<Subject> subjects = SubjectFacade.getInstance().getSubjectsByDepartment(((StudentRole) user.getRole()).getDepartment());
+    private final List<Subject> subjects = SubjectFacade.getInstance().getAvailableSubjectsByDepartment(((StudentRole) user.getRole()).getDepartment());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

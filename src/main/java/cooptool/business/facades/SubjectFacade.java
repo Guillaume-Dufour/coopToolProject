@@ -50,6 +50,15 @@ public class SubjectFacade {
     }
 
     /**
+     * Get the list of available subjects of the department in parameter
+     * @param department Department we want the available subjects
+     * @return List of available subjects of the department
+     */
+    public List<Subject> getAvailableSubjectsByDepartment(Department department) {
+        return subjectDAO.getAvailableSubjectsByDepartment(department);
+    }
+
+    /**
      * Create a new subject with the parameters
      * @param name Name of the new subject
      * @param department Department of the new subject

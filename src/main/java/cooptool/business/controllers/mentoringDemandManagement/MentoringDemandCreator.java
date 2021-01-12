@@ -21,26 +21,60 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * MentoringDemandCreator class
+ */
 public class MentoringDemandCreator implements Initializable {
-    private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
-    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
-    private final UserFacade userFacade = UserFacade.getInstance();
 
     @FXML
-    ComboBox<Subject> subjectComboBox;
+    private ComboBox<Subject> subjectComboBox;
+
     @FXML
-    ComboBox<Integer> hourBox,minBox;
+    private ComboBox<Integer> hourBox,minBox;
+
     @FXML
-    TextArea description;
+    private TextArea description;
+
     @FXML
-    DatePicker date;
+    private DatePicker date;
+
     @FXML
-    Label errorLabel;
-    
+    private Label errorLabel;
+
+    /**
+     * Attribute to access to the mentoring demand facade
+     */
+    private final MentoringDemandFacade mentoringDemandFacade = MentoringDemandFacade.getInstance();
+
+    /**
+     * Attribute to access to the subject facade
+     */
+    private final SubjectFacade subjectFacade = SubjectFacade.getInstance();
+
+    /**
+     * Attribute to access to the user facade
+     */
+    private final UserFacade userFacade = UserFacade.getInstance();
+
+    /**
+     * Attribute to access to the View loader
+     */
     private final ViewLoader viewLoader = ViewLoader.getInstance();
+
+    /**
+     * Current user of the application
+     */
     private final User currentUser = userFacade.getCurrentUser();
+
+    /**
+     * Student role of the current user
+     */
     private final StudentRole student = (StudentRole) currentUser.getRole();
-    private final List<Subject> subjects = subjectFacade.getSubjectsByDepartment(student.getDepartment());
+
+    /**
+     * List of subjects of the department
+     */
+    private final List<Subject> subjects = subjectFacade.getAvailableSubjectsByDepartment(student.getDepartment());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

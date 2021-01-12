@@ -2,6 +2,7 @@ package cooptool.models.daos;
 
 import cooptool.models.daos.persistent.MentoringDemandDAO;
 import cooptool.models.daos.persistent.PostDAO;
+import cooptool.models.enumDatabase.ParticipationTable;
 import cooptool.models.enumDatabase.ScheduleTable;
 import cooptool.models.objects.*;
 
@@ -26,7 +27,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                         "VALUES (?,?,?,?,?)";
         String query2 =
                 "INSERT INTO participation (id_user,id_post,date_post_session,role_user) " +
-                    "VALUES (?,?,?,?)";
+                        "VALUES (?,?,?,?)";
         String query3 =
                 "INSERT INTO schedule (id_post,date_post_session,id_creator) " +
                         "VALUES (?,?,?)";
@@ -38,8 +39,8 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         try {
             connection.setAutoCommit(false);
             insertPostStatement = connection.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
-            insertPostStatement.setString(1,mentoringDemand.getDescription());
-            insertPostStatement.setTimestamp(2,Timestamp.valueOf(LocalDateTime.now()));
+            insertPostStatement.setString(1, mentoringDemand.getDescription());
+            insertPostStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             insertPostStatement.setInt(3, PostDAO.MENTORING_DEMAND);
             insertPostStatement.setInt(4, mentoringDemand.getCreator().getId());
             insertPostStatement.setInt(5, mentoringDemand.getSubject().getId());
@@ -56,16 +57,16 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
             Schedule initialSchedule = mentoringDemand.getSchedules().get(0);
 
             insertParticipationStatement = connection.prepareStatement(query2);
-            insertParticipationStatement.setInt(1,mentoringDemand.getCreator().getId());
-            insertParticipationStatement.setInt(2,postId);
-            insertParticipationStatement.setTimestamp(3,Timestamp.valueOf(LocalDateTime.now()));
-            insertParticipationStatement.setInt(4,MentoringDemand.STUDENT);
+            insertParticipationStatement.setInt(1, mentoringDemand.getCreator().getId());
+            insertParticipationStatement.setInt(2, postId);
+            insertParticipationStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            insertParticipationStatement.setInt(4, MentoringDemand.STUDENT);
 
             insertParticipationStatement.executeUpdate();
             insertScheduleStatement = connection.prepareStatement(query3);
-            insertScheduleStatement.setInt(1,postId);
-            insertScheduleStatement.setTimestamp(2,Timestamp.valueOf(initialSchedule.getDateTime()));
-            insertScheduleStatement.setInt(3,initialSchedule.getCreator().getId());
+            insertScheduleStatement.setInt(1, postId);
+            insertScheduleStatement.setTimestamp(2, Timestamp.valueOf(initialSchedule.getDateTime()));
+            insertScheduleStatement.setInt(3, initialSchedule.getCreator().getId());
 
             insertScheduleStatement.executeUpdate();
 
@@ -98,10 +99,10 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     public void delete(MentoringDemand mentoringDemand) {
         String query =
                 "DELETE FROM post " +
-                "WHERE id_post = ?";
+                        "WHERE id_post = ?";
         try {
             PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,mentoringDemand.getId());
+            deletionStatement.setInt(1, mentoringDemand.getId());
             deletionStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -113,19 +114,19 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public MentoringDemand getMentoringDemand(int id) {
         String query =
-                        "SELECT * " +
+                "SELECT * " +
                         "FROM post " +
                         "NATURAL JOIN subject " +
                         "LEFT JOIN schedule on post.id_post = schedule.id_post " +
                         "JOIN user creator ON post.id_user_creator = creator.id_user " +
                         "LEFT JOIN user scheduleCreator ON schedule.id_creator = scheduleCreator.id_user " +
-                        "JOIN department ON creator.id_department = department.id_department "+
+                        "JOIN department ON creator.id_department = department.id_department " +
                         "WHERE post.id_post = ? AND type_post = 0 ORDER BY date_post";
 
         MentoringDemand result = null;
-        try{
+        try {
             PreparedStatement getDemandStatement = connection.prepareStatement(query);
-            getDemandStatement.setInt(1,id);
+            getDemandStatement.setInt(1, id);
             ResultSet res = getDemandStatement.executeQuery();
 
             boolean firstLine = true;
@@ -153,42 +154,30 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     }
 
 
-    private void addParticipationsToMentoringDemand(MentoringDemand demand){
+    private void addParticipationsToMentoringDemand(MentoringDemand demand) {
         String query =
-                "SELECT id_user,first_name_user,last_name_user,date_post_session,role_user " +
+                "SELECT * " +
                         "FROM participation " +
-                        "NATURAL JOIN user " +
+                        "NATURAL JOIN `user` " +
                         "WHERE id_post = ? " +
                         "ORDER BY id_user";
         PreparedStatement getParticipationStatement;
-        try{
+        try {
             getParticipationStatement = connection.prepareStatement(query);
-            getParticipationStatement.setInt(1,demand.getId());
+            getParticipationStatement.setInt(1, demand.getId());
             ResultSet res = getParticipationStatement.executeQuery();
 
             int previousUserId = -1;
 
             while (res.next()) {
 
-                int userId = res.getInt(1);
+                int userId = res.getInt(ParticipationTable.ID_USER.toString());
 
-                if(userId != previousUserId){
-                    String firstNameUser = res.getString(2);
-                    String lastNameUser = res.getString(3);
-                    int participationType = res.getInt(5);
-                    ArrayList<Schedule> selectedSchedules = new ArrayList<>();
-                    StudentRole role = new StudentRole(firstNameUser,lastNameUser,null,null);
-                    demand.addParticipation(
-                                new Participation(
-                                        new User(userId,null,null,role,-1),
-                                        participationType,
-                                        selectedSchedules
-                                )
-                        );
+                if (userId != previousUserId) {
+                    demand.addParticipation(MySQLFactoryObject.createParticipation(res));
                     previousUserId = userId;
                 }
-                LocalDateTime participationDate = res.getTimestamp(4).toLocalDateTime();
-                demand.getParticipationArray().get(demand.getParticipationArray().size()-1).addSchedule(new Schedule(participationDate,null));
+                demand.getParticipationArray().get(demand.getParticipationArray().size() - 1).addSchedule(MySQLFactoryObject.createSchedule(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -200,13 +189,13 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         String query = "INSERT INTO participation (id_user,id_post,date_post_session,role_user) VALUES (?,?,?,?)";
         try {
             connection.setAutoCommit(false);
-            for(Schedule schedule : participation.getParticipationSchedules()){
+            for (Schedule schedule : participation.getParticipationSchedules()) {
                 PreparedStatement insertStatement;
                 insertStatement = connection.prepareStatement(query);
-                insertStatement.setInt(1,participation.getParticipant().getId());
-                insertStatement.setInt(2,mentoringDemand.getId());
-                insertStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
-                insertStatement.setInt(4,participation.getParticipationType());
+                insertStatement.setInt(1, participation.getParticipant().getId());
+                insertStatement.setInt(2, mentoringDemand.getId());
+                insertStatement.setTimestamp(3, Timestamp.valueOf(schedule.getDateTime()));
+                insertStatement.setInt(4, participation.getParticipationType());
                 insertStatement.executeUpdate();
             }
             connection.commit();
@@ -221,11 +210,11 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     public void suppressParticipation(MentoringDemand demand, User user) {
         String query =
                 "DELETE FROM participation " +
-                "WHERE id_post = ? AND id_user = ?";
+                        "WHERE id_post = ? AND id_user = ?";
         try {
             PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,demand.getId());
-            deletionStatement.setInt(2,user.getId());
+            deletionStatement.setInt(1, demand.getId());
+            deletionStatement.setInt(2, user.getId());
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -234,12 +223,12 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
 
     private void removeParticipation(MentoringDemand demand, Schedule schedule) {
         String query =
-                        "DELETE FROM participation " +
+                "DELETE FROM participation " +
                         "WHERE id_post = ? AND date_post_session = ?";
         try {
             PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,demand.getId());
-            deletionStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDateTime()));
+            deletionStatement.setInt(1, demand.getId());
+            deletionStatement.setTimestamp(2, Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -250,12 +239,12 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     public void quitSchedule(MentoringDemand demand, User user, Schedule schedule) {
         String query =
                 "DELETE FROM participation " +
-                "WHERE id_post = ? AND id_user = ? AND date_post_session = ?";
+                        "WHERE id_post = ? AND id_user = ? AND date_post_session = ?";
         try {
             PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,demand.getId());
-            deletionStatement.setInt(2,user.getId());
-            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
+            deletionStatement.setInt(1, demand.getId());
+            deletionStatement.setInt(2, user.getId());
+            deletionStatement.setTimestamp(3, Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -266,12 +255,12 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     public void addSchedule(MentoringDemand demand, Schedule schedule) {
         String query =
                 "INSERT INTO schedule (id_post,date_post_session,id_creator) " +
-                "VALUES (?,?,?)";
+                        "VALUES (?,?,?)";
         try {
             PreparedStatement insertStatement = connection.prepareStatement(query);
-            insertStatement.setInt(1,demand.getId());
-            insertStatement.setTimestamp(2,Timestamp.valueOf(schedule.getDateTime()));
-            insertStatement.setInt(3,schedule.getCreator().getId());
+            insertStatement.setInt(1, demand.getId());
+            insertStatement.setTimestamp(2, Timestamp.valueOf(schedule.getDateTime()));
+            insertStatement.setInt(3, schedule.getCreator().getId());
             insertStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -283,14 +272,14 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
         String query =
                 "DELETE FROM schedule WHERE id_post = ? AND id_creator = ? AND date_post_session = ?";
         try {
-            removeParticipation(demand,schedule);
+            removeParticipation(demand, schedule);
             System.out.println(demand.getId());
             System.out.println(schedule.getCreator().getId());
             System.out.println(Timestamp.valueOf(schedule.getDateTime()));
             PreparedStatement deletionStatement = connection.prepareStatement(query);
-            deletionStatement.setInt(1,demand.getId());
-            deletionStatement.setInt(2,schedule.getCreator().getId());
-            deletionStatement.setTimestamp(3,Timestamp.valueOf(schedule.getDateTime()));
+            deletionStatement.setInt(1, demand.getId());
+            deletionStatement.setInt(2, schedule.getCreator().getId());
+            deletionStatement.setTimestamp(3, Timestamp.valueOf(schedule.getDateTime()));
             deletionStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -300,15 +289,15 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public int getNumberOfSchedules(MentoringDemand demand) {
         String query =
-                        "SELECT * " +
+                "SELECT * " +
                         "FROM schedule " +
                         "WHERE id_post = ?";
         int result = 0;
         try {
             PreparedStatement selectStatement = connection.prepareStatement(query);
-            selectStatement.setInt(1,demand.getId());
+            selectStatement.setInt(1, demand.getId());
             ResultSet res = selectStatement.executeQuery();
-            while (res.next()){
+            while (res.next()) {
                 result += 1;
             }
         } catch (SQLException e) {
@@ -321,7 +310,7 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public List<MentoringDemand> getMentoringDemands() {
         String query =
-                        "SELECT * " +
+                "SELECT * " +
                         "FROM post " +
                         "NATURAL JOIN subject " +
                         "LEFT JOIN schedule ON post.id_post = schedule.id_post " +
@@ -329,20 +318,19 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
                         "WHERE type_post = 0 ORDER BY date_post,post.id_post";
         List<MentoringDemand> result = new ArrayList<>();
         PreparedStatement preparedStatement;
-        try{
+        try {
             preparedStatement = connection.prepareStatement(query);
             ResultSet res = preparedStatement.executeQuery();
             int previousIdPost = -1;
-            while(res.next()){
+            while (res.next()) {
                 int idPost = res.getInt(1);
-                if(idPost != previousIdPost){
+                if (idPost != previousIdPost) {
                     result.add(MySQLFactoryObject.createMentoringDemand(res));
                     previousIdPost = idPost;
                 }
                 Timestamp scheduleTs = res.getTimestamp(String.valueOf(ScheduleTable.DATE_POST_SESSION));
-                if(scheduleTs != null){
-                    LocalDateTime scheduleDate = scheduleTs.toLocalDateTime();
-                    result.get(result.size()-1).addSchedule(new Schedule(scheduleDate,null));
+                if (scheduleTs != null) {
+                    result.get(result.size() - 1).addSchedule(MySQLFactoryObject.createSchedule(res));
                 }
             }
         } catch (SQLException e) {
@@ -355,32 +343,31 @@ public class MySQLMentoringDemandDAO extends MentoringDemandDAO {
     @Override
     public List<MentoringDemand> getMentoringDemands(Department department) {
         String query =
-                        "SELECT * " +
+                "SELECT * " +
                         "FROM post " +
                         "NATURAL JOIN subject " +
                         "LEFT JOIN schedule ON post.id_post = schedule.id_post " +
                         "JOIN user u1 ON post.id_user_creator = u1.id_user " +
-                        "JOIN department ON u1.id_department = department.id_department "+
+                        "JOIN department ON u1.id_department = department.id_department " +
                         "WHERE department.abbreviation_department = ? AND type_post = 0 ORDER BY date_post,post.id_post";
         List<MentoringDemand> result = new ArrayList<>();
         PreparedStatement preparedStatement;
-        try{
+        try {
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,department.getAbbreviation());
+            preparedStatement.setString(1, department.getAbbreviation());
 
             ResultSet res = preparedStatement.executeQuery();
             int previousIdPost = -1;
 
-            while(res.next()){
+            while (res.next()) {
                 int idPost = res.getInt(1);
-                if(idPost != previousIdPost){
+                if (idPost != previousIdPost) {
                     result.add(MySQLFactoryObject.createMentoringDemand(res));
                     previousIdPost = idPost;
                 }
                 Timestamp scheduleTs = res.getTimestamp(String.valueOf(ScheduleTable.DATE_POST_SESSION));
-                if(scheduleTs != null){
-                    LocalDateTime scheduleDate = scheduleTs.toLocalDateTime();
-                    result.get(result.size()-1).addSchedule(new Schedule(scheduleDate,null));
+                if (scheduleTs != null) {
+                    result.get(result.size() - 1).addSchedule(MySQLFactoryObject.createSchedule(res));
                 }
             }
         } catch (SQLException e) {
